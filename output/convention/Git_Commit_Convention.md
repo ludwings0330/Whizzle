@@ -15,7 +15,6 @@
     ```
 2. Type은 다음의 종류를 확인하여 작성한다.
 
-
     | Type | Objective |
     | --- | --- |
     | :sparkles: Feat: | ✨ 새로운 기능 추가 |
