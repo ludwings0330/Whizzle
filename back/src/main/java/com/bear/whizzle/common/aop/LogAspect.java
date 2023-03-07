@@ -36,13 +36,17 @@ public class LogAspect {
     private void controller() {
     }
 
-//    @Pointcut("execution(* com.bear.whizzle.*.service..*Service*.*(..))")
-//    private void service() {
-//    }
-//
-//    @Pointcut("execution(* com.bear.whizzle.*.repository..*Repository*.*(..))")
-//    private void repository() {
-//    }
+    @Pointcut("@annotation(com.bear.whizzle.common.annotation.Performance)")
+    private void performance() {
+    }
+
+    @Pointcut("execution(* com.bear.whizzle.*.service..*Service*.*(..)) && !performance()")
+    private void service() {
+    }
+
+    @Pointcut("execution(* com.bear.whizzle.*.repository..*Repository*.*(..)) && !performance()")
+    private void repository() {
+    }
 
     @Before("controller()")
     public void beforeController(JoinPoint joinPoint) {
@@ -77,37 +81,28 @@ public class LogAspect {
         log.info(FINISH_LINE);
     }
 
-    @Around("@annotation(com.bear.whizzle.common.annotation.Performance)")
+    @Around("performance()")
     private Object measurePerformance(ProceedingJoinPoint joinPoint) throws Throwable {
         return logThrowingAndPerformance(joinPoint);
     }
 
-//    @Around("service()")
-//    public Object aroundService(ProceedingJoinPoint joinPoint) throws Throwable {
-//        return logThrowingAndPerformance(joinPoint);
-//    }
-//
-//    @Around("repository()")
-//    public Object aroundRepository(ProceedingJoinPoint joinPoint) throws Throwable {
-//        return logThrowingAndPerformance(joinPoint);
-//    }
+    @AfterThrowing(value = "service() || repository()")
+    public void afterThrowingService(JoinPoint joinPoint) {
+        logThrowingInfo(joinPoint.getSignature());
+    }
 
     private Object logThrowingAndPerformance(ProceedingJoinPoint joinPoint) throws Throwable {
-        Object returned;
-        long startTime = TimeUnit.NANOSECONDS.toMillis(System.nanoTime());
-        long endTime;
-
         try {
-            returned = joinPoint.proceed();
+            long startTime = TimeUnit.NANOSECONDS.toMillis(System.nanoTime());
+            Object returned = joinPoint.proceed();
+            long endTime = TimeUnit.NANOSECONDS.toMillis(System.nanoTime());
+
+            logPerformance(joinPoint.getSignature(), endTime - startTime);
+            return returned;
         } catch (Throwable e) {
             logThrowingInfo(joinPoint.getSignature());
             throw e;
-        } finally {
-            endTime = TimeUnit.NANOSECONDS.toMillis(System.nanoTime());
         }
-
-        logPerformance(joinPoint.getSignature(), endTime - startTime);
-        return returned;
     }
 
     private void logThrowingInfo(Signature signature) {
