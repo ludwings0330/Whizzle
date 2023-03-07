@@ -30,7 +30,7 @@ public class LogAspect {
     private static final String THROWING_INFO = " => Throwing Info       [{}.{}()] 실행 중 예외 발생";
     private static final String EXCEPTION_INFO = " => Exception Info      {} : {}";
     private static final String CAUSED_INFO = " => Caused Info         {} : {}";
-    private static final String FINISH_LINE = "-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------";
+    private static final String FINISH_LINE = "------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------";
 
     @Pointcut("execution(* com.bear.whizzle.*.controller.*Controller*.*(..))")
     private void controller() {
