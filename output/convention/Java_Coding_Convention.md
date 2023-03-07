@@ -332,8 +332,19 @@ public void foo(String var1, int var2) throws Exception1, Exception2 {
 
 ---
 
-1.
+1. 대부분의 경우에는 ResponseEntity를 사용할 필요가 없다. 따라서 `@ResponseStatus`와 `return DTO`를 사용한다.
+2. 다음의 경우에는 ResponseEntity를 사용할 수 있다.
+   - 유연하게 Body에 넣을 객체의 타입을 결정해야 하는 경우에는 사용할 수 있다. 다만 NO_CONTENT를 사용하지 않는다면 대부분은 유연하게 Body에 넣을 객체의 타입을 결정할 일이 잘 없다.
+   - 헤더를 따로 설정해야 하는 경우에는 ResponseEntity를 사용할 필요가 있다. 이때는 Generic Type에 Body에 사용할 DTO를 명시한다.
+3. ResponseEntity를 사용할 때는 생성자보다는 빌더 패턴을 사용할 것을 권장한다. 예시는 다음과 같다.
 
+    ```java
+    ResponseEntity.status(HttpStatus.OK)
+                       .contentType(MediaType.APPLICATION_JSON)
+                       .header("Authorization", "Bearer " + AccessToken)
+                       .body(responseDto)
+                       .build()
+    ```
 ## 9️⃣ 로그 규칙
 
 ---
