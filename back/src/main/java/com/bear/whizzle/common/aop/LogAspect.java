@@ -1,6 +1,7 @@
 package com.bear.whizzle.common.aop;
 
 import java.lang.reflect.Parameter;
+import java.util.NoSuchElementException;
 import java.util.concurrent.TimeUnit;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +21,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @Aspect
 @Slf4j
 @Component
-@RequiredArgsConstructor
 public class LogAspect {
 
     private static final String REQUEST_MAPPED = "[{}.{}()]---------------------------------------------------------------------------------------------------------------------------------------------------------------------------";
