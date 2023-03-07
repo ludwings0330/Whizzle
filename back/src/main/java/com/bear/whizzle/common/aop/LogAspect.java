@@ -1,12 +1,15 @@
 package com.bear.whizzle.common.aop;
 
 import java.lang.reflect.Parameter;
+import java.util.concurrent.TimeUnit;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
@@ -23,6 +26,7 @@ public class LogAspect {
     private static final String REQUEST_MAPPED = "[{}.{}()]---------------------------------------------------------------------------------------------------------------------------------------------------------------------------";
     private static final String REQUEST_DATA_LOG = " => Request Data    {} = {}";
     private static final String RESPONSE_LOG = " => Response Data    {} / {}";
+    private static final String OVER_250_MS = " => should improve performance [{}.{}()] : {} ms";
     private static final String THROWING_INFO = " => Throwing Info       [{}.{}()] 실행 중 예외 발생";
     private static final String EXCEPTION_INFO = " => Exception Info      {} : {}";
     private static final String CAUSED_INFO = " => Caused Info         {} : {}";
@@ -31,6 +35,14 @@ public class LogAspect {
     @Pointcut("execution(* com.bear.whizzle.*.controller.*Controller*.*(..))")
     private void controller() {
     }
+
+//    @Pointcut("execution(* com.bear.whizzle.*.service..*Service*.*(..))")
+//    private void service() {
+//    }
+//
+//    @Pointcut("execution(* com.bear.whizzle.*.repository..*Repository*.*(..))")
+//    private void repository() {
+//    }
 
     @Before("controller()")
     public void beforeController(JoinPoint joinPoint) {
@@ -65,6 +77,39 @@ public class LogAspect {
         log.info(FINISH_LINE);
     }
 
+    @Around("@annotation(com.bear.whizzle.common.annotation.Performance)")
+    private Object measurePerformance(ProceedingJoinPoint joinPoint) throws Throwable {
+        return logThrowingAndPerformance(joinPoint);
+    }
+
+//    @Around("service()")
+//    public Object aroundService(ProceedingJoinPoint joinPoint) throws Throwable {
+//        return logThrowingAndPerformance(joinPoint);
+//    }
+//
+//    @Around("repository()")
+//    public Object aroundRepository(ProceedingJoinPoint joinPoint) throws Throwable {
+//        return logThrowingAndPerformance(joinPoint);
+//    }
+
+    private Object logThrowingAndPerformance(ProceedingJoinPoint joinPoint) throws Throwable {
+        Object returned;
+        long startTime = TimeUnit.NANOSECONDS.toMillis(System.nanoTime());
+        long endTime;
+
+        try {
+            returned = joinPoint.proceed();
+        } catch (Throwable e) {
+            logThrowingInfo(joinPoint.getSignature());
+            throw e;
+        } finally {
+            endTime = TimeUnit.NANOSECONDS.toMillis(System.nanoTime());
+        }
+
+        logPerformance(joinPoint.getSignature(), endTime - startTime);
+        return returned;
+    }
+
     private void logThrowingInfo(Signature signature) {
         log.error(
                 THROWING_INFO,
@@ -85,6 +130,17 @@ public class LogAspect {
 
             e = e.getCause();
             isFirst = false;
+        }
+    }
+
+    private void logPerformance(Signature signature, long performance) {
+        if (performance >= 250) {
+            log.warn(
+                    OVER_250_MS,
+                    signature.getDeclaringType().getSimpleName(),
+                    signature.getName(),
+                    performance
+            );
         }
     }
 
