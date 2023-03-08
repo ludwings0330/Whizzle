@@ -7,6 +7,9 @@ logging:
     org.hibernate.type: trace
 
 spring:
+  profiles:
+    include:
+      - s3-local
   devtools:
     livereload:
       enabled: true

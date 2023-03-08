@@ -4,3 +4,8 @@ server:
 logging:
   level:
     com: info
+
+spring:
+  profiles:
+    include:
+      - s3-prod
