@@ -1,6 +1,6 @@
 package com.bear.whizzle.domain.model.entity;
 
-import com.bear.whizzle.domain.model.type.File;
+import com.bear.whizzle.domain.model.type.Image;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,6 +14,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name = "review_image")
@@ -21,6 +22,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Getter
 @Builder
+@ToString
 public class ReviewImage {
 
     @Id
@@ -30,10 +32,11 @@ public class ReviewImage {
     @ManyToOne
     @JoinColumn(name = "review_id")
     @NotNull
+    @ToString.Exclude
     private Review review;
 
     @Embedded
     @NotNull
-    private File image;
+    private Image image;
 
 }

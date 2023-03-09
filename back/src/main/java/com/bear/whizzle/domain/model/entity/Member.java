@@ -1,6 +1,6 @@
 package com.bear.whizzle.domain.model.entity;
 
-import com.bear.whizzle.domain.model.type.File;
+import com.bear.whizzle.domain.model.type.Image;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,6 +16,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
 
 @Entity
@@ -24,6 +25,7 @@ import org.hibernate.annotations.ColumnDefault;
 @AllArgsConstructor
 @Getter
 @Builder
+@ToString
 public class Member {
 
     @Id
@@ -40,7 +42,7 @@ public class Member {
 
     @Embedded
     @NotNull
-    private File image;
+    private Image image;
 
     @NotNull
     @Min(0)

@@ -1,6 +1,6 @@
 package com.bear.whizzle.domain.model.entity;
 
-import com.bear.whizzle.domain.model.type.File;
+import com.bear.whizzle.domain.model.type.Image;
 import java.util.Objects;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -15,6 +15,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(
@@ -25,6 +26,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Getter
 @Builder
+@ToString
 public class Badge {
 
     @Id
@@ -33,7 +35,7 @@ public class Badge {
 
     @Embedded
     @NotNull
-    private File image;
+    private Image image;
 
     @NotNull
     @Size(max = 255)
