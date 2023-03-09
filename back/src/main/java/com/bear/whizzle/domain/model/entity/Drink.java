@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name = "drink")
@@ -20,6 +21,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Getter
 @Builder
+@ToString
 public class Drink {
 
     @Id
@@ -29,11 +31,13 @@ public class Drink {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "diary_id", updatable = false)
     @NotNull
+    @ToString.Exclude
     private Diary diary;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "whiskey_id", updatable = false)
     @NotNull
+    @ToString.Exclude
     private Whiskey whiskey;
 
 }

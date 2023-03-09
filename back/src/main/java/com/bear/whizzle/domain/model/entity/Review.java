@@ -20,6 +20,7 @@ import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
 @Entity
@@ -28,6 +29,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @Getter
 @SuperBuilder
+@ToString(callSuper = true)
 public class Review extends BaseTimeEntity {
 
     @Id
@@ -37,11 +39,13 @@ public class Review extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     @NotNull
+    @ToString.Exclude
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "whiskey_id")
     @NotNull
+    @ToString.Exclude
     private Whiskey whiskey;
 
     @NotNull
@@ -59,6 +63,7 @@ public class Review extends BaseTimeEntity {
             fetch = FetchType.LAZY
     )
     @Size(max = 5)
+    @ToString.Exclude
     private final List<ReviewImage> images = new ArrayList<>();
 
 }

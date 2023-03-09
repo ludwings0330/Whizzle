@@ -15,6 +15,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 
 @Entity
@@ -23,6 +24,7 @@ import org.springframework.data.annotation.CreatedDate;
 @AllArgsConstructor
 @Getter
 @Builder
+@ToString
 public class Like {
 
     @Id
@@ -32,11 +34,13 @@ public class Like {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", updatable = false)
     @NotNull
+    @ToString.Exclude
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "review_id", updatable = false)
     @NotNull
+    @ToString.Exclude
     private Review review;
 
     @CreatedDate

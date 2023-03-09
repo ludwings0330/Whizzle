@@ -14,6 +14,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 
 @Entity
@@ -22,6 +23,7 @@ import org.springframework.data.annotation.CreatedDate;
 @AllArgsConstructor
 @Getter
 @Builder
+@ToString
 public class Keep {
 
     @Id
@@ -31,11 +33,13 @@ public class Keep {
     @ManyToOne
     @JoinColumn(name = "member_id")
     @NotNull
+    @ToString.Exclude
     private Member member;
 
     @ManyToOne
     @JoinColumn(name = "whiskey_id")
     @NotNull
+    @ToString.Exclude
     private Whiskey whiskey;
 
     @CreatedDate

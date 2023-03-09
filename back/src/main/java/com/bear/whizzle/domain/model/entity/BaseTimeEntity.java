@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -16,6 +17,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 @AllArgsConstructor
 @Getter
 @SuperBuilder
+@ToString
 public abstract class BaseTimeEntity {
 
     @CreatedDate

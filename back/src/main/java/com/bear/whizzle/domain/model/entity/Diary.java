@@ -19,6 +19,7 @@ import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
 @Entity
@@ -30,6 +31,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @Getter
 @SuperBuilder
+@ToString(callSuper = true)
 public class Diary extends BaseTimeEntity {
 
     @Id
@@ -39,6 +41,7 @@ public class Diary extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", updatable = false)
     @NotNull
+    @ToString.Exclude
     private Member member;
 
     @NotNull
