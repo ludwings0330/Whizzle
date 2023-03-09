@@ -18,9 +18,11 @@ import lombok.ToString;
 @EqualsAndHashCode
 public class File {
 
-    @Column(unique = true)
-    private String savedName;
+    @Column(name = "path_and_name", unique = true)
+    private String key; // AWS에서 key는 '[filePath/]savedName'을 의미한다.
 
-    private String originName;
+    private String originalName;
+
+    private String url;
 
 }
