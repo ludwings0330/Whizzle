@@ -1,9 +1,7 @@
 package com.bear.whizzle.common.aop;
 
 import java.lang.reflect.Parameter;
-import java.util.NoSuchElementException;
 import java.util.concurrent.TimeUnit;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -32,7 +30,7 @@ public class LogAspect {
     private static final String CAUSED_INFO = " => Caused Info         {} : {}";
     private static final String FINISH_LINE = "------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------";
 
-    @Pointcut("execution(* com.bear.whizzle.*.controller.*Controller*.*(..))")
+    @Pointcut("execution(* com.bear.whizzle..controller.*Controller*.*(..))")
     private void controller() {
     }
 
@@ -40,11 +38,11 @@ public class LogAspect {
     private void performance() {
     }
 
-    @Pointcut("execution(* com.bear.whizzle.*.service..*Service*.*(..)) && !performance()")
+    @Pointcut("execution(* com.bear.whizzle..service..*Service*.*(..)) && !performance()")
     private void service() {
     }
 
-    @Pointcut("execution(* com.bear.whizzle.*.repository..*Repository*.*(..)) && !performance()")
+    @Pointcut("execution(* com.bear.whizzle..repository..*Repository*.*(..)) && !performance()")
     private void repository() {
     }
 
