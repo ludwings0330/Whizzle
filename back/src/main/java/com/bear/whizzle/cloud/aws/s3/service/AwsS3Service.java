@@ -27,7 +27,7 @@ public class AwsS3Service {
 
     public Image upload(MultipartFile multipartFile, String dirName) {
         String originalName = multipartFile.getOriginalFilename();
-        String key = key(dirName, originalName);
+        String key = createKey(dirName, originalName);
         ObjectMetadata metadata = getObjectMetadata(multipartFile);
 
         try (InputStream input = multipartFile.getInputStream()) {
@@ -47,11 +47,11 @@ public class AwsS3Service {
     }
 
     public void remove(String dirName, String originalName) {
-        String key = key(dirName, originalName);
+        String key = createKey(dirName, originalName);
         amazonS3.deleteObject(this.bucketName, key);
     }
 
-    private String key(String dirName, String originalName) {
+    private String createKey(String dirName, String originalName) {
         return dirName + "/" + UUID.randomUUID() + "_" + originalName;
     }
 
