@@ -1,6 +1,9 @@
 package com.bear.whizzle.domain.model.type;
 
+import com.bear.whizzle.domain.converter.UrlConverter;
+import java.net.URL;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,6 +26,7 @@ public class Image {
 
     private String originalName;
 
-    private String url;
+    @Convert(converter = UrlConverter.class)
+    private URL url;
 
 }
