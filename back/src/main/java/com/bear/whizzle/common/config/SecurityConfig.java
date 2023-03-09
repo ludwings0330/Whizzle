@@ -46,7 +46,7 @@ public class SecurityConfig {
                                          .failureHandler(customAuthenticationFailureHandler));
 
         http.authorizeRequests(request ->
-                                       request.antMatchers("/login/**", "/redirect/**")
+                                       request.antMatchers("/login/**", "/api/auth/**")
                                               .permitAll()
                                               .anyRequest()
                                               .authenticated());

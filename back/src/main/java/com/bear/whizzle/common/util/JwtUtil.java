@@ -52,8 +52,11 @@ public class JwtUtil {
     }
 
     public String resolveToken(HttpServletRequest request) {
-        final String authorization = request.getHeader("Authorization");
+        String authorization = request.getHeader("Authorization");
+        return this.resolveToken(authorization);
+    }
 
+    public String resolveToken(String authorization) {
         // Bearer -> JWT 또는 OAuth 인증을 사용하는 경우 붙인다
         if (StringUtils.hasText(authorization) && authorization.startsWith("Bearer ")) {
             return authorization.substring("Bearer ".length());

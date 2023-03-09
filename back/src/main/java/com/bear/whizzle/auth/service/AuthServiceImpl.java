@@ -17,19 +17,14 @@ public class AuthServiceImpl implements AuthService {
     private final TokenRepository tokenRepository;
 
     @Override
-    public String regenerateAccessToken(PrincipalDetails user, String accessToken) {
-        // access token 이 기한이 지났는지 확인
+    public String regenerateAccessToken(PrincipalDetails user, String authorization) {
+        String refreshToken = jwtUtil.resolveToken(authorization);
+
         final Long memberId = memberService.findIdByEmailAndProvider(user.getEmail(), user.getProvider());
+        final Token savedToken = tokenRepository.findByMemberId(memberId).orElseThrow();
 
-        // 1. 기한이 지났다면
-        if (jwtUtil.isExpired(accessToken)) {
-            // token table 에 저장된 refresh token 꺼내옴
-            final Token token = tokenRepository.findByMemberId(memberId).orElseThrow();
-
-            // refresh token 유효성 검증
-            if (jwtUtil.valid(token.getRefreshToken())) {
-                return jwtUtil.generateAccessToken(user);
-            }
+        if (savedToken.getRefreshToken().equals(refreshToken) && !jwtUtil.isExpired(refreshToken)) {
+            return jwtUtil.generateAccessToken(user);
         }
 
         throw new JwtException("토큰 재발급 중 예외 발생");
