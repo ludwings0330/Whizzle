@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 
 @Entity
-@Table(name = "like")
+@Table(name = "likes")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
