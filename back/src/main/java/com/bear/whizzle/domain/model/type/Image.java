@@ -16,10 +16,10 @@ import lombok.ToString;
 @Builder
 @ToString
 @EqualsAndHashCode
-public class File {
+public class Image {
 
-    @Column(name = "path_and_name", unique = true)
-    private String key; // AWS에서 key는 '[filePath/]savedName'을 의미한다.
+    @Column(unique = true)
+    private String savedPath; // path(저장된 경로 + 파일 이름)는 AWS에서 key를 의미한다.
 
     private String originalName;
 
