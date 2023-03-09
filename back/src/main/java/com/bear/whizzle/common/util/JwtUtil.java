@@ -97,4 +97,14 @@ public class JwtUtil {
         return false;
     }
 
+    public boolean isExpired(String token) {
+        try {
+            this.getClaims(token);
+        } catch (ExpiredJwtException e) {
+            return true;
+        }
+
+        return false;
+    }
+
 }
