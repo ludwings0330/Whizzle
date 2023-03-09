@@ -38,11 +38,24 @@ public class PrincipalDetails implements OAuth2User, UserDetails {
     }
 
     private static PrincipalDetails ofKakao(Map<String, Object> attributes) {
-        return null;
+        final Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
+        final Map<String, Object> profile = (Map<String, Object>) kakaoAccount.get("profile");
+
+        return PrincipalDetails.builder()
+                               .provider("KAKAO")
+                               .email((String) kakaoAccount.get("email"))
+                               .nickname((String) profile.get("nickname"))
+                               .build();
     }
 
     private static PrincipalDetails ofNaver(Map<String, Object> attributes) {
-        return null;
+        final Map<String, Object> response = (Map<String, Object>) attributes.get("response");
+
+        return PrincipalDetails.builder()
+                               .provider("NAVER")
+                               .email((String) response.get("email"))
+                               .nickname((String) response.get("name"))
+                               .build();
     }
 
     private static PrincipalDetails ofGoogle(Map<String, Object> attributes) {
