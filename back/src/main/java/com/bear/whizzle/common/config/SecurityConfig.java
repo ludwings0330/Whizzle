@@ -46,10 +46,10 @@ public class SecurityConfig {
                                          .failureHandler(customAuthenticationFailureHandler));
 
         http.authorizeRequests(request ->
-                                       request.antMatchers("/login/**", "/api/auth/**")
-                                              .permitAll()
-                                              .anyRequest()
-                                              .authenticated());
+                                       request
+                                               .antMatchers("/api/auth/token-check").permitAll() // 테스트를 위해 추가
+                                               .antMatchers("/login/**").permitAll()
+                                               .anyRequest().authenticated());
 
         http.csrf().disable();
 

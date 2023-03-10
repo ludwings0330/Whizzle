@@ -94,17 +94,7 @@ public class JwtUtil {
         } catch (JwtException e) {
             log.info("유효하지 않은 토큰");
         } catch (Exception e) {
-            log.info("토큰 유효성 검사중 알 수 없는 예외 발생");
-        }
-
-        return false;
-    }
-
-    public boolean isExpired(String token) {
-        try {
-            this.getClaims(token);
-        } catch (ExpiredJwtException e) {
-            return true;
+            log.info("토큰 유효성 검사 중 알 수 없는 예외 발생");
         }
 
         return false;
