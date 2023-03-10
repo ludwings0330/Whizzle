@@ -8,8 +8,11 @@ import AppError from "./pages/AppError";
 import AppLogin from "./pages/AppLogin";
 import AppMain from "./pages/AppMain";
 import AppMyPage from "./pages/AppMyPage";
-import AppRecommend from "./pages/AppRecommend";
 import AppSearch from "./pages/AppSearch";
+import AppRecommendQuestion from "./pages/AppRecommendQuestion";
+import AppRecommnedResult from "./pages/AppRecommnedResult";
+import AppReview from "./pages/AppReview";
+import AppDailyWhisky from "./pages/AppDailyWhisky";
 import AppWhisky from "./pages/AppWhisky";
 
 //Layout import
@@ -24,9 +27,12 @@ function App() {
         <Route path="/login" element={<AppLogin />} />
         <Route path="/mypage/*" element={<AppMyPage />} />
         <Route path="/search/*" element={<AppSearch />} />
-        <Route path="/recommend/*" element={<AppRecommend />} />
         <Route path="/whisky/*" element={<AppWhisky />} />
-        <Route path="*" element={<AppError />} />
+        <Route path="/recommend/question/*" element={<AppRecommendQuestion />} />
+        <Route path="/recommend/result/*" element={<AppRecommnedResult />} />
+        <Route path="/review/*" element={<AppReview />} />
+        <Route path="/daily/*" element={<AppDailyWhisky />} />
+        <Route path="/*" element={<AppError />} />
       </Routes>
     </Layout>
   );

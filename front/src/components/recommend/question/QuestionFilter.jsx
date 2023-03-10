@@ -1,10 +1,10 @@
 import React from "react";
 
-//추천 첫 질문 성별, 나이, 가격(공통)
+//추천 첫 질문 성별, 나이
 const QuestionFilter = () => {
   return (
     <>
-      <h1>성별, 나이, 가격 물어봄</h1>
+      <h1>성별과 나이를 물어봄</h1>
     </>
   );
 };
