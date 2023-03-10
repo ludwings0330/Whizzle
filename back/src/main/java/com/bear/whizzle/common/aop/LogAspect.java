@@ -1,9 +1,8 @@
 package com.bear.whizzle.common.aop;
 
 import java.lang.reflect.Parameter;
-import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -15,6 +14,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -32,7 +32,7 @@ public class LogAspect {
     private static final String CAUSED_INFO = " => Caused Info         {} : {}";
     private static final String FINISH_LINE = "------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------";
 
-    @Pointcut("execution(* com.bear.whizzle.*.controller.*Controller*.*(..))")
+    @Pointcut("execution(* com.bear.whizzle..controller.*Controller*.*(..))")
     private void controller() {
     }
 
@@ -40,11 +40,11 @@ public class LogAspect {
     private void performance() {
     }
 
-    @Pointcut("execution(* com.bear.whizzle.*.service..*Service*.*(..)) && !performance()")
+    @Pointcut("execution(* com.bear.whizzle..service..*Service*.*(..)) && !performance()")
     private void service() {
     }
 
-    @Pointcut("execution(* com.bear.whizzle.*.repository..*Repository*.*(..)) && !performance()")
+    @Pointcut("execution(* com.bear.whizzle..repository..*Repository*.*(..)) && !performance()")
     private void repository() {
     }
 
@@ -67,10 +67,14 @@ public class LogAspect {
     @AfterReturning(value = "controller()", returning = "dto")
     public void afterReturningController(JoinPoint joinPoint, Object dto) {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
-        ResponseStatus responseStatus = signature.getMethod()
-                                                 .getDeclaredAnnotation(ResponseStatus.class);
+        HttpStatus httpStatus = Optional.ofNullable(
+                                                signature.getMethod()
+                                                         .getDeclaredAnnotation(ResponseStatus.class)
+                                        )
+                                        .map(ResponseStatus::value)
+                                        .orElse(HttpStatus.OK);
 
-        log.info(RESPONSE_LOG, responseStatus.value(), dto);
+        log.info(RESPONSE_LOG, httpStatus, dto);
         log.info(FINISH_LINE);
     }
 

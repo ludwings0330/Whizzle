@@ -1,18 +1,18 @@
 spring:
   profiles:
-    active: local
+    active: dev
+    group:
+      dev:
+        - global-dev
+        - s3-dev
+      prod:
+        - global-prod
+        - s3-prod
     include:
+      - global
+      - s3
       - const
       - db
-      - security
       - jwt
+      - security
       - ssl
-
-  jpa:
-    hibernate:
-      naming:
-        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect
-    open-in-view: false

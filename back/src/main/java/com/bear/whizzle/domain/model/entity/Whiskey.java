@@ -1,11 +1,12 @@
 package com.bear.whizzle.domain.model.entity;
 
-import com.bear.whizzle.domain.model.type.File;
 import com.bear.whizzle.domain.model.type.Flavor;
+import com.bear.whizzle.domain.model.type.Image;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Max;
@@ -15,6 +16,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name = "whiskey")
@@ -22,10 +24,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Getter
 @Builder
+@ToString
 public class Whiskey {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
@@ -33,7 +36,7 @@ public class Whiskey {
 
     @Embedded
     @NotNull
-    private File image;
+    private Image image;
 
     @NotNull
     @Column(unique = true, updatable = false)

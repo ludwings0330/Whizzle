@@ -19,6 +19,7 @@ import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
 @Entity
@@ -27,6 +28,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @Getter
 @SuperBuilder
+@ToString(callSuper = true)
 public class Preference extends BaseTimeEntity {
 
     @Id
@@ -36,6 +38,7 @@ public class Preference extends BaseTimeEntity {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     @NotNull
+    @ToString.Exclude
     private Member member;
 
     @Enumerated(EnumType.STRING)
