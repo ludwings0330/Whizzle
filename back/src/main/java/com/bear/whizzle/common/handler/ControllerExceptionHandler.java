@@ -1,6 +1,7 @@
 package com.bear.whizzle.common.handler;
 
 import com.bear.whizzle.domain.exception.NotFoundException;
+import io.jsonwebtoken.JwtException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class ControllerExceptionHandler {
 
-    @ExceptionHandler(AuthenticationException.class)
+    @ExceptionHandler({ AuthenticationException.class, JwtException.class })
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public String handleNotAuthenticated(Exception e) {
         return e.getMessage();

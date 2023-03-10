@@ -40,6 +40,10 @@ public class Member {
     @NotNull
     private String email;
 
+    @NotNull
+    @NotBlank
+    private String provider;
+
     @Embedded
     @NotNull
     private Image image;
