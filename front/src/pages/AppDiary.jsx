@@ -1,16 +1,15 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+
+//import components
 import DiaryCalander from "../components/diary/DiaryCalander";
-import DiaryInputModal from "../components/diary/DiaryInputModal";
+import DiaryInputBox from "../components/diary/input/DiaryInputBox";
 
 const AppDiary = () => {
   return (
     <>
       <h1>다이어리 페이지</h1>
-      <Routes>
-        <Route path="/calander" element={<DiaryCalander />} />
-        <Route path="/modal" element={<DiaryInputModal />} />
-      </Routes>
+      <DiaryCalander />
+      <DiaryInputBox />
     </>
   );
 };
