@@ -12,7 +12,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,8 +21,7 @@ import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Table(name = "member")
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @ToString
 public class Member {
@@ -50,7 +49,7 @@ public class Member {
     private Float level = 40.0f;
 
     @Builder
-    public Member(Long id, String nickname, String email, Image image) {
+    private Member(Long id, String nickname, String email, Image image) {
         this.id = id;
         this.nickname = nickname;
         this.email = email;
