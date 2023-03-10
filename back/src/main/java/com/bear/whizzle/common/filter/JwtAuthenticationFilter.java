@@ -26,15 +26,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         final String token = jwtUtil.resolveToken(request);
 
         // 1. request 로 보낸 token 이 valid 한지 확인
-        if (StringUtils.hasText(token) && jwtUtil.valid(token)) {
+        if (StringUtils.hasText(token) && jwtUtil.isValid(token)) {
             // 2. valid 하면 authentication 을 SecurityContext 에 저장
             final Authentication authentication = jwtUtil.getAuthentication(token);
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            log.info("JWT 인증 및 저장 완료 - authentication : {}", authentication);
+            log.debug("JWT 인증 및 저장 완료 - authentication : {}", authentication);
         } else {
             // 3. valid 하지 않으면 authentication 이 null 이기 때문에 인증 실패
-            log.info("token 이 올바르지 않음");
+            log.debug("token 이 올바르지 않음");
         }
         // 4. 예외에 대한 처리는 AccessDeniedHandler 에서 처리
 

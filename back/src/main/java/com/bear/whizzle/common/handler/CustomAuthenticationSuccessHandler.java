@@ -7,10 +7,9 @@ import com.bear.whizzle.domain.model.entity.Member;
 import com.bear.whizzle.domain.model.entity.Token;
 import com.bear.whizzle.member.MemberRepository;
 import java.io.IOException;
-import javax.servlet.ServletException;
+import java.util.NoSuchElementException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -22,39 +21,49 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 @Component
 @Slf4j
-@RequiredArgsConstructor
 public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private final MemberRepository memberRepository;
     private final TokenRepository tokenRepository;
     private final JwtUtil jwtUtil;
+    private final String redirectUrl;
 
-    @Value("${app.oauth2.authorizedRedirectUrl}")
-    private String redirectUrl;
+    protected CustomAuthenticationSuccessHandler(MemberRepository memberRepository, TokenRepository tokenRepository, JwtUtil jwtUtil,
+                                                 @Value("${app.oauth2.authorizedRedirectUrl}") String redirectURl) {
+        this.memberRepository = memberRepository;
+        this.tokenRepository = tokenRepository;
+        this.jwtUtil = jwtUtil;
+        this.redirectUrl = redirectURl;
+    }
 
     @Override
     @Transactional
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
-            throws IOException, ServletException {
-        log.info("OAuth 2.0 Login Success");
+            throws IOException {
+        log.debug("OAuth 2.0 Login Success");
 
         // 4. Access, Refresh Token 발급
         final PrincipalDetails user = (PrincipalDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        log.info("PrincipalDetails in Security Context : {}", user);
+        log.debug("PrincipalDetails in Security Context : {}", user);
 
         final String accessToken = jwtUtil.generateAccessToken(user);
-        log.info("generated accessToken : {}", accessToken);
+        log.debug("generated accessToken : {}", accessToken);
 
         final String refreshToken = jwtUtil.generateRefreshToken(user);
-        log.info("generated refreshToken : {}", refreshToken);
+        log.debug("generated refreshToken : {}", refreshToken);
 
         // 5. Refresh Token 은 DB 에 저장
-        final Member member = memberRepository.findByEmailAndProvider(user.getEmail(), user.getProvider())
-                                              .orElseThrow();
+        try {
+            final Member member = memberRepository.findByEmailAndProvider(user.getEmail(), user.getProvider())
+                                                  .orElseThrow();
 
-        final Token token = tokenRepository.findByMemberId(member.getId()).orElseThrow();
+            final Token token = tokenRepository.findByMemberId(member.getId())
+                                               .orElseThrow();
 
-        token.updateRefreshToken(refreshToken);
+            token.updateRefreshToken(refreshToken);
+        } catch (NoSuchElementException e) {
+            log.debug("이런 일은 일어날 수 없습니다.");
+        }
 
         // 6. Access, Refresh Token 은 Client 에게 전달
         // 7. Client 가 JWT 인증을 받도록 Redirect 전달

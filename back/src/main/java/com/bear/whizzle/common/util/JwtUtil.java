@@ -85,16 +85,16 @@ public class JwtUtil {
         return new UsernamePasswordAuthenticationToken(user, token, null);
     }
 
-    public boolean valid(String token) {
+    public boolean isValid(String token) {
         try {
             this.getClaims(token);
             return true;
         } catch (ExpiredJwtException e) {
-            log.info("만료된 토큰");
+            log.debug("만료된 토큰");
         } catch (JwtException e) {
-            log.info("유효하지 않은 토큰");
+            log.debug("유효하지 않은 토큰");
         } catch (Exception e) {
-            log.info("토큰 유효성 검사 중 알 수 없는 예외 발생");
+            log.debug("토큰 유효성 검사 중 알 수 없는 예외 발생");
         }
 
         return false;
