@@ -24,7 +24,6 @@ import org.hibernate.annotations.ColumnDefault;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@Builder
 @ToString
 public class Member {
 
@@ -48,6 +47,14 @@ public class Member {
     @Min(0)
     @Max(100)
     @ColumnDefault("40.0")
-    private Float level;
+    private Float level = 40.0f;
+
+    @Builder
+    public Member(Long id, String nickname, String email, Image image) {
+        this.id = id;
+        this.nickname = nickname;
+        this.email = email;
+        this.image = image;
+    }
 
 }
