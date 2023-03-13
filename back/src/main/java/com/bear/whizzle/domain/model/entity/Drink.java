@@ -37,4 +37,8 @@ public class Drink {
     @JoinColumn(name = "whiskey_id", updatable = false)
     private Whiskey whiskey;
 
+    public String toString() {
+        return "Drink [diary.id: " + diary.getId() + ", whiskey.id: " + whiskey.getId() + "]";
+    }
+
 }

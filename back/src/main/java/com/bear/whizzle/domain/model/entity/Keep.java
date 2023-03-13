@@ -15,7 +15,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 
 @Entity
@@ -25,26 +24,25 @@ import org.springframework.data.annotation.CreatedDate;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 @Builder
-@ToString
 public class Keep {
 
     @Id
     @ManyToOne
     @JoinColumn(name = "member_id")
-    @NotNull
-    @ToString.Exclude
     private Member member;
 
     @Id
     @ManyToOne
     @JoinColumn(name = "whiskey_id")
-    @NotNull
-    @ToString.Exclude
     private Whiskey whiskey;
 
     @CreatedDate
     @Column(columnDefinition = "DATETIME", unique = true, updatable = false)
     @NotNull
     private LocalDateTime createdDateTime;
+
+    public String toString() {
+        return "Keep [member.id: " + member.getId() + ", whiskey.id: " + whiskey.getId() + "]";
+    }
 
 }
