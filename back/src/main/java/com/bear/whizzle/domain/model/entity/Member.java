@@ -58,8 +58,8 @@ public class Member {
     private Float level;
 
     @Builder
-    private Member(Long id, String nickname, String email) {
-        this.id = id;
+    private Member(String provider, String nickname, String email) {
+        this.provider = provider;
         this.nickname = nickname;
         this.email = email;
     }
