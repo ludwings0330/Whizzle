@@ -5,7 +5,6 @@ const SDiv = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 90vh;
   background: #f84f5a;
 `;
 
@@ -24,21 +23,39 @@ const STitle = styled.p`
 `;
 
 const SBox = styled.div`
+  display: flex;
+  gap: 117px 27px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  width: 60vw;
+  margin-top: 10vh;
+  margin-bottom: 15vh;
+`;
+
+const SCard = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   width: 226px;
   height: 291px;
   left: 722px;
   top: 427px;
-
   background: rgba(255, 255, 255, 0.2);
   border: 1px solid rgba(255, 255, 255, 0.6);
   border-radius: 16px;
 `;
 
-const SImg = styled.img``;
+const SImg = styled.img`
+  height: 245px;
+`;
 
 const SName = styled.p`
   font-size: 16px;
   color: white;
+  padding-top: 15px;
+  padding-bottom: 50px;
 `;
 
 const SButton = styled.button`
@@ -50,6 +67,7 @@ const SButton = styled.button`
   border-radius: 999px;
   font-size: 18px;
   font-family: "Pretendard Variable";
+  margin-bottom: 15vh;
 `;
 
 const whiskyPresetData = [
@@ -97,15 +115,17 @@ const QuestionChooseWhisky = () => {
     <SDiv>
       <SContent>위스키를 즐겨 드시는군요!</SContent>
       <STitle>가장 선호하는 위스키를 3개까지 선택해주세요</STitle>
-      {whiskyPresetData.map((whisky) => (
-        <SBox key={whisky.id}>
-          <SImg
-            src={`../../../assets/img/whisky_preset/${whisky.id}.png`}
-            alt={whisky.img}
-          />
-          <SName>{whisky.name}</SName>
-        </SBox>
-      ))}
+      <SBox>
+        {whiskyPresetData.map((whisky) => (
+          <SCard key={whisky.id}>
+            <SImg
+              src={require(`../../../assets/img/whisky_preset/${whisky.id}.png`)}
+              alt={whisky.img}
+            />
+            <SName>{whisky.name}</SName>
+          </SCard>
+        ))}
+      </SBox>
       <SButton>나만의 위스키 추천 결과 보러가기</SButton>
     </SDiv>
   );
