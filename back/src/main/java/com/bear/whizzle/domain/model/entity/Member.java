@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
@@ -43,17 +44,27 @@ public class Member {
     private Image image;
 
     @NotNull
+    @ColumnDefault("1")
+    private Boolean isActive;
+
+    @NotNull
     @Min(0)
     @Max(100)
     @ColumnDefault("40.0")
-    private Float level = 40.0f;
+    private Float level;
 
     @Builder
-    private Member(Long id, String nickname, String email, Image image) {
+    private Member(Long id, String nickname, String email) {
         this.id = id;
         this.nickname = nickname;
         this.email = email;
-        this.image = image;
+    }
+
+    @PrePersist
+    protected void prePersist() {
+        this.image = Image.getDefaultMemberImage();
+        this.isActive = Boolean.TRUE;
+        this.level = 40.0f;
     }
 
 }
