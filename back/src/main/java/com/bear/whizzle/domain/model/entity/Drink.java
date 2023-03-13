@@ -1,10 +1,12 @@
 package com.bear.whizzle.domain.model.entity;
 
+import com.bear.whizzle.domain.model.type.DrinkId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -18,27 +20,21 @@ import lombok.ToString;
 
 @Entity
 @Table(name = "drink")
+@IdClass(DrinkId.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 @Builder
-@ToString
 public class Drink {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "diary_id", updatable = false)
-    @NotNull
-    @ToString.Exclude
     private Diary diary;
 
+    @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "whiskey_id", updatable = false)
-    @NotNull
-    @ToString.Exclude
     private Whiskey whiskey;
 
 }
