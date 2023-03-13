@@ -1,9 +1,10 @@
 package com.bear.whizzle.domain.model.entity;
 
-import com.bear.whizzle.domain.model.type.File;
+import com.bear.whizzle.domain.model.type.Image;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
@@ -15,6 +16,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
 
 @Entity
@@ -23,10 +25,11 @@ import org.hibernate.annotations.ColumnDefault;
 @AllArgsConstructor
 @Getter
 @Builder
+@ToString
 public class Member {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
@@ -37,9 +40,13 @@ public class Member {
     @NotNull
     private String email;
 
+    @NotNull
+    @NotBlank
+    private String provider;
+
     @Embedded
     @NotNull
-    private File image;
+    private Image image;
 
     @NotNull
     @Min(0)

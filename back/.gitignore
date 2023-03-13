@@ -40,6 +40,5 @@ out/
 ### Secrets ###
 **/*.yml
 !**/application.yml
-!**/application-local.yml
-!**/application-prod.yml
+!**/application-global.yml
 !**/application-const.yml
