@@ -5,24 +5,45 @@ const Callback = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const queryParams = new URLSearchParams(location.search);
-  console.log(queryParams);
-  const accessToken = queryParams.get("access_token");
-  const refreshToken = queryParams.get("refresh_token");
-
-  // 쿼리 스트링을 통해 access_token과 refresh_token을 sessionStorage에 저장
   const [isStored, setIsStored] = useState(false);
-  useEffect(() => {
-    sessionStorage.setItem("access_token", accessToken);
-    sessionStorage.setItem("refresh_token", refreshToken);
-    console.log(`accessToken: ${accessToken}, refreshToken: ${refreshToken}`);
+
+  const accessToken = queryParams.get("accessToken");
+  const refreshToken = queryParams.get("refreshToken");
+  const isNew = Boolean(queryParams.get("isNew"));
+
+  console.log(queryParams);
+
+  function settingSuccess() {
     setIsStored(true);
-  }, [accessToken, refreshToken]);
+    console.log("세팅 성공");
+  }
+
+  function settingFail() {
+    setIsStored(true);
+    console.log("세팅 실패");
+  }
+
+  function setting() {
+    try {
+      sessionStorage.setItem("accessToken", accessToken);
+      sessionStorage.setItem("refreshToken", refreshToken);
+      settingSuccess();
+    } catch (error) {
+      settingFail();
+    }
+  }
+
+  setting();
 
   useEffect(() => {
     if (isStored) {
-      navigate("/");
+      if (isNew) {
+        navigate("/recommend/qeustion");
+      } else {
+        navigate("/");
+      }
     }
-  }, [isStored, navigate]);
+  }, [isStored, navigate, isNew]);
 
   return null;
 };

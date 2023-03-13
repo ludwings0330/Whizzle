@@ -66,7 +66,7 @@ const Header = () => {
   const me = true;
   return (
     <>
-      <Navbar>
+      <Navbar id="navbar">
         <NavLeftDiv>
           <NavDiv>
             <NavLink style={({ isActive }) => (isActive ? activeStyle : nonActiveStyle)} to="/">
