@@ -38,14 +38,7 @@ const AppLogin = () => {
   const onClickHandler = (e) => {
     const clicked = e.target.alt;
 
-    if (clicked === "naver") {
-      console.log(`${clicked} 로그인`);
-    } else if (clicked === "kakao") {
-      console.log(`${clicked} 로그인`);
-    } else if (clicked === "google") {
-      console.log(`${clicked} 로그인`);
-    }
-
+    console.log(`${clicked} 로그인`);
     window.location.href = `http://localhost:8080/oauth2/authorization/${clicked}`;
   };
 

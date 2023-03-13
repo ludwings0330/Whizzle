@@ -8,6 +8,7 @@ const Callback = () => {
   const [isStored, setIsStored] = useState(false);
 
   const accessToken = queryParams.get("accessToken");
+  // access 토큰의 payload에서 유저 정보 추출 후, 전역 변수로 저장 필요
   const refreshToken = queryParams.get("refreshToken");
   const isNew = Boolean(queryParams.get("isNew"));
 
@@ -38,7 +39,7 @@ const Callback = () => {
   useEffect(() => {
     if (isStored) {
       if (isNew) {
-        navigate("/recommend/qeustion");
+        navigate("/recommend/question");
       } else {
         navigate("/");
       }
