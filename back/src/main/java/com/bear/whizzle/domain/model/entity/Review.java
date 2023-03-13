@@ -60,6 +60,10 @@ public class Review extends BaseTimeEntity {
     @ColumnDefault("0")
     private Integer likeCount;
 
+    @NotNull
+    @ColumnDefault("0")
+    private Boolean isDeleted;
+
     @OneToMany(
             mappedBy = "review",
             cascade = CascadeType.ALL,
@@ -82,6 +86,7 @@ public class Review extends BaseTimeEntity {
     @PrePersist
     private void prePersist() {
         this.likeCount = 0;
+        this.isDeleted = Boolean.FALSE;
     }
 
 }
