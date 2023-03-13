@@ -12,24 +12,23 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Table(name = "review")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
-@SuperBuilder
 @ToString(callSuper = true)
 public class Review extends BaseTimeEntity {
 
@@ -57,6 +56,10 @@ public class Review extends BaseTimeEntity {
     @Lob
     private String content;
 
+    @NotNull
+    @ColumnDefault("0")
+    private Integer likeCount;
+
     @OneToMany(
             mappedBy = "review",
             cascade = CascadeType.ALL,
@@ -66,5 +69,19 @@ public class Review extends BaseTimeEntity {
     @Size(max = 5)
     @ToString.Exclude
     private final List<ReviewImage> images = new ArrayList<>();
+
+    @Builder
+    public Review(Member member, Whiskey whiskey, Float rating, String content) {
+        super();
+        this.member = member;
+        this.whiskey = whiskey;
+        this.rating = rating;
+        this.content = content;
+    }
+
+    @PrePersist
+    private void prePersist() {
+        this.likeCount = 0;
+    }
 
 }
