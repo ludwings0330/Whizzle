@@ -68,13 +68,14 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         // 6. Access, Refresh Token 은 Client 에게 전달
         // 7. Client 가 JWT 인증을 받도록 Redirect 전달
         getRedirectStrategy()
-                .sendRedirect(request, response, getRedirectUrlWithTokens(accessToken, refreshToken));
+                .sendRedirect(request, response, getRedirectUrlWithTokens(accessToken, refreshToken, user));
     }
 
-    private String getRedirectUrlWithTokens(String accessToken, String refreshToken) {
+    private String getRedirectUrlWithTokens(String accessToken, String refreshToken, PrincipalDetails user) {
         return UriComponentsBuilder.fromUriString(redirectUrl)
                                    .queryParam("accessToken", accessToken)
                                    .queryParam("refreshToken", refreshToken)
+                                   .queryParam("isNew", user.isNew())
                                    .build().toUriString();
     }
 

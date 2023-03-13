@@ -35,8 +35,8 @@ public class AuthController {
 
     @GetMapping("/token-check")
     @ResponseStatus(HttpStatus.OK)
-    public String tokenTest(@RequestParam String accessToken, @RequestParam String refreshToken) {
-        return "accessToken : " + accessToken + " \n refreshToken : " + refreshToken;
+    public String tokenTest(@RequestParam String accessToken, @RequestParam String refreshToken, @RequestParam String isNew) {
+        return "accessToken : " + accessToken + " \n refreshToken : " + refreshToken + "\n isNew : " + isNew;
     }
 
 }
