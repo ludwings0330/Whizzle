@@ -36,11 +36,10 @@ public class Whiskey {
     private String name;
 
     @Embedded
-    @NotNull
     private Image image;
 
     @NotNull
-    @Column(unique = true, updatable = false)
+    @Column(updatable = false)
     private String category;
 
     @NotNull
@@ -57,6 +56,10 @@ public class Whiskey {
     private Float abv;
 
     private String caskType;
+
+    private Integer reviewCount;
+
+    private Float avgRating;
 
     @Embedded
     @NotNull
