@@ -4,6 +4,8 @@ import com.bear.whizzle.domain.model.type.Action;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -42,6 +44,7 @@ public class MemberLevelLog {
     private Float level; // 로그를 찍는 시점의 level, 점수 반영 전
 
     @NotNull
+    @Enumerated(EnumType.STRING)
     private Action action; // 점수를 주는 이유
 
     @CreatedDate

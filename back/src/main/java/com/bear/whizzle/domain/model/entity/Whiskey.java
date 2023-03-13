@@ -45,6 +45,7 @@ public class Whiskey {
     @NotNull
     private String location;
 
+    @Column(columnDefinition = "TINYINT")
     @NotNull
     @Min(1)
     @Max(5)

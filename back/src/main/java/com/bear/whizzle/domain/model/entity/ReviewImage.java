@@ -1,6 +1,7 @@
 package com.bear.whizzle.domain.model.entity;
 
 import com.bear.whizzle.domain.model.type.Image;
+import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -43,6 +44,7 @@ public class ReviewImage {
     @NotNull
     private Image image;
 
+    @Column(columnDefinition = "TINYINT")
     @NotNull
     @Min(1)
     @Max(5)
