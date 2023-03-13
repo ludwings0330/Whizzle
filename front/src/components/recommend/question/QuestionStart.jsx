@@ -21,7 +21,7 @@ const SContent = styled.p`
   font-size: 20px;
 `;
 
-const SBotton = styled.button`
+const SButton = styled.button`
   cursor: pointer;
   display: block;
   margin: 2vh auto;
@@ -43,7 +43,7 @@ const QuestionStart = (props) => {
         <br />
         나의 취향에 꼭 맞는 위스키를 추천받아 보세요!
       </SContent>
-      <SBotton onClick={props.goNextPage}>내 취향 정보 입력하기</SBotton>
+      <SButton onClick={props.goNextPage}>내 취향 정보 입력하기</SButton>
     </SDiv>
   );
 };
