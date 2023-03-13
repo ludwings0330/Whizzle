@@ -1,6 +1,6 @@
 import React from "react";
 
-//위스키 경험(공통)
+//추천 세번째 질문 -> 위스키를 마셔봤는지에 대해 물어봄
 const QuestionExperience = () => {
   return (
     <>
