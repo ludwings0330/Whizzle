@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 
 // 버튼 import
@@ -19,7 +19,9 @@ const SDiv = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 80vh;
+  height: 100vh;
+  background-image: url(${loginBackground});
+  background-repeat: no-repeat;
 `;
 
 const SP = styled.p`
@@ -28,13 +30,6 @@ const SP = styled.p`
 `;
 
 const AppLogin = () => {
-  useEffect(() => {
-    const navDiv = document.getElementById("navbar");
-    navDiv.style.backgroundColor = "transparent";
-    const rootDiv = document.getElementById("root");
-    rootDiv.style.backgroundImage = `url(${loginBackground})`;
-  }, []);
-
   const onClickHandler = (e) => {
     const clicked = e.target.alt;
 
