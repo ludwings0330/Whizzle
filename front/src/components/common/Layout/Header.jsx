@@ -5,14 +5,14 @@ import styled from "styled-components";
 import logo from "../../../assets/img/logo.png";
 
 const Navbar = styled.nav`
-  position: flex;
+  position: absolute;
   top: 0;
   width: 100vw;
   height: 70px;
   display: flex;
-  background-color: #f84f5a;
+  background-color: transparent;
   justify-content: space-between;
-  margin-bottom: 10px;
+  margin-bottom: 0px;
 `;
 
 const NavDiv = styled.div`
