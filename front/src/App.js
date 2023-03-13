@@ -14,6 +14,7 @@ import AppRecommnedResult from "./pages/AppRecommnedResult";
 import AppReview from "./pages/AppReview";
 import AppDailyWhisky from "./pages/AppDailyWhisky";
 import AppWhisky from "./pages/AppWhisky";
+import Callback from "./apis/Callback";
 
 //Layout import
 import Layout from "./components/common/Layout/Layout";
@@ -32,6 +33,7 @@ function App() {
         <Route path="/recommend/result/*" element={<AppRecommnedResult />} />
         <Route path="/review/*" element={<AppReview />} />
         <Route path="/daily/*" element={<AppDailyWhisky />} />
+        <Route path="/callback" element={<Callback />} />
         <Route path="/*" element={<AppError />} />
       </Routes>
     </Layout>
