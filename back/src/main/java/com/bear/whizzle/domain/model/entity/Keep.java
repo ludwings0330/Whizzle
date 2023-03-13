@@ -1,11 +1,11 @@
 package com.bear.whizzle.domain.model.entity;
 
+import com.bear.whizzle.domain.model.type.KeepId;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -20,6 +20,7 @@ import org.springframework.data.annotation.CreatedDate;
 
 @Entity
 @Table(name = "keep")
+@IdClass(KeepId.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
@@ -28,15 +29,13 @@ import org.springframework.data.annotation.CreatedDate;
 public class Keep {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
     @ManyToOne
     @JoinColumn(name = "member_id")
     @NotNull
     @ToString.Exclude
     private Member member;
 
+    @Id
     @ManyToOne
     @JoinColumn(name = "whiskey_id")
     @NotNull
