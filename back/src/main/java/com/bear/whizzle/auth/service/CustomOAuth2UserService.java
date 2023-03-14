@@ -63,17 +63,10 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
         details.join();
 
-        final Image image = Image.builder()
-                                 .savedPath(UUID.randomUUID().toString())
-                                 .originalName("originName")
-                                 .url("url")
-                                 .build();
-
-        final Member member = Member.builder().provider(details.getProvider())
+        final Member member = Member.builder()
+                                    .provider(details.getProvider())
                                     .nickname(details.getNickname())
                                     .email(details.getEmail())
-                                    .image(image)
-                                    .level(40f)
                                     .build();
         memberRepository.save(member);
 

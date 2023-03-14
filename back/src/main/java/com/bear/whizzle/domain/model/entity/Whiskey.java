@@ -12,6 +12,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,8 +21,8 @@ import lombok.ToString;
 
 @Entity
 @Table(name = "whiskey")
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 @Builder
 @ToString
@@ -35,16 +36,16 @@ public class Whiskey {
     private String name;
 
     @Embedded
-    @NotNull
     private Image image;
 
     @NotNull
-    @Column(unique = true, updatable = false)
+    @Column(updatable = false)
     private String category;
 
     @NotNull
     private String location;
 
+    @Column(columnDefinition = "TINYINT")
     @NotNull
     @Min(1)
     @Max(5)
@@ -56,6 +57,10 @@ public class Whiskey {
     private Float abv;
 
     private String caskType;
+
+    private Integer reviewCount;
+
+    private Float avgRating;
 
     @Embedded
     @NotNull
