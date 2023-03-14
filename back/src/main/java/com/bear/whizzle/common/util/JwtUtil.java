@@ -25,7 +25,7 @@ public class JwtUtil {
     private static final long MINUTE = 60 * SECOND;
     private static final long HOUR = 60 * MINUTE;
     private static final long DAY = 24 * HOUR;
-    private static final long REFRESH_TOKEN_EXPIRATION_TIME = 20 * DAY;
+    private static final long REFRESH_TOKEN_EXPIRATION_TIME = 21 * DAY;
     private static final long ACCESS_TOKEN_EXPIRATION_TIME = 30 * MINUTE;
     private final Key key;
 
