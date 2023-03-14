@@ -1,4 +1,6 @@
 import React from "react";
+import { useRecoilState } from "recoil";
+import { preference } from "../../../store/preferenceStore";
 import styled from "styled-components";
 
 const SDiv = styled.div`
@@ -25,14 +27,17 @@ const SButton = styled.button``;
 
 //추천 두번째 질문 -> 가격을 물어봄
 const QuestionPrice = (props) => {
+  const [preferenceValue, setPreferenceValue] = useRecoilState(preference);
+
   const priceSelectHandler = (event) => {
-    props.setSelectedPrice(event.target.value);
+    const selectedPrice = event.target.value;
+    setPreferenceValue((prev) => ({ ...prev, price: selectedPrice }));
 
     props.goNextPage();
   };
 
   const nextPageHandler = () => {
-    if (props.selectedPrice) {
+    if (preferenceValue.price) {
       props.goNextPage();
     } else {
       alert("헤당되는 내용을 선택해주세요!");
@@ -48,7 +53,7 @@ const QuestionPrice = (props) => {
           <input
             type="radio"
             value="1"
-            checked={props.selectedPrice === "1"}
+            checked={preferenceValue.price === "1"}
             onChange={priceSelectHandler}
           />
           ₩50,000원 이하
@@ -57,7 +62,7 @@ const QuestionPrice = (props) => {
           <input
             type="radio"
             value="2"
-            checked={props.selectedPrice === "2"}
+            checked={preferenceValue.price === "2"}
             onChange={priceSelectHandler}
           />
           ₩50,000원 이상 ₩100,000원 이하
@@ -66,7 +71,7 @@ const QuestionPrice = (props) => {
           <input
             type="radio"
             value="3"
-            checked={props.selectedPrice === "3"}
+            checked={preferenceValue.price === "3"}
             onChange={priceSelectHandler}
           />
           ₩100,000원 이상 ₩200,000원 이하
@@ -75,7 +80,7 @@ const QuestionPrice = (props) => {
           <input
             type="radio"
             value="4"
-            checked={props.selectedPrice === "4"}
+            checked={preferenceValue.price === "4"}
             onChange={priceSelectHandler}
           />
           ₩200,000원 이상 ₩350,000원 이하
@@ -84,7 +89,7 @@ const QuestionPrice = (props) => {
           <input
             type="radio"
             value="5"
-            checked={props.selectedPrice === "5"}
+            checked={preferenceValue.price === "5"}
             onChange={priceSelectHandler}
           />
           ₩350,000원 이상

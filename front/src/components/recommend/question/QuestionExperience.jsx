@@ -1,4 +1,6 @@
 import React from "react";
+import { useRecoilState } from "recoil";
+import { preference } from "../../../store/preferenceStore";
 import styled from "styled-components";
 
 const SDiv = styled.div`
@@ -25,20 +27,26 @@ const SButton = styled.button``;
 
 //추천 세번째 질문 -> 위스키를 마셔봤는지에 대해 물어봄
 const QuestionExperience = (props) => {
-  const isExperienceSelectHandler = (event) => {
-    props.setIsExperience(event.target.value);
+  const [preferenceValue, setPreferenceValue] = useRecoilState(preference);
 
-    if (event.target.value === "true") {
+  const isExperienceSelectHandler = (event) => {
+    const selectedValue = event.target.value;
+    setPreferenceValue((prev) => ({
+      ...prev,
+      isExperience: selectedValue,
+    }));
+
+    if (selectedValue === "true") {
       props.setActivePage(4);
-    } else if (event.target.value === "false") {
+    } else if (selectedValue === "false") {
       props.setActivePage(5);
     }
   };
 
   const nextPageHandler = () => {
-    if (props.isExperience === "true") {
+    if (preferenceValue.isExperience === "true") {
       props.setActivePage(4);
-    } else if (props.isExperience === "false") {
+    } else if (preferenceValue.isExperience === "false") {
       props.setActivePage(5);
     } else {
       alert("해당되는 내용을 선택해주세요!");
@@ -54,7 +62,7 @@ const QuestionExperience = (props) => {
           <input
             type="radio"
             value="false"
-            checked={props.isExperience === "false"}
+            checked={preferenceValue.isExperience === "false"}
             onChange={isExperienceSelectHandler}
           />
           위스키에 대해 잘 알지 못해요
@@ -63,7 +71,7 @@ const QuestionExperience = (props) => {
           <input
             type="radio"
             value="true"
-            checked={props.isExperience === "true"}
+            checked={preferenceValue.isExperience === "true"}
             onChange={isExperienceSelectHandler}
           />
           위스키를 즐기는 편이에요!

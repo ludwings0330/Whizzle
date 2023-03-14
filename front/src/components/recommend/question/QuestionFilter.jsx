@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
+import { useRecoilState } from "recoil";
+import { preference } from "../../../store/preferenceStore";
 import styled from "styled-components";
 
 const SDiv = styled.div`
@@ -29,24 +31,28 @@ const SButton = styled.button``;
 
 //추천 첫 질문 성별, 나이
 const QuestionFilter = (props) => {
-  const genderSelectHandler = (event) => {
-    props.setSelectedGender(event.target.value);
+  const [preferenceValue, setPreferenceValue] = useRecoilState(preference);
 
-    if (props.selectedAge) {
+  const genderSelectHandler = (event) => {
+    const selectedGender = event.target.value;
+    setPreferenceValue((prev) => ({ ...prev, gender: selectedGender }));
+
+    if (preferenceValue.age) {
       props.goNextPage();
     }
   };
 
   const ageSelectHandler = (event) => {
-    props.setSelectedAge(event.target.value);
+    const selectedAge = event.target.value;
+    setPreferenceValue((prev) => ({ ...prev, age: selectedAge }));
 
-    if (props.selectedGender) {
+    if (preferenceValue.gender) {
       props.goNextPage();
     }
   };
 
   const nextPageHandler = () => {
-    if (props.selectedAge && props.selectedGender) {
+    if (preferenceValue.age && preferenceValue.gender) {
       props.goNextPage();
     } else {
       alert("헤당되는 내용을 선택해주세요!");
@@ -64,7 +70,7 @@ const QuestionFilter = (props) => {
             <input
               type="radio"
               value="female"
-              checked={props.selectedGender === "female"}
+              checked={preferenceValue.gender === "female"}
               onChange={genderSelectHandler}
             />
             여성
@@ -73,7 +79,7 @@ const QuestionFilter = (props) => {
             <input
               type="radio"
               value="male"
-              checked={props.selectedGender === "male"}
+              checked={preferenceValue.gender === "male"}
               onChange={genderSelectHandler}
             />
             남성
@@ -86,7 +92,7 @@ const QuestionFilter = (props) => {
             <input
               type="radio"
               value="20"
-              checked={props.selectedAge === "20"}
+              checked={preferenceValue.age === "20"}
               onChange={ageSelectHandler}
             />
             20대
@@ -95,7 +101,7 @@ const QuestionFilter = (props) => {
             <input
               type="radio"
               value="30"
-              checked={props.selectedAge === "30"}
+              checked={preferenceValue.age === "30"}
               onChange={ageSelectHandler}
             />
             30대
@@ -104,7 +110,7 @@ const QuestionFilter = (props) => {
             <input
               type="radio"
               value="40"
-              checked={props.selectedAge === "40"}
+              checked={preferenceValue.age === "40"}
               onChange={ageSelectHandler}
             />
             40대
@@ -113,7 +119,7 @@ const QuestionFilter = (props) => {
             <input
               type="radio"
               value="50"
-              checked={props.selectedAge === "50"}
+              checked={preferenceValue.age === "50"}
               onChange={ageSelectHandler}
             />
             50대 이상

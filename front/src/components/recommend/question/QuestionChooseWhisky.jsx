@@ -1,11 +1,21 @@
 import React from "react";
+import { useRecoilState } from "recoil";
+import { preference } from "../../../store/preferenceStore";
+import QuestionChooseWhiskyItem from "./QuestionChooseWhiskyItem";
 import styled from "styled-components";
 
 const SDiv = styled.div`
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
   background: #f84f5a;
+`;
+
+const SCentered = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 const SContent = styled.p`
@@ -13,6 +23,7 @@ const SContent = styled.p`
   margin-bottom: 10px;
   text-align: center;
   font-size: 24px;
+  color: white;
 `;
 
 const STitle = styled.p`
@@ -20,6 +31,7 @@ const STitle = styled.p`
   text-align: center;
   font-size: 32px;
   font-weight: bold;
+  color: white;
 `;
 
 const SBox = styled.div`
@@ -29,45 +41,20 @@ const SBox = styled.div`
   justify-content: center;
   align-items: center;
   width: 60vw;
-  margin-top: 10vh;
+  margin-top: 12vh;
   margin-bottom: 15vh;
-`;
-
-const SCard = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 226px;
-  height: 291px;
-  left: 722px;
-  top: 427px;
-  background: rgba(255, 255, 255, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  border-radius: 16px;
-`;
-
-const SImg = styled.img`
-  height: 245px;
-`;
-
-const SName = styled.p`
-  font-size: 16px;
-  color: white;
-  padding-top: 15px;
-  padding-bottom: 50px;
 `;
 
 const SButton = styled.button`
   cursor: pointer;
   display: block;
   width: 464px;
-  height: 89px;
+  height: 80px;
   border: none;
   border-radius: 999px;
   font-size: 18px;
   font-family: "Pretendard Variable";
-  margin-bottom: 15vh;
+  margin-bottom: 25vh;
 `;
 
 const whiskyPresetData = [
@@ -110,23 +97,38 @@ const whiskyPresetData = [
 ];
 
 //추천 경험자용 선호 위스키 질문
-const QuestionChooseWhisky = () => {
+const QuestionChooseWhisky = (props) => {
+  const [preferenceValue, setPreferenceValue] = useRecoilState(preference);
+
+  const nextPageHandler = () => {
+    if (preferenceValue.whiskies) {
+      props.setActivePage(6);
+    } else {
+      alert("1개 이상의 위스키를 선택해주세요!");
+    }
+  };
+
   return (
     <SDiv>
-      <SContent>위스키를 즐겨 드시는군요!</SContent>
-      <STitle>가장 선호하는 위스키를 3개까지 선택해주세요</STitle>
-      <SBox>
-        {whiskyPresetData.map((whisky) => (
-          <SCard key={whisky.id}>
-            <SImg
-              src={require(`../../../assets/img/whisky_preset/${whisky.id}.png`)}
-              alt={whisky.img}
+      <button onClick={props.goPriorPage}>이전</button>
+      <SCentered>
+        <SContent>위스키를 즐겨 드시는군요!</SContent>
+        <STitle>가장 선호하는 위스키를 3개까지 선택해주세요</STitle>
+        <SBox>
+          {whiskyPresetData.map((whisky) => (
+            <QuestionChooseWhiskyItem
+              key={whisky.id}
+              whisky={whisky}
+              preferenceValue={preferenceValue}
+              setPreferenceValue={setPreferenceValue}
             />
-            <SName>{whisky.name}</SName>
-          </SCard>
-        ))}
-      </SBox>
-      <SButton>나만의 위스키 추천 결과 보러가기</SButton>
+          ))}
+        </SBox>
+        <SButton onClick={nextPageHandler}>
+          나만의 위스키 추천 결과 보러가기
+        </SButton>
+      </SCentered>
+      <div></div>
     </SDiv>
   );
 };
