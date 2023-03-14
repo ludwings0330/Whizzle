@@ -65,7 +65,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
                                     .build();
         memberRepository.save(member);
 
-        log.debug("신규 회원 가입 완료({}, {})", member);
+        log.debug("신규 회원 가입 완료({})", member);
     }
 
 }

@@ -32,10 +32,4 @@ public class AuthServiceImpl implements AuthService {
         throw new JwtException("토큰 재발급 중 예외 발생");
     }
 
-    @Override
-    @Transactional
-    public void logout(PrincipalDetails user) {
-
-    }
-
 }
