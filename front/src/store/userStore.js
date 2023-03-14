@@ -5,7 +5,7 @@ export const userState = atom({
   default: {
     nickname: "",
     email: "",
-    provider: 0,
+    provider: "",
     exp: 0,
   },
 });
