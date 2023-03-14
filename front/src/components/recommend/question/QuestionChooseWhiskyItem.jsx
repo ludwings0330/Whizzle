@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useRecoilState } from "recoil";
+import { preference } from "../../../store/preferenceStore";
 import styled from "styled-components";
 
 const SWrap = styled.div`
@@ -53,29 +55,31 @@ const SName = styled.p`
 `;
 
 const QuestionChooseWhiskyItem = (props) => {
+  const [preferenceValue, setPreferenceValue] = useRecoilState(preference);
   const [isClicked, setIsClicked] = useState(false);
 
   const whiskySelectHandler = () => {
     const selectedId = props.whisky.id;
-    const selectedIndex = props.preferenceValue.whiskies?.indexOf(selectedId);
+    const selectedIndex = preferenceValue.whiskies?.indexOf(selectedId);
 
     if (selectedIndex === -1) {
-      if (props.preferenceValue.whiskies.length === 3) {
+      if (preferenceValue.whiskies.length > 2) {
         alert("3개를 모두 선택하셨습니다!");
       } else {
-        props.setPreferenceValue((prev) => ({
+        setPreferenceValue((prev) => ({
           ...prev,
           whiskies: [...prev.whiskies, selectedId],
         }));
         setIsClicked((prevState) => !prevState);
-        console.log(props.preferenceValue.whiskies);
+        console.log(preferenceValue.whiskies);
       }
     } else {
-      props.setPreferenceValue((prev) =>
-        prev.whiskies?.filter((whisky) => whisky !== selectedId)
-      );
+      setPreferenceValue((prev) => ({
+        ...prev,
+        whiskies: prev.whiskies?.filter((whisky) => whisky !== selectedId),
+      }));
       setIsClicked((prevState) => !prevState);
-      console.log(props.preferenceValue.whiskies);
+      console.log(preferenceValue.whiskies);
     }
   };
 
