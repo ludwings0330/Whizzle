@@ -1,8 +1,6 @@
 package com.bear.whizzle.auth.service;
 
-import com.bear.whizzle.auth.repository.TokenRepository;
 import com.bear.whizzle.common.util.JwtUtil;
-import com.bear.whizzle.member.MemberService;
 import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -16,8 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class AuthServiceImpl implements AuthService {
 
     private final JwtUtil jwtUtil;
-    private final MemberService memberService;
-    private final TokenRepository tokenRepository;
 
     private final RedisTemplate<String, String> redisTemplate;
 
