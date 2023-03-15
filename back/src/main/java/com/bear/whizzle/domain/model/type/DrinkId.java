@@ -19,6 +19,6 @@ public class DrinkId implements Serializable {
 
     private Long diary;
 
-    private Long whiskey;
+    private Long whisky;
 
 }
