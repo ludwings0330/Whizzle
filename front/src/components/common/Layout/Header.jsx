@@ -69,12 +69,7 @@ const Header = () => {
       <Navbar>
         <NavLeftDiv>
           <NavDiv>
-            <NavLink
-              style={({ isActive }) =>
-                isActive ? activeStyle : nonActiveStyle
-              }
-              to="/"
-            >
+            <NavLink style={({ isActive }) => (isActive ? activeStyle : nonActiveStyle)} to="/">
               <SLogoImg src={logo} alt="#" />
             </NavLink>
           </NavDiv>
@@ -82,9 +77,7 @@ const Header = () => {
         <NavRightDiv>
           <NavDiv>
             <NavLink
-              style={({ isActive }) =>
-                isActive ? activeStyle : nonActiveStyle
-              }
+              style={({ isActive }) => (isActive ? activeStyle : nonActiveStyle)}
               to="/recommend/question"
             >
               <SP>위스키 추천</SP>
@@ -92,9 +85,7 @@ const Header = () => {
           </NavDiv>
           <NavDiv>
             <NavLink
-              style={({ isActive }) =>
-                isActive ? activeStyle : nonActiveStyle
-              }
+              style={({ isActive }) => (isActive ? activeStyle : nonActiveStyle)}
               to="/diary"
             >
               <SP>위스키 다이어리</SP>
@@ -102,9 +93,7 @@ const Header = () => {
           </NavDiv>
           <NavDiv>
             <NavLink
-              style={({ isActive }) =>
-                isActive ? activeStyle : nonActiveStyle
-              }
+              style={({ isActive }) => (isActive ? activeStyle : nonActiveStyle)}
               to="/search"
             >
               <SP>위스키 검색</SP>
@@ -113,18 +102,14 @@ const Header = () => {
           <NavDiv>
             {me ? (
               <NavLink
-                style={({ isActive }) =>
-                  isActive ? activeStyle : nonActiveStyle
-                }
+                style={({ isActive }) => (isActive ? activeStyle : nonActiveStyle)}
                 to="/login"
               >
                 <SP>로그인</SP>
               </NavLink>
             ) : (
               <NavLink
-                style={({ isActive }) =>
-                  isActive ? activeStyle : nonActiveStyle
-                }
+                style={({ isActive }) => (isActive ? activeStyle : nonActiveStyle)}
                 to="/mypage"
               >
                 <SP>마이페이지</SP>

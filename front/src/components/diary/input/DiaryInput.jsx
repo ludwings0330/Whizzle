@@ -10,8 +10,10 @@ import styled from "styled-components";
 
 const SDiv = styled.div`
   border: 1px solid gray;
-  text-align: center;
-  padding: 20px;
+  float: left;
+  margin: 0 10px;
+  text-align: left;
+  padding: 40px 100px 40px 40px;
 `;
 
 //input 최상단 component
@@ -27,17 +29,18 @@ const DiaryInput = () => {
       alcohol,
       condition,
       content,
+      id: today,
     };
     setData([newItem, ...data]);
   };
 
   const onRemove = (today) => {
-    const newDiaryContent = data.filter((it) => it.today !== today);
+    const newDiaryContent = data.filter((it) => it.id !== today);
     setData(newDiaryContent);
   };
 
   const onEdit = (today, newContent) => {
-    setData(data.map((it) => (it.today === today ? { ...it, content: newContent } : it)));
+    setData(data.map((it) => (it.id === today ? { ...it, content: newContent } : it)));
   };
 
   return (

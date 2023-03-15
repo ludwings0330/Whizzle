@@ -28,7 +28,11 @@ const DiaryItem = ({ onRemove, onEdit, today, title, alcohol, condition, content
       <div>{today}</div>
       <div>
         <h2>오늘의 위스키</h2>
-        {title}
+        {isEdit ? (
+          <input value={localContent} onChange={(e) => setLocalContent(e.target.value)} />
+        ) : (
+          content
+        )}
       </div>
       <div>
         <h2>오늘의 주량</h2>
