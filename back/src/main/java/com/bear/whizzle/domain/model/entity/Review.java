@@ -43,10 +43,10 @@ public class Review extends BaseTimeEntity {
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "whiskey_id")
+    @JoinColumn(name = "whisky_id")
     @NotNull
     @ToString.Exclude
-    private Whiskey whiskey;
+    private Whisky whisky;
 
     @NotNull
     @Min(0)
@@ -75,10 +75,10 @@ public class Review extends BaseTimeEntity {
     private final List<ReviewImage> images = new ArrayList<>();
 
     @Builder
-    public Review(Member member, Whiskey whiskey, Float rating, String content) {
+    public Review(Member member, Whisky whisky, Float rating, String content) {
         super();
         this.member = member;
-        this.whiskey = whiskey;
+        this.whisky = whisky;
         this.rating = rating;
         this.content = content;
     }
