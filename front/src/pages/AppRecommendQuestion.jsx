@@ -1,28 +1,59 @@
-import React from "react";
-import { Route, Routes } from "react-router-dom";
+import React, { useState } from "react";
+import styled from "styled-components";
 
 //components import
-import QuestionExperience from "../components/recommend/question/QuestionExperience";
+import QuestionStart from "../components/recommend/question/QuestionStart";
 import QuestionFilter from "../components/recommend/question/QuestionFilter";
-import QuestionLoading from "../components/recommend/question/QuestionLoading";
+import QuestionExperience from "../components/recommend/question/QuestionExperience";
 import QuestionPrice from "../components/recommend/question/QuestionPrice";
-import QuestionChooseFlavor from "../components/recommend/question/QuestionChooseFlavor";
 import QuestionChooseWhisky from "../components/recommend/question/QuestionChooseWhisky";
+import QuestionChooseFlavor from "../components/recommend/question/QuestionChooseFlavor";
+import QuestionLoading from "../components/recommend/question/QuestionLoading";
 
 const AppRecommendQuestion = () => {
-  return (
-    <>
-      <h1>추천페이지</h1>
-      <Routes>
-        <Route path="experience" element={<QuestionExperience />} />
-        <Route path="filter" element={<QuestionFilter />} />
-        <Route path="loading" element={<QuestionLoading />} />
-        <Route path="price" element={<QuestionPrice />} />
-        <Route path="choosewhisky" element={<QuestionChooseWhisky />} />
-        <Route path="chooseflavor" element={<QuestionChooseFlavor />} />
-      </Routes>
-    </>
-  );
+  // 페이지 위치
+  const [activePage, setActivePage] = useState(0);
+
+  // 페이지 이동하는 함수
+  const goNextPage = () => {
+    setActivePage((prevPage) => prevPage + 1);
+  };
+  const goPriorPage = () => {
+    setActivePage((prevPage) => prevPage - 1);
+  };
+
+  const recommendQuestionPages = () => {
+    switch (activePage) {
+      case 0:
+        return <QuestionStart goNextPage={goNextPage} />;
+      case 1:
+        return <QuestionFilter goNextPage={goNextPage} />;
+      case 2:
+        return (
+          <QuestionPrice goPriorPage={goPriorPage} goNextPage={goNextPage} />
+        );
+      case 3:
+        return (
+          <QuestionExperience
+            goPriorPage={goPriorPage}
+            setActivePage={setActivePage}
+          />
+        );
+      case 4:
+        return (
+          <QuestionChooseWhisky
+            goPriorPage={goPriorPage}
+            setActivePage={setActivePage}
+          />
+        );
+      case 5:
+        return <QuestionChooseFlavor setActivePage={setActivePage} />;
+      case 6:
+        return <QuestionLoading />;
+    }
+  };
+
+  return <div>{recommendQuestionPages()}</div>;
 };
 
 export default AppRecommendQuestion;
