@@ -23,6 +23,7 @@ public class PrincipalDetails implements OAuth2User, UserDetails {
     private String email;
     private String nickname;
     private String provider;
+    private boolean isNew;
 
     public static PrincipalDetails of(String provider, Map<String, Object> attributes) {
         switch (provider) {
@@ -64,6 +65,10 @@ public class PrincipalDetails implements OAuth2User, UserDetails {
                                .email((String) attributes.get("email"))
                                .nickname((String) attributes.get("name"))
                                .build();
+    }
+
+    public void join() {
+        this.isNew = true;
     }
 
     @Override

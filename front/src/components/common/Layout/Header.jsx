@@ -1,18 +1,21 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
+import Logout from "../../../hooks/Logout";
+import { useRecoilValue } from "recoil";
+import { userState } from "../../../store/userStore";
 // 로고 이미지
 import logo from "../../../assets/img/logo.png";
 
 const Navbar = styled.nav`
-  position: flex;
+  position: absolute;
   top: 0;
   width: 100vw;
   height: 70px;
   display: flex;
-  background-color: #f84f5a;
+  background-color: transparent;
   justify-content: space-between;
-  margin-bottom: 10px;
+  margin-bottom: 0px;
 `;
 
 const NavDiv = styled.div`
@@ -63,7 +66,12 @@ const nonActiveStyle = {
 
 // 네비게이션 바
 const Header = () => {
-  const me = true;
+  const user = useRecoilValue(userState);
+  const isLogin = Boolean(user.nickname);
+  const logout = Logout();
+  const signout = () => {
+    logout();
+  };
   return (
     <>
       <Navbar id="navbar">
@@ -100,7 +108,7 @@ const Header = () => {
             </NavLink>
           </NavDiv>
           <NavDiv>
-            {me ? (
+            {!isLogin ? (
               <NavLink
                 style={({ isActive }) => (isActive ? activeStyle : nonActiveStyle)}
                 to="/login"
@@ -110,9 +118,9 @@ const Header = () => {
             ) : (
               <NavLink
                 style={({ isActive }) => (isActive ? activeStyle : nonActiveStyle)}
-                to="/mypage"
+                to="/login"
               >
-                <SP>마이페이지</SP>
+                <SP onClick={signout}>로그아웃</SP>
               </NavLink>
             )}
           </NavDiv>

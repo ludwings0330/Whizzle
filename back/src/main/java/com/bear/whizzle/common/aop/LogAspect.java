@@ -3,6 +3,8 @@ package com.bear.whizzle.common.aop;
 import java.lang.reflect.Parameter;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -19,8 +21,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Aspect
-@Slf4j
 @Component
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@Slf4j
 public class LogAspect {
 
     private static final String REQUEST_MAPPED = "[{}.{}()]---------------------------------------------------------------------------------------------------------------------------------------------------------------------------";
@@ -74,8 +77,8 @@ public class LogAspect {
                                         .map(ResponseStatus::value)
                                         .orElse(HttpStatus.OK);
 
-        log.info(RESPONSE_LOG, httpStatus, dto);
-        log.info(FINISH_LINE);
+        log.debug(RESPONSE_LOG, httpStatus, dto);
+        log.debug(FINISH_LINE);
     }
 
     @AfterThrowing(value = "controller()", throwing = "e")

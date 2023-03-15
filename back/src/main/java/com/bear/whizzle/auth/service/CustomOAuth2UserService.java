@@ -3,7 +3,7 @@ package com.bear.whizzle.auth.service;
 import com.bear.whizzle.auth.repository.TokenRepository;
 import com.bear.whizzle.domain.model.entity.Member;
 import com.bear.whizzle.domain.model.entity.Token;
-import com.bear.whizzle.domain.model.type.File;
+import com.bear.whizzle.domain.model.type.Image;
 import com.bear.whizzle.member.MemberRepository;
 import java.util.Map;
 import java.util.UUID;
@@ -60,16 +60,13 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
     public void joinProcess(PrincipalDetails details) {
         log.debug("신규 회원 가입 진행");
-        final File file = File.builder()
-                              .savedName(UUID.randomUUID().toString())
-                              .originName("originName")
-                              .build();
 
-        final Member member = Member.builder().provider(details.getProvider())
+        details.join();
+
+        final Member member = Member.builder()
+                                    .provider(details.getProvider())
                                     .nickname(details.getNickname())
                                     .email(details.getEmail())
-                                    .image(file)
-                                    .level(40f)
                                     .build();
         memberRepository.save(member);
 

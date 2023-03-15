@@ -9,7 +9,6 @@ const Layout = (props) => {
   return (
     <>
       <Header />
-      {/* <h1>전체 레이아웃</h1> */}
       <main>{props.children}</main>
       <Footer />
     </>
