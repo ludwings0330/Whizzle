@@ -9,11 +9,13 @@ import DiaryNewContent from "./DiaryNewContent";
 import styled from "styled-components";
 
 const SDiv = styled.div`
-  border: 1px solid gray;
+  border: 2px solid #e1e1e1;
+  border-radius: 8px;
   float: left;
+  width: 460px;
   margin: 0 10px;
   text-align: left;
-  padding: 40px 100px 40px 40px;
+  padding: 40px 60px 40px 40px;
 `;
 
 //input 최상단 component

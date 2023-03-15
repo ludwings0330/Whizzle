@@ -8,41 +8,43 @@ import DiaryInput from "../components/diary/input/DiaryInput";
 //import image
 import diary_header from "../assets/img/diary_header.png";
 
-const SHeaderImgDiv = styled.div`
-  background: url(${diary_header});
-  width: 1920px;
+const SHeaderDiv = styled.div`
+  width: 100vw;
   height: 300px;
-  background-size: cover;
-  position: relative;
-`;
-
-const SHeaderTextDiv = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  color: white;
-  text-align: center;
-  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-image: url(${diary_header});
+  background-repeat: no-repeat;
 `;
 
 const SMainDiv = styled.div`
-  width: 100%;
-  height: 1000px;
-  align-items: center;
   display: flex;
+  flex-direction: row;
   justify-content: center;
+  align-items: center;
+  height: calc(100vh - 300px);
+`;
+
+const SP = styled.p`
+  font-size: 22px;
+  color: white;
+  margin: 5px;
 `;
 
 const AppDiary = () => {
   return (
     <>
-      <SHeaderImgDiv>
-        <SHeaderTextDiv>
-          <h1>기억을 기록하다, 위스키 다이어리</h1>
-          <h3>매일을 특별하게 남기고 싶은 당신을 위해,</h3>
-          <h3>오늘의 위스키에 감정을 담아보세요!</h3>
-        </SHeaderTextDiv>
-      </SHeaderImgDiv>
+      <SHeaderDiv>
+        <SP
+          style={{ fontSize: "40px", marginTop: "50px", marginBottom: "15px", fontWeight: "bold" }}
+        >
+          기억을 기록하다, 위스키 다이어리
+        </SP>
+        <SP>매일을 특별하게 남기고 싶은 당신을 위해,</SP>
+        <SP>오늘의 위스키에 감정을 담아보세요!</SP>
+      </SHeaderDiv>
       <SMainDiv>
         <DiaryCalander />
         <DiaryInput />

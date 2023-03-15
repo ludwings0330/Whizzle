@@ -42,7 +42,7 @@ public class AwsS3Service {
 
         return Image.builder()
                     .originalName(originalName)
-                    .url(amazonS3.getUrl(this.bucketName, key))
+//                    .url(amazonS3.getUrl(this.bucketName, key))
                     .build();
     }
 

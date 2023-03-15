@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 //import css
 import styled from "styled-components";
@@ -6,15 +6,84 @@ import styled from "styled-components";
 const SDiv = styled.div`
   border: 1px solid gray;
   float: left;
+  width: 770px;
   margin: 0 10px;
 `;
 
 //다이어리 캘린더
 const DiaryCalander = () => {
+  const [date, setDate] = useState(new Date());
+
+  function prevMonth() {
+    setDate((prevDate) => new Date(prevDate.getFullYear(), prevDate.getMonth() - 1, 1));
+  }
+
+  function nextMonth() {
+    setDate((prevDate) => new Date(prevDate.getFullYear(), prevDate.getMonth() + 1, 1));
+  }
+
+  function getDaysInMonth(year, month) {
+    return new Date(year, month + 1, 0).getDate();
+  }
+
+  function getFirstDayOfMonth(date) {
+    return new Date(date.getFullYear(), date.getMonth(), 1).getDay();
+  }
+
+  function getLastDayOfMonth(date) {
+    return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDay();
+  }
+
+  const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+  const daysInMonth = getDaysInMonth(date.getFullYear(), date.getMonth());
+  const firstDayOfMonth = getFirstDayOfMonth(date);
+  const lastDayOfMonth = getLastDayOfMonth(date);
+
+  const days = [];
+
+  for (let i = 0; i < firstDayOfMonth; i++) {
+    days.push(<td key={i}></td>);
+  }
+
+  for (let i = 1; i <= daysInMonth; i++) {
+    days.push(<td key={i + firstDayOfMonth}>{i}</td>);
+  }
+
+  for (let i = 0; i < 6 - lastDayOfMonth; i++) {
+    days.push(<td key={i + firstDayOfMonth + daysInMonth}></td>);
+  }
+
+  const rows = [];
+  let cells = [];
+
+  days.forEach((day, index) => {
+    if (index % 7 !== 0 || index === 0) {
+      cells.push(day);
+    } else {
+      rows.push(<tr key={index}>{cells}</tr>);
+      cells = [day];
+    }
+  });
+
+  rows.push(<tr key={days.length}>{cells}</tr>);
+
   return (
     <>
       <SDiv>
-        <h1>다이어리 캘린더</h1>
+        <h2>{date.toLocaleString("default", { month: "long", year: "numeric" })}</h2>
+        <table>
+          <thead>
+            <tr>
+              {weekdays.map((day) => (
+                <th key={day}>{day}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>{rows}</tbody>
+        </table>
+        <button onClick={prevMonth}>Prev</button>
+        <button onClick={nextMonth}>Next</button>
       </SDiv>
     </>
   );
