@@ -1,9 +1,8 @@
-package com.bear.whizzle.whiskey.repository;
-
-import static com.bear.whizzle.domain.model.entity.QWhiskey.whiskey;
+package com.bear.whizzle.whisky.repository;
 
 import com.bear.whizzle.common.annotation.Performance;
-import com.bear.whizzle.domain.model.entity.Whiskey;
+import com.bear.whizzle.domain.model.entity.QWhisky;
+import com.bear.whizzle.domain.model.entity.Whisky;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -11,13 +10,13 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
-public class WhiskeyCustomRepositoryImpl implements WhiskeyCustomRepository {
+public class WhiskyCustomRepositoryImpl implements WhiskyCustomRepository {
 
     private final JPAQueryFactory queryFactory;
 
     @Override
     @Performance
-    public Optional<Whiskey> findByIdAfterSleepTest(Long id) {
+    public Optional<Whisky> findByIdAfterSleepTest(Long id) {
         try {
             Thread.sleep(300);
         } catch (InterruptedException e) {
@@ -25,8 +24,8 @@ public class WhiskeyCustomRepositoryImpl implements WhiskeyCustomRepository {
         }
 
         return Optional.ofNullable(
-                queryFactory.selectFrom(whiskey)
-                            .where(whiskey.id.eq(id))
+                queryFactory.selectFrom(QWhisky.whisky)
+                            .where(QWhisky.whisky.id.eq(id))
                             .fetchOne()
         );
     }

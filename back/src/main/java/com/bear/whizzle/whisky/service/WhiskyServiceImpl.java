@@ -1,15 +1,15 @@
-package com.bear.whizzle.whiskey.service;
+package com.bear.whizzle.whisky.service;
 
 import com.bear.whizzle.common.annotation.Performance;
-import com.bear.whizzle.whiskey.repository.WhiskeyRepository;
+import com.bear.whizzle.whisky.repository.WhiskyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class WhiskeyServiceImpl implements WhiskeyService {
+public class WhiskyServiceImpl implements WhiskyService {
 
-    private final WhiskeyRepository memberRepository;
+    private final WhiskyRepository memberRepository;
 
     @Performance
     public String test() {

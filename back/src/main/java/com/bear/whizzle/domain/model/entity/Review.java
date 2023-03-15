@@ -32,38 +32,6 @@ import org.hibernate.annotations.ColumnDefault;
 @ToString(callSuper = true)
 public class Review extends BaseTimeEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    @NotNull
-    @ToString.Exclude
-    private Member member;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "whiskey_id")
-    @NotNull
-    @ToString.Exclude
-    private Whiskey whiskey;
-
-    @NotNull
-    @Min(0)
-    @Max(5)
-    private Float rating;
-
-    @Lob
-    private String content;
-
-    @NotNull
-    @ColumnDefault("0")
-    private Integer likeCount;
-
-    @NotNull
-    @ColumnDefault("0")
-    private Boolean isDeleted;
-
     @OneToMany(
             mappedBy = "review",
             cascade = CascadeType.ALL,
@@ -73,12 +41,37 @@ public class Review extends BaseTimeEntity {
     @Size(max = 5)
     @ToString.Exclude
     private final List<ReviewImage> images = new ArrayList<>();
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    @NotNull
+    @ToString.Exclude
+    private Member member;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "whisky_id")
+    @NotNull
+    @ToString.Exclude
+    private Whisky whisky;
+    @NotNull
+    @Min(0)
+    @Max(5)
+    private Float rating;
+    @Lob
+    private String content;
+    @NotNull
+    @ColumnDefault("0")
+    private Integer likeCount;
+    @NotNull
+    @ColumnDefault("0")
+    private Boolean isDeleted;
 
     @Builder
-    public Review(Member member, Whiskey whiskey, Float rating, String content) {
+    public Review(Member member, Whisky whisky, Float rating, String content) {
         super();
         this.member = member;
-        this.whiskey = whiskey;
+        this.whisky = whisky;
         this.rating = rating;
         this.content = content;
     }

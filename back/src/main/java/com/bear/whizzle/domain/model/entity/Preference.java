@@ -3,6 +3,7 @@ package com.bear.whizzle.domain.model.entity;
 import com.bear.whizzle.domain.model.type.Age;
 import com.bear.whizzle.domain.model.type.Flavor;
 import com.bear.whizzle.domain.model.type.Gender;
+import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -51,6 +52,7 @@ public class Preference extends BaseTimeEntity {
     private Age age;
 
     @NotNull
+    @Column(columnDefinition = "TINYINT")
     @Min(1)
     @Max(5)
     private Integer priceTier;
