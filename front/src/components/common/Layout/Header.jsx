@@ -16,6 +16,7 @@ const Navbar = styled.nav`
   background-color: transparent;
   justify-content: space-between;
   margin-bottom: 0px;
+  max-width: 100%;
 `;
 
 const NavDiv = styled.div`
