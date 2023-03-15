@@ -14,7 +14,7 @@
 
 ---
 
-위즐 배너, 로고 추가
+![whizzle_logo](./output/images/logo_color.png)
 
 ## 프로젝트 기간
 
@@ -30,8 +30,17 @@
 * 2023.03.06(월) ~ 2023.03.10(금)
   * 프로토 타입 제작
   * 기능명세서 작성
-  * ERD 작성
-* 추가예정
+  * ERD 작성 -> 피드백 반영
+  * 위스키 리뷰 크롤링
+  * Data 전처리
+  * Data에 맞는 Model 선정
+* 2023.03.13(월) ~ 2023.03.17(금)
+  * 위스키 이미지 크롤링
+  * 프론트엔드 구현
+  * 백엔드 구현
+  * Data 전처리
+  * Model 학습
+  * Model 최적화
 
 ## Whizzle - 배경
 
@@ -61,19 +70,35 @@
 
 ---
 
-### Front-End
-* 기술 스택 추가
+### FE
+* Axios (API 통신 라이브러리)
+* React 18.2.0,
+* Recoil 0.7.7 (상태 관리 라이브러리)
 
-### Back-End
-* 기술 스택 추가
+### BE
+* Java 11, Spring Boot 2.7.9,
+* Spring Security 2.7.5 (인증 인가 관리 프레임워크)
+* OAuth2 Client 2.7.9 (소셜 로그인 프레임워크)
+* JWT
+* Spring Data JPA 2.7.9 (Hibernate 구현체)
+* QueryDSL 5.0.0 (JPA 쿼리를 코드로 작성하기 위한 프레임워크)
+* Redis 2.7.9 (인메모리 데이터 구조 저장소)
+* MySQL 8.0 (RDBMS)
 
-### Dev-ops
-* 기술 스택 추가
+### Data
+* Python 3.9
+* Numpy, Pandas
+* LightFM (Hybrid Collaborative Filtering Model)
+* fastAPI 0.94.1 (파이썬 기반 웹 프레임워크)
 
-## 협업 툴
+### Infra
+* AWS EC2
+* AWS S3
+* Jenkins
+* Docker
+* Nginx
 
----
-
+### 협업 툴
 * Jira
 * Gitlab
 * Mattermost
@@ -85,27 +110,99 @@
 
 ### Front-End
 ```
-프로젝트 파일구조 추가
++---node_modules
++---public
+\---src
+    +---apis
+    +---assets
+    |   +---fonts
+    |   \---img
+    +---components
+    |   +---common
+    |   |   +---etc
+    |   |   \---Layout
+    |   +---daily
+    |   +---diary
+    |   |   \---input
+    |   +---error
+    |   +---login
+    |   +---main
+    |   +---mypage
+    |   +---recommend
+    |   |   +---question
+    |   |   \---result
+    |   +---review
+    |   +---search
+    |   |   \---list
+    |   \---whisky
+    +---constants
+    +---hooks
+    +---pages
+        |   +---AppDailyWhisky
+        |   +---AppDiary
+        |   +---AppError
+        |   +---AppLogin
+        |   +---AppMain
+        |   +---AppMyPage
+        |   +---AppRecommendQuestion
+        |   +---AppRecommendResult
+        |   +---AppReview
+        |   +---AppSearch
+        |   \---AppWhisky
+    +---store
+    \---utils
 ```
 
 ### Back-End
 ```
-프로젝트 파일구조 추가
+├── member
+│   ├── controller
+│   │   ├── MemberController
+│   │	└── dto
+│   │	    ├── MemberRequestDto
+│   │	    ├──MemberRequestSaveDto
+│   │	    └── MemberResponseDto										
+│   ├──	service 
+│   │	├── MemberService
+│   │	├── MemberServiceImpl
+│   │	└── query
+│   │	    ├── MemberQueryService
+│   │	    ├── MemberQueryServiceImpl
+│   │	    └── dto
+│   │		└── Member[용도]Dto
+│   └──	repository
+│        ├── MemberRepository
+│        └── projection
+│   	      ├── MemberProjectionRepository
+│   	      └── dto
+│                 └── Member[용도]Dto
+├── domain
+│	├── converter
+│	├── exception
+│	└── model
+│	    ├── entity
+│	    └── type
+└── common
+    ├── config
+    ├── filter
+    ├── interceptor
+    ├── aop
+    └──	util
 ```
 
 ## 프로젝트 산출물
 
 ---
 
-* 회의록
-* 컨벤션
+* 회의록 [링크](./output/meeting-log/scrum)
+* 컨벤션 [링크](./output/convention)
 * 요구사항 정의서
 * 기능 명세서
 * 와이어 프레임
 * 프로토타입
 * 시퀀스 다이어그램
 * API 명세서
-* ERD
+* ERD [링크](./output/erd/whizzle_erd.png)
 * 시스템 아키텍처
 * E2E 테스트 케이스
 * 발표 자료
