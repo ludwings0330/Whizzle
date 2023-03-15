@@ -1,12 +1,15 @@
 import React from "react";
 import styled from "styled-components";
+import loginBackground from "../../../assets/img/loginBackground.png";
 
 const SDiv = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 90vh;
+  height: 100vh;
+  background-image: url(${loginBackground});
+  background-repeat: no-repeat;
 `;
 
 const STitle = styled.p`

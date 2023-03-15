@@ -3,12 +3,18 @@ import { useRecoilValue } from "recoil";
 import { preference } from "../../../store/preferenceStore";
 import QuestionChooseWhiskyItem from "./QuestionChooseWhiskyItem";
 import styled from "styled-components";
+import navigatePrev from "../../../assets/img/navigate_prev.png";
 
 const SDiv = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  background: #f84f5a;
+  background-image: linear-gradient(
+    125.02deg,
+    #f84f5a 28.12%,
+    #f7875a 65.62%,
+    #f7cb5a 100%
+  );
 `;
 
 const SCentered = styled.div`
@@ -19,7 +25,7 @@ const SCentered = styled.div`
 `;
 
 const SContent = styled.p`
-  margin-top: 100px;
+  margin-top: 200px;
   margin-bottom: 10px;
   text-align: center;
   font-size: 24px;
@@ -43,6 +49,12 @@ const SBox = styled.div`
   width: 60vw;
   margin-top: 12vh;
   margin-bottom: 15vh;
+`;
+
+const SNavigate = styled.div`
+  cursor: pointer;
+  position: fixed;
+  left: 1%;
 `;
 
 const SButton = styled.button`
@@ -112,7 +124,9 @@ const QuestionChooseWhisky = (props) => {
 
   return (
     <SDiv>
-      <button onClick={props.goPriorPage}>이전</button>
+      <SNavigate onClick={props.goPriorPage}>
+        <img src={navigatePrev} alt="navigate" />
+      </SNavigate>
       <SCentered>
         <SContent>위스키를 즐겨 드시는군요!</SContent>
         <STitle>가장 선호하는 위스키를 3개까지 선택해주세요</STitle>
@@ -125,7 +139,6 @@ const QuestionChooseWhisky = (props) => {
           나만의 위스키 추천 결과 보러가기
         </SButton>
       </SCentered>
-      <div></div>
     </SDiv>
   );
 };

@@ -2,12 +2,20 @@ import React from "react";
 import { useRecoilState } from "recoil";
 import { preference } from "../../../store/preferenceStore";
 import styled from "styled-components";
+import navigateNext from "../../../assets/img/navigate_next.png";
+import navigatePrev from "../../../assets/img/navigate_prev.png";
 
 const SDiv = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  height: 90vh;
+  height: 100vh;
+  background-image: linear-gradient(
+    125.02deg,
+    #f84f5a 28.12%,
+    #f7875a 65.62%,
+    #f7cb5a 100%
+  );
 `;
 
 const SCentered = styled.div`
@@ -21,9 +29,13 @@ const STitle = styled.p`
   text-align: center;
   font-size: 32px;
   font-weight: bold;
+  color: white;
 `;
 
-const SButton = styled.button``;
+const SNavigate = styled.div`
+  cursor: pointer;
+  position: fixed;
+`;
 
 //추천 두번째 질문 -> 가격을 물어봄
 const QuestionPrice = (props) => {
@@ -46,7 +58,6 @@ const QuestionPrice = (props) => {
 
   return (
     <SDiv>
-      <SButton onClick={props.goPriorPage}>이전</SButton>
       <SCentered>
         <STitle>구매 가능한 가격대를 선택해주세요.</STitle>
         <label>
@@ -96,7 +107,12 @@ const QuestionPrice = (props) => {
         </label>
       </SCentered>
 
-      <SButton onClick={nextPageHandler}>다음</SButton>
+      <SNavigate onClick={props.goPriorPage} style={{ left: "1%" }}>
+        <img src={navigatePrev} alt="navigate" />
+      </SNavigate>
+      <SNavigate onClick={nextPageHandler} style={{ right: "1%" }}>
+        <img src={navigateNext} alt="navigate" />
+      </SNavigate>
     </SDiv>
   );
 };

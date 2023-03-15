@@ -8,8 +8,13 @@ const SDiv = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 90vh;
-  background: #f84f5a;
+  height: 100vh;
+  background-image: linear-gradient(
+    125.02deg,
+    #f84f5a 28.12%,
+    #f7875a 65.62%,
+    #f7cb5a 100%
+  );
 `;
 
 const SCentered = styled.div`
