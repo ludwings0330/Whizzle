@@ -1,4 +1,4 @@
-package com.bear.whizzle.domain.model.type;
+package com.bear.whizzle.domain.model.type.id;
 
 import java.io.Serializable;
 import javax.persistence.Embeddable;
@@ -15,10 +15,10 @@ import lombok.NoArgsConstructor;
 @Getter
 @Builder
 @EqualsAndHashCode
-public class KeepId implements Serializable {
+public class LikeId implements Serializable {
+
+    private Long review;
 
     private Long member;
-
-    private Long whiskey;
 
 }

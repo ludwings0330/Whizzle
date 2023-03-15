@@ -1,4 +1,4 @@
-package com.bear.whizzle.domain.model.type;
+package com.bear.whizzle.domain.model.type.id;
 
 import java.io.Serializable;
 import javax.persistence.Embeddable;
