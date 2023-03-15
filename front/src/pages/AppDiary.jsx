@@ -25,6 +25,7 @@ const SMainDiv = styled.div`
   justify-content: center;
   align-items: center;
   height: calc(100vh - 300px);
+  margin-top: 30px;
 `;
 
 const SP = styled.p`

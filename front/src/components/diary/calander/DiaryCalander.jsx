@@ -14,6 +14,11 @@ const SDiv = styled.div`
 const DiaryCalander = () => {
   const [date, setDate] = useState(new Date());
 
+  // 각 날짜별로 고유한 key 값을 생성하는 함수
+  function getKey(year, month, day) {
+    return `${year}-${month}-${day}`;
+  }
+
   function prevMonth() {
     setDate((prevDate) => new Date(prevDate.getFullYear(), prevDate.getMonth() - 1, 1));
   }
@@ -34,6 +39,10 @@ const DiaryCalander = () => {
     return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDay();
   }
 
+  function handleDateClick(event) {
+    console.log(event.target.textContent);
+  }
+
   const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
   const daysInMonth = getDaysInMonth(date.getFullYear(), date.getMonth());
@@ -43,15 +52,19 @@ const DiaryCalander = () => {
   const days = [];
 
   for (let i = 0; i < firstDayOfMonth; i++) {
-    days.push(<td key={i}></td>);
+    days.push(<td key={`prev-${i}`}></td>);
   }
 
   for (let i = 1; i <= daysInMonth; i++) {
-    days.push(<td key={i + firstDayOfMonth}>{i}</td>);
+    days.push(
+      <td key={`${date.getFullYear()}-${date.getMonth()}-${i}`} onClick={handleDateClick}>
+        {i}
+      </td>
+    );
   }
 
   for (let i = 0; i < 6 - lastDayOfMonth; i++) {
-    days.push(<td key={i + firstDayOfMonth + daysInMonth}></td>);
+    days.push(<td key={`next-${i}`}></td>);
   }
 
   const rows = [];

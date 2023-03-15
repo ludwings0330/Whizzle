@@ -1,5 +1,20 @@
 import React, { useState } from "react";
 
+//import css
+import styled from "styled-components";
+
+const SButton = styled.button`
+  border: 2px solid #f84f5a;
+  border-radius: 12px;
+  background: #f84f5a;
+  color: white;
+  font-size: 13px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 60px;
+  height: 31px;
+`;
+
 const DiaryItem = ({ onRemove, onEdit, today, title, alcohol, condition, content }) => {
   const [localContent, setLocalContent] = useState(content);
   const [isEdit, setIsEdit] = useState(false);
@@ -51,13 +66,13 @@ const DiaryItem = ({ onRemove, onEdit, today, title, alcohol, condition, content
 
       {isEdit ? (
         <>
-          <button onClick={handleQuitEdit}>수정취소</button>
-          <button onClick={handleEdit}>수정완료</button>
+          <SButton onClick={handleQuitEdit}>수정취소</SButton>
+          <SButton onClick={handleEdit}>수정완료</SButton>
         </>
       ) : (
         <>
-          <button onClick={handleClickRemove}>삭제</button>
-          <button onClick={toggleIsEdit}>수정</button>
+          <SButton onClick={handleClickRemove}>삭제</SButton>
+          <SButton onClick={toggleIsEdit}>수정</SButton>
         </>
       )}
     </>

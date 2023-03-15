@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 
+//import component
+import DiaryNewContent from "./DiaryNewContent";
+
 //import css
 import styled from "styled-components";
 
@@ -57,7 +60,10 @@ const SRangeInput = styled.input`
 
 const DiaryEditor = ({ onCreate, today }) => {
   const [mood, setMood] = useState("최고예요");
+
   const [alcohol, setAlcohol] = useState("소량");
+
+  const [currentComponent, setCurrentComponent] = useState("diaryEditor");
 
   const handleMoodChange = (e) => {
     const value = e.target.value;
@@ -104,61 +110,74 @@ const DiaryEditor = ({ onCreate, today }) => {
       condition: "",
       content: "",
     });
+    setCurrentComponent("diaryNewContent");
   };
 
   return (
     <>
-      <SHeaderDiv>
-        <SP
-          style={{
-            fontSize: "25px",
-            marginTop: "0px",
-            marginBottom: "0px",
-            color: "#F84F5A",
-            flex: "1",
-          }}
-        >
-          {today}
-        </SP>
-        <SButton sytle={{ flex: "1" }} onClick={handleSubmit}>
-          저장
-        </SButton>
-      </SHeaderDiv>
-      <SMainDiv>
+      {currentComponent === "diaryEditor" ? (
         <div>
-          <SP>오늘의 위스키</SP>
-          <SInput
-            value={state.title}
-            onChange={handleChangeState}
-            name="title"
-            placeholder="위스키 이름을 입력해주세요"
-            type="text"
-          />
+          <SHeaderDiv>
+            <SP
+              style={{
+                fontSize: "25px",
+                marginTop: "0px",
+                marginBottom: "0px",
+                color: "#F84F5A",
+                flex: "1",
+              }}
+            >
+              {today}
+            </SP>
+            <SButton sytle={{ flex: "1" }} onClick={handleSubmit}>
+              저장
+            </SButton>
+          </SHeaderDiv>
+          <SMainDiv>
+            <div>
+              <SP>오늘의 위스키</SP>
+              <SInput
+                value={state.title}
+                onChange={handleChangeState}
+                name="title"
+                placeholder="위스키 이름을 입력해주세요"
+                type="text"
+              />
+            </div>
+            <div>
+              <SP>오늘의 주량</SP>
+              <div>
+                <SRangeInput
+                  type="range"
+                  min="0"
+                  max="100"
+                  step="1"
+                  onChange={handleAlcoholChange}
+                />
+                <p>오늘의 주량: {alcohol}</p>
+              </div>
+            </div>
+            <div>
+              <SP>오늘의 기분</SP>
+              <div>
+                <SRangeInput type="range" min="0" max="100" step="1" onChange={handleMoodChange} />
+                <p>오늘의 기분: {mood}</p>
+              </div>
+            </div>
+            <div>
+              <SP>오늘의 한마디</SP>
+              <STextarea
+                value={state.content}
+                onChange={handleChangeState}
+                name="content"
+                type="text"
+              />
+            </div>
+          </SMainDiv>
         </div>
-        <div>
-          <SP>오늘의 주량</SP>
-          <div>
-            <SRangeInput type="range" min="0" max="100" step="1" onChange={handleAlcoholChange} />
-            <p>오늘의 주량: {alcohol}</p>
-          </div>
-        </div>
-        <div>
-          <SP>오늘의 기분</SP>
-          <div>
-            <SRangeInput type="range" min="0" max="100" step="1" onChange={handleMoodChange} />
-            <p>오늘의 기분: {mood}</p>
-          </div>
-        </div>
-        <div>
-          <SP>오늘의 한마디</SP>
-          <STextarea
-            value={state.content}
-            onChange={handleChangeState}
-            name="content"
-            type="text"
-          />
-        </div>
-      </SMainDiv>
+      ) : (
+        <DiaryNewContent />
+      )}
     </>
   );
 };
