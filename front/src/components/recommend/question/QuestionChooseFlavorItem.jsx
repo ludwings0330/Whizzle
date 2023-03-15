@@ -1,4 +1,6 @@
 import React from "react";
+import { useRecoilState } from "recoil";
+import { preference } from "../../../store/preferenceStore";
 import styled from "styled-components";
 
 const SWrap = styled.div`
@@ -17,8 +19,8 @@ const SCard = styled.div`
   background: #d9d9d9;
   border-radius: 30px;
   transition: 0.5s;
-//   background: ;
-//   box-shadow: ;
+  ${({ shadowLevel }) =>
+    `box-shadow: 0px 0px 25px rgba(248, 79, 90, ${shadowLevel});`}
   }
 `;
 
@@ -37,21 +39,30 @@ const SName = styled.p`
 `;
 
 const QuestionChooseFlavorItem = (props) => {
+  const [preferenceValue, setPreferenceValue] = useRecoilState(preference);
+
+  const preferFlavor = props.flavor;
   const onClickHandler = () => {
-    const preferFlavor = props.flavor;
-    props.setSelectedFlavor((prevData) => {
+    setPreferenceValue((prev) => {
       return {
-        ...prevData,
-        preferFlavor:
-          prevData[preferFlavor] + 25 ? prevData[preferFlavor] + 25 < 100 : 0,
+        ...prev,
+        flavor: {
+          ...prev.flavor,
+          [preferFlavor]:
+            prev.flavor[preferFlavor] + 25 > 100
+              ? 0
+              : prev.flavor[preferFlavor] + 25,
+        },
       };
     });
-    console.log(props.selectedFlavor);
   };
 
   return (
     <SWrap>
-      <SCard onClick={onClickHandler}>
+      <SCard
+        onClick={onClickHandler}
+        shadowLevel={preferenceValue.flavor[props.flavor] * 0.01}
+      >
         {/* <SImg
           src={require(`../../../assets/img/whisky_preset/${props.whisky.id}.png`)}
           alt={props.whisky.img}

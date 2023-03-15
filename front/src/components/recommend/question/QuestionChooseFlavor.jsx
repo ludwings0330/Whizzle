@@ -1,6 +1,8 @@
-import React, { useState } from "react";
-import styled from "styled-components";
+import React from "react";
+import { useRecoilValue } from "recoil";
+import { preference } from "../../../store/preferenceStore";
 import QuestionChooseFlavorItem from "./QuestionChooseFlavorItem";
+import styled from "styled-components";
 
 const SDiv = styled.div`
   display: flex;
@@ -64,10 +66,10 @@ const flavorPresetData = [
   "spicy",
   "herbal",
   "oily",
-  "full bodied",
+  "body",
   "rich",
   "sweet",
-  "briny/salty",
+  "salty",
   "vanilla",
   "tart",
   "fruity",
@@ -76,14 +78,14 @@ const flavorPresetData = [
 
 //추천 -> 초급자 용 맛 선호도 질문
 const QuestionChooseFlavor = (props) => {
+  const preferenceValue = useRecoilValue(preference);
+
   const priorPageHandler = () => props.setActivePage(3);
 
-  const nextPageHandler = () => {
-    if (props.selectedWhisky.length > 0) {
-      props.setActivePage(6);
-    } else {
-      alert("1개 이상의 위스키를 선택해주세요!");
-    }
+  const submitHandler = () => {
+    // axios 요청 들어갈 자리
+    console.log(preferenceValue);
+    props.setActivePage(6);
   };
 
   return (
@@ -94,15 +96,10 @@ const QuestionChooseFlavor = (props) => {
         <STitle>선호하는 flavor 태그를 선택해주세요.</STitle>
         <SBox>
           {flavorPresetData.map((flavor, index) => (
-            <QuestionChooseFlavorItem
-              key={index}
-              flavor={flavor}
-              selectedFlavor={props.selectedFlavor}
-              setSelectedFlavor={props.setSelectedFlavor}
-            />
+            <QuestionChooseFlavorItem key={index} flavor={flavor} />
           ))}
         </SBox>
-        <SButton onClick={nextPageHandler}>
+        <SButton onClick={submitHandler}>
           나만의 위스키 추천 결과 보러가기
         </SButton>
       </SCentered>

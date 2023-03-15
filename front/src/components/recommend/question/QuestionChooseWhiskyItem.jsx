@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { preference } from "../../../store/preferenceStore";
 import styled from "styled-components";
@@ -70,18 +70,22 @@ const QuestionChooseWhiskyItem = (props) => {
           ...prev,
           whiskies: [...prev.whiskies, selectedId],
         }));
-        setIsClicked((prevState) => !prevState);
-        console.log(preferenceValue.whiskies);
+        setIsClicked(true);
       }
     } else {
       setPreferenceValue((prev) => ({
         ...prev,
         whiskies: prev.whiskies?.filter((whisky) => whisky !== selectedId),
       }));
-      setIsClicked((prevState) => !prevState);
-      console.log(preferenceValue.whiskies);
+      setIsClicked(false);
     }
   };
+
+  useEffect(() => {
+    if (preferenceValue.whiskies?.indexOf(props.whisky.id) !== -1) {
+      setIsClicked(true);
+    }
+  }, []);
 
   return (
     <SWrap onClick={whiskySelectHandler}>

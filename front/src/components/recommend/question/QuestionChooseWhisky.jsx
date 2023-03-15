@@ -1,5 +1,5 @@
 import React from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import { preference } from "../../../store/preferenceStore";
 import QuestionChooseWhiskyItem from "./QuestionChooseWhiskyItem";
 import styled from "styled-components";
@@ -98,10 +98,12 @@ const whiskyPresetData = [
 
 //추천 경험자용 선호 위스키 질문
 const QuestionChooseWhisky = (props) => {
-  const [preferenceValue, setPreferenceValue] = useRecoilState(preference);
+  const preferenceValue = useRecoilValue(preference);
 
-  const nextPageHandler = () => {
+  const submitHandler = () => {
     if (preferenceValue.whiskies) {
+      // axios 요청 들어갈 자리
+      console.log(preferenceValue);
       props.setActivePage(6);
     } else {
       alert("1개 이상의 위스키를 선택해주세요!");
@@ -116,15 +118,10 @@ const QuestionChooseWhisky = (props) => {
         <STitle>가장 선호하는 위스키를 3개까지 선택해주세요</STitle>
         <SBox>
           {whiskyPresetData.map((whisky) => (
-            <QuestionChooseWhiskyItem
-              key={whisky.id}
-              whisky={whisky}
-              preferenceValue={preferenceValue}
-              setPreferenceValue={setPreferenceValue}
-            />
+            <QuestionChooseWhiskyItem key={whisky.id} whisky={whisky} />
           ))}
         </SBox>
-        <SButton onClick={nextPageHandler}>
+        <SButton onClick={submitHandler}>
           나만의 위스키 추천 결과 보러가기
         </SButton>
       </SCentered>

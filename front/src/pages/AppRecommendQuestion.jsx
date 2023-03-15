@@ -14,23 +14,6 @@ const AppRecommendQuestion = () => {
   // 페이지 위치
   const [activePage, setActivePage] = useState(0);
 
-  // 선호하는 맛
-  const [selectedFlavor, setSelectedFlavor] = useState({
-    smoky: 0,
-    peaty: 0,
-    spicy: 0,
-    herbal: 0,
-    oily: 0,
-    full_bodied: 0,
-    rich: 0,
-    sweet: 0,
-    briny: 0,
-    vanilla: 0,
-    tart: 0,
-    fruity: 0,
-    floral: 0,
-  });
-
   // 페이지 이동하는 함수
   const goNextPage = () => {
     setActivePage((prevPage) => prevPage + 1);
@@ -64,13 +47,7 @@ const AppRecommendQuestion = () => {
           />
         );
       case 5:
-        return (
-          <QuestionChooseFlavor
-            setActivePage={setActivePage}
-            selectedFlavor={selectedFlavor}
-            setSelectedFlavor={setSelectedFlavor}
-          />
-        );
+        return <QuestionChooseFlavor setActivePage={setActivePage} />;
       case 6:
         return <QuestionLoading />;
     }
