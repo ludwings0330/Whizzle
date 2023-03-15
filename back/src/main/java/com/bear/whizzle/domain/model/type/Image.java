@@ -48,11 +48,11 @@ public class Image {
         }
     }
 
-    public static Image getDefaultWhiskeyImage() {
+    public static Image getDefaultWhiskyImage() {
         try {
             return Image.builder()
-                        .savedPath("image/default/default_whiskey_image.png")
-                        .originalName("default_whiskey_image.png")
+                        .savedPath("image/default/default_whisky_image.png")
+                        .originalName("default_whisky_image.png")
                         .url(new URL("https://half-moon-bear.s3.ap-northeast-2.amazonaws.com/image/default/default_whisky_bottle.png"))
                         .build();
         } catch (MalformedURLException e) {

@@ -33,8 +33,8 @@ public class Keep {
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "whiskey_id")
-    private Whiskey whiskey;
+    @JoinColumn(name = "whisky_id")
+    private Whisky whisky;
 
     @CreatedDate
     @Column(columnDefinition = "DATETIME", unique = true, updatable = false)
@@ -42,7 +42,7 @@ public class Keep {
     private LocalDateTime createdDateTime;
 
     public String toString() {
-        return "Keep [member.id: " + member.getId() + ", whiskey.id: " + whiskey.getId() + "]";
+        return "Keep [member.id: " + member.getId() + ", whisky.id: " + whisky.getId() + "]";
     }
 
 }

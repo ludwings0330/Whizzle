@@ -1,6 +1,6 @@
-package com.bear.whizzle.whiskey.controller;
+package com.bear.whizzle.whisky.controller;
 
-import com.bear.whizzle.whiskey.service.WhiskeyService;
+import com.bear.whizzle.whisky.service.WhiskyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,21 +9,21 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-public class WhiskeyController {
+public class WhiskyController {
 
-    private final WhiskeyService whiskeyService;
+    private final WhiskyService whiskyService;
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public String test() {
-        return whiskeyService.test();
+        return whiskyService.test();
     }
 
     @GetMapping("/exception")
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String testException() {
         try {
-            return whiskeyService.testException();
+            return whiskyService.testException();
         } catch (Exception e) {
             throw new RuntimeException("다른 예외로 래핑", e);
         }
@@ -32,7 +32,7 @@ public class WhiskeyController {
     @GetMapping("/sleep")
     @ResponseStatus(HttpStatus.OK)
     public String sleep() throws InterruptedException {
-        return whiskeyService.sleep();
+        return whiskyService.sleep();
     }
 
 

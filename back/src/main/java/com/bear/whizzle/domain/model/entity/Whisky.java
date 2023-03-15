@@ -20,13 +20,13 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
-@Table(name = "whiskey")
+@Table(name = "whisky")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 @Builder
 @ToString
-public class Whiskey {
+public class Whisky {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

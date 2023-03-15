@@ -19,6 +19,6 @@ public class KeepId implements Serializable {
 
     private Long member;
 
-    private Long whiskey;
+    private Long whisky;
 
 }

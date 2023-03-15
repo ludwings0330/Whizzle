@@ -3,20 +3,16 @@ package com.bear.whizzle.domain.model.entity;
 import com.bear.whizzle.domain.model.type.DrinkId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @Entity
 @Table(name = "drink")
@@ -34,11 +30,11 @@ public class Drink {
 
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "whiskey_id", updatable = false)
-    private Whiskey whiskey;
+    @JoinColumn(name = "whisky_id", updatable = false)
+    private Whisky whisky;
 
     public String toString() {
-        return "Drink [diary.id: " + diary.getId() + ", whiskey.id: " + whiskey.getId() + "]";
+        return "Drink [diary.id: " + diary.getId() + ", whisky.id: " + whisky.getId() + "]";
     }
 
 }
