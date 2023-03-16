@@ -13,18 +13,16 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Table(name = "whisky")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
-@Builder
 @ToString
 public class Whisky {
 
@@ -58,12 +56,33 @@ public class Whisky {
 
     private String caskType;
 
-    private Integer reviewCount;
+    @NotNull
+    @ColumnDefault("0")
+    private Integer reviewCount = 0;
 
-    private Float avgRating;
+    @NotNull
+    @ColumnDefault("0")
+    private Float avgRating = 0f;
 
     @Embedded
     @NotNull
     private Flavor flavor;
+
+    @Builder
+    private Whisky(Long id, String name, Image image, String category, String location, Integer priceTier, Float abv, String caskType, Flavor flavor) {
+        this.id = id;
+        this.name = name;
+        this.image = image;
+        this.category = category;
+        this.location = location;
+        this.priceTier = priceTier;
+        this.abv = abv;
+        this.caskType = caskType;
+        this.flavor = flavor;
+    }
+
+    public void changeImage(Image image) {
+        this.image = image;
+    }
 
 }
