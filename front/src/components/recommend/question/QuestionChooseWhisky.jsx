@@ -54,7 +54,8 @@ const SBox = styled.div`
 const SNavigate = styled.div`
   cursor: pointer;
   position: fixed;
-  left: 1%;
+  left: 0%;
+  top: 43.25%;
 `;
 
 const SButton = styled.button`
@@ -64,9 +65,22 @@ const SButton = styled.button`
   height: 80px;
   border: none;
   border-radius: 999px;
+  margin-bottom: 25vh;
+  background: white;
+`;
+
+const SButtonText = styled.span`
   font-size: 18px;
   font-family: "Pretendard Variable";
-  margin-bottom: 25vh;
+  font-weight: bold;
+  background-image: linear-gradient(
+    125.02deg,
+    #f84f5a 28.12%,
+    #f7875a 65.62%,
+    #f7cb5a 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 `;
 
 const whiskyPresetData = [
@@ -136,7 +150,7 @@ const QuestionChooseWhisky = (props) => {
           ))}
         </SBox>
         <SButton onClick={submitHandler}>
-          나만의 위스키 추천 결과 보러가기
+          <SButtonText>나만의 위스키 추천 결과 보러가기</SButtonText>
         </SButton>
       </SCentered>
     </SDiv>

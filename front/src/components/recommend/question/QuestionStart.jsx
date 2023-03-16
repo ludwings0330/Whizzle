@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { motion } from "framer-motion";
 import loginBackground from "../../../assets/img/loginBackground.png";
 
 const SDiv = styled.div`
@@ -42,6 +43,9 @@ const SButton = styled.button`
 `;
 
 const SButtonText = styled.span`
+  font-size: 18px;
+  font-family: "Pretendard Variable";
+  font-weight: bold;
   background-image: linear-gradient(
     125.02deg,
     #f84f5a 28.12%,
@@ -61,9 +65,14 @@ const QuestionStart = (props) => {
         <br />
         나의 취향에 꼭 맞는 위스키를 추천받아 보세요!
       </SContent>
-      <SButton onClick={props.goNextPage}>
-        <SButtonText>내 취향 정보 입력하기</SButtonText>
-      </SButton>
+      <motion.div
+        whileHover={{ scale: 1.1 }}
+        transition={{ type: "spring", stiffness: 100, damping: 10 }}
+      >
+        <SButton onClick={props.goNextPage}>
+          <SButtonText>내 취향 정보 입력하기</SButtonText>
+        </SButton>
+      </motion.div>
     </SDiv>
   );
 };

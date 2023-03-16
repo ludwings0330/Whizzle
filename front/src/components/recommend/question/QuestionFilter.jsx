@@ -29,6 +29,9 @@ const SCentered = styled.div`
 
 const SQuestion = styled.div`
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
   margin-top: 35px;
   gap: 30px;
 `;
@@ -99,7 +102,7 @@ const SAbove = styled.div`
 const SNavigate = styled.div`
   cursor: pointer;
   position: fixed;
-  right: 1%;
+  right: 0;
 `;
 
 //추천 첫 질문 성별, 나이

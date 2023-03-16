@@ -24,6 +24,7 @@ const SDiv = styled.div`
 
 const SCentered = styled.div`
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   margin-top: 35px;
@@ -118,7 +119,7 @@ const QuestionExperience = (props) => {
             alt="check"
             style={{ marginRight: "auto", marginLeft: "20px" }}
           />
-          <span style={{ fontWeight: "bold", marginTop: "30px" }}>
+          <span style={{ fontWeight: "bold", marginTop: "25px" }}>
             위스키가 뭐징?
           </span>
           <span>위스키에 대해 잘 알지 못해요</span>
@@ -126,7 +127,7 @@ const QuestionExperience = (props) => {
             src={wonderImg}
             alt="wonder"
             style={{
-              marginTop: "15px",
+              marginTop: "20px",
               filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))",
             }}
           />
@@ -144,7 +145,7 @@ const QuestionExperience = (props) => {
             alt="check"
             style={{ marginRight: "auto", marginLeft: "20px" }}
           />
-          <span style={{ fontWeight: "bold", marginTop: "20px" }}>
+          <span style={{ fontWeight: "bold", marginTop: "15px" }}>
             위스키를 즐기는 편이에요!
           </span>
           <span>내가 좋아하는 위스키의 종류를</span>
@@ -153,16 +154,16 @@ const QuestionExperience = (props) => {
             src={cheersImg}
             alt="wonder"
             style={{
-              marginTop: "20px",
+              marginTop: "25px",
               filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))",
             }}
           />
         </SRadioLabel>
       </SCentered>
-      <SNavigate onClick={props.goPriorPage} style={{ left: "1%" }}>
+      <SNavigate onClick={props.goPriorPage} style={{ left: "0%" }}>
         <img src={navigatePrev} alt="navigate" />
       </SNavigate>
-      <SNavigate onClick={nextPageHandler} style={{ right: "1%" }}>
+      <SNavigate onClick={nextPageHandler} style={{ right: "0%" }}>
         <img src={navigateNext} alt="navigate" />
       </SNavigate>
     </SDiv>
