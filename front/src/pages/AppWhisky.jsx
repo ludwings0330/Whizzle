@@ -67,8 +67,8 @@ const AppWhisky = () => {
       <div style={{ marginTop: "70px" }}>
         <WhiskyDetailInfo whisky={exampleWhisky} stat={whiskystatistics} />
         <WhiskyDetailGraph />
-        <WhiskyDetailReview whisky={exampleWhisky} stat={whiskystatistics} />
         <WhiskySilmilarList />
+        <WhiskyDetailReview whisky={exampleWhisky} stat={whiskystatistics} />
       </div>
     </>
   );
