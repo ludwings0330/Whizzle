@@ -22,6 +22,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Table(
@@ -55,6 +56,10 @@ public class Diary extends BaseTimeEntity {
 
     @Size(max = 255)
     private String content;
+
+    @NotNull
+    @ColumnDefault("0")
+    private Boolean isDeleted = Boolean.FALSE;
 
     @Override
     public boolean equals(Object o) {
