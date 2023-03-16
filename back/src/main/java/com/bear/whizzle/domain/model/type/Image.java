@@ -39,9 +39,9 @@ public class Image {
     public static Image getDefaultMemberImage() {
         try {
             return Image.builder()
-                        .savedPath("image/default/default_member_image.png")
+                        .savedPath("images/default/default_member_image.png")
                         .originalName("default_member_image.png")
-                        .url(new URL("https://half-moon-bear.s3.ap-northeast-2.amazonaws.com/image/default/default_member_profile.png"))
+                        .url(new URL("https://half-moon-bear.s3.ap-northeast-2.amazonaws.com/images/default/default_member_profile.png"))
                         .build();
         } catch (MalformedURLException e) {
             throw new UncheckedIOException(e);
@@ -51,9 +51,9 @@ public class Image {
     public static Image getDefaultWhiskyImage() {
         try {
             return Image.builder()
-                        .savedPath("image/default/default_whisky_image.png")
+                        .savedPath("images/default/default_whisky_image.png")
                         .originalName("default_whisky_image.png")
-                        .url(new URL("https://half-moon-bear.s3.ap-northeast-2.amazonaws.com/image/default/default_whisky_bottle.png"))
+                        .url(new URL("https://half-moon-bear.s3.ap-northeast-2.amazonaws.com/images/default/default_whisky_bottle.png"))
                         .build();
         } catch (MalformedURLException e) {
             throw new UncheckedIOException(e);
