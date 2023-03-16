@@ -4,6 +4,7 @@ import com.bear.whizzle.domain.model.type.id.KeepId;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
@@ -16,10 +17,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @Table(name = "keep")
 @IdClass(KeepId.class)
+@EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
@@ -37,7 +40,7 @@ public class Keep {
     private Whisky whisky;
 
     @CreatedDate
-    @Column(columnDefinition = "DATETIME", unique = true, updatable = false)
+    @Column(columnDefinition = "DATETIME", updatable = false)
     @NotNull
     private LocalDateTime createdDateTime;
 
