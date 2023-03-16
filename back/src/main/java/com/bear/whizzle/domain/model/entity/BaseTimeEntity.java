@@ -34,9 +34,4 @@ public abstract class BaseTimeEntity {
     @Column(name = "modified_date_time", columnDefinition = "DATETIME")
     private LocalDateTime modifiedDateTime;
 
-    @PrePersist
-    private void prePersist() {
-        this.modifiedDateTime = this.createdDateTime;
-    }
-
 }
