@@ -40,7 +40,7 @@ public class Keep {
     private Whisky whisky;
 
     @CreatedDate
-    @Column(columnDefinition = "DATETIME", unique = true, updatable = false)
+    @Column(columnDefinition = "DATETIME", updatable = false)
     @NotNull
     private LocalDateTime createdDateTime;
 
