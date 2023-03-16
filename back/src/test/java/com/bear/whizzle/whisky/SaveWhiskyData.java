@@ -14,6 +14,7 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 @SpringBootTest
 @Slf4j
+@Disabled("데이터 추가를 완료했습니다.")
 class SaveWhiskyData {
 
     private final JdbcTemplate jdbcTemplate;

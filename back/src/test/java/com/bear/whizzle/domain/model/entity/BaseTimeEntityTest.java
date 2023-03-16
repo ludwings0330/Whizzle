@@ -16,12 +16,14 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 @Slf4j
+@Disabled("학습용으로 테스트를 완료했고, 다시 수행될 필요가 없습니다.")
 class BaseTimeEntityTest {
 
     @PersistenceContext
