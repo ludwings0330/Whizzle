@@ -3,6 +3,7 @@ package com.bear.whizzle.domain.model.entity;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.PrePersist;
 import javax.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -29,5 +30,10 @@ public abstract class BaseTimeEntity {
     @LastModifiedDate
     @Column(name = "modified_date_time", columnDefinition = "DATETIME")
     private LocalDateTime modifiedDateTime;
+
+    @PrePersist
+    private void prePersist() {
+        this.modifiedDateTime = this.createdDateTime;
+    }
 
 }
