@@ -1,6 +1,6 @@
 package com.bear.whizzle.domain.model.entity;
 
-import com.bear.whizzle.domain.model.type.LikeId;
+import com.bear.whizzle.domain.model.type.id.LikeId;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
