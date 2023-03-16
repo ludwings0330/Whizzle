@@ -34,6 +34,7 @@ const AppWhisky = () => {
       url: "assets/img/whisky_preset/1.png",
     },
     avg_rating: 3.36,
+    review_count: 32,
     category: "Single Malt",
     location: "Speyside, Scotland",
     priceTier: 2,
@@ -56,12 +57,17 @@ const AppWhisky = () => {
     },
   };
 
+  const whiskystatistics = {
+    age: 20,
+    gender: "남성",
+  };
+
   return (
     <>
       <div style={{ marginTop: "70px" }}>
-        <WhiskyDetailInfo whisky={exampleWhisky} />
+        <WhiskyDetailInfo whisky={exampleWhisky} stat={whiskystatistics} />
         <WhiskyDetailGraph />
-        <WhiskyDetailReview whisky={exampleWhisky} />
+        <WhiskyDetailReview whisky={exampleWhisky} stat={whiskystatistics} />
         <WhiskySilmilarList />
       </div>
     </>
