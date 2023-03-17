@@ -25,11 +25,11 @@ const DiaryInput = ({ selectedDate }) => {
   const today = selectedDate;
 
   //위스키 이름, 주량, 기분, 한마디
-  const onCreate = (title, alcohol, condition, content) => {
+  const onCreate = (whisky, drinklevel, emotion, content) => {
     const newItem = {
-      title,
-      alcohol,
-      condition,
+      whisky,
+      drinklevel,
+      emotion,
       content,
       id: today,
     };

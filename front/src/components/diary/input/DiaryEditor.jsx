@@ -59,38 +59,42 @@ const SRangeInput = styled.input`
 `;
 
 const DiaryEditor = ({ onCreate, today }) => {
-  const [mood, setMood] = useState("최고예요");
+  const [drinklevelValue, setDrinklevelValue] = useState(0);
+  const [emotionValue, setEmotionValue] = useState(100);
 
-  const [alcohol, setAlcohol] = useState("소량");
+  const [emotion, setEmotion] = useState("최고예요");
+  const [drinklevel, setDrinklevel] = useState("소량");
 
   const [currentComponent, setCurrentComponent] = useState("diaryEditor");
 
-  const handleMoodChange = (e) => {
-    const value = e.target.value;
-    if (value <= 33) {
-      setMood("별로예요");
-    } else if (value <= 66) {
-      setMood("그냥그래요");
+  const handleEmotionChange = (e) => {
+    const emotionValue = e.target.value;
+    setEmotionValue(emotionValue);
+    if (emotionValue <= 33) {
+      setEmotion("별로예요");
+    } else if (emotionValue <= 66) {
+      setEmotion("그냥그래요");
     } else {
-      setMood("최고예요");
+      setEmotion("최고예요");
     }
   };
 
-  const handleAlcoholChange = (e) => {
-    const value = e.target.value;
-    if (value <= 33) {
-      setAlcohol("소량");
-    } else if (value <= 66) {
-      setAlcohol("적당히");
+  const handleDrinklevelChange = (e) => {
+    const drinklevelValue = e.target.value;
+    setDrinklevelValue(drinklevelValue);
+    if (drinklevelValue <= 33) {
+      setDrinklevel("소량");
+    } else if (drinklevelValue <= 66) {
+      setDrinklevel("적당히");
     } else {
-      setAlcohol("만취");
+      setDrinklevel("만취");
     }
   };
 
   const [state, setState] = useState({
-    title: "",
-    alcohol: "",
-    condition: "",
+    whisky: "",
+    drinklevel: "",
+    emotion: "",
     content: "",
   });
 
@@ -102,8 +106,14 @@ const DiaryEditor = ({ onCreate, today }) => {
   };
 
   const handleSubmit = () => {
-    onCreate(state.title, state.alcohol, state.condition, state.content);
+    onCreate(state.whisky, drinklevelValue, emotionValue, state.content);
     alert("등록 완료");
+    setState({
+      whisky: "",
+      drinklevel: "",
+      emotion: "",
+      content: "",
+    });
     setCurrentComponent("diaryNewContent");
   };
 
@@ -131,9 +141,9 @@ const DiaryEditor = ({ onCreate, today }) => {
             <div>
               <SP>오늘의 위스키</SP>
               <SInput
-                value={state.title}
+                value={state.whisky}
                 onChange={handleChangeState}
-                name="title"
+                name="whisky"
                 placeholder="위스키 이름을 입력해주세요"
                 type="text"
               />
@@ -146,16 +156,22 @@ const DiaryEditor = ({ onCreate, today }) => {
                   min="0"
                   max="100"
                   step="1"
-                  onChange={handleAlcoholChange}
+                  onChange={handleDrinklevelChange}
                 />
-                <p>오늘의 주량: {alcohol}</p>
+                <p>오늘의 주량: {drinklevel}</p>
               </div>
             </div>
             <div>
               <SP>오늘의 기분</SP>
               <div>
-                <SRangeInput type="range" min="0" max="100" step="1" onChange={handleMoodChange} />
-                <p>오늘의 기분: {mood}</p>
+                <SRangeInput
+                  type="range"
+                  min="0"
+                  max="100"
+                  step="1"
+                  onChange={handleEmotionChange}
+                />
+                <p>오늘의 기분: {emotion}</p>
               </div>
             </div>
             <div>
