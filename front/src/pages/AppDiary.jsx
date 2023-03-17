@@ -61,7 +61,9 @@ const SP = styled.p`
 `;
 
 const AppDiary = () => {
-  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedDate, setSelectedDate] = useState(
+    new Date().toISOString().slice(0, 10).replaceAll("-", ".")
+  );
 
   return (
     <>

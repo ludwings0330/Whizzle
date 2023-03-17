@@ -58,14 +58,12 @@ const SRangeInput = styled.input`
   margin-left: 20px;
 `;
 
-const DiaryEditor = ({ onCreate, today }) => {
+const DiaryEditor = ({ onCreate, today, currentComponent, setCurrentComponent }) => {
   const [drinklevelValue, setDrinklevelValue] = useState(0);
   const [emotionValue, setEmotionValue] = useState(100);
 
   const [emotion, setEmotion] = useState("최고예요");
   const [drinklevel, setDrinklevel] = useState("소량");
-
-  const [currentComponent, setCurrentComponent] = useState("diaryEditor");
 
   const handleEmotionChange = (e) => {
     const emotionValue = e.target.value;

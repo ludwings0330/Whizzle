@@ -22,6 +22,7 @@ const SDiv = styled.div`
 //input 최상단 component
 const DiaryInput = ({ selectedDate }) => {
   const [data, setData] = useState([]);
+  const [currentComponent, setCurrentComponent] = useState("diaryEditor");
 
   const today = selectedDate;
 
@@ -40,6 +41,7 @@ const DiaryInput = ({ selectedDate }) => {
   const onRemove = (today) => {
     const newDiaryContent = data.filter((it) => it.id !== today);
     setData(newDiaryContent);
+    setCurrentComponent("diaryEditor");
   };
 
   const onEdit = (today, newContent) => {
@@ -49,7 +51,12 @@ const DiaryInput = ({ selectedDate }) => {
   return (
     <>
       <SDiv>
-        <DiaryEditor onCreate={onCreate} today={today} />
+        <DiaryEditor
+          onCreate={onCreate}
+          today={today}
+          currentComponent={currentComponent}
+          setCurrentComponent={setCurrentComponent}
+        />
         <DiaryNewContent onEdit={onEdit} onRemove={onRemove} diaryContent={data} today={today} />
       </SDiv>
     </>

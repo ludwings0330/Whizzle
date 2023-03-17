@@ -69,10 +69,6 @@ const DiaryItem = ({ onRemove, onEdit, today, whisky, drinklevel, emotion, conte
     if (window.confirm(`${today}날의 일기를 정말 삭제하시겠습니까?`)) {
       toggleIsEdit();
       onRemove(today);
-      setLocalWhisky("");
-      setLocalDrinklevel(0);
-      setLocalEmotion(0);
-      setLocalContent("");
     }
   };
 
@@ -140,6 +136,7 @@ const DiaryItem = ({ onRemove, onEdit, today, whisky, drinklevel, emotion, conte
               step="1"
               value={localDrinklevel}
               onChange={(e) => setLocalDrinklevel(e.target.value)}
+              disabled={!isEdit}
             />
           ) : (
             localDrinklevel
@@ -155,6 +152,7 @@ const DiaryItem = ({ onRemove, onEdit, today, whisky, drinklevel, emotion, conte
               step="1"
               value={localEmotion}
               onChange={(e) => setLocalEmotion(e.target.value)}
+              disabled={!isEdit}
             />
           ) : (
             localEmotion
