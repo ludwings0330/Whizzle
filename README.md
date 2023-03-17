@@ -70,12 +70,12 @@
 
 ---
 
-### FE
+### 프론트엔드
 * Axios (API 통신 라이브러리)
 * React 18.2.0,
 * Recoil 0.7.7 (상태 관리 라이브러리)
 
-### BE
+### 백엔드
 * Java 11, Spring Boot 2.7.9,
 * Spring Security 2.7.5 (인증 인가 관리 프레임워크)
 * OAuth2 Client 2.7.9 (소셜 로그인 프레임워크)
@@ -91,7 +91,7 @@
 * LightFM (Hybrid Collaborative Filtering Model)
 * fastAPI 0.94.1 (파이썬 기반 웹 프레임워크)
 
-### Infra
+### 인프라
 * AWS EC2
 * AWS S3
 * Jenkins
@@ -196,16 +196,19 @@
 
 * 회의록 [링크](./output/meeting-log/scrum)
 * 컨벤션 [링크](./output/convention)
-* 요구사항 정의서
-* 기능 명세서
-* 와이어 프레임
-* 프로토타입
-* 시퀀스 다이어그램
+* 기획서 [링크](./output/1_기획서/Whizzle_기획서.pdf)
+* 요구사항 정의서 [링크](./output/2_요구사항_정의서/Whizzle_요구사항_정의서.xlsx)
+* 화면흐름도 [링크](./output/3_화면흐름도/Whizzle_화면흐름도.pdf)
+* 와이어 프레임 [링크](./output/4_와이어프레임/Whizzle_wireframe.png)
+* 프로토타입 [링크](./output/5_프로토타입/Whizzle_prototype.pdf)
+* 기능명세서 & WBS [링크](./output/6_기능명세서_WBS/Whizzle_기능명세서&WBS.xlsx)
+* ERD [링크](output/7_ERD/whizzle_erd.png)
 * API 명세서
-* ERD [링크](./output/erd/whizzle_erd.png)
+* 시퀀스 다이어그램
 * 시스템 아키텍처
 * E2E 테스트 케이스
 * 발표 자료
+  * [230317 Whizzle 중간발표.pdf ](./output/presentation/23.03.17_위즐_중간발표.pdf)
 
 ## 트러블 슈팅
 
