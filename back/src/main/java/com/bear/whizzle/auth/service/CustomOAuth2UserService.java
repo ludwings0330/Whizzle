@@ -1,7 +1,7 @@
 package com.bear.whizzle.auth.service;
 
 import com.bear.whizzle.domain.model.entity.Member;
-import com.bear.whizzle.member.MemberRepository;
+import com.bear.whizzle.member.repository.MemberRepository;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

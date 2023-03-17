@@ -9,6 +9,7 @@ import com.bear.whizzle.common.handler.JwtAuthenticationEntryPoint;
 import com.bear.whizzle.common.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -49,6 +50,7 @@ public class SecurityConfig {
                                        request
                                                .antMatchers("/api/auth/token-check").permitAll() // 테스트를 위해 추가
                                                .antMatchers("/login/**").permitAll()
+                                               .antMatchers(HttpMethod.GET).permitAll()
                                                .anyRequest().authenticated());
 
         http.csrf().disable();
