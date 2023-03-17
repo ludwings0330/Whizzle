@@ -1,5 +1,7 @@
 package com.bear.whizzle.whisky.repository;
 
+import static com.bear.whizzle.domain.model.entity.QWhisky.*;
+
 import com.bear.whizzle.common.annotation.Performance;
 import com.bear.whizzle.domain.model.entity.QWhisky;
 import com.bear.whizzle.domain.model.entity.Whisky;
@@ -24,8 +26,8 @@ public class WhiskyCustomRepositoryImpl implements WhiskyCustomRepository {
         }
 
         return Optional.ofNullable(
-                queryFactory.selectFrom(QWhisky.whisky)
-                            .where(QWhisky.whisky.id.eq(id))
+                queryFactory.selectFrom(whisky)
+                            .where(whisky.id.eq(id))
                             .fetchOne()
         );
     }

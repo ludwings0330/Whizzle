@@ -1,8 +1,11 @@
 package com.bear.whizzle.domain.model.entity;
 
 import com.bear.whizzle.domain.model.type.Image;
+import java.time.LocalDateTime;
+import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,9 +22,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @Table(name = "member")
+@EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @ToString
@@ -56,6 +62,11 @@ public class Member {
     @Max(100)
     @ColumnDefault("40.0")
     private Float level;
+
+    @CreatedDate
+    @Column(columnDefinition = "DATETIME", updatable = false)
+    @NotNull
+    private LocalDateTime createdDateTime;
 
     @Builder
     private Member(String provider, String nickname, String email) {

@@ -11,22 +11,18 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Table(name = "review_image")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
-@Builder
 @ToString
 public class ReviewImage {
 
@@ -46,8 +42,17 @@ public class ReviewImage {
 
     @Column(columnDefinition = "TINYINT")
     @NotNull
-    @Min(1)
-    @Max(5)
     private Integer imageOrder;
+
+    @NotNull
+    @ColumnDefault("0")
+    private Boolean isDeleted = Boolean.FALSE;
+
+    @Builder
+    private ReviewImage(Review review, Image image, Integer imageOrder) {
+        this.review = review;
+        this.image = image;
+        this.imageOrder = imageOrder;
+    }
 
 }
