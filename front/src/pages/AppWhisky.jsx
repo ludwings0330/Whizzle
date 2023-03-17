@@ -1,12 +1,39 @@
 import React, { useEffect } from "react";
 import colorLogo from "../assets/img/colorLogo.png";
 import logo from "../assets/img/logo.png";
+import favorite from "../assets/img/favorite.png";
+import create from "../assets/img/create.png";
+import styled from "styled-components";
 
 //import components
 import WhiskyDetailInfo from "../components/whisky/WhiskyDetailInfo";
 import WhiskyDetailReview from "../components/whisky/WhiskyDetailReview";
-import WhiskySilmilarList from "../components/whisky/WhiskySilmilarList";
+import WhiskySimilarList from "../components/whisky/WhiskySimilarList";
 import WhiskyDetailGraph from "../components/whisky/WhiskyDetailGraph";
+
+const SButton = styled.button`
+  width: 63px;
+  height: 63px;
+
+  border-radius: 50%;
+  border: none;
+
+  background: #f84f5a;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+`;
+
+const SButtonDiv = styled.div`
+  position: sticky;
+  left: 1500px;
+  bottom: 50px;
+  width: 63px;
+  height: 120px;
+`;
+
+const SImg = styled.img`
+  width: 33px;
+  height: 33px;
+`;
 
 const AppWhisky = () => {
   // 페이지 mount시 네비게이션 바 이미지와 글씨 색 변경
@@ -67,8 +94,16 @@ const AppWhisky = () => {
       <div style={{ marginTop: "70px" }}>
         <WhiskyDetailInfo whisky={exampleWhisky} stat={whiskystatistics} />
         <WhiskyDetailGraph />
-        <WhiskySilmilarList />
+        <WhiskySimilarList />
         <WhiskyDetailReview whisky={exampleWhisky} stat={whiskystatistics} />
+        <SButtonDiv>
+          <SButton style={{ marginBottom: "10px" }}>
+            <SImg src={favorite} alt="keep" />
+          </SButton>
+          <SButton>
+            <SImg src={create} alt="create" />
+          </SButton>
+        </SButtonDiv>
       </div>
     </>
   );
