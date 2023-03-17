@@ -24,7 +24,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 @SpringBootTest
 @Slf4j
-@Disabled("데이터 추가를 완료했습니다.")
+@Disabled("위스키 데이터 추가를 완료했습니다.")
 class SaveWhiskyData {
 
     private final JdbcTemplate jdbcTemplate;
