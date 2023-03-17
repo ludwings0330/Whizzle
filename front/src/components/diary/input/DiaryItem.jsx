@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 
 const SP = styled.p`
-  font-size: 20px;
+  font-size: 23px;
   font-weight: bold;
 `;
 
@@ -24,11 +24,11 @@ const SButton = styled.button`
   border-radius: 12px;
   background: #f84f5a;
   color: white;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: bold;
   cursor: pointer;
-  width: 60px;
-  height: 31px;
+  width: 65px;
+  height: 35px;
   margin-left: 8px;
 `;
 
@@ -36,8 +36,8 @@ const SInput = styled.input`
   border: none;
   border-bottom: 2px solid #949494;
   margin-left: 20px;
-  width: 310px;
-  height: 30px;
+  width: 320px;
+  height: 35px;
 `;
 
 const STextarea = styled.textarea`
@@ -45,8 +45,8 @@ const STextarea = styled.textarea`
   background: #fcfcfc;
   border-radius: 8px;
   margin-left: 20px;
-  padding: 10px;
-  width: 316px;
+  padding: 25px;
+  width: 350px;
   font-size: 16px;
   line-height: 1.5;
   resize: none;
@@ -99,7 +99,7 @@ const DiaryItem = ({ onRemove, onEdit, today, whisky, drinklevel, emotion, conte
       <SHeaderDiv>
         <SP
           style={{
-            fontSize: "25px",
+            fontSize: "30px",
             marginTop: "0px",
             marginBottom: "0px",
             color: "#F84F5A",
