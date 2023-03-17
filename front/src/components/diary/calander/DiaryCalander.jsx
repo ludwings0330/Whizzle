@@ -4,14 +4,17 @@ import React, { useState } from "react";
 import styled from "styled-components";
 
 const SDiv = styled.div`
-  border: 1px solid gray;
+  border: 2px solid #e1e1e1;
+  border-radius: 8px;
   float: left;
   width: 770px;
+  height: 580px;
   margin: 0 10px;
+  padding: 40px 60px 40px 40px;
 `;
 
 //다이어리 캘린더
-const DiaryCalander = () => {
+const DiaryCalander = ({ onDateClick }) => {
   const [date, setDate] = useState(new Date());
 
   // 각 날짜별로 고유한 key 값을 생성하는 함수
@@ -40,7 +43,12 @@ const DiaryCalander = () => {
   }
 
   function handleDateClick(event) {
-    console.log(event.target.textContent);
+    const clickedDate = new Date(date.getFullYear(), date.getMonth(), event.target.textContent);
+    const year = clickedDate.getFullYear();
+    const month = clickedDate.getMonth() + 1;
+    const day = clickedDate.getDate();
+    const clickedDateString = `${year}.${month}.${day}`;
+    onDateClick(clickedDateString);
   }
 
   const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];

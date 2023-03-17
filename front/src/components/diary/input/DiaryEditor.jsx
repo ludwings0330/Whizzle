@@ -104,12 +104,6 @@ const DiaryEditor = ({ onCreate, today }) => {
   const handleSubmit = () => {
     onCreate(state.title, state.alcohol, state.condition, state.content);
     alert("등록 완료");
-    setState({
-      title: "",
-      alcohol: "",
-      condition: "",
-      content: "",
-    });
     setCurrentComponent("diaryNewContent");
   };
 

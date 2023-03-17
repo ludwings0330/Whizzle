@@ -1,11 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-
-//import components
 import DiaryCalander from "../components/diary/calander/DiaryCalander";
 import DiaryInput from "../components/diary/input/DiaryInput";
-
-//import image
 import diary_header from "../assets/img/diary_header.png";
 
 const SHeaderDiv = styled.div`
@@ -35,6 +31,8 @@ const SP = styled.p`
 `;
 
 const AppDiary = () => {
+  const [selectedDate, setSelectedDate] = useState("");
+
   return (
     <>
       <SHeaderDiv>
@@ -47,8 +45,8 @@ const AppDiary = () => {
         <SP>오늘의 위스키에 감정을 담아보세요!</SP>
       </SHeaderDiv>
       <SMainDiv>
-        <DiaryCalander />
-        <DiaryInput />
+        <DiaryCalander onDateClick={setSelectedDate} />
+        <DiaryInput selectedDate={selectedDate} />
       </SMainDiv>
     </>
   );

@@ -1,4 +1,3 @@
-//import react
 import React, { useState } from "react";
 
 //import component
@@ -13,16 +12,17 @@ const SDiv = styled.div`
   border-radius: 8px;
   float: left;
   width: 460px;
+  height: 580px;
   margin: 0 10px;
   text-align: left;
   padding: 40px 60px 40px 40px;
 `;
 
 //input 최상단 component
-const DiaryInput = () => {
+const DiaryInput = ({ selectedDate }) => {
   const [data, setData] = useState([]);
 
-  const today = new Date().toLocaleDateString();
+  const today = selectedDate;
 
   //위스키 이름, 주량, 기분, 한마디
   const onCreate = (title, alcohol, condition, content) => {

@@ -17,22 +17,27 @@ const SButton = styled.button`
 
 const DiaryItem = ({ onRemove, onEdit, today, title, alcohol, condition, content }) => {
   const [localContent, setLocalContent] = useState(content);
+  const [localTitle, setLocalTitle] = useState(title);
+
   const [isEdit, setIsEdit] = useState(false);
   const toggleIsEdit = () => setIsEdit(!isEdit);
 
   const handleClickRemove = () => {
     if (window.confirm(`${today}날의 일기를 정말 삭제하시겠습니까?`)) {
+      toggleIsEdit();
       onRemove(today);
     }
   };
 
   const handleQuitEdit = () => {
     setIsEdit(false);
+    setLocalTitle(title);
     setLocalContent(content);
   };
 
   const handleEdit = () => {
     if (window.confirm(`${today} 날의 일기를 수정하시겠습니까?`)) {
+      onEdit(today, localTitle);
       onEdit(today, localContent);
       toggleIsEdit();
     }
@@ -44,7 +49,7 @@ const DiaryItem = ({ onRemove, onEdit, today, title, alcohol, condition, content
       <div>
         <h2>오늘의 위스키</h2>
         {isEdit ? (
-          <input value={localContent} onChange={(e) => setLocalContent(e.target.value)} />
+          <input value={localTitle} onChange={(e) => setLocalTitle(e.target.value)} />
         ) : (
           content
         )}
