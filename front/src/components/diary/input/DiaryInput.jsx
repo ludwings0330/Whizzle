@@ -10,12 +10,13 @@ import styled from "styled-components";
 const SDiv = styled.div`
   border: 2px solid #e1e1e1;
   border-radius: 8px;
-  float: left;
+  display: inline-block;
   width: 460px;
   height: 580px;
   margin: 0 10px;
   text-align: left;
   padding: 40px 60px 40px 40px;
+  box-shadow: 5px 5px 5px #e1e1e1;
 `;
 
 //input 최상단 component
@@ -25,11 +26,11 @@ const DiaryInput = ({ selectedDate }) => {
   const today = selectedDate;
 
   //위스키 이름, 주량, 기분, 한마디
-  const onCreate = (title, alcohol, condition, content) => {
+  const onCreate = (whisky, drinklevel, emotion, content) => {
     const newItem = {
-      title,
-      alcohol,
-      condition,
+      whisky,
+      drinklevel,
+      emotion,
       content,
       id: today,
     };
