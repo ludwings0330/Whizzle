@@ -1,10 +1,9 @@
 package com.bear.whizzle.member;
 
-import com.bear.whizzle.domain.model.entity.MemberHasBadge;
-import com.bear.whizzle.domain.model.type.id.MemberHasBadgeId;
+import static com.bear.whizzle.common.util.RandomDataUtil.MEMBER_SIZE;
+
 import java.util.ArrayList;
 import java.util.List;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +31,7 @@ class SaveMemberHasBadgeData {
                 List.of(10L)
         );
         
-        int batchSize = SaveMemberData.MEMBER_SIZE / 5;
+        int batchSize = MEMBER_SIZE / 5;
         for (int i = 0; i < 5; i++) {
             List<List<Long>> memberHasBadgeIds = new ArrayList<>();
 

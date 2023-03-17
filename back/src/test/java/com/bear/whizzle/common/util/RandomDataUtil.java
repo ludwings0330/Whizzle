@@ -1,16 +1,21 @@
 package com.bear.whizzle.common.util;
 
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 public final class RandomDataUtil {
 
-    public final static String ALPHABET_UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    public final static String ALPHABET_LOWER = "abcdefghijklmnopqrstuvwxyz";
-    public final static String ALPHABET = ALPHABET_UPPER + ALPHABET_LOWER;
-    public final static String NUMERIC = "0123456789";
-    public final static String ALPHABET_LOWER_NUMERIC = ALPHABET_LOWER + NUMERIC;
-    public final static String ALPHABET_NUMERIC = ALPHABET + NUMERIC;
-    public final static String[] PROVIDERS = { "GOOGLE", "KAKAO", "NAVER" };
+    public static final int WHISKY_SIZE = 3535;
+    public static final int MEMBER_SIZE = 100_000;
+
+    public static final String ALPHABET_UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    public static final String ALPHABET_LOWER = "abcdefghijklmnopqrstuvwxyz";
+    public static final String ALPHABET = ALPHABET_UPPER + ALPHABET_LOWER;
+    public static final String NUMERIC = "0123456789";
+    public static final String ALPHABET_LOWER_NUMERIC = ALPHABET_LOWER + NUMERIC;
+    public static final String ALPHABET_NUMERIC = ALPHABET + NUMERIC;
+    public static final String[] PROVIDERS = { "GOOGLE", "KAKAO", "NAVER" };
 
     private final static Random random = new Random();
 
@@ -62,6 +67,16 @@ public final class RandomDataUtil {
 
     public static String getProvider() {
         return PROVIDERS[(int) (3 * Math.random())];
+    }
+
+    public static Set<Long> getWhiskeyIds(int size) {
+        Set<Long> whiskyIds = new HashSet<>();
+
+        while (whiskyIds.size() < size) {
+            whiskyIds.add((long) (WHISKY_SIZE * Math.random()));
+        }
+
+        return whiskyIds;
     }
 
     public static String chooseRandomly(String target, int size) {

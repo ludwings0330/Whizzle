@@ -1,5 +1,7 @@
 package com.bear.whizzle.member;
 
+import static com.bear.whizzle.common.util.RandomDataUtil.MEMBER_SIZE;
+
 import com.bear.whizzle.common.util.RandomDataUtil;
 import com.bear.whizzle.domain.model.entity.Member;
 import com.bear.whizzle.domain.model.type.Image;
@@ -14,8 +16,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 @SpringBootTest
 @Slf4j
 class SaveMemberData {
-
-    public static final int MEMBER_SIZE = 100_000;
 
     private final JdbcTemplate jdbcTemplate;
 
