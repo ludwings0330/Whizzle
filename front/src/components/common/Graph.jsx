@@ -13,15 +13,9 @@ const SContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 50px;
 `;
 
-const SP = styled.p`
-  font-size: 24px;
-  font-weight: 600;
-`;
-
-const WhiskyDetailGraph = () => {
+const Graph = () => {
   const data = [
     {
       id: "drunkenbear",
@@ -83,9 +77,6 @@ const WhiskyDetailGraph = () => {
   ];
   return (
     <SContainer>
-      <div style={{ width: "990px" }}>
-        <SP style={{ fontSize: "24px" }}>이 위스키는 이런 맛을 가지고 있어요!</SP>
-      </div>
       <SDiv>
         <ResponsiveLine
           data={data}
@@ -133,4 +124,4 @@ const WhiskyDetailGraph = () => {
   );
 };
 
-export default WhiskyDetailGraph;
+export default Graph;

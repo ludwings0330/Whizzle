@@ -9,7 +9,7 @@ import styled from "styled-components";
 import WhiskyDetailInfo from "../components/whisky/WhiskyDetailInfo";
 import WhiskyDetailReview from "../components/whisky/WhiskyDetailReview";
 import WhiskySimilarList from "../components/whisky/WhiskySimilarList";
-import WhiskyDetailGraph from "../components/whisky/WhiskyDetailGraph";
+import Graph from "../components/common/Graph";
 
 const SButton = styled.button`
   width: 63px;
@@ -33,6 +33,21 @@ const SButtonDiv = styled.div`
 const SImg = styled.img`
   width: 33px;
   height: 33px;
+`;
+
+const SP = styled.p`
+  font-size: 24px;
+  font-weight: 600;
+`;
+
+const SContainer = styled.div`
+  margin-top: 70px;
+  max-width: 100%;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const AppWhisky = () => {
@@ -91,9 +106,12 @@ const AppWhisky = () => {
 
   return (
     <>
-      <div style={{ marginTop: "70px" }}>
+      <SContainer>
         <WhiskyDetailInfo whisky={exampleWhisky} stat={whiskystatistics} />
-        <WhiskyDetailGraph />
+        <div style={{ width: "990px", marginBottom: "0px", marginTop: "30px" }}>
+          <SP>이 위스키는 이런 맛을 가지고 있어요!</SP>
+        </div>
+        <Graph />
         <WhiskySimilarList />
         <WhiskyDetailReview whisky={exampleWhisky} stat={whiskystatistics} />
         <SButtonDiv>
@@ -104,7 +122,7 @@ const AppWhisky = () => {
             <SImg src={create} alt="create" />
           </SButton>
         </SButtonDiv>
-      </div>
+      </SContainer>
     </>
   );
 };
