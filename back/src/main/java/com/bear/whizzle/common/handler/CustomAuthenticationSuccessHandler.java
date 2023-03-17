@@ -1,17 +1,16 @@
 package com.bear.whizzle.common.handler;
 
-import com.bear.whizzle.auth.repository.TokenRepository;
 import com.bear.whizzle.auth.service.PrincipalDetails;
 import com.bear.whizzle.common.util.JwtUtil;
-import com.bear.whizzle.domain.model.entity.Member;
-import com.bear.whizzle.domain.model.entity.Token;
-import com.bear.whizzle.member.MemberRepository;
 import java.io.IOException;
+import java.time.Duration;
 import java.util.NoSuchElementException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -23,15 +22,13 @@ import org.springframework.web.util.UriComponentsBuilder;
 @Slf4j
 public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
-    private final MemberRepository memberRepository;
-    private final TokenRepository tokenRepository;
+    private final RedisTemplate<String, String> redisTemplate;
     private final JwtUtil jwtUtil;
     private final String redirectUrl;
 
-    protected CustomAuthenticationSuccessHandler(MemberRepository memberRepository, TokenRepository tokenRepository, JwtUtil jwtUtil,
+    protected CustomAuthenticationSuccessHandler(RedisTemplate<String, String> redisTemplate, JwtUtil jwtUtil,
                                                  @Value("${app.oauth2.authorizedRedirectUrl}") String redirectURl) {
-        this.memberRepository = memberRepository;
-        this.tokenRepository = tokenRepository;
+        this.redisTemplate = redisTemplate;
         this.jwtUtil = jwtUtil;
         this.redirectUrl = redirectURl;
     }
@@ -54,13 +51,12 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
         // 5. Refresh Token 은 DB 에 저장
         try {
-            final Member member = memberRepository.findByEmailAndProvider(user.getEmail(), user.getProvider())
-                                                  .orElseThrow();
+            final ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
 
-            final Token token = tokenRepository.findByMemberId(member.getId())
-                                               .orElseThrow();
+            // java compiler 에서 자동적으로 StringBuilder 를 사용하는 코드로 Optimization
+            final String key = user.getEmail() + ":" + user.getProvider();
 
-            token.updateRefreshToken(refreshToken);
+            valueOperations.set(key, refreshToken, Duration.ofDays(21));
         } catch (NoSuchElementException e) {
             log.debug("이런 일은 일어날 수 없습니다.");
         }

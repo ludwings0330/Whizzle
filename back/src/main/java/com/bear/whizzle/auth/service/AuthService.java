@@ -4,6 +4,4 @@ public interface AuthService {
 
     String regenerateAccessToken(PrincipalDetails user, String authorization);
 
-    void logout(PrincipalDetails user);
-
 }

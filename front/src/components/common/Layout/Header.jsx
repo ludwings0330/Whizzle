@@ -79,7 +79,7 @@ const Header = () => {
         <NavLeftDiv>
           <NavDiv>
             <NavLink style={({ isActive }) => (isActive ? activeStyle : nonActiveStyle)} to="/">
-              <SLogoImg src={logo} alt="#" />
+              <SLogoImg id="logo" src={logo} alt="#" />
             </NavLink>
           </NavDiv>
         </NavLeftDiv>
@@ -89,7 +89,7 @@ const Header = () => {
               style={({ isActive }) => (isActive ? activeStyle : nonActiveStyle)}
               to="/recommend/question"
             >
-              <SP>위스키 추천</SP>
+              <SP className="text">위스키 추천</SP>
             </NavLink>
           </NavDiv>
           <NavDiv>
@@ -97,7 +97,7 @@ const Header = () => {
               style={({ isActive }) => (isActive ? activeStyle : nonActiveStyle)}
               to="/diary"
             >
-              <SP>위스키 다이어리</SP>
+              <SP className="text">위스키 다이어리</SP>
             </NavLink>
           </NavDiv>
           <NavDiv>
@@ -105,7 +105,7 @@ const Header = () => {
               style={({ isActive }) => (isActive ? activeStyle : nonActiveStyle)}
               to="/search"
             >
-              <SP>위스키 검색</SP>
+              <SP className="text">위스키 검색</SP>
             </NavLink>
           </NavDiv>
           <NavDiv>
@@ -114,14 +114,16 @@ const Header = () => {
                 style={({ isActive }) => (isActive ? activeStyle : nonActiveStyle)}
                 to="/login"
               >
-                <SP>로그인</SP>
+                <SP className="text">로그인</SP>
               </NavLink>
             ) : (
               <NavLink
                 style={({ isActive }) => (isActive ? activeStyle : nonActiveStyle)}
                 to="/login"
               >
-                <SP onClick={signout}>로그아웃</SP>
+                <SP className="text" onClick={signout}>
+                  로그아웃
+                </SP>
               </NavLink>
             )}
           </NavDiv>
