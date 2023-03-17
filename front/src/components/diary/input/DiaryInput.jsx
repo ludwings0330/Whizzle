@@ -10,7 +10,7 @@ import styled from "styled-components";
 const SDiv = styled.div`
   border: 2px solid #e1e1e1;
   border-radius: 8px;
-  float: left;
+  display: inline-block;
   width: 460px;
   height: 580px;
   margin: 0 10px;

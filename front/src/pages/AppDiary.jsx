@@ -24,13 +24,13 @@ const SMainDiv = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  height: calc(100vh - 300px);
+  min-height: calc(100vh - 300px);
   margin: 30px 0 0 0;
 
   @media only screen and (max-height: 768px) and (-webkit-min-device-pixel-ratio: 1.25),
     only screen and (max-height: 768px) and (min-resolution: 120dpi),
     only screen and (max-height: 768px) and (min-resolution: 1.25dppx) {
-    margin-top: 120px;
+    margin-top: 30px;
   }
 `;
 
