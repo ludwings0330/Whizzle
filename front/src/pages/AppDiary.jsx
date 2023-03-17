@@ -1,5 +1,9 @@
 import React, { useState } from "react";
+
+//import css
 import styled from "styled-components";
+
+//import component
 import DiaryCalander from "../components/diary/calander/DiaryCalander";
 import DiaryInput from "../components/diary/input/DiaryInput";
 import diary_header from "../assets/img/diary_header.png";
@@ -21,7 +25,33 @@ const SMainDiv = styled.div`
   justify-content: center;
   align-items: center;
   height: calc(100vh - 300px);
-  margin-top: 30px;
+  margin: 30px 0 0 0;
+
+  @media only screen and (max-height: 768px) and (-webkit-min-device-pixel-ratio: 1.25),
+    only screen and (max-height: 768px) and (min-resolution: 120dpi),
+    only screen and (max-height: 768px) and (min-resolution: 1.25dppx) {
+    margin-top: 120px;
+  }
+`;
+
+const SHeaderDivider = styled.div`
+  height: 30px;
+
+  @media only screen and (max-height: 768px) and (-webkit-min-device-pixel-ratio: 1.25),
+    only screen and (max-height: 768px) and (min-resolution: 120dpi),
+    only screen and (max-height: 768px) and (min-resolution: 1.25dppx) {
+    height: 15px;
+  }
+`;
+
+const SMainDivider = styled.div`
+  width: 30px;
+
+  @media only screen and (max-height: 768px) and (-webkit-min-device-pixel-ratio: 1.25),
+    only screen and (max-height: 768px) and (min-resolution: 120dpi),
+    only screen and (max-height: 768px) and (min-resolution: 1.25dppx) {
+    width: 15px;
+  }
 `;
 
 const SP = styled.p`
@@ -44,7 +74,9 @@ const AppDiary = () => {
         <SP>매일을 특별하게 남기고 싶은 당신을 위해,</SP>
         <SP>오늘의 위스키에 감정을 담아보세요!</SP>
       </SHeaderDiv>
+      <SHeaderDivider />
       <SMainDiv>
+        <SMainDivider />
         <DiaryCalander onDateClick={setSelectedDate} />
         <DiaryInput selectedDate={selectedDate} />
       </SMainDiv>

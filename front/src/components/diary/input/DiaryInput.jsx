@@ -16,6 +16,7 @@ const SDiv = styled.div`
   margin: 0 10px;
   text-align: left;
   padding: 40px 60px 40px 40px;
+  box-shadow: 5px 5px 5px #e1e1e1;
 `;
 
 //input 최상단 component

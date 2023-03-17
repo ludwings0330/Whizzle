@@ -71,17 +71,17 @@ const DiaryItem = ({ onRemove, onEdit, today, whisky, drinklevel, emotion, conte
       onRemove(today);
       setLocalWhisky("");
       setLocalDrinklevel(0);
-      setLocalEmotion(50);
+      setLocalEmotion(0);
       setLocalContent("");
     }
   };
 
   const handleQuitEdit = () => {
     setIsEdit(false);
-    setLocalWhisky(whisky);
-    setLocalContent(content);
-    setLocalDrinklevel(drinklevel);
-    setLocalEmotion(emotion);
+    setLocalWhisky(localWhisky);
+    setLocalContent(localContent);
+    setLocalDrinklevel(localDrinklevel);
+    setLocalEmotion(localEmotion);
   };
 
   const handleEdit = () => {

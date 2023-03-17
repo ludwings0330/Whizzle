@@ -6,11 +6,12 @@ import styled from "styled-components";
 const SDiv = styled.div`
   border: 2px solid #e1e1e1;
   border-radius: 8px;
-  float: left;
+  display: inline-block;
   width: 770px;
   height: 580px;
   margin: 0 10px;
   padding: 40px 60px 40px 40px;
+  box-shadow: 5px 5px 5px #e1e1e1;
 `;
 
 const SHeaderDiv = styled.div`
@@ -74,7 +75,11 @@ const SPrevButton = styled.button`
   line-height: 1;
   padding: 10;
   cursor: pointer;
-  margin-bottom: 10px;
+
+  &::before {
+    content: "<";
+    color: #f84f5a;
+  }
 
   &::after {
     content: "";
@@ -102,6 +107,11 @@ const SNextButton = styled.button`
   padding: 10;
   margin-bottom: 10px;
   cursor: pointer;
+
+  &::before {
+    content: ">";
+    color: #f84f5a;
+  }
 
   &::after {
     content: "";
@@ -201,9 +211,9 @@ const DiaryCalander = ({ onDateClick }) => {
     <>
       <SDiv>
         <SHeaderDiv>
-          <SPrevButton onClick={prevMonth}>{"<"}</SPrevButton>
+          <SPrevButton onClick={prevMonth}></SPrevButton>
           <SDateP>{date.toLocaleString("en-US", { month: "long", year: "numeric" })}</SDateP>
-          <SNextButton onClick={nextMonth}>{">"}</SNextButton>
+          <SNextButton onClick={nextMonth}></SNextButton>
         </SHeaderDiv>
         <SCalanderDiv>
           <table>
