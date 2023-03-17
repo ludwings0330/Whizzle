@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { motion } from "framer-motion";
 import loginBackground from "../../../assets/img/loginBackground.png";
 
 const SDiv = styled.div`
@@ -23,9 +24,14 @@ const STitle = styled.p`
 //추천 후 로딩
 const QuestionLoading = () => {
   return (
-    <SDiv>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 1 }}
+    >
       <STitle>당신의 취향을 분석 중이에요!</STitle>
-    </SDiv>
+    </motion.div>
   );
 };
 

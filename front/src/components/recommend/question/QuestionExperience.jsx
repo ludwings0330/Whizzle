@@ -70,11 +70,6 @@ const SRadioLabel = styled.label`
   }
 `;
 
-const SNavigate = styled.div`
-  cursor: pointer;
-  position: fixed;
-`;
-
 //추천 세번째 질문 -> 위스키를 마셔봤는지에 대해 물어봄
 const QuestionExperience = (props) => {
   const [preferenceValue, setPreferenceValue] = useRecoilState(preference);
@@ -113,75 +108,68 @@ const QuestionExperience = (props) => {
 
   return (
     <motion.div
-      initial={{ opacity: 0.6 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0.6 }}
-      transition={{ duration: 0.5 }}
+      variants={props.pageVariants}
+      initial="hidden"
+      animate="visible"
+      exit="exit"
+      custom={props.direction}
     >
-      <SDiv>
-        <STitle>위스키에 대해 어느정도 알고 계신가요?</STitle>
-        <SCentered>
-          <SRadioInput
-            id="false"
-            type="radio"
-            value="false"
-            checked={preferenceValue.isExperience === "false"}
-            onChange={isExperienceSelectHandler}
+      <STitle>위스키에 대해 어느정도 알고 계신가요?</STitle>
+      <SCentered>
+        <SRadioInput
+          id="false"
+          type="radio"
+          value="false"
+          checked={preferenceValue.isExperience === "false"}
+          onChange={isExperienceSelectHandler}
+        />
+        <SRadioLabel htmlFor="false">
+          <img
+            src={checkImg}
+            alt="check"
+            style={{ marginRight: "auto", marginLeft: "20px" }}
           />
-          <SRadioLabel htmlFor="false">
-            <img
-              src={checkImg}
-              alt="check"
-              style={{ marginRight: "auto", marginLeft: "20px" }}
-            />
-            <span style={{ fontWeight: "bold", marginTop: "25px" }}>
-              위스키가 뭐징?
-            </span>
-            <span>위스키에 대해 잘 알지 못해요</span>
-            <img
-              src={wonderImg}
-              alt="wonder"
-              style={{
-                marginTop: "20px",
-                filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))",
-              }}
-            />
-          </SRadioLabel>
-          <SRadioInput
-            id="true"
-            type="radio"
-            value="true"
-            checked={preferenceValue.isExperience === "true"}
-            onChange={isExperienceSelectHandler}
+          <span style={{ fontWeight: "bold", marginTop: "25px" }}>
+            위스키가 뭐징?
+          </span>
+          <span>위스키에 대해 잘 알지 못해요</span>
+          <img
+            src={wonderImg}
+            alt="wonder"
+            style={{
+              marginTop: "20px",
+              filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))",
+            }}
           />
-          <SRadioLabel htmlFor="true">
-            <img
-              src={checkImg}
-              alt="check"
-              style={{ marginRight: "auto", marginLeft: "20px" }}
-            />
-            <span style={{ fontWeight: "bold", marginTop: "15px" }}>
-              위스키를 즐기는 편이에요!
-            </span>
-            <span>내가 좋아하는 위스키의 종류를</span>
-            <span>이야기할 수 있어요</span>
-            <img
-              src={cheersImg}
-              alt="wonder"
-              style={{
-                marginTop: "25px",
-                filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))",
-              }}
-            />
-          </SRadioLabel>
-        </SCentered>
-        <SNavigate onClick={props.goPriorPage} style={{ left: "0%" }}>
-          <img src={navigatePrev} alt="navigate" />
-        </SNavigate>
-        <SNavigate onClick={nextPageHandler} style={{ right: "0%" }}>
-          <img src={navigateNext} alt="navigate" />
-        </SNavigate>
-      </SDiv>
+        </SRadioLabel>
+        <SRadioInput
+          id="true"
+          type="radio"
+          value="true"
+          checked={preferenceValue.isExperience === "true"}
+          onChange={isExperienceSelectHandler}
+        />
+        <SRadioLabel htmlFor="true">
+          <img
+            src={checkImg}
+            alt="check"
+            style={{ marginRight: "auto", marginLeft: "20px" }}
+          />
+          <span style={{ fontWeight: "bold", marginTop: "15px" }}>
+            위스키를 즐기는 편이에요!
+          </span>
+          <span>내가 좋아하는 위스키의 종류를</span>
+          <span>이야기할 수 있어요</span>
+          <img
+            src={cheersImg}
+            alt="wonder"
+            style={{
+              marginTop: "25px",
+              filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))",
+            }}
+          />
+        </SRadioLabel>
+      </SCentered>
     </motion.div>
   );
 };

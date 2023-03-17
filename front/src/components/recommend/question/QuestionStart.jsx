@@ -59,27 +59,25 @@ const SButtonText = styled.span`
 const QuestionStart = (props) => {
   return (
     <motion.div
-      initial={{ opacity: 0.6 }}
+      initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      exit={{ opacity: 0.6 }}
-      transition={{ duration: 0.5 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 1 }}
     >
-      <SDiv>
-        <STitle>나만의 취향 찾기, 위스키 추천</STitle>
-        <SContent>
-          매일 똑같은 소주, 맥주가 지겹다면?
-          <br />
-          나의 취향에 꼭 맞는 위스키를 추천받아 보세요!
-        </SContent>
-        <motion.div
-          whileHover={{ scale: 1.1 }}
-          transition={{ type: "spring", stiffness: 100, damping: 10 }}
-        >
-          <SButton onClick={props.goNextPage}>
-            <SButtonText>내 취향 정보 입력하기</SButtonText>
-          </SButton>
-        </motion.div>
-      </SDiv>
+      <STitle>나만의 취향 찾기, 위스키 추천</STitle>
+      <SContent>
+        매일 똑같은 소주, 맥주가 지겹다면?
+        <br />
+        나의 취향에 꼭 맞는 위스키를 추천받아 보세요!
+      </SContent>
+      <motion.div
+        whileHover={{ scale: 1.1 }}
+        transition={{ type: "spring", stiffness: 100, damping: 10 }}
+      >
+        <SButton onClick={props.goNextPage}>
+          <SButtonText>내 취향 정보 입력하기</SButtonText>
+        </SButton>
+      </motion.div>
     </motion.div>
   );
 };

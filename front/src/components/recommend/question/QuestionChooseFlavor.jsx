@@ -105,11 +105,6 @@ const SButtonText = styled.span`
   -webkit-text-fill-color: transparent;
 `;
 
-const SNavigate = styled.div`
-  cursor: pointer;
-  position: fixed;
-`;
-
 const flavorPresetData = [
   "smoky",
   "peaty",
@@ -146,41 +141,37 @@ const QuestionChooseFlavor = (props) => {
 
   return (
     <motion.div
-      initial={{ opacity: 0.6 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0.6 }}
-      transition={{ duration: 0.5 }}
+      variants={props.pageVariants}
+      initial="hidden"
+      animate="visible"
+      exit="exit"
+      custom={props.direction}
     >
-      <SDiv>
-        <SCentered>
-          <SContent>입맛에 맞는 위스키를 추천해드릴게요!</SContent>
-          <STitle>
-            선호하는 flavor 태그를 선택해주세요. &nbsp;
-            <SImg
-              src={infoImg}
-              alt="info.png"
-              onMouseEnter={() => setIsHover(true)}
-              onMouseLeave={() => setIsHover(false)}
-            />
-            <SInfo hover={isHover}>
-              해당 맛을 선호하는만큼 클릭해주세요
-              <br />
-              최대 4번까지 클릭 가능하며 클릭 수만큼 테두리 색이 진해집니다
-            </SInfo>
-          </STitle>
-          <SBox>
-            {flavorPresetData.map((flavor, index) => (
-              <QuestionChooseFlavorItem key={index} flavor={flavor} />
-            ))}
-          </SBox>
-          <SButton onClick={submitHandler}>
-            <SButtonText>나만의 위스키 추천 결과 보러가기</SButtonText>
-          </SButton>
-        </SCentered>
-        <SNavigate onClick={priorPageHandler} style={{ left: "0%" }}>
-          <img src={navigatePrev} alt="navigate" />
-        </SNavigate>
-      </SDiv>
+      <SCentered>
+        <SContent>입맛에 맞는 위스키를 추천해드릴게요!</SContent>
+        <STitle>
+          선호하는 flavor 태그를 선택해주세요. &nbsp;
+          <SImg
+            src={infoImg}
+            alt="info.png"
+            onMouseEnter={() => setIsHover(true)}
+            onMouseLeave={() => setIsHover(false)}
+          />
+          <SInfo hover={isHover}>
+            해당 맛을 선호하는만큼 클릭해주세요
+            <br />
+            최대 4번까지 클릭 가능하며 클릭 수만큼 테두리 색이 진해집니다
+          </SInfo>
+        </STitle>
+        <SBox>
+          {flavorPresetData.map((flavor, index) => (
+            <QuestionChooseFlavorItem key={index} flavor={flavor} />
+          ))}
+        </SBox>
+        <SButton onClick={submitHandler}>
+          <SButtonText>나만의 위스키 추천 결과 보러가기</SButtonText>
+        </SButton>
+      </SCentered>
     </motion.div>
   );
 };

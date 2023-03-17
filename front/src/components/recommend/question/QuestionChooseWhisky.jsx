@@ -52,13 +52,6 @@ const SBox = styled.div`
   margin-bottom: 15vh;
 `;
 
-const SNavigate = styled.div`
-  cursor: pointer;
-  position: fixed;
-  left: 0%;
-  top: 43.25%;
-`;
-
 const SButton = styled.button`
   cursor: pointer;
   display: block;
@@ -141,28 +134,24 @@ const QuestionChooseWhisky = (props) => {
 
   return (
     <motion.div
-      initial={{ opacity: 0.6 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0.6 }}
-      transition={{ duration: 0.5 }}
+      variants={props.pageVariants}
+      initial="hidden"
+      animate="visible"
+      exit="exit"
+      custom={props.direction}
     >
-      <SDiv>
-        <SNavigate onClick={props.goPriorPage}>
-          <img src={navigatePrev} alt="navigate" />
-        </SNavigate>
-        <SCentered>
-          <SContent>위스키를 즐겨 드시는군요!</SContent>
-          <STitle>가장 선호하는 위스키를 3개까지 선택해주세요</STitle>
-          <SBox>
-            {whiskyPresetData.map((whisky) => (
-              <QuestionChooseWhiskyItem key={whisky.id} whisky={whisky} />
-            ))}
-          </SBox>
-          <SButton onClick={submitHandler}>
-            <SButtonText>나만의 위스키 추천 결과 보러가기</SButtonText>
-          </SButton>
-        </SCentered>
-      </SDiv>
+      <SCentered>
+        <SContent>위스키를 즐겨 드시는군요!</SContent>
+        <STitle>가장 선호하는 위스키를 3개까지 선택해주세요</STitle>
+        <SBox>
+          {whiskyPresetData.map((whisky) => (
+            <QuestionChooseWhiskyItem key={whisky.id} whisky={whisky} />
+          ))}
+        </SBox>
+        <SButton onClick={submitHandler}>
+          <SButtonText>나만의 위스키 추천 결과 보러가기</SButtonText>
+        </SButton>
+      </SCentered>
     </motion.div>
   );
 };

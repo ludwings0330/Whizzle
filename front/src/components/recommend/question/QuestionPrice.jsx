@@ -91,11 +91,6 @@ const ResponsiveSLine = styled(SLine)`
   }
 `;
 
-const SNavigate = styled.div`
-  cursor: pointer;
-  position: fixed;
-`;
-
 const selectedStyle = {
   position: "absolute",
   zIndex: "-1",
@@ -126,109 +121,101 @@ const QuestionPrice = (props) => {
 
   return (
     <motion.div
-      initial={{ opacity: 0.6 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0.6 }}
-      transition={{ duration: 0.5 }}
+      variants={props.pageVariants}
+      initial="hidden"
+      animate="visible"
+      exit="exit"
+      custom={props.direction}
     >
-      <SDiv>
-        <STitle>구매 가능한 가격대를 선택해주세요</STitle>
-        <SCentered>
-          <SRadioInput
-            id="one"
-            type="radio"
-            value="1"
-            checked={preferenceValue.price === "1"}
-            onChange={priceSelectHandler}
-          />
-          <SRadioLabel htmlFor="one">
-            <SCircle />
-            <span>5만원 이하</span>
-            <span>&nbsp;</span>
-            {preferenceValue.price === "1" ? (
-              <motion.div style={selectedStyle} layoutId="selectedBox" />
-            ) : (
-              ""
-            )}
-          </SRadioLabel>
-          <SRadioInput
-            id="two"
-            type="radio"
-            value="2"
-            checked={preferenceValue.price === "2"}
-            onChange={priceSelectHandler}
-          />
-          <SRadioLabel htmlFor="two">
-            <SCircle />
-            <span>5만원 이상</span>
-            <span>10만원 이하</span>
-            {preferenceValue.price === "2" ? (
-              <motion.div style={selectedStyle} layoutId="selectedBox" />
-            ) : (
-              ""
-            )}
-          </SRadioLabel>
-          <SRadioInput
-            id="three"
-            type="radio"
-            value="3"
-            checked={preferenceValue.price === "3"}
-            onChange={priceSelectHandler}
-          />
-          <SRadioLabel htmlFor="three">
-            <SCircle />
-            <span>10만원 이상</span>
-            <span>20만원 이하</span>
-            {preferenceValue.price === "3" ? (
-              <motion.div style={selectedStyle} layoutId="selectedBox" />
-            ) : (
-              ""
-            )}
-          </SRadioLabel>
-          <SRadioInput
-            id="four"
-            type="radio"
-            value="4"
-            checked={preferenceValue.price === "4"}
-            onChange={priceSelectHandler}
-          />
-          <SRadioLabel htmlFor="four">
-            <SCircle />
-            <span>20만원 이상</span>
-            <span>35만원 이하</span>
-            {preferenceValue.price === "4" ? (
-              <motion.div style={selectedStyle} layoutId="selectedBox" />
-            ) : (
-              ""
-            )}
-          </SRadioLabel>
-          <SRadioInput
-            id="five"
-            type="radio"
-            value="5"
-            checked={preferenceValue.price === "5"}
-            onChange={priceSelectHandler}
-          />
-          <SRadioLabel htmlFor="five">
-            <SCircle />
-            <span>35만원 이상</span>
-            <span>&nbsp;</span>
-            {preferenceValue.price === "5" ? (
-              <motion.div style={selectedStyle} layoutId="selectedBox" />
-            ) : (
-              ""
-            )}
-          </SRadioLabel>
-          <ResponsiveSLine />
-        </SCentered>
-
-        <SNavigate onClick={props.goPriorPage} style={{ left: "0%" }}>
-          <img src={navigatePrev} alt="navigate" />
-        </SNavigate>
-        <SNavigate onClick={nextPageHandler} style={{ right: "0%" }}>
-          <img src={navigateNext} alt="navigate" />
-        </SNavigate>
-      </SDiv>
+      <STitle>구매 가능한 가격대를 선택해주세요</STitle>
+      <SCentered>
+        <SRadioInput
+          id="one"
+          type="radio"
+          value="1"
+          checked={preferenceValue.price === "1"}
+          onChange={priceSelectHandler}
+        />
+        <SRadioLabel htmlFor="one">
+          <SCircle />
+          <span>5만원 이하</span>
+          <span>&nbsp;</span>
+          {preferenceValue.price === "1" ? (
+            <motion.div style={selectedStyle} layoutId="selectedBox" />
+          ) : (
+            ""
+          )}
+        </SRadioLabel>
+        <SRadioInput
+          id="two"
+          type="radio"
+          value="2"
+          checked={preferenceValue.price === "2"}
+          onChange={priceSelectHandler}
+        />
+        <SRadioLabel htmlFor="two">
+          <SCircle />
+          <span>5만원 이상</span>
+          <span>10만원 이하</span>
+          {preferenceValue.price === "2" ? (
+            <motion.div style={selectedStyle} layoutId="selectedBox" />
+          ) : (
+            ""
+          )}
+        </SRadioLabel>
+        <SRadioInput
+          id="three"
+          type="radio"
+          value="3"
+          checked={preferenceValue.price === "3"}
+          onChange={priceSelectHandler}
+        />
+        <SRadioLabel htmlFor="three">
+          <SCircle />
+          <span>10만원 이상</span>
+          <span>20만원 이하</span>
+          {preferenceValue.price === "3" ? (
+            <motion.div style={selectedStyle} layoutId="selectedBox" />
+          ) : (
+            ""
+          )}
+        </SRadioLabel>
+        <SRadioInput
+          id="four"
+          type="radio"
+          value="4"
+          checked={preferenceValue.price === "4"}
+          onChange={priceSelectHandler}
+        />
+        <SRadioLabel htmlFor="four">
+          <SCircle />
+          <span>20만원 이상</span>
+          <span>35만원 이하</span>
+          {preferenceValue.price === "4" ? (
+            <motion.div style={selectedStyle} layoutId="selectedBox" />
+          ) : (
+            ""
+          )}
+        </SRadioLabel>
+        <SRadioInput
+          id="five"
+          type="radio"
+          value="5"
+          checked={preferenceValue.price === "5"}
+          onChange={priceSelectHandler}
+        />
+        <SRadioLabel htmlFor="five">
+          <SCircle />
+          <span>35만원 이상</span>
+          <span>&nbsp;</span>
+          {preferenceValue.price === "5" ? (
+            <motion.div style={selectedStyle} layoutId="selectedBox" />
+          ) : (
+            ""
+          )}
+        </SRadioLabel>
+        <ResponsiveSLine />
+      </SCentered>
     </motion.div>
   );
 };
