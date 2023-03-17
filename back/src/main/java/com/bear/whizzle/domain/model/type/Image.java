@@ -26,7 +26,6 @@ import lombok.ToString;
 public class Image {
 
     @NotNull
-    @Column(unique = true)
     private String savedPath; // path(저장된 경로 + 파일 이름)는 AWS에서 key를 의미한다.
 
     @NotNull
