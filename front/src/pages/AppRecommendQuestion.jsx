@@ -29,23 +29,11 @@ const AppRecommendQuestion = () => {
       case 1:
         return <QuestionFilter goNextPage={goNextPage} />;
       case 2:
-        return (
-          <QuestionPrice goPriorPage={goPriorPage} goNextPage={goNextPage} />
-        );
+        return <QuestionPrice goPriorPage={goPriorPage} goNextPage={goNextPage} />;
       case 3:
-        return (
-          <QuestionExperience
-            goPriorPage={goPriorPage}
-            setActivePage={setActivePage}
-          />
-        );
+        return <QuestionExperience goPriorPage={goPriorPage} setActivePage={setActivePage} />;
       case 4:
-        return (
-          <QuestionChooseWhisky
-            goPriorPage={goPriorPage}
-            setActivePage={setActivePage}
-          />
-        );
+        return <QuestionChooseWhisky goPriorPage={goPriorPage} setActivePage={setActivePage} />;
       case 5:
         return <QuestionChooseFlavor setActivePage={setActivePage} />;
       case 6:
