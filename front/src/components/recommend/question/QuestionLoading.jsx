@@ -15,6 +15,7 @@ const SDiv = styled.div`
 const STitle = styled.p`
   margin-top: 0;
   text-align: center;
+  color: white;
   font-size: 24px;
   font-weight: bold;
 `;

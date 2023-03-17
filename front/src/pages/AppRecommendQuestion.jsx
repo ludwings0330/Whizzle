@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styled from "styled-components";
+import { AnimatePresence } from "framer-motion";
 
 //components import
 import QuestionStart from "../components/recommend/question/QuestionStart";
@@ -16,10 +16,16 @@ const AppRecommendQuestion = () => {
 
   // 페이지 이동하는 함수
   const goNextPage = () => {
-    setActivePage((prevPage) => prevPage + 1);
+    setTimeout(() => {
+      // 1초 후 페이지 이동
+      setActivePage((prevPage) => prevPage + 1);
+    }, 300);
   };
   const goPriorPage = () => {
-    setActivePage((prevPage) => prevPage - 1);
+    setTimeout(() => {
+      // 1초 후 페이지 이동
+      setActivePage((prevPage) => prevPage - 1);
+    }, 300);
   };
 
   const recommendQuestionPages = () => {
@@ -53,7 +59,7 @@ const AppRecommendQuestion = () => {
     }
   };
 
-  return <div>{recommendQuestionPages()}</div>;
+  return <AnimatePresence>{recommendQuestionPages()}</AnimatePresence>;
 };
 
 export default AppRecommendQuestion;

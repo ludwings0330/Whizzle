@@ -1,6 +1,7 @@
 import React from "react";
 import { useRecoilValue } from "recoil";
 import { preference } from "../../../store/preferenceStore";
+import { motion } from "framer-motion";
 import QuestionChooseWhiskyItem from "./QuestionChooseWhiskyItem";
 import styled from "styled-components";
 import navigatePrev from "../../../assets/img/navigate_prev.png";
@@ -130,30 +131,39 @@ const QuestionChooseWhisky = (props) => {
     if (preferenceValue.whiskies) {
       // axios 요청 들어갈 자리
       console.log(preferenceValue);
-      props.setActivePage(6);
+      setTimeout(() => {
+        props.setActivePage(6);
+      }, 300);
     } else {
       alert("1개 이상의 위스키를 선택해주세요!");
     }
   };
 
   return (
-    <SDiv>
-      <SNavigate onClick={props.goPriorPage}>
-        <img src={navigatePrev} alt="navigate" />
-      </SNavigate>
-      <SCentered>
-        <SContent>위스키를 즐겨 드시는군요!</SContent>
-        <STitle>가장 선호하는 위스키를 3개까지 선택해주세요</STitle>
-        <SBox>
-          {whiskyPresetData.map((whisky) => (
-            <QuestionChooseWhiskyItem key={whisky.id} whisky={whisky} />
-          ))}
-        </SBox>
-        <SButton onClick={submitHandler}>
-          <SButtonText>나만의 위스키 추천 결과 보러가기</SButtonText>
-        </SButton>
-      </SCentered>
-    </SDiv>
+    <motion.div
+      initial={{ opacity: 0.6 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0.6 }}
+      transition={{ duration: 0.5 }}
+    >
+      <SDiv>
+        <SNavigate onClick={props.goPriorPage}>
+          <img src={navigatePrev} alt="navigate" />
+        </SNavigate>
+        <SCentered>
+          <SContent>위스키를 즐겨 드시는군요!</SContent>
+          <STitle>가장 선호하는 위스키를 3개까지 선택해주세요</STitle>
+          <SBox>
+            {whiskyPresetData.map((whisky) => (
+              <QuestionChooseWhiskyItem key={whisky.id} whisky={whisky} />
+            ))}
+          </SBox>
+          <SButton onClick={submitHandler}>
+            <SButtonText>나만의 위스키 추천 결과 보러가기</SButtonText>
+          </SButton>
+        </SCentered>
+      </SDiv>
+    </motion.div>
   );
 };
 
