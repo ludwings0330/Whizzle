@@ -41,6 +41,21 @@ public class AwsS3Service {
     }
 
     /**
+     * 리뷰 이미지를 저장합니다. 리뷰 이미지를 저장하는 도중에 실패할 경우 이전까지 저장한 이미지를 롤백하지는 않습니다.
+     * @param files 저장할 1개 이상의 리뷰 이미지 사진
+     * @return Image 객체의 리스트를 반환합니다. 이 객체는 S3 Object에 대한 기본 정보를 담고 있습니다.
+     */
+    public List<Image> uploadReviewImages(MultipartFile[] files) {
+        List<Image> images = new ArrayList<>();
+
+        for (MultipartFile file : files) {
+            images.add(upload(file, "images/reviews"));
+        }
+
+        return images;
+    }
+
+    /**
      * S3에 저장된 파일을 삭제합니다.
      * @param key S3에서 파일이 저장된 경로
      */
