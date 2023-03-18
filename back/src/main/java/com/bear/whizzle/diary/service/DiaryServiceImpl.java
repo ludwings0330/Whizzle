@@ -1,7 +1,10 @@
 package com.bear.whizzle.diary.service;
 
+import com.bear.whizzle.diary.DiaryMapper;
 import com.bear.whizzle.diary.controller.dto.DiaryRequestSaveDto;
+import com.bear.whizzle.diary.controller.dto.DiaryRequestUpdateDto;
 import com.bear.whizzle.diary.repository.DiaryRepository;
+import com.bear.whizzle.domain.exception.NotFoundException;
 import com.bear.whizzle.domain.model.entity.Diary;
 import com.bear.whizzle.domain.model.entity.Drink;
 import com.bear.whizzle.domain.model.entity.Member;
@@ -10,6 +13,7 @@ import com.bear.whizzle.member.MemberRepository;
 import com.bear.whizzle.whisky.repository.WhiskyRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,27 +30,43 @@ public class DiaryServiceImpl implements DiaryService {
     @Transactional
     public void writeDiary(Long memberId, DiaryRequestSaveDto diaryRequestSaveDto) {
         Member member = memberRepository.getReferenceById(memberId);
-        Diary diary = Diary.builder()
-                           .member(member)
-                           .date(diaryRequestSaveDto.getDate())
-                           .emotion(diaryRequestSaveDto.getEmotion())
-                           .drinkLevel(diaryRequestSaveDto.getDrinkLevel())
-                           .content(diaryRequestSaveDto.getContent())
-                           .build();
+        Diary diary = DiaryMapper.toDiary(member, diaryRequestSaveDto);
+        writeDrinks(diary, diaryRequestSaveDto.getWhiskyIds());
+        diaryRepository.save(diary);
+    }
 
-        List<Long> whiskyIds = diaryRequestSaveDto.getWhiskyIds();
-        for (int size = whiskyIds.size(), i = 0; i < size; i++) {
-            Whisky whisky = whiskyRepository.getReferenceById(whiskyIds.get(i));
+    @Override
+    @Transactional
+    public void rewriteDiary(Long memberId, DiaryRequestUpdateDto diaryRequestUpdateDto) {
+        Diary diary = diaryRepository.findWithDrinksById(diaryRequestUpdateDto.getId())
+                                     .orElseThrow(() -> new NotFoundException("다이어리를 찾을 수 없습니다."));
+
+        if (!memberId.equals(diary.getMember().getId())) {
+            throw new AccessDeniedException("다이어리는 본인만 수정할 수 있습니다.");
+        }
+
+        Member member = memberRepository.getReferenceById(memberId);
+        diary.update(DiaryMapper.toDiary(member, diaryRequestUpdateDto));
+        eraseDrinks(diary, diaryRequestUpdateDto.getDeletedDrinkOrders());
+        writeDrinks(diary, diaryRequestUpdateDto.getInsertedWhiskyIds());
+    }
+
+    private void eraseDrinks(Diary diary, List<Integer> deletedDrinkOrders) {
+        for (Integer index : deletedDrinkOrders) {
+            diary.deleteDrink(index);
+        }
+    }
+
+    private void writeDrinks(Diary diary, List<Long> whiskyIds) {
+        for (Long whiskyId : whiskyIds) {
+            Whisky whisky = whiskyRepository.getReferenceById(whiskyId);
             Drink drink = Drink.builder()
                                .diary(diary)
                                .whisky(whisky)
-                               .whiskyOrder(i + 1)
                                .build();
 
             diary.addDrink(drink);
         }
-
-        diaryRepository.save(diary);
     }
 
 }
