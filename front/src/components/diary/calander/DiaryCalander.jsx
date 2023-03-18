@@ -6,11 +6,129 @@ import styled from "styled-components";
 const SDiv = styled.div`
   border: 2px solid #e1e1e1;
   border-radius: 8px;
-  float: left;
+  display: inline-block;
   width: 770px;
   height: 580px;
   margin: 0 10px;
   padding: 40px 60px 40px 40px;
+  box-shadow: 5px 5px 5px #e1e1e1;
+`;
+
+const SHeaderDiv = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  text-align: center;
+`;
+
+const SDateP = styled.p`
+  background-image: linear-gradient(to right, #f84f5a, #f6cb5a);
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-weight: bold;
+  font-size: 50px;
+  margin-top: 0;
+  margin-bottom: 30px;
+`;
+
+const SCalanderDiv = styled.div`
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 1rem;
+    background-color: transparent;
+    color: #212529;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    text-align: left;
+    font-weight: bold;
+  }
+
+  th,
+  td {
+    vertical-align: top;
+    border-top: 2px solid #dee2e6;
+    font-weight: bold;
+  }
+
+  th {
+    text-align: inherit;
+    background-color: #f8f9fa;
+    border-bottom: 2px solid #dee2e6;
+    padding: 25px;
+  }
+
+  td {
+    border-bottom: 1px solid #dee2e6;
+    padding: 25px;
+  }
+`;
+
+const SPrevButton = styled.button`
+  border: none;
+  background: none;
+  font-size: 60px;
+  line-height: 1;
+  padding: 10;
+  cursor: pointer;
+
+  &::before {
+    content: "<";
+    color: #f84f5a;
+  }
+
+  &::after {
+    content: "";
+    display: block;
+    font-size: 60px;
+    line-height: 1;
+    color: #fff;
+    background: linear-gradient(to right, #f84f5a, #f6cb5a);
+    padding: 10 10px;
+    margin-bottom: 10px;
+  }
+
+  &::after span {
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+`;
+
+const SNextButton = styled.button`
+  border: none;
+  background: none;
+  font-size: 60px;
+  line-height: 1;
+  padding: 10;
+  margin-bottom: 10px;
+  cursor: pointer;
+
+  &::before {
+    content: ">";
+    color: #f84f5a;
+  }
+
+  &::after {
+    content: "";
+    display: block;
+    font-size: 60px;
+    line-height: 1;
+    color: #fff;
+    background: linear-gradient(to right, #f84f5a, #f6cb5a);
+    padding: 10 10px;
+    margin-bottom: 10px;
+  }
+
+  &::after span {
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
 `;
 
 //다이어리 캘린더
@@ -92,19 +210,23 @@ const DiaryCalander = ({ onDateClick }) => {
   return (
     <>
       <SDiv>
-        <h2>{date.toLocaleString("default", { month: "long", year: "numeric" })}</h2>
-        <table>
-          <thead>
-            <tr>
-              {weekdays.map((day) => (
-                <th key={day}>{day}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>{rows}</tbody>
-        </table>
-        <button onClick={prevMonth}>Prev</button>
-        <button onClick={nextMonth}>Next</button>
+        <SHeaderDiv>
+          <SPrevButton onClick={prevMonth}></SPrevButton>
+          <SDateP>{date.toLocaleString("en-US", { month: "long", year: "numeric" })}</SDateP>
+          <SNextButton onClick={nextMonth}></SNextButton>
+        </SHeaderDiv>
+        <SCalanderDiv>
+          <table>
+            <thead>
+              <tr>
+                {weekdays.map((day) => (
+                  <th key={day}>{day}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>{rows}</tbody>
+          </table>
+        </SCalanderDiv>
       </SDiv>
     </>
   );
