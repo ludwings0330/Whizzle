@@ -21,7 +21,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Builder
 @ToString
 @EqualsAndHashCode
-public class DiaryRequestSaveDto {
+public class DiaryRequestSaveDto implements DiaryRequestDto {
 
     @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
