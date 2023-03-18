@@ -1,6 +1,7 @@
 package com.bear.whizzle.diary.service;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 import com.bear.whizzle.diary.DiaryMapper;
 import com.bear.whizzle.diary.controller.dto.DiaryRequestSaveDto;
@@ -22,6 +23,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.access.AccessDecisionManager;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
@@ -41,7 +44,7 @@ class DiaryServiceImplTest {
     @Test
     @DisplayName("다이어리 작성 테스트")
     void writeDiary() {
-        //given
+        // given
         Long memberId = 1L;
         DiaryRequestSaveDto saveDto = DiaryRequestSaveDto.builder()
                                                          .date(LocalDate.now())
@@ -51,10 +54,10 @@ class DiaryServiceImplTest {
                                                          .content("기분이 매우매우 조으다.")
                                                          .build();
 
-        //when
+        // when
         diaryService.writeDiary(memberId, saveDto);
 
-        //then
+        // then
         entityManager.flush();
         entityManager.clear();
         Diary written = diaryRepository.findByMemberId(memberId)
@@ -70,7 +73,7 @@ class DiaryServiceImplTest {
     @Test
     @DisplayName("다이어리 수스 테스트_성공")
     void rewriteDiary() {
-        //given
+        // given
         Long memberId = 1L;
         Long diaryId = 1L;
         List<Integer> deletedDrinkOrders = List.of(0);
@@ -84,10 +87,10 @@ class DiaryServiceImplTest {
                                                                .insertedWhiskyIds(insertedWhiskyIds)
                                                                .build();
 
-        //when
+        // when
         diaryService.rewriteDiary(memberId, updateDto);
 
-        //then
+        // then
         entityManager.flush();
         entityManager.clear();
         Diary updated = diaryRepository.findWithDrinksById(diaryId)
@@ -97,10 +100,10 @@ class DiaryServiceImplTest {
         assertThat(DiaryMapper.toDiaryRequestUpdateDto(updated)).isEqualTo(updateDto);
 
         assertThat(updated.getDrinks()
-                           .stream()
-                           .map(Drink::getDrinkOrder)
-                           .filter(deletedDrinkOrders::contains)
-                           .collect(Collectors.toList()))
+                          .stream()
+                          .map(Drink::getDrinkOrder)
+                          .filter(deletedDrinkOrders::contains)
+                          .collect(Collectors.toList()))
                 .isEqualTo(deletedDrinkOrders);
 
         assertThat(updated.getDrinks()
@@ -110,6 +113,20 @@ class DiaryServiceImplTest {
                           .filter(insertedWhiskyIds::contains)
                           .collect(Collectors.toList()))
                 .isEqualTo(insertedWhiskyIds);
+    }
+
+    @Test
+    @DisplayName("다이어리 수정 테스트_인가_실패")
+    void rewriteDiary_fail() {
+        // given
+        Long memberId = 2L;
+        Long diaryId = 1L;
+        DiaryRequestUpdateDto updateDto = DiaryRequestUpdateDto.builder()
+                                                               .id(diaryId)
+                                                               .build();
+
+        // then
+        assertThatThrownBy(() -> diaryService.rewriteDiary(memberId, updateDto)).isInstanceOf(AccessDeniedException.class);
     }
 
 }
