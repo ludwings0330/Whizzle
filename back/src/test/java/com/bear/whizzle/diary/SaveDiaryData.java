@@ -4,14 +4,11 @@ import com.bear.whizzle.common.util.RandomDataUtil;
 import com.bear.whizzle.domain.model.type.DrinkLevel;
 import com.bear.whizzle.domain.model.type.Emotion;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,7 +75,6 @@ class SaveDiaryData {
     }
 
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
-    @Getter
     @Builder
     private static class Diary {
         private long memberId;
