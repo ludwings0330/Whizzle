@@ -52,4 +52,8 @@ public class Drink {
         return "Drink [diary.id: " + diary.getId() + ", whisky.id: " + whisky.getId() + "]";
     }
 
+    public void writeDiary(Diary diary) {
+        this.diary = diary;
+    }
+
 }
