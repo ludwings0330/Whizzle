@@ -7,13 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 @SpringBootTest
-@Slf4j
+@Disabled("회원이 위스키를 킵한 데이터 추가를 완료했습니다.")
 class SaveKeepData {
 
     private final JdbcTemplate jdbcTemplate;

@@ -8,13 +8,14 @@ import com.bear.whizzle.domain.model.type.Image;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 @SpringBootTest
-@Slf4j
+@Disabled("회원 데이터 추가를 완료했습니다.")
 class SaveMemberData {
 
     private final JdbcTemplate jdbcTemplate;
