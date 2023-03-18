@@ -25,6 +25,10 @@ public final class DiaryMapper {
                     .build();
     }
 
+    public static Diary toDiary(DiaryRequestDto diaryRequestDto) {
+        return toDiary(null, diaryRequestDto);
+    }
+
     public static DiaryRequestSaveDto toDiaryRequestSaveDto(Diary diary) {
         List<Long> whiskyIds = diary.getDrinks()
                                     .stream()

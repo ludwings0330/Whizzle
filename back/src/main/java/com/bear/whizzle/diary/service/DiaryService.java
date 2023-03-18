@@ -9,4 +9,6 @@ public interface DiaryService {
 
     void rewriteDiary(Long memberId, DiaryRequestUpdateDto diaryRequestUpdateDto);
 
+    void eraseDiary(Long memberId, Long diaryId);
+
 }

@@ -10,6 +10,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,6 +49,20 @@ public class DiaryController {
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void rewriteDiary(@AuthenticationPrincipal PrincipalDetails member, @Valid DiaryRequestUpdateDto diaryRequestUpdateDto) {
 //        diaryService.rewriteDiary(member.getId(), diaryRequestUpdateDto);
+    }
+
+    /**
+     * 다이어리 삭제 완료 시 상태 코드 202 반환
+     *
+     * @param member  현재 다이어리를 수정한 본인의 계정 정보
+     * @param diaryId 삭제하려는 다이어리의 ID
+     * @throws com.bear.whizzle.domain.exception.NotFoundException       잘못된 다이어리 ID를 전달한 경우에 발생
+     * @throws org.springframework.security.access.AccessDeniedException 다이어리 작성자와 현재 자신이 다른 경우에 발생
+     */
+    @DeleteMapping("/{diaryId}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void eraseDiary(@AuthenticationPrincipal PrincipalDetails member, @PathVariable Long diaryId) {
+//        diaryService.eraseDiary(member.getId(), diaryId);
     }
 
 }

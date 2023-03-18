@@ -1,6 +1,7 @@
 package com.bear.whizzle.diary.repository;
 
 import com.bear.whizzle.domain.model.entity.Diary;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,9 +13,12 @@ import org.springframework.stereotype.Repository;
 public interface DiaryRepository extends JpaRepository<Diary, Long> {
 
     @Query("SELECT d FROM Diary d JOIN FETCH d.drinks WHERE d.id = :id")
-    Optional<Diary> findWithDrinksById(Long id);
+    Optional<Diary> findWithDrinksById(@Param("id") Long id);
 
     @Query("SELECT DISTINCT d FROM Diary d JOIN FETCH d.drinks WHERE d.member.id = :memberId")
     List<Diary> findByMemberId(@Param("memberId") Long memberId);
+
+    @Query("SELECT d FROM Diary d JOIN FETCH d.drinks WHERE d.member.id = :memberId AND d.date = :today")
+    Optional<Diary> findByMemberIdAndDate(@Param("memberId") Long memberId, @Param("today") LocalDate today);
 
 }
