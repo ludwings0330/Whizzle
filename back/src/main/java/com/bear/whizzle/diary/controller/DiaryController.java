@@ -4,6 +4,7 @@ import com.bear.whizzle.auth.service.PrincipalDetails;
 import com.bear.whizzle.diary.controller.dto.DiaryRequestSaveDto;
 import com.bear.whizzle.diary.controller.dto.DiaryRequestUpdateDto;
 import com.bear.whizzle.diary.service.DiaryService;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -30,7 +31,7 @@ public class DiaryController {
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void writeDiary(@AuthenticationPrincipal PrincipalDetails member, DiaryRequestSaveDto diaryRequestSaveDto) {
+    public void writeDiary(@AuthenticationPrincipal PrincipalDetails member, @Valid DiaryRequestSaveDto diaryRequestSaveDto) {
 //        diaryService.writeDiary(member.getId(), diaryRequestSaveDto);
     }
 
@@ -44,7 +45,7 @@ public class DiaryController {
      */
     @PutMapping
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void rewriteDiary(@AuthenticationPrincipal PrincipalDetails member, DiaryRequestUpdateDto diaryRequestUpdateDto) {
+    public void rewriteDiary(@AuthenticationPrincipal PrincipalDetails member, @Valid DiaryRequestUpdateDto diaryRequestUpdateDto) {
 //        diaryService.rewriteDiary(member.getId(), diaryRequestUpdateDto);
     }
 
