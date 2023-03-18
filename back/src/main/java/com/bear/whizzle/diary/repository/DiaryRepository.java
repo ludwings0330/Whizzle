@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface DiaryRepository extends JpaRepository<Diary, Long>, DiaryCustomRepository {
+public interface DiaryRepository extends JpaRepository<Diary, Long> {
 
     @Query("SELECT DISTINCT d FROM Diary d JOIN FETCH d.drinks WHERE d.member.id = :memberId")
     List<Diary> findByMemberId(@Param("memberId") Long memberId);
