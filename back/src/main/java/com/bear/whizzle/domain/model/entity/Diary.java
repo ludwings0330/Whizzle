@@ -18,6 +18,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
@@ -71,19 +72,35 @@ public class Diary {
     @OneToMany(
             mappedBy = "diary",
             cascade = CascadeType.ALL,
-            orphanRemoval = true,
             fetch = FetchType.LAZY
     )
+    @OrderBy("drinkOrder ASC")
     @ToString.Exclude
     private final List<Drink> drinks = new ArrayList<>();
 
     @Builder
-    private Diary(Member member, Emotion emotion, DrinkLevel drinkLevel, String content) {
+    private Diary(Member member, LocalDate date, Emotion emotion, DrinkLevel drinkLevel, String content) {
         super();
         this.member = member;
+        this.date = date;
         this.emotion = emotion;
         this.drinkLevel = drinkLevel;
         this.content = content;
+    }
+
+    public void update(Diary diary) {
+        this.emotion = diary.getEmotion();
+        this.drinkLevel = diary.getDrinkLevel();
+        this.content = diary.getContent();
+    }
+
+    public void addDrink(Drink drink) {
+        this.drinks.add(drink);
+        drink.writeDiary(this);
+    }
+
+    public void deleteDrink(Integer index) {
+        this.drinks.get(index).delete();
     }
 
     @Override
@@ -104,11 +121,6 @@ public class Diary {
     @Override
     public int hashCode() {
         return Objects.hash(this.getDate(), this.getMember().getId());
-    }
-
-    public void addDrink(Drink drink) {
-        drinks.add(drink);
-        drink.writeDiary(this);
     }
 
 }
