@@ -3,6 +3,7 @@ package com.bear.whizzle.diary;
 import com.bear.whizzle.common.util.RandomDataUtil;
 import com.bear.whizzle.domain.model.type.DrinkLevel;
 import com.bear.whizzle.domain.model.type.Emotion;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -35,16 +36,16 @@ class SaveDiaryData {
 
         for (long memberId = 1; memberId <= RandomDataUtil.MEMBER_SIZE; memberId++) {
             int diaryCount = (int) (100 * Math.random());
-            LocalDateTime today = LocalDateTime.now();
+            LocalDate today = LocalDate.now();
 
             for (int i = 0; i < diaryCount; i++) {
                 diaries.add(
                         Diary.builder()
                              .memberId(memberId)
+                             .date(today.minusDays(i))
                              .emotion(RandomDataUtil.getEmotion())
                              .drinkLevel(RandomDataUtil.getDrinkLevel())
                              .content(RandomDataUtil.getContent())
-                             .createdDateTime(today.minusDays(i))
                              .build()
                 );
 
@@ -61,21 +62,17 @@ class SaveDiaryData {
     }
 
     private void bulkInsert(List<Diary> diaries) {
-        final String INSERT_SQL = "INSERT INTO diary (member_id, emotion, drink_level, content, created_date_time, modified_date_time) VALUES (?, ?, ?, ?, ?, ?)";
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'hh-mm-ss");
+        final String INSERT_SQL = "INSERT INTO diary (member_id, date, emotion, drink_level, content) VALUES (?, ?, ?, ?, ?)";
 
         jdbcTemplate.batchUpdate(
                 INSERT_SQL, diaries, diaries.size(),
                 (preparedStatement, diary) -> {
                     int idx = 0;
                     preparedStatement.setLong(++idx, diary.memberId);
+                    preparedStatement.setString(++idx, diary.date.toString());
                     preparedStatement.setString(++idx, diary.emotion.name());
                     preparedStatement.setString(++idx, diary.drinkLevel.name());
                     preparedStatement.setString(++idx, diary.content);
-
-                    String createdDateTime = diary.createdDateTime.format(formatter);
-                    preparedStatement.setString(++idx, createdDateTime);
-                    preparedStatement.setString(++idx, createdDateTime);
                 }
         );
     }
@@ -85,11 +82,10 @@ class SaveDiaryData {
     @Builder
     private static class Diary {
         private long memberId;
+        private LocalDate date;
         private Emotion emotion;
         private DrinkLevel drinkLevel;
         private String content;
-        private LocalDateTime createdDateTime;
-        private LocalDateTime modifiedDateTime;
     }
 
 }
