@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.util.List;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -14,8 +15,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 @Builder
 @ToString
@@ -27,15 +28,15 @@ public class DiaryRequestSaveDto {
     private LocalDate date;
 
     @NotNull
-    @Size(min = 1)
-    private List<Long> whiskyIds;
-
-    @NotNull
     private Emotion emotion;
 
     @NotNull
     private DrinkLevel drinkLevel;
 
     private String content;
+
+    @NotNull
+    @Size(min = 1)
+    private List<Long> whiskyIds;
 
 }
