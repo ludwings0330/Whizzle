@@ -23,7 +23,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,7 +41,7 @@ class DiaryServiceImplTest {
     private EntityManager entityManager;
 
     @Test
-    @DisplayName("다이어리 작성 테스트")
+    @DisplayName("다이어리_작성_테스트")
     void writeDiary() {
         // given
         Long memberId = 1L;
@@ -60,10 +59,7 @@ class DiaryServiceImplTest {
         // then
         entityManager.flush();
         entityManager.clear();
-        Diary written = diaryRepository.findByMemberId(memberId)
-                                       .stream()
-                                       .filter(diary -> diary.getDate().equals(LocalDate.now()))
-                                       .findFirst()
+        Diary written = diaryRepository.findByMemberIdAndDate(memberId, LocalDate.now())
                                        .orElseThrow(() -> new NotFoundException("다이어리 작성 실패"));
 
         assertThat(written.getMember().getId()).isEqualTo(memberId);
@@ -71,8 +67,8 @@ class DiaryServiceImplTest {
     }
 
     @Test
-    @DisplayName("다이어리 수스 테스트_성공")
-    void rewriteDiary() {
+    @DisplayName("다이어리_수정_테스트_성공")
+    void rewriteDiary_success() {
         // given
         Long memberId = 1L;
         Long diaryId = 1L;
@@ -116,17 +112,38 @@ class DiaryServiceImplTest {
     }
 
     @Test
-    @DisplayName("다이어리 수정 테스트_인가_실패")
-    void rewriteDiary_fail() {
+    @DisplayName("다이어리_삭제_테스트_성공")
+    void eraseDiary_success() {
+        // given
+        Long memberId = 1L;
+        Long diaryId = 1L;
+
+        // when
+        diaryService.eraseDiary(memberId, diaryId);
+
+        // then
+        entityManager.flush();
+        entityManager.clear();
+        Diary deleted = diaryRepository.findWithDrinksById(diaryId)
+                                       .orElseThrow(() -> new NotFoundException("다른 다이어리 ID로 테스트를 진행해주세요."));
+
+        assertThat(deleted.getIsDeleted()).isTrue();
+        assertThat(deleted.getDrinks()
+                          .stream()
+                          .filter(Drink::getIsDeleted)
+                          .count())
+                .isEqualTo(deleted.getDrinks().size());
+    }
+
+    @Test
+    @DisplayName("다이어리_인가_실패")
+    void authorizeWriter_fail() {
         // given
         Long memberId = 2L;
         Long diaryId = 1L;
-        DiaryRequestUpdateDto updateDto = DiaryRequestUpdateDto.builder()
-                                                               .id(diaryId)
-                                                               .build();
 
         // then
-        assertThatThrownBy(() -> diaryService.rewriteDiary(memberId, updateDto)).isInstanceOf(AccessDeniedException.class);
+        assertThatThrownBy(() -> diaryService.eraseDiary(memberId, diaryId)).isInstanceOf(AccessDeniedException.class);
     }
 
 }
