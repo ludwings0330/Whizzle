@@ -20,7 +20,7 @@ const SDiv = styled.div`
 `;
 
 const slide = {
-  // position: "absolute",
+  position: "absolute",
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
