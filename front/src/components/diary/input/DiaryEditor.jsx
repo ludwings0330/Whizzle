@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 //import component
 import DiaryNewContent from "./DiaryNewContent";
@@ -64,6 +64,13 @@ const DiaryEditor = ({ onCreate, today, currentComponent, setCurrentComponent })
 
   const [emotion, setEmotion] = useState("최고예요");
   const [drinklevel, setDrinklevel] = useState("소량");
+
+  useEffect(() => {
+    setEmotionValue(50);
+    setDrinklevelValue(50);
+    setEmotion("그냥그래요");
+    setDrinklevel("적당히");
+  }, [currentComponent]);
 
   const handleEmotionChange = (e) => {
     const emotionValue = e.target.value;
