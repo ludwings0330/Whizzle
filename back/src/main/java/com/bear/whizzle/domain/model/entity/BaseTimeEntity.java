@@ -2,8 +2,11 @@ package com.bear.whizzle.domain.model.entity;
 
 import java.time.LocalDateTime;
 import javax.persistence.Column;
+import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.PrePersist;
 import javax.validation.constraints.NotNull;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,10 +14,12 @@ import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @MappedSuperclass
-@NoArgsConstructor
-@AllArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @SuperBuilder
 @ToString

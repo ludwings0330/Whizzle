@@ -12,23 +12,23 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Table(name = "review")
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@SuperBuilder
 @ToString(callSuper = true)
 public class Review extends BaseTimeEntity {
 
@@ -43,10 +43,10 @@ public class Review extends BaseTimeEntity {
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "whiskey_id")
+    @JoinColumn(name = "whisky_id")
     @NotNull
     @ToString.Exclude
-    private Whiskey whiskey;
+    private Whisky whisky;
 
     @NotNull
     @Min(0)
@@ -55,6 +55,14 @@ public class Review extends BaseTimeEntity {
 
     @Lob
     private String content;
+
+    @NotNull
+    @ColumnDefault("0")
+    private Integer likeCount;
+
+    @NotNull
+    @ColumnDefault("0")
+    private Boolean isDeleted;
 
     @OneToMany(
             mappedBy = "review",
@@ -65,5 +73,20 @@ public class Review extends BaseTimeEntity {
     @Size(max = 5)
     @ToString.Exclude
     private final List<ReviewImage> images = new ArrayList<>();
+
+    @Builder
+    public Review(Member member, Whisky whisky, Float rating, String content) {
+        super();
+        this.member = member;
+        this.whisky = whisky;
+        this.rating = rating;
+        this.content = content;
+    }
+
+    @PrePersist
+    private void prePersist() {
+        this.likeCount = 0;
+        this.isDeleted = Boolean.FALSE;
+    }
 
 }

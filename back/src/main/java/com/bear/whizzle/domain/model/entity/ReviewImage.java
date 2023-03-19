@@ -1,8 +1,10 @@
 package com.bear.whizzle.domain.model.entity;
 
 import com.bear.whizzle.domain.model.type.Image;
+import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -10,18 +12,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Table(name = "review_image")
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@Builder
 @ToString
 public class ReviewImage {
 
@@ -29,7 +30,7 @@ public class ReviewImage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "review_id")
     @NotNull
     @ToString.Exclude
@@ -38,5 +39,20 @@ public class ReviewImage {
     @Embedded
     @NotNull
     private Image image;
+
+    @Column(columnDefinition = "TINYINT")
+    @NotNull
+    private Integer imageOrder;
+
+    @NotNull
+    @ColumnDefault("0")
+    private Boolean isDeleted = Boolean.FALSE;
+
+    @Builder
+    private ReviewImage(Review review, Image image, Integer imageOrder) {
+        this.review = review;
+        this.image = image;
+        this.imageOrder = imageOrder;
+    }
 
 }

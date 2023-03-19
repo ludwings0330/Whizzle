@@ -1,0 +1,701 @@
+,name,total_rating,cost_rank,abv,cask_type,smoky,peaty,spicy,herbal,oily,full_bodied,rich,sweet,briny,salty,vanilla,tart,fruity,floral
+0,Hibiki 21 Year,861,5,43.0,"ex-bourbon American oak, ex-sherry European oak, Japanese mizunara",30,85,50,30,20,80,80,85,0,15,20,25,85,50
+1,Highland Park 18 Year,2987,4,43.0,ex-sherry,40,30,40,20,40,70,80,70,20,40,50,50,70,20
+2,Michter's 20 Year Kentucky Straight Bourbon (2021 Release),10,5,57.1,"new, charred American oak",15,0,20,0,15,80,90,85,0,5,30,25,35,0
+3,George T. Stagg Bourbon (Fall 2019),628,4,58.45,"new, charred American oak",40,0,65,50,20,60,60,45,0,0,60,60,45,0
+4,Bowmore Mizunara Cask Finish,22,5,53.9,"ex-bourbon, ex-sherry, new Mizunara oak",30,20,40,30,10,75,75,60,15,20,30,20,50,5
+5,Macallan M,47,5,44.7,sherry oak casks,50,10,60,0,15,90,100,50,0,0,20,20,80,10
+6,Port Ellen 32 Year 1979 (2012 Special Release),27,5,52.5,"American oak, refill European oak ",70,50,20,10,20,80,80,60,15,5,40,25,50,0
+7,Thomas H. Handy Sazerac Rye (Fall 2015),169,3,63.45,"new, charred American oak",10,0,60,0,10,80,80,80,0,0,50,10,30,20
+8,William Larue Weller Bourbon (Fall 2015),252,3,67.3,"new, charred American oak",10,0,30,0,30,80,80,80,0,0,60,10,40,20
+9,Balvenie Tun 1509 Batch 1,80,5,47.1,ex-bourbon/ex-sherry,10,0,25,10,15,80,80,80,0,10,40,0,40,20
+10,"Booker's Bourbon Batch 2015-01 ""Big Man, Small Batch""",716,3,64.35,"new, charred American oak",15,0,35,5,20,80,80,75,0,10,30,20,40,0
+11,Four Roses Limited Edition Single Barrel Bourbon (2013),160,5,59.8,"new, charred American oak",30,0,80,40,40,90,90,70,0,30,10,0,60,10
+12,Macallan Rare Cask,833,5,43.0,first fill sherry,5,0,25,5,15,85,85,80,0,0,35,10,40,10
+13,Four Roses Limited Edition Single Barrel Bourbon (2014),514,4,54.2,"new, charred American oak",10,0,60,60,80,100,100,80,0,20,90,0,80,10
+14,Macallan Fine Oak 21 Year,252,5,43.0,ex-sherry/ex-bourbon,15,0,10,0,10,80,85,80,0,0,25,5,30,5
+15,Thomas H. Handy Sazerac Rye (Fall 2014),220,3,64.6,new charred oak,0,0,30,5,0,75,70,75,0,0,20,15,30,10
+16,Parker's Heritage Promise of Hope,238,4,48.0,new charred oak,0,0,20,0,0,75,75,75,0,0,15,0,20,5
+17,George Dickel x Leopold Bros Collaboration Blend (2021 Release),86,4,50.0,,20,0,80,75,10,35,45,35,0,0,30,40,45,15
+18,"Booker's Bourbon Batch 2021-01 ""Donohoe's Batch""",122,4,62.65,"new, charred American oak",5,0,25,40,10,75,75,85,0,5,30,10,40,0
+19,Bushmills 28 Year The Rare Casks Cognac Cask Single Malt,5,5,46.7,"ex-bourbon and ex-oloroso sherry casks, finished in cognac casks",10,0,30,10,30,55,55,65,0,0,25,30,85,25
+20,Bunnahabhain 2008 Mòine Bordeaux Red Wine Cask Matured,33,4,58.1,Bordeaux red wine casks,90,75,80,40,60,100,90,60,30,30,40,10,60,10
+21,Bowmore Vintner's Trilogy 26 Year French Oak Barrique,30,5,48.7,ex-bourbon & ex-red wine barriques,65,55,40,20,60,80,80,60,25,10,45,20,25,10
+22,Sazerac Rye 18 Year (Fall 2017),36,4,45.0,"new, charred American oak",50,0,85,45,6,50,50,40,0,0,25,40,50,0
+23,Ardbeg 17 Year,66,5,40.0,Ex-bourbon Barrels,65,70,10,15,15,5,20,65,55,45,70,0,5,15
+24,Teeling Platinum Reserve 30 Year Single Malt,3,5,46.0,ex-bourbon,30,0,60,20,10,70,60,50,0,30,70,20,30,20
+25,Hibiki 30 Year,69,5,43.0,,20,10,75,30,20,65,70,85,20,15,30,10,85,25
+26,Laphroaig 32 Year,37,5,46.7,ex-Oloroso sherry ,50,70,20,0,20,80,75,60,20,5,40,15,60,0
+27,Glenmorangie 1970's Collection '77,14,5,43.0,,30,10,40,10,20,60,70,40,0,0,50,10,30,30
+28,Laphroaig Cairdeas 2013 Port Wood Edition,71,4,51.3,ex-bourbon & port barrels,10,40,70,50,20,70,80,80,0,20,80,20,80,80
+29,The Last Drop 48 Year Blended Scotch Whisky,9,5,48.6,,10,10,30,20,10,70,60,60,0,0,50,10,60,20
+30,Balblair 1983 1st Release,33,5,46.0,ex-bourbon,10,0,35,5,10,75,75,70,0,0,40,10,40,10
+31,Hirsch Selection 28 Year Bourbon,11,5,43.4,"new, charred American oak",60,0,80,40,40,100,100,80,10,0,100,60,80,60
+32,Oban 21 Year Cask Strength,45,5,58.5,rejuvenated American oak and 2nd fill sherry casks,60,60,70,40,80,100,100,70,50,70,80,60,80,90
+33,Wild Turkey Diamond Anniversary Bourbon,310,4,45.5,"new, charred American oak",60,0,60,50,25,50,50,55,0,0,55,25,60,30
+34,Black Maple Hill 16 Year Bourbon,69,4,47.5,new charred oak,0,0,15,0,0,80,80,70,0,0,10,5,20,0
+35,George T. Stagg Bourbon (Fall 2013),431,5,64.1,New American Oak,30,0,40,40,90,90,90,60,0,0,50,30,70,60
+36,Highland Park 30 Year,118,5,48.1,refill ex-sherry casks,50,50,60,30,30,70,70,70,30,50,50,20,60,40
+37,Yamazaki 18 Year,1034,5,43.0,"80% Sherry, 20% Mizunara and American",40,20,60,30,30,80,80,80,10,20,50,60,80,60
+38,Lark Single Malt Distiller's Selection,24,5,46.0,ex-Aussie-style port oak Quarter Casks,40,45,70,60,35,60,60,40,20,20,20,40,70,50
+39,Bushmills 21 Year Single Malt,415,4,40.0,"Ex-bourbon, Oloroso Sherry casks, & ex-Madeira wine",40,10,60,10,20,70,80,80,10,20,60,30,90,47
+40,Compass Box Hedonism,795,4,43.0,ex-bourbon,10,10,60,20,30,70,90,80,10,20,60,20,80,50
+41,The Last Drop Signature Blend,0,5,60.7,,20,0,60,40,20,90,90,70,0,0,80,30,50,10
+42,Heaven Hill 17 Year Heritage Collection Barrel Proof Bourbon (Spring 2022),45,5,59.1,"new, charred American oak",25,0,60,0,15,55,55,60,0,0,35,25,35,0
+43,Jack Daniel's Single Barrel Coy Hill High Proof (2021 Special Release),83,3,74.15,"new, charred American oak",35,0,85,50,15,45,45,55,0,0,45,30,60,0
+44,Glenlivet 1940 80 Year Generations (Gordon & MacPhail),1,5,44.9,first-fill sherry butt,20,30,40,30,60,80,60,30,0,20,20,30,80,40
+45,Glenfiddich Grand Couronne 26 Year,9,5,43.8,"American oak, European oak, ex-Cognac ",0,0,25,0,15,80,85,80,0,5,35,25,40,10
+46,Laphroaig 33 Year The Ian Hunter Story Book 3,0,5,49.9,refill ex-bourbon barrels,30,20,30,50,20,40,40,40,20,10,30,25,60,5
+47,Michter's US*1 Barrel Strength Kentucky Straight Rye (2021 Release),57,4,55.15,"new, charred American oak",5,0,65,10,10,60,60,65,0,0,25,10,30,0
+48,Laphroaig 25 Year Cask Strength (2020 Edition),7,5,49.8,second-fill European oak oloroso sherry and ex-bourbon,70,80,70,20,40,70,70,60,70,50,80,10,40,30
+49,WhistlePig The Boss Hog VII: Magellan's Atlantic,71,5,52.6,"new, charred American oak; finished in Spanish oak & South American teakwood",25,0,80,45,15,55,55,50,0,0,25,25,25,0
+50,George T. Stagg Bourbon (Fall 2020),258,4,65.2,"new, charred American oak",20,0,30,10,40,90,90,80,0,0,90,20,10,0
+51,Redbreast 27 Year,89,5,53.5,"ruby port, ex-bourbon, and ex-oloroso sherry",10,0,55,25,45,60,75,70,15,10,50,20,50,35
+52,Mister Sam Blended Whiskey (2019 Release),9,5,66.9,,60,0,55,20,35,65,65,45,0,0,45,20,55,25
+53,Bunnahabhain 2005 Palo Cortado Cask Finish,10,5,54.9,finished in Palo Cortado sherry casks,30,0,60,10,40,100,90,70,30,20,20,10,60,20
+54,Canadian Club Chronicles 41 Year,48,5,45.0,Used American White Oak,40,0,40,10,10,60,65,60,0,0,50,20,55,35
+55,Red Spot 15 Year Single Pot Still,262,4,46.0,"American oak ex-bourbon, ex-sherry butts, ex-Marsala wine casks",10,0,40,15,15,45,45,60,0,0,25,50,80,15
+56,William Larue Weller Bourbon (Fall 2018),218,4,62.85,"new, charred American oak",35,0,55,20,10,40,40,45,0,0,25,30,25,0
+57,Old Forester Birthday Bourbon 2018,261,4,50.5,"new, charred American oak",40,0,40,15,30,45,45,60,0,15,35,45,65,0
+58,Catoctin Creek Rabble Rouser Bottled in Bond Rye,32,4,50.0,"new, charred American oak",0,0,70,50,30,80,90,70,0,20,80,20,10,0
+59,Bruichladdich 1984/32 Bourbon: All In,14,5,43.7,ex-bourbon barrels & hogsheads,0,0,40,30,50,90,80,70,10,10,80,20,70,20
+60,Lock Stock & Barrel Straight Rye Whiskey 18 Year,87,5,54.5,"new, charred American oak   ",25,0,45,15,50,75,70,50,10,5,55,20,20,10
+61,Canadian Club 40 Year,39,5,45.0,used American white oak,50,0,50,20,40,60,65,50,0,0,40,20,65,30
+62,J.P. Wiser's 35 Year,55,5,50.0,ex-bourbon and virgin oak,50,0,55,0,40,60,65,50,0,0,45,10,55,50
+63,Yamazaki 18 Year Mizunara Cask (2017 Edition),31,5,48.0,Japanese Mizunara oak,15,0,70,15,15,65,60,45,0,0,15,35,75,30
+64,Glenmorangie Grand Vintage 1990,17,5,43.0,ex-bourbon and ex-sherry,10,0,30,50,80,75,80,75,10,10,50,60,75,60
+65,Bowmore 50 Year 1961,2,5,40.7,ex-bourbon hogshead,40,10,20,0,20,70,40,50,10,40,30,40,70,70
+66,J.P. Wiser's Union 52,21,3,45.0,,50,35,40,20,0,60,65,45,10,0,40,15,50,15
+67,Four Roses Limited Edition Small Batch Bourbon (2016),181,4,55.6,"new, charred American oak",20,0,40,10,30,80,80,80,0,0,70,40,50,10
+68,William Larue Weller Bourbon (Fall 2016),140,4,67.7,"new, charred American oak",40,0,20,10,20,80,70,70,0,0,70,20,20,10
+69,Yamazaki 25 Year (Discontinued),67,5,43.0,Sherry casks,20,20,70,15,50,75,65,70,15,20,30,15,85,25
+70,Octomore 07.3/169 Islay Barley,114,5,63.0,ex-bourbon & Spanish Ribera del Duero wine barrels,70,100,20,40,20,80,60,50,80,60,30,20,30,20
+71,Macallan Reflexion,47,5,43.0,First-fill Spanish and American oak sherry hogshead,30,0,45,0,10,80,80,65,0,0,50,20,65,20
+72,Four Roses Limited Edition Small Batch Bourbon (2015),215,5,54.3,"new, charred American oak",10,0,50,0,40,80,80,70,0,0,70,10,40,20
+73,Jack Daniel's Sinatra Century,137,5,50.0,"new, charred American oak",80,0,50,0,40,70,70,50,0,0,60,0,20,10
+74,Eagle Rare 17 Year Bourbon (Fall 2015),96,3,45.0,"new, charred American oak",20,0,50,10,10,80,60,70,0,0,70,10,30,10
+75,The Glenrothes Extraordinary Single Cask 1969 #11485,5,5,42.9,ex-sherry ,0,0,10,0,10,70,75,80,0,0,40,10,60,20
+76,Balvenie Tun 1509 Batch 2,35,5,50.3,European ex-sherry and American oak,0,0,40,20,20,60,70,60,0,0,50,0,40,30
+77,Overeem Bourbon Cask Matured Single Malt Cask Strength,4,5,60.0,ex-bourbon,30,0,40,20,40,30,20,50,30,20,70,10,50,40
+78,Nikka Yoichi 20 Year,32,5,52.0,,80,90,30,20,40,70,75,65,25,37,30,20,45,35
+79,Laphroaig 15 Year 200th Anniversary,293,3,43.0,ex-bourbon,60,70,15,25,25,80,80,70,10,20,40,15,50,20
+80,Dalmore Constellation 1979 Cask 1093 33 Year,8,5,58.9,European ex-sherry butt,30,0,60,10,0,70,90,70,0,0,40,20,70,20
+81,Balblair 1990 2nd Release,120,4,46.0,ex-bourbon/ex-sherry,15,0,20,0,15,80,85,80,0,5,30,25,40,0
+82,Woodford Reserve Master's Collection Four Wood Bourbon,124,4,47.2,"new, charred American oak, maplewood, ex-sherry, ex-port",60,0,70,40,0,90,80,80,0,0,80,0,80,40
+83,Benromach Vintage 1976,5,5,46.0,1st fill and refill ex-sherry,20,0,50,10,50,70,70,75,0,30,50,50,90,50
+84,Laphroaig 30 Year,59,5,53.5,first-fill ex-bourbon & refill casks,70,60,30,10,50,90,50,40,20,10,60,20,50,10
+85,Eagle Rare 17 Year Bourbon (Fall 2014),190,3,45.0,new charred oak,10,0,25,0,10,75,70,65,0,5,15,0,15,0
+86,Yellow Spot 12 Year Single Pot Still,1295,4,46.0,"ex bourbon, ex sherry, ex Malaga wine",20,0,50,20,30,70,70,80,0,0,40,30,90,40
+87,Booker's 25th Anniversary Bourbon,153,4,65.4,Charred American White Oak,75,0,60,20,70,60,85,45,10,10,40,10,40,20
+88,Redbreast 21 Year,539,5,46.0,ex-bourbon and 1st fill sherry casks,20,0,60,30,40,70,80,60,0,10,50,50,70,30
+89,William Larue Weller Bourbon (Fall 2013),141,4,68.1,New American Oak,30,0,40,50,60,80,70,60,20,0,30,20,70,50
+90,Highland Park 40 Year,19,5,48.3,refill ex-sherry casks,40,40,60,30,20,70,70,60,20,40,40,20,50,40
+91,Nikka Yoichi 15 Year,303,4,46.0,"ex-bourbon, ex-Oloroso sherry",50,50,60,30,30,80,90,70,20,20,50,30,70,30
+92,Talisker 10 Year,6754,3,45.8,ex-bourbon,70,70,50,60,50,60,50,40,40,40,20,30,30,20
+93,Glenglassaugh Evolution,242,3,50.0,Ex-Tennessee,25,15,5,10,0,65,70,60,0,10,25,5,25,10
+94,Laphroaig 10 Year,9452,3,43.0,Ex-Bourbon,70,90,50,20,60,60,40,60,30,30,70,40,60,30
+95,Lagavulin Distillers Edition,1378,4,43.0,finished in a Pedro Ximénez sherry cask,70,70,60,40,20,80,90,70,50,50,60,30,80,30
+96,Bowmore 18 Year,649,4,43.0,ex-Bourbon barrels & ex-Sherry casks,50,30,40,10,20,60,70,70,20,50,50,30,70,50
+97,Evan Williams Single Barrel,4420,2,43.3,"new, charred American oak",20,10,30,20,40,60,50,50,30,30,40,20,40,20
+98,Parker's Heritage Cognac Barrel Finish 10 Year Bourbon,17,3,50.0,"new, charred american oak / french Limousin ex-cognac",10,0,40,20,90,90,90,70,0,0,70,20,30,80
+99,GlenDronach Grandeur (Batch 11),1,5,48.9,ex-oloroso and PX sherry casks,10,0,45,20,10,50,65,55,0,0,10,35,70,0
+100,Michter's 10 Year Single Barrel Kentucky Straight Rye (2022 Release),22,5,46.4,"new, charred American oak",5,0,20,30,15,55,55,60,0,0,30,10,40,5
+101,Bushmills 29 Year The Rare Casks Pedro Ximenez Cask Single Malt,4,5,53.0,ex-bourbon and first-fill Pedro Ximenez sherry cask,15,0,55,10,30,70,70,40,0,0,15,30,85,0
+102,Old Fitzgerald Bottled in Bond 17 Year (Spring 2022),54,5,50.0,"new, charred American oak",5,0,40,0,15,90,80,60,0,5,30,10,20,0
+103,Cascade Moon 13 Year Rye,4,5,50.0,"new, charred American oak",15,0,70,65,5,60,60,60,0,0,15,25,60,10
+104,Nikka Yoichi Non-Peated (2021 Release),8,5,47.0,,10,0,65,0,30,55,55,60,0,0,15,35,70,60
+105,Balvenie Tun 1509 Batch 8,1,5,52.2,,15,0,55,20,20,55,55,55,0,0,40,35,55,0
+106,Michter's 10 Year Single Barrel Kentucky Straight Bourbon (2021 Release),88,4,47.2,"new, charred American oak",20,0,30,10,20,85,65,70,0,5,20,25,40,0
+107,Bowmore Timeless Series 27 Year,1,5,52.7,"sherry & ex-bourbon casks, then first-fill oloroso sherry butts",70,30,40,10,40,90,80,40,60,50,30,10,60,20
+108,Maker's Mark Wood Finishing Series 2021 FAE-01,345,3,55.15,"new, charred American oak; finished with proprietary wooden staves",5,0,20,25,30,60,60,70,0,0,40,20,60,0
+109,Mars Komagatake Single Malt Limited Edition 2020,11,5,50.0,ex-bourbon and ex-sherry,10,0,30,10,20,70,60,60,0,15,30,20,60,5
+110,Heaven Hill 85th Anniversary 13 Year Single Barrel,0,5,53.5,"new, charred American oak",10,0,30,0,10,85,80,80,0,0,30,20,60,0
+111,Rosebank 30 Year (Release 1),1,5,48.6,refill sherry butts & refill bourbon hogsheads ,5,0,15,15,45,50,60,35,0,0,25,35,45,30
+112,Elijah Craig Barrel Proof Bourbon Batch B520,420,3,63.6,"new, charred American oak",30,0,40,20,10,60,60,70,0,0,45,30,55,0
+113,Blue Spot 7 Year Cask Strength Single Pot Still,106,4,59.2,"ex-bourbon, ex-sherry, ex-Madeira",10,0,25,0,20,80,75,70,0,10,20,15,45,0
+114,J.P. Wiser's 23 Year Cask Strength Blend,24,4,64.3,,50,0,65,20,15,55,55,40,0,0,40,20,45,15
+115,GlenDronach Grandeur (Batch 10),14,5,50.1,ex-Pedro Ximenez and ex-oloroso sherry puncheons and butts,10,0,25,20,55,70,80,70,15,10,50,20,35,30
+116,Gooderham & Worts Eleven Souls,37,4,49.0,"new white oak, ex bourbon casks and Canadian whisky casks",40,0,45,25,20,55,50,45,10,0,45,25,50,40
+117,Russell's Reserve 2002,34,5,57.3,"new, charred American oak",15,0,70,30,40,60,70,55,10,10,50,15,35,20
+118,Wild Turkey Master's Keep Revival,186,4,50.5,"new, charred American oak; finished in oloroso sherry",30,0,90,40,20,90,70,70,0,0,80,0,60,0
+119,Bruichladdich 1986/30 Sherry: The Magnificent Seven,8,5,44.6,oloroso & Pedro Ximenez sherry butts,10,0,30,50,50,90,90,75,55,55,60,85,85,30
+120,Chichibu Whisky Matsuri 2017,5,5,59.2,fino hogshead,15,20,70,40,65,75,60,77,35,25,20,10,75,41
+121,Lot No. 40 12 Year Cask Strength,72,3,55.0,new oak,40,0,70,15,30,50,50,40,0,0,40,10,45,45
+122,Chichibu Japan Warrior Series Bottle One,2,5,61.9,"sherry puncheon, white wine cask",10,15,20,35,45,40,30,15,19,18,17,23,70,60
+123,Lagavulin 12 Year (2017 Special Release),192,4,56.5,refill American oak hogheads,60,30,50,10,70,80,60,50,40,20,60,0,40,6
+124,Kilbeggan 21 Year,25,4,40.0,"ex-bourbon, ex-sherry, ex-port, ex-Madeira",15,0,25,20,15,50,50,55,0,0,45,30,50,0
+125,"Colonel E.H. Taylor, Jr. Four Grain Bottled in Bond",345,3,50.0,"new, charred American oak",5,0,40,10,40,70,70,65,10,0,50,10,30,25
+126,Glenkinchie 1991 24 Year (2016 Special Release),12,5,57.2,refill European Oak,20,0,50,20,10,80,60,70,0,0,70,30,50,20
+127,Old Potrero Hotaling's Single Malt Rye 16 Year,11,5,50.0,"used, charred American oak",20,0,65,40,10,55,50,45,0,0,35,35,65,20
+128,Alberta Premium 30 Year,6,2,40.0,Charred White Oak,40,0,50,20,0,50,60,55,0,0,50,25,60,40
+129,Lagavulin 25 Year,54,5,50.9,Ex-Sherry,80,60,50,30,30,70,30,40,70,50,30,20,40,10
+130,Glenlivet Single Cask: Pullman Water Level Route,16,5,54.9,refill American oak hogshead,20,0,20,0,30,80,80,70,0,0,40,0,50,10
+131,Lagavulin Jazz Festival 2015,26,5,55.4,refill American oak & European oak,50,40,40,10,10,70,60,50,30,50,10,30,50,20
+132,J.P. Wiser's Last Barrels,51,3,45.0,oak barrels,40,0,50,10,0,55,60,50,10,0,50,20,60,40
+133,Knob Creek Limited Edition 2001,274,4,50.0,"new, charred American oak",20,0,70,10,20,70,60,60,0,0,80,20,10,0
+134,Forty Creek John's Private Cask No. 1,5,3,40.0,toasted oak,40,0,80,30,10,55,60,55,10,0,50,40,60,30
+135,Glenfiddich Rare Collection Vintage 1978 Cask #28121,11,5,54.1,,20,0,40,10,30,80,70,40,0,0,50,10,20,30
+136,Caol Ila 30 Year (2014 Special Release),28,5,55.1,"refill American casks, refill European casks",50,50,25,35,15,40,45,50,25,25,15,10,15,0
+137,Benromach Organic,203,3,43.0,virgin American oak,0,0,30,10,70,90,80,70,0,10,70,0,10,10
+138,Bruichladdich Black Art 1990 04.1 Edition 23 Year,205,5,49.2,variety of American and European oak some with varied wine finishes,20,0,60,10,40,80,60,80,10,20,30,50,100,30
+139,Belle Meade Cask Strength Single Barrel Bourbon 9 Year,216,3,61.2,"new, charred American oak",10,0,20,80,40,30,20,60,0,30,60,0,10,60
+140,Wild Turkey Master's Keep 17 Year,308,4,43.4,"new, charred American oak",40,0,80,20,30,70,40,70,0,20,80,0,60,30
+141,Russell's Reserve Single Barrel Bourbon,2669,2,55.0,"new, charred American oak",0,0,90,50,70,80,70,80,0,0,80,30,70,60
+142,Macallan No. 6 in Lalique,11,5,43.0,first-fill sherry,3,0,60,20,15,45,45,50,0,0,45,35,75,70
+143,Highland Park Freya,31,5,51.2,first-fill bourbon,30,30,60,20,30,50,50,65,30,30,60,20,90,70
+144,"Colonel E.H. Taylor, Jr. Cured Oak Bottled in Bond Bourbon",277,3,50.0,"new, charred American oak",10,0,35,0,15,80,80,75,0,0,30,15,40,0
+145,Deanston 18 Year Cognac Cask,15,5,46.3,ex-bourbon/ex-cognac,15,0,30,0,15,80,80,80,0,5,25,10,40,5
+146,Edradour Straight From The Cask Port Wood Finish 12 Year,22,4,56.1,"ex-bourbon, ex-port",40,0,70,40,80,100,100,70,50,50,80,60,80,90
+147,Arran The Devil's Punch Bowl Chapter III The Fiendish Finale,30,4,53.0,"French oak, ex-sherry, ex-bourbon",20,10,90,40,70,70,80,70,40,30,50,60,70,50
+148,Laphroaig 25 Year Cask Strength (2013 Edition),141,5,45.1,ex-bourbon/ex-sherry,40,70,20,30,15,85,85,80,30,15,35,0,30,5
+149,Glengoyne 15 Year,433,3,43.0,ex-bourbon/ex-sherry,0,0,10,0,10,80,80,70,0,0,25,10,15,5
+150,Laphroaig Cairdeas 2014 Amontillado Cask Edition,116,3,51.4,ex-bourbon & first-fill Amontillado sherry hogshead,40,40,15,20,20,80,80,60,15,20,15,0,5,10
+151,Jim Beam Signature Craft 12 Year Bourbon,414,2,43.0,"new, charred American oak",50,0,80,30,20,70,70,70,0,0,80,50,30,10
+152,Eagle Rare 17 Year Bourbon (Fall 2013),188,4,45.0,New American Oak,40,0,70,60,70,80,70,40,0,0,20,60,50,40
+153,Lark Single Malt Single Cask,68,4,43.0,ex-Aussie-style port oak Quarter Casks,40,60,70,50,45,65,65,50,0,20,20,40,80,30
+154,Lark Single Malt Cask Strength,36,5,58.0,ex-Aussie-style port oak Quarter Casks,45,45,70,60,40,70,70,70,20,20,50,30,80,20
+155,Hakushu 25 Year,34,5,43.0,Ex-Sherry,70,40,50,45,60,57,62,30,25,35,20,15,75,59
+156,Johnnie Walker Green Label 15 Year,2347,3,43.0,American and European oak,40,40,50,30,30,70,80,70,20,20,50,40,80,30
+157,Cameron Bridge 26 Year The Knight's Golden Triumph (2022 Special Release),2,5,52.6,refill American oak cask,0,0,55,10,10,45,45,40,0,0,25,5,55,25
+158,Angel's Envy Bourbon Finished in Port Wine Barrels Cask Strength (2022 Edition),21,5,59.9,finished in port wine barrels,30,0,65,20,15,60,60,40,0,0,20,35,70,10
+159,Parker's Heritage Double Barreled Blend,14,5,66.1,"new, charred American oak; finished in new charred American oak (char #3)",25,0,40,15,15,80,80,50,0,0,25,30,40,0
+160,George Dickel 13 Year Bottled in Bond Tennessee Whisky (Fall 2008),35,2,50.0,"new, charred American oak",10,0,60,10,20,55,55,60,0,5,20,25,15,0
+161,Michter's US*1 Toasted Barrel Sour Mash Whiskey (2022 Release),26,4,43.0,"new, charred American oak; finished in toasted barrels",5,0,25,5,25,90,85,65,0,0,30,10,40,0
+162,Old Forester Birthday Bourbon 2022,30,4,48.0,"new, charred American oak",35,0,55,35,25,55,60,50,0,0,45,35,35,0
+163,Bowmore x Aston Martin Masters' Selection 21 Year,3,5,51.8,includes first-fill Pedro Ximemez and oloroso sherry casks,25,30,30,10,20,55,55,60,10,5,30,20,60,0
+164,Little Book Chapter 5: The Invitation,108,4,58.4,"new, charred American oak ",5,0,30,10,15,90,70,75,0,0,20,25,30,0
+165,Michter's 10 Year Single Barrel Kentucky Straight Rye (2021 Release),38,5,46.4,"new, charred American oak ",10,0,40,30,10,85,80,70,0,0,20,30,20,10
+166,Benriach The Twenty Five,4,5,46.0,"bourbon, sherry, virgin oak, Madeira wine",10,5,30,8,20,65,80,70,0,5,40,30,60,5
+167,Remus Repeal Reserve Series V (2021 Medley),159,4,50.0,"new, charred American oak",35,0,65,20,15,50,50,60,0,0,45,30,40,0
+168,Cascade Moon Edition No. 2,3,5,45.0,"new, charred American oak",40,0,75,45,15,45,45,55,0,0,35,40,15,0
+169,Mars Tsunuki The First Single Malt,5,5,59.0,ex-bourbon and ex-sherry,10,0,25,5,15,60,70,70,0,0,40,30,75,10
+170,Oban 2006 Distillers Edition (Bottled 2020),48,4,43.0,finished in ex-Montilla Fino wine barrels,35,20,30,10,15,75,75,60,0,10,30,10,60,5
+171,Bruichladdich Black Art 1994 8.1 Edition 26 Year,23,5,45.1,various casks,15,0,40,0,35,60,60,70,15,15,35,35,85,15
+172,Laphroaig 30 Year The Ian Hunter Story Book 2,3,5,48.2,European oak oloroso sherry casks,80,70,60,30,30,90,70,40,50,40,30,20,80,50
+173,St. George Single Malt Lot 20,6,3,43.0,various casks,30,0,40,10,0,80,80,70,0,10,100,60,50,30
+174,Angel's Envy Bourbon Finished in Port Wine Barrels Cask Strength (2020 Edition),117,5,60.2,"new, charred American oak; finished in port wine barrels",40,0,55,30,45,65,65,70,0,0,35,35,75,15
+175,"Barrell Whiskey Infinite Barrel Project (August 13, 2020)",15,3,61.9,,10,0,50,50,20,80,90,70,0,0,80,20,50,70
+176,Four Roses Limited Edition Small Batch Bourbon (2020),75,4,55.7,"new, charred American oak",35,0,70,40,20,50,50,65,0,0,35,45,55,15
+177,Knob Creek 15 Year Bourbon (2020 Release),265,4,50.0,"new, charred American oak",55,0,70,45,20,55,55,45,0,10,40,45,35,0
+178,Dalwhinnie 30 Year (2020 Special Release),7,5,51.9,refill hogsheads,5,0,15,30,25,40,65,20,0,0,15,40,50,20
+179,Bruichladdich 1988 / 30: The Untouchable,3,5,46.2,refill bourbon barrels and squat hogshead casks,0,0,5,20,30,30,50,15,0,0,15,20,35,35
+180,Eagle Rare 17 Year Bourbon (Fall 2019),75,4,50.5,"new, charred American oak",20,0,70,20,20,40,40,45,0,0,35,55,60,0
+181,Ardbeg Traigh Bhan 19 Year Batch 1 (2019),76,5,46.2,American oak and ex-oloroso sherry casks,90,80,40,50,60,60,60,50,45,40,50,25,45,15
+182,Michter's 10 Year Single Barrel Kentucky Straight Rye (2019 Release),129,5,46.4,"new, charred American oak",10,0,50,30,20,70,90,80,0,20,90,30,20,0
+183,Balblair 25 Year,2,5,46.0,"American oak ex-bourbon, finished in Spanish oak oloroso sherry casks",10,0,20,25,65,75,85,65,5,5,65,15,20,15
+184,Glen Grant 1948 Private Collection (Gordon & Macphail),1,5,48.6,first-fill sherry butt,5,10,30,25,10,45,65,35,5,5,10,40,35,25
+185,Laphroaig 28 Year,21,5,44.4,"variety of cask sizes, finished in sherry butts",30,50,30,30,50,90,70,60,70,60,50,10,40,10
+186,Lot No. 40 11 Year Cask Strength,37,4,58.4,new oak barrels,50,0,65,30,15,50,55,40,15,5,40,25,40,30
+187,Eagle Rare 17 Year Bourbon (Fall 2018),29,4,50.5,"new, charred American oak",25,0,40,40,20,40,40,50,0,15,35,30,30,0
+188,Wyoming Whiskey Barrel Strength Bourbon (Barrel #3242),5,5,62.35,"new, charred American oak",10,0,70,50,0,90,80,80,0,20,90,30,60,0
+189,King of Kentucky 14 Year Kentucky Straight Bourbon (2018 Release),25,5,67.5,"new, charred American oak",15,0,75,35,60,85,75,45,15,10,40,25,35,10
+190,Compass Box Hedonism The Muse,35,5,53.3,,30,0,40,0,40,70,90,80,0,30,90,0,50,20
+191,Booker's Bourbon Batch 2017-04 Sip Awhile,222,3,64.05,"new, charred American oak   ",30,0,80,40,20,90,80,60,0,0,80,10,10,0
+192,Balvenie Tun 1509 Batch 4,35,5,51.7,ex-bourbon barrels & ex-sherry butts,10,0,40,10,20,80,70,70,0,10,80,0,70,40
+193,Loch Lomond 50 Year,0,5,46.2,American oak hogshead and sherry European oak hogshead,0,0,25,10,10,75,80,55,0,0,20,35,55,10
+194,Gooderham & Worts Three Grain Little Trinity 17 Year,46,3,45.0,ex-bourbon and virgin oak,45,0,50,10,20,55,50,45,0,0,50,15,55,30
+195,George T. Stagg Bourbon (Fall 2017),421,4,64.6,"new, charred American oak",45,0,75,20,30,45,45,65,0,0,40,30,30,0
+196,Old Forester Birthday Bourbon 2017,209,3,48.0,"new, charred American oak",30,0,55,15,15,50,50,75,0,0,40,30,30,0
+197,Port Ellen 37 Year (2017 Special Release),4,5,51.0,refill American oak hogheads and refill American oak butts,70,80,40,10,50,80,60,50,40,70,50,30,30,20
+198,Benromach 1974 Heritage Single Cask #1583,1,5,49.1,sherry butt,30,0,35,10,20,60,60,65,0,10,20,25,65,10
+199,Craigellachie 31 Year,7,5,52.2,,40,0,50,0,50,80,80,60,0,20,80,20,80,10
+200,Laphroaig Cairdeas 2017 Cask Strength Quarter Cask Edition,156,4,57.2,"first-fill bourbon, finished in American oak quarter-casks",75,80,80,25,10,40,40,35,25,25,25,35,45,0
+201,J.P. Wiser's Dissertation,58,3,46.1,Virgin Oak,40,0,50,30,25,50,55,45,10,0,40,25,50,45
+202,Compass Box Rivals,6,5,46.0,"first-fill ex-bourbon, French oak, and sherry casks",20,0,15,15,10,35,90,50,10,0,45,15,70,35
+203,Four Roses Limited Edition 50th Anniversary Small Batch Bourbon (2017),172,4,54.3,"new, charred American oak",30,0,50,10,0,70,80,70,0,10,90,40,40,10
+204,"Booker's Bourbon Batch 2017-01 ""Tommy's Batch""",147,3,64.25,"new, charred American oak",40,0,80,30,30,60,60,40,0,0,30,30,30,0
+205,Johnnie Walker 18 Year,404,4,40.0,,40,80,50,40,30,70,70,70,0,10,50,40,70,40
+206,anCnoc 35 Year,2,5,44.3,Spanish and American oak,5,0,30,25,35,50,60,40,0,0,40,40,50,20
+207,WhistlePig The Boss Hog III: The Independent,87,5,60.3,finished in 250-liter Scotch hogsheads refitted with American Oak heads,10,0,70,35,20,55,55,25,10,10,30,0,15,10
+208,Bruichladdich Black Art 1992 05.1 Edition 24 Year,95,5,48.4,,10,0,40,0,50,80,80,60,40,50,30,20,70,10
+209,Caol Ila 15 Year 2000 (2016 Special Release),48,4,61.5, refill American oak casks and European oak butts,30,0,30,20,50,70,50,60,20,50,40,30,40,10
+210,Cambus 40 Year 1975 (2016 Special Release),4,5,52.7,refill American oak hogsheads,20,0,50,70,60,70,50,70,0,0,70,20,40,20
+211,Belle Meade Bourbon Madeira Cask Finish,235,3,45.2,"new, charred American oak and ex-Malmsey Madeira",30,0,40,20,40,80,90,70,0,0,80,20,60,20
+212,Old Forester Birthday Bourbon 2016,173,3,48.5,"new, charred American oak",30,0,60,40,40,60,70,70,0,0,70,10,40,0
+213,Eagle Rare 17 Year Bourbon (Fall 2016),47,4,45.0,"new, charred American oak",30,0,40,10,30,60,80,70,0,0,70,0,10,0
+214,Kavalan Solist PX Sherry Single Cask Strength,45,5,50.0,ex-PX Sherry,0,0,30,10,40,70,70,50,0,0,40,10,40,20
+215,Lost Spirits Leviathan I Single Malt,9,3,53.0,French oak ex-late harvest California cabernet sauvignon,80,100,60,10,55,60,55,40,10,10,25,0,15,20
+216,Stauning Peated Whisky 5th Edition (Bottled 2015),5,4,51.1,ex-bourbon,75,65,60,65,85,65,50,60,75,60,55,0,10,0
+217,Stauning KAOS (Bottled October 2014),14,5,54.3,,50,35,65,75,85,70,40,35,0,10,25,0,15,20
+218,Four Roses Limited Edition Bourbon Elliott's Select (2016),135,4,58.4,"new, charred American oak",20,0,60,30,20,70,70,60,0,0,70,10,0,0
+219,Booker's Rye Whiskey Big Time Batch (2016 Release),141,5,68.1,"new, charred American oak",30,0,80,10,50,80,70,60,0,0,50,20,0,0
+220,Lagavulin Fèis Ìle 2015,17,5,59.9,"ex-bourbon, ex-Pedro Ximénez sherry, used puncheon barrels",40,30,30,10,10,60,70,60,30,40,50,10,30,20
+221,Lock Stock & Barrel Straight Rye Whiskey 16 Year,92,4,53.5,"new, charred American oak",20,0,80,70,20,70,50,40,0,0,40,30,20,20
+222,Teeling Distillery Exclusive 23 Year Single Malt,9,5,52.5,ex-oloroso sherry hogshead,0,0,20,0,20,80,80,60,0,0,30,20,40,20
+223,Forty Creek Port Wood Reserve,11,3,45.0,finished in Canadian-tawny-port-style wine barrels,40,0,45,0,0,65,60,55,10,0,45,20,65,30
+224,Old Forester Birthday Bourbon 2014,43,3,48.5,"new, charred American oak",20,0,60,35,5,45,40,30,0,0,60,0,15,15
+225,Crown Royal Noble Collection Cornerstone Blend,64,3,40.3,,10,0,70,10,10,70,60,50,0,10,50,30,60,10
+226,Laphroaig Lore,894,4,48.0,"first-fill sherry, first-fill bourbon, refill bourbon, and whisky finished in European ex-sherry hogshead",70,50,35,40,20,80,80,50,60,30,20,10,40,15
+227,Royal Brackla 21 Year (Discontinued),47,5,40.0,oloroso sherry butts,20,0,10,20,50,70,70,50,0,0,40,0,50,30
+228,"Booker's Bourbon Batch 2016-01 ""Booker's Bluegrass""",254,3,63.95,"new, charred American oak",15,0,60,0,40,70,60,30,5,0,40,0,15,0
+229,Charbay Hop Flavored Whiskey Release III,10,5,66.2,new #3 “gator skin” char American oak barrels and neutral vessels,60,0,70,90,20,70,70,40,20,20,20,60,60,80
+230,Charbay Hop Flavored Whiskey R5 Lot No. 3,20,3,49.5,French oak,6,0,70,80,20,70,70,70,20,20,10,40,40,80
+231,Säntis Malt Appenzeller Single Malt Edition Dreifaltigkeit,76,3,52.0,Old Oak Beer Casks,70,50,40,0,50,60,60,30,10,10,20,0,10,0
+232,Woodford Reserve Master's Collection 1838 Style White Corn Bourbon,111,4,45.2,"new, charred American oak",0,0,20,10,20,40,30,50,0,0,40,10,30,30
+233,Laphroaig Cairdeas 200th Anniversary Edition,153,3,51.5,,70,70,0,10,20,80,80,60,30,20,40,0,60,10
+234,Glenmorangie 1970's Collection '71,6,5,43.0,"ex-bourbon, ex-sherry",20,10,10,0,20,80,80,50,0,0,30,20,50,10
+235,Glenmorangie 1970's Collection '76,1,5,43.0,,20,0,60,40,50,60,50,30,0,0,30,20,50,50
+236,Heartwood The Revelation Single Malt,2,5,62.5,ex-port & ex-bourbon,40,30,40,20,40,50,60,70,20,20,70,30,60,50
+237,Laphroaig 10 Year Cask Strength (Batch 5),204,3,57.2,ex-bourbon,100,90,60,70,50,80,60,40,90,40,30,60,40,60
+238,Octomore 06.1/167 Scottish Barley,347,4,57.0,,100,100,40,10,40,100,60,60,20,20,60,10,80,20
+239,Highland Park 21 Year,93,5,47.5,primarily American ex-sherry casks,15,10,65,10,10,60,65,50,5,5,35,10,40,10
+240,I.W. Harper Straight Bourbon,753,2,41.0,"new, charred American oak",5,0,40,5,10,80,80,75,0,0,30,10,60,10
+241,Jura 1984,24,5,44.0,"American white oak, Amoroso and Apostoles ex-sherry butts",20,0,60,20,40,90,90,80,20,20,50,30,80,40
+242,I.W. Harper 15 Year Bourbon,1001,3,43.0,"new, charred American oak",0,0,70,70,40,60,70,80,0,0,80,40,60,80
+243,Balvenie Peated Cask 17 Year,67,4,43.0,"American oak, peated American oak",35,15,20,30,15,80,80,78,10,15,40,0,10,10
+244,Balblair 1999 2nd Release,105,4,46.0,ex-bourbon/ex-sherry,0,0,35,0,10,80,80,80,0,5,30,0,40,10
+245,anCnoc Vintage 1975,10,5,46.0,ex-bourbon/ex-sherry,15,0,30,0,20,80,80,70,0,10,40,5,40,0
+246,Woodford Reserve Straight Rye,1974,2,45.2,"new, charred American oak",5,0,40,0,10,70,70,70,0,10,15,15,25,0
+247,Four Roses Limited Edition Small Batch Bourbon (2014),308,3,55.9,"new, charred American oak",0,0,30,0,10,70,70,80,0,0,25,0,30,5
+248,Yamazaki Sherry Cask 2013,24,4,48.0,Oloroso Sherry Casks,10,15,55,25,40,70,80,75,20,30,25,30,85,40
+249,Old Pulteney 21 Year,211,4,46.0,ex-bourbon/ex-sherry,30,25,10,5,20,85,90,75,40,25,35,0,40,0
+250,Glenfarclas 40 Year,76,5,46.0,European oak ex-oloroso sherry cask,30,0,40,30,40,90,90,80,0,20,50,50,80,40
+251,Lock Stock & Barrel Straight Rye Whiskey 13 Year,203,4,50.65,"new, charred American oak",30,0,70,40,30,60,50,40,0,0,50,30,30,10
+252,Michter's 20 Year Single Barrel Bourbon,117,5,57.1,"new, charred American oak",0,0,20,15,10,80,80,75,0,0,20,0,15,15
+253,Parker's Heritage Wheat Whiskey 13 Year,143,4,67.5,"new, charred American oak",20,0,40,40,30,70,70,80,0,0,70,30,50,0
+254,Westland Peat Week 2014 Single Cask #279,10,3,54.0,1st fill ex Pedro Ximenez sherry hogshead,60,60,60,40,20,60,60,80,20,20,40,40,80,10
+255,Glen Spey 21 Year,13,5,50.4,American ex-bourbon & American ex-sherry,20,0,50,30,40,60,60,70,0,0,50,30,80,10
+256,GlenDronach Parliament 21 Year,495,5,48.0,"ex-Oloroso sherry, ex-Pedro Ximenez sherry",30,0,60,30,30,60,60,70,0,10,30,40,70,50
+257,Laphroaig 10 Year Cask Strength (Batch 1),802,3,57.8,ex-bourbon,60,80,60,60,50,60,60,40,60,50,40,30,30,0
+258,Suntory Royal,99,3,43.0,"Used Bourbon, Hogshead, Punchen, Sherry Casks, Mizunara",20,0,40,70,70,70,80,70,0,20,70,60,70,70
+259,Hakushu Heavily Peated (2013 Release),59,4,48.0,"Used Bourbon, Hogshead, Puncheon, Sherry Casks",70,70,70,70,70,80,80,60,60,20,60,50,70,70
+260,J.P. Wiser's Legacy Canadian Whisky,54,2,45.0,"toasted, new white oak",40,0,60,20,10,55,70,55,20,0,55,20,60,50
+261,Talisker 18 Year,660,4,45.8,American and European oak refill cask,70,70,60,50,80,10,90,60,60,60,60,30,70,80
+262,Port Charlotte PC7 Sin An Doigh Ileach,24,5,61.0,ex-bourbon,60,70,35,40,40,50,55,40,35,35,20,20,40,20
+263,Compass Box Spice Tree,933,2,46.0,New French Oak Heads & First Fill American Oak Bodies,60,20,80,20,30,70,80,80,10,10,70,50,70,50
+264,Buchanan's Red Seal,66,5,40.0,,15,5,20,0,10,80,75,70,0,0,70,20,70,0
+265,Johnnie Walker Platinum,805,4,40.0,,40,80,50,40,30,70,70,70,0,10,50,40,70,40
+266,Barrell Bourbon New Year 2023,5,4,56.77,"new, charred American oak",20,0,50,30,10,80,90,80,0,10,90,30,10,0
+267,Aberfeldy 18 Year Tuscan Red Wine Casks,2,4,43.0,finished in Tuscan red wine casks,0,0,40,50,40,70,80,50,0,0,50,40,90,60
+268,"Booker's Bourbon Batch 2022-03 ""Kentucky Tea Batch""",48,4,63.25,"new, charred American oak",5,0,60,0,25,55,60,40,0,0,20,10,15,0
+269,Widow Jane The Vaults 14 Year Bourbon (2022 Release),2,5,49.5,"new, charred American oak; finished in Missouri Ozark oak",40,0,65,30,10,65,60,45,0,40,40,35,25,0
+270,Oban 10 Year The Celestial Blaze (2022 Special Release),2,4,57.1,refill new American oak & Amontillado seasoned casks,35,35,30,10,20,45,45,35,10,5,25,10,50,10
+271,Singleton of Glen Ord 15 Year The Enchantress of the Ruby Solstice (2022 Special Release),2,4,54.2,refill American and European oak casks,5,0,15,0,10,80,70,40,8,0,25,15,80,5
+272,Compass Box Flaming Heart (7th Edition),7,5,48.9,various casks ,55,20,20,10,15,45,45,20,10,0,15,10,65,5
+273,Yellowstone Kentucky Straight Bourbon Finished in Marsala Casks (2022 Limited Edition),39,4,50.5,"new, charred American oak; finished in Marsala wine casks",35,0,65,25,15,60,60,45,0,0,40,40,40,0
+274,Redbreast Kentucky Oak Edition,26,4,50.5,"ex-bourbon and ex-oloroso sherry butts, finished in American white oak barrels",20,0,30,0,35,65,65,25,0,0,15,30,20,20
+275,Remus 15 Year Gatsby Reserve,17,5,48.9,"new, charred American oak",30,0,60,30,15,45,45,25,0,0,25,25,30,0
+276,Elijah Craig Barrel Proof Bourbon Batch A122,88,3,60.4,"new, charred American oak",5,0,35,5,10,85,80,60,0,3,20,5,25,0
+277,Knob Creek 15 Year Bourbon (2021 Release),67,4,50.0,"new, charred American oak",10,0,50,30,10,90,90,60,0,0,80,20,40,0
+278,Barrell Craft Spirits Bourbon Gold Label (2021 Release),6,5,56.77,"new, charred American oak ",20,0,50,60,40,90,80,50,0,20,80,40,30,0
+279,Lagavulin 26 Year (2021 Special Release),3,5,44.2,Pedro Ximenez & oloroso seasoned first-fill casks,65,45,30,25,15,60,65,50,15,5,20,10,40,8
+280,Middle West Spirits Dark Pumpernickel Rye,33,3,48.0,American oak,5,0,80,30,5,70,80,50,10,3,20,10,20,5
+281,The Last Drop 50 Year Signature Blended Scotch Whisky,0,5,48.7,,10,0,70,40,0,80,40,30,0,0,70,40,50,20
+282,Larceny Barrel Proof Bourbon Batch B521,110,2,60.5,"new, charred American oak ",10,0,30,5,10,65,65,70,0,5,20,15,40,0
+283,Laphroaig Cairdeas 2021 Pedro Ximenez Casks,78,4,58.9,"American oak ex-bourbon, quarter casks, ex-PX Sherry European oak hogsheads",35,55,25,45,15,40,40,45,25,15,15,10,55,5
+284,Bruichladdich Laddie Origins Fèis Ìle 2021,6,5,56.3,Various casks,0,0,25,40,35,50,55,25,10,5,20,30,55,20
+285,Elijah Craig Barrel Proof Bourbon Batch B521,188,3,59.1,"new, charred American oak",5,0,20,0,10,70,80,70,0,5,30,10,30,0
+286,Bruichladdich Black Art 1992 9.1 Edition 29 Year,16,5,44.1,,0,0,15,35,45,50,55,40,5,0,20,40,35,10
+287,Bruichladdich Bere Barley 2011,6,4,50.0,Ex-bourbon casks,0,0,15,35,50,60,65,20,5,5,30,35,40,10
+288,Jefferson's Rye Cognac Cask Finish,139,3,47.0,finished in cognac casks,30,0,60,30,30,90,90,60,0,0,70,30,80,70
+289,Barrell Seagrass,485,4,59.2,"finished in Martinique rhum, Malmsey Madeira, and apricot brandy casks",0,0,50,40,10,90,70,60,0,0,60,40,80,30
+290,Elijah Craig Barrel Proof Bourbon Batch A121,241,3,61.8,"new, charred American oak",10,0,45,5,15,70,80,60,0,5,30,15,40,0
+291,Benromach 21 Year,9,4,43.0,first-fill sherry and bourbon casks,10,0,25,20,40,45,60,35,0,0,30,30,40,15
+292,Kilkerran 16 Year,40,5,46.0,"96% Bourbon, 4% Madeira",20,10,30,45,50,60,55,20,25,10,20,15,25,10
+293,Laphroaig 10 Year Sherry Oak Finish,92,4,48.0,finished in ex-oloroso sherry oak casks,20,50,15,20,20,85,75,60,15,5,15,10,40,0
+294,Thomas H. Handy Sazerac Rye (Fall 2020),100,4,64.5,"new, charred American oak",10,0,90,50,0,90,40,30,0,0,60,40,30,0
+295,William Larue Weller Bourbon (Fall 2020),81,4,67.25,"new, charred American oak",20,0,40,50,0,90,70,60,0,0,80,30,20,0
+296,Laphroaig Cairdeas 2020 Port & Wine Casks,81,3,52.0,"former ruby port barriques, ex-bourbon, ex-red wine casks",60,50,40,25,30,50,50,55,40,25,15,10,40,0
+297,Laphroaig 30 Year The Ian Hunter Story Book 1,5,5,46.7,first-fill bourbon ,60,60,60,50,70,80,70,50,40,40,80,30,50,30
+298,Stagg Jr Barrel Proof Bourbon Batch 13,323,2,64.2,"new, charred American oak",20,0,60,50,10,90,70,60,0,0,80,40,30,0
+299,Pike Creek 21 Year Oloroso Cask Finish,19,4,45.0,Oloroso sherry casks and other oak casks,55,0,35,15,35,40,50,50,0,0,40,25,45,20
+300,Angel's Envy Bourbon Finished in Port Wine Barrels Cask Strength (2019 Edition),167,5,61.2,"new, charred American oak; finished in ex-port casks",15,0,55,15,50,65,70,65,10,5,65,15,30,10
+301,Canadian Club Chronicles 42 Year,20,5,45.0,ex-bourbon,45,0,50,25,30,45,50,40,0,0,40,15,45,30
+302,Aberfeldy Exceptional Cask Series 18 Year Double Cask,8,5,53.8,sherry,10,0,45,35,60,75,70,65,10,5,45,10,30,15
+303,Rabbit Hole Cavehill Kentucky Straight Bourbon,426,3,47.5,toasted and charred new American oak (char #3),0,0,45,0,25,65,70,55,0,20,20,10,30,5
+304,Four Roses Limited Edition Small Batch Bourbon (2019),111,4,56.3,"new, charred American oak",20,0,85,70,75,85,90,70,0,0,70,50,70,40
+305,Bruichladdich Bere Barley 2010,50,4,50.0,American oak ex-bourbon,0,10,10,35,50,50,50,20,0,0,20,25,35,10
+306,Clynelish 20 Year 200th Anniversary,0,5,57.3,Bodega sherry casks & refill American oak casks,0,0,20,15,45,60,65,20,10,15,25,35,40,10
+307,Bowmore 15 Year Fèis Ìle 2019,13,4,51.7,ex-bourbon,20,20,10,15,25,50,60,35,35,20,25,30,65,20
+308,Caol Ila 22 Year Fèis Ìle 2019,10,5,58.4,sherry-treated freshly-charred American oak hogsheads,25,25,20,20,45,60,50,25,25,20,30,25,35,10
+309,Forager's Keep 26 Year,33,5,48.0,,25,25,30,0,35,55,60,50,15,15,25,20,20,10
+310,Wild Turkey Master's Keep Cornerstone Rye,154,5,54.5,"new, charred American oak",30,0,30,25,15,45,45,30,0,0,30,65,55,0
+311,Bulleit 12 Year Rye,159,2,46.0,"new, charred American oak",5,0,45,0,40,65,70,20,0,20,35,0,35,0
+312,Elijah Craig Barrel Proof Bourbon Batch A119,269,3,67.6,"new, charred American oak",20,0,65,25,75,70,75,60,10,10,50,15,20,10
+313,Port Charlotte MRC:01 2010,69,4,59.2,"first-fill American whiskey and second-fill French wine casks, finished in French oak ex-Bordeaux wine casks",40,40,70,30,20,45,45,40,30,30,35,40,60,0
+314,Booker's 30th Anniversary Bourbon,152,5,62.9,"new, charred American oak",20,0,65,30,55,70,75,60,15,10,60,5,15,10
+315,Port Askaig 33 Year,0,5,50.3,,40,45,35,30,55,65,75,50,35,15,35,15,30,25
+316,Springbank 9 Year Local Barley,21,4,57.7,ex-bourbon and ex-sherry,25,25,10,20,60,65,65,20,25,10,30,15,40,5
+317,Craigellachie 33 Year,4,5,46.0,,5,0,25,30,50,55,65,60,15,10,40,10,15,30
+318,Aerstone Land Cask 10 Year,172,2,40.0,,60,60,30,55,50,80,70,60,10,25,40,40,30,10
+319,Kilbeggan Small Batch Rye,73,2,43.0,,0,0,20,10,15,40,40,25,5,5,25,0,35,20
+320,Pike Creek 21 Year Finished in European Oak,11,4,45.0,"ex-bourbon, Hungarian oak, French oak",60,0,40,20,25,50,55,45,10,0,50,25,40,30
+321,Sazerac Rye 18 Year (Fall 2018),32,4,45.0,"new, charred American oak",30,0,70,30,15,40,40,60,0,0,40,40,65,0
+322,George T. Stagg Bourbon (Fall 2018),439,4,62.45,"new, charred American oak",20,0,80,40,20,90,70,60,0,0,90,10,20,0
+323,Octomore 09.2 Dialogos,23,4,58.2,ex-American whiskey casks and ex-Bordeaux red wine casks,40,30,25,20,45,60,65,30,10,15,15,20,40,10
+324,Four Roses 130th Anniversary Limited Edition Small Batch Bourbon (2018),146,4,54.2,"new, charred American oak",15,0,60,25,65,70,75,65,10,5,60,10,20,20
+325,Heaven Hill 27 Year Barrel Proof Kentucky Straight Bourbon,43,5,47.35,"new, charred American oak",10,0,40,25,55,70,65,70,10,5,60,10,10,15
+326,Laphroaig Cairdeas 2018 Fino Cask Finish,167,4,51.8,first-fill bourbon and ex-fino sherry cask,90,70,20,10,30,80,60,50,90,80,60,10,60,0
+327,J.P. Wiser's Seasoned Oak,25,4,48.0,Seasoned Virgin Oak,40,0,60,25,0,55,65,50,10,0,50,30,55,35
+328,Abraham Bowman Sweet XVI Bourbon,18,3,58.0,"new, charred American oak",30,0,60,30,20,90,80,70,0,0,80,40,30,0
+329,Springbank 2004 12 Year Single Cask First-Fill Burgundy,2,4,57.5,First-fill Burgundy wine cask,55,25,35,20,40,45,70,15,0,25,0,0,25,10
+330,Woodford Reserve Master's Collection Batch Proof 125.8,140,4,62.9,"new, charred American oak",40,0,45,20,25,45,45,65,0,0,45,15,45,0
+331,Tyrconnell 15 Year Madeira Cask Finish,69,4,46.0,American oak ex-bourbon & Madeira wine casks,5,0,25,20,45,65,70,70,10,5,50,25,70,35
+332,Bowmore Vintner's Trilogy 18 Year Double Matured Manzanilla,24,4,52.5,ex-bourbon & ex-manzanilla sherry,60,70,50,15,40,70,65,50,20,15,35,30,25,15
+333,Pike Creek 21 Year Finished in Speyside Single Malt Casks,28,4,45.0,Used Canadian casks finished in Speyside single malt casks,40,10,45,10,25,50,50,45,0,0,30,10,55,30
+334,Bladnoch Adela 15 Year,60,4,46.7,oloroso sherry butts made of Spanish and American oak,15,0,35,20,45,60,60,40,10,0,30,10,30,10
+335,Nikka Miyagikyo Sherry & Sweet,27,5,55.0,,10,10,45,30,35,55,60,65,20,27,18,30,70,34
+336,Westward American Single Malt,274,4,45.0,"new, charred American oak",15,0,25,15,30,45,45,55,0,0,10,15,15,0
+337,Thomas H. Handy Sazerac Rye (Fall 2017),146,4,63.6,"new, charred American oak",30,0,70,30,10,45,45,45,0,0,30,30,70,0
+338,Collectivum XXVIII (2017 Special Release),17,5,57.3,"combination of refill American oak hogsheads, refill European oak butts, ex-bodega European oak, and first-fill bourbon",20,10,80,50,30,70,80,60,0,20,70,30,40,30
+339,Caol Ila 18 Year (2017 Special Release),64,5,59.8,refill American oak hogheads,20,0,50,30,50,70,50,50,60,50,60,30,40,0
+340,Parker's Heritage Single Barrel Bourbon 11 Year,152,4,61.0,"new, charred American oak",25,0,65,30,45,60,70,40,10,5,50,20,30,10
+341,Wayne Gretzky No. 99 Ninety Nine Proof Canadian Whisky,64,4,49.5,American Oak and Cabernet Sauvignon,45,0,55,20,20,50,50,45,0,0,35,30,45,25
+342,Balvenie Peated Triple Cask 14 Year,99,4,48.0,"first-fill bourbon, refill bourbon, and sherry casks",55,50,45,20,0,55,55,45,0,0,45,25,50,35
+343,Kavalan Solist Port Single Cask Strength,92,5,58.6,ex-port,10,0,40,10,0,90,80,60,0,20,60,40,60,20
+344,Abraham Bowman Sequential Series 2nd Use Barrels,4,3,50.0,"new, charred American oak; finished in ex-bourbon",10,0,40,20,50,60,65,60,5,0,45,20,25,10
+345,Wild Turkey Rare Breed Barrel Proof Bourbon,2773,2,58.4,"new, charred American oak",30,0,70,30,0,90,80,70,0,0,90,20,10,10
+346,Tamdhu Batch Strength Batch 002,93,3,58.5,ex-sherry oak casks,20,20,50,15,40,60,75,25,10,10,30,5,15,15
+347,Rabbit Hole Kentucky Straight Bourbon,620,2,47.5,toasted and charred new American oak (char #3),0,0,45,0,25,65,70,55,0,20,20,10,30,5
+348,Teeling 1991 Vintage Reserve 24 Year Single Malt,49,5,46.0,"ex-bourbon, ex-Sauternes wine",30,15,15,0,15,55,50,60,0,0,50,70,70,10
+349,Westland Winter 2016,20,4,50.0,ex-bourbon,70,65,40,15,65,60,70,80,25,10,55,10,90,50
+350,Parker's Heritage Wheated Bourbon 10 Year,13,4,62.1,"New, Charred American Oak",60,0,60,30,10,50,55,55,0,0,55,30,25,25
+351,The Tweeddale Blend 12 Year (Batch 3),2,2,46.0,,35,20,45,45,25,50,60,45,10,0,50,35,60,30
+352,Compass Box 3 Year Deluxe Blended Malt,23,5,49.2,,20,20,60,30,40,70,60,50,0,10,70,10,60,20
+353,"Booker's Bourbon Batch 2016-05 ""Off Your Rocker""",205,3,64.85,"new, charred American oak",20,0,60,30,50,70,80,70,0,0,80,10,0,0
+354,Sazerac Rye 18 Year (Fall 2016),34,4,45.0,"new, charred American oak",30,0,70,40,10,70,60,50,0,0,50,0,10,0
+355,George T. Stagg Bourbon (Fall 2016),95,4,72.05,"new, charred American oak",30,0,50,50,40,80,60,60,0,0,60,20,0,0
+356,Cragganmore 25 Year (2014 Special Release),5,5,51.4,Refill American and European Oak Casks,25,0,45,35,30,45,65,35,10,25,65,75,70,45
+357,Kavalan Solist Amontillado Single Cask Strength,33,5,50.0,ex-Amontillado sherry cask,10,0,50,10,20,50,40,40,0,0,40,30,30,20
+358,Hibiki 17 Year Chrysanthemum & Crane,25,5,43.0,"EX-BOURBON AMERICAN OAK, EX-SHERRY EUROPEAN OAK, JAPANESE MIZUNARA",15,10,20,40,50,65,60,78,25,10,70,31,80,62
+359,Canadian Rockies 35 Year,3,5,79.3,ex bourbon,50,0,60,40,15,50,50,55,0,0,50,25,60,25
+360,Glen Scotia 15 Year,486,4,46.0,ex-bourbon ,15,0,30,15,15,80,75,65,10,15,40,20,60,10
+361,Kavalan Amontillado Single Cask,6,5,56.3,Amontillado Sherry Cask ,40,0,50,10,10,55,50,40,10,10,55,20,60,50
+362,Glenlivet Single Cask Pullman Club Car,8,5,56.24,first-fill sherry butt,10,0,20,0,15,80,80,70,0,0,40,10,30,10
+363,Laphroaig Brodir,106,5,48.0,ex-bourbon and ex-ruby port ,65,75,80,10,30,60,70,65,55,45,40,15,90,20
+364,Bowmore 25 Year,66,5,43.0,American Bourbon and Spanish Sherry,35,35,75,15,15,40,40,55,25,25,30,25,50,0
+365,Gooderham & Worts Four Grain Canadian Whisky,174,2,44.4,,45,0,55,20,5,60,60,55,15,5,50,30,60,60
+366,Teeling The Revival 15 Year Single Malt (Volume I),65,4,46.0,ex-Caribbean Rum barrels,15,0,50,40,35,65,70,40,0,0,10,65,90,20
+367,Blanton's Gold Edition,872,3,51.5,"new, charred American oak",60,0,60,20,30,50,60,55,10,0,55,20,55,40
+368,Buffalo Trace Experimental Collection 13 Year Old-Fashioned Sour Mash Bourbon (125 Entry Proof),20,4,45.0,"new, charred American oak",0,0,40,0,30,50,60,50,0,0,40,0,10,10
+369,Glenmorangie 1970's Collection '75,0,5,43.2,,20,0,40,30,10,60,50,40,0,0,30,30,50,30
+370,Glenmorangie 1970's Collection '75 Tain l'Hermitage,3,5,46.0,"American oak, finished in red Rhone wine barrels",0,0,50,40,10,70,70,50,0,0,20,40,60,40
+371,Lagavulin 21 Year (2012 Special Release),18,5,52.0,European 1st-fill ex-sherry,50,70,35,55,20,50,65,30,20,20,15,15,35,0
+372,Bakery Hill Peated Malt,13,4,46.0,,70,50,40,30,40,40,40,30,40,40,30,30,30,30
+373,Overeem Sherry Cask Matured Single Malt Cask Strength,14,5,60.0,ex-sherry,30,0,40,30,20,40,40,40,30,40,50,30,40,60
+374,Benromach Peat Smoke 2005,104,3,46.0,first-fill bourbon oak barrels,80,70,40,10,30,80,80,80,60,50,60,0,80,10
+375,Bakery Hill Cask Strength Classic Single Malt,7,5,59.5,ex-bourbon,70,0,50,40,40,40,40,30,20,30,30,30,40,40
+376,Parker's Heritage Master Distiller's Blend of Mashbills Bourbon,30,3,63.5,"new, charred American oak",10,0,80,60,40,70,60,70,0,20,60,30,90,30
+377,WhistlePig Old World Series Madeira Finish 12 Year,251,4,45.0,"new, charred American oak; finished in Madeira casks",0,0,80,60,20,80,80,80,0,0,50,0,70,10
+378,Dewar's Scratched Cask,154,2,40.0,finished in virgin and ex-bourbon barrels which were charred and then scratched,20,0,50,20,10,30,30,70,0,30,60,30,80,20
+379,Crown Royal Hand Selected Barrel,158,2,51.5,new charred oak,0,0,60,10,20,60,30,80,0,0,50,10,80,20
+380,The Glenrothes 1985 2nd Edition,21,5,43.0,,20,0,60,10,30,90,90,80,10,20,70,40,70,40
+381,Springbank 21 Year,61,5,46.0,"ex-bourbon, ex-Oloroso sherry",30,30,50,20,50,60,60,50,30,30,20,30,40,30
+382,Teeling Silver Reserve 21 Year Single Malt,33,4,46.0,"ex-bourbon, finished in ex-Sauternes wine casks",10,0,40,30,50,50,50,80,0,0,40,40,90,40
+383,Yamazaki 1984,8,5,48.0,"Spanish sherry, American oak, Japanese Mizunara",30,0,75,20,20,60,60,70,0,0,50,10,75,55
+384,Highland Park Thor,31,5,52.1,,30,25,40,20,25,50,50,55,30,50,30,40,50,30
+385,Midleton Barry Crockett Legacy,205,5,46.0,ex-bourbon and new American oak,0,0,40,20,30,70,70,60,0,0,40,0,60,50
+386,Highland Park 25 Year,141,5,50.7,ex-bourbon/first fill sherry,30,25,15,10,0,75,80,70,0,0,25,0,25,20
+387,Temperance Trader Straight Bourbon,62,2,45.0,"new, charred American oak",30,0,70,50,20,60,60,50,0,0,30,50,40,20
+388,Macallan Fine Oak 25 Year,57,5,43.0,European & American ex-sherry and American oak ex-bourbon,40,0,50,20,50,80,90,90,0,20,50,40,90,60
+389,Balblair 1989 2nd Release,38,4,43.0,ex-bourbon,20,0,60,30,40,70,70,70,30,30,40,30,60,30
+390,Girvan Patent Still Single Grain 30 Year,7,5,42.0,refill American oak,0,0,60,20,30,60,60,80,0,0,50,20,90,30
+391,Auchroisk 20 Year,13,5,58.1,ex-bourbon & ex-sherry,30,30,50,40,40,60,60,80,20,20,60,30,80,10
+392,Glenmorangie Signet,1053,5,46.0,,20,0,70,20,20,70,70,80,0,0,50,40,80,20
+393,High West Rocky Mountain Rye 21 Year,82,5,46.0,used American Oak barrels,50,0,50,40,50,60,60,60,40,40,60,60,60,10
+394,Weller 12 Year Bourbon,3517,2,45.0,"new, charred American oak",40,0,60,30,20,60,60,70,0,0,70,40,50,20
+395,Green Spot Single Pot Still,2609,3,40.0,"ex-Bourbon, ex-Oloroso Sherry",30,0,50,20,50,80,80,70,0,10,70,30,80,40
+396,Powers John's Lane Release 12 Year,514,3,46.0,primarily American Oak,30,0,70,30,30,70,70,70,0,0,70,30,70,30
+397,Glenmorangie 18 Year,1604,4,43.0,"ex-Bourbon, ex-Oloroso Sherry",20,0,40,10,40,80,80,80,0,0,70,30,90,40
+398,Nikka Taketsuru 21 Year Pure Malt,239,5,43.0,,40,40,60,40,50,70,70,60,30,30,40,20,70,20
+399,The Glenrothes 1994,101,3,43.0,"ex-Bourbon, ex-Oloroso Sherry",10,0,50,10,10,70,70,70,10,10,70,30,70,30
+400,Dewar's Signature,72,5,43.0,"ex-Bourbon, ex-Oloroso Sherry",20,0,40,30,10,90,90,80,10,10,80,40,70,40
+401,Balvenie Portwood 21 Year,1078,5,40.0,"ex-Bourbon, Port Pipe",30,10,60,20,20,80,70,70,10,10,40,30,70,60
+402,St. George Single Malt Lot 14,51,3,43.0,"Variety of American & French oak used from ex-bourbon, ex-port, ex-sherry, ex-apple brandy, ex-white wine",40,0,70,60,80,70,70,70,0,0,50,40,70,60
+403,Kilchoman Machir Bay (2012 Edition),440,3,46.0,ex-bourbon & ex-sherry,83,79,76,81,80,81,77,62,80,73,52,63,67,68
+404,Sullivans Cove French Oak Port Cask,92,5,47.5,French ex-port,68,86,63,40,69,89,87,82,71,74,77,43,80,56
+405,Ardbeg Corryvreckan,1934,4,57.1,Ex-bourbon & virgin French Limousin oak,60,80,40,40,40,70,40,60,30,40,30,50,60,20
+406,Ardbeg Uigeadail,3911,3,54.2,ex-bourbon and ex-oloroso sherry,50,70,30,20,60,70,70,60,40,40,30,30,70,40
+407,Baker's Small Batch Bourbon,1718,2,53.5,"new, charred American oak",20,0,60,10,40,70,70,40,0,0,30,20,20,20
+408,Noah's Mill Bourbon,3089,3,57.15,"new, charred American oak",50,0,80,10,50,70,80,20,20,30,40,40,20,0
+409,Elijah Craig Barrel Proof Bourbon,2562,4,68.5,"new, charred American oak",70,0,90,40,100,100,100,30,0,0,20,40,40,30
+410,Elijah Craig 12 Year,2499,2,47.0,"new, charred American oak",40,0,50,30,40,60,50,70,60,50,40,20,40,20
+411,Johnnie Walker Gold Label 18 Year,505,4,40.0,,40,40,50,50,40,70,70,60,30,30,50,40,60,40
+412,Elijah Craig Barrel Proof Bourbon Batch A123,11,3,62.8,"new, charred American oak",5,0,35,5,20,85,80,60,0,0,25,10,20,0
+413,George Dickel 17 Year Reserve Cask Strength,6,5,46.0,"new, charred American oak",10,0,58,5,20,55,55,60,0,0,25,15,70,0
+414,Teeling 32 Year Purple Muscat Finish,4,5,53.7,"ex-bourbon, finished in French oak purple muscat cask",0,0,50,30,10,80,80,40,0,0,60,40,80,20
+415,Talisker 11 Year The Lustrous Creature of the Depths (2022 Special Release),7,4,55.1,"first-fill ex-bourbon, refill & wine seasoned casks",50,55,45,15,15,40,40,35,10,0,15,10,55,5
+416,Lagavulin 12 Year The Flames of the Phoenix (2022 Special Release),7,4,57.3,American oak refill and virgin oak casks,55,55,65,15,20,55,55,25,10,0,15,10,50,5
+417,Benriach Malting Season (Second Edition),2,5,48.9,first-fill bourbon casks,4,0,50,15,10,75,70,40,0,0,25,15,50,10
+418,Maker's Mark Wood Finishing Series 2022 BRT-02,69,3,54.7,"new, charred American oak; finished with virgin toasted French oak staves",5,0,20,3,20,60,65,60,0,0,25,15,65,0
+419,Redwood Empire Rocket Top Bottled in Bond Rye (Spring 2017 Vintage),9,4,50.0,"new, toasted and charred American oak (primarily level 3)",20,0,65,10,10,50,50,40,0,0,25,60,80,0
+420,Woodinville Bourbon Moscatel Cask Finish,4,4,50.0,finished in Moscatel wine casks,10,0,50,30,20,80,90,60,0,20,70,40,80,20
+421,Elijah Craig Barrel Proof Bourbon Batch C922,51,3,62.4,"new, charred American oak",10,0,55,10,20,50,50,60,0,8,20,55,50,0
+422,Uncle Nearest Uncut/Unfiltered Straight Rye Whiskey,7,4,52.9,"new, charred American oak",5,0,55,15,20,50,50,55,0,3,20,25,40,0
+423,Barrell Craft Spirits Gray Label Seagrass (2022 Release),34,5,65.41,"finished in Martinique rhum, Madeira wine, and apricot brandy barrels",10,0,50,20,0,90,60,50,0,0,80,30,90,0
+424,Larceny Barrel Proof Bourbon Batch C921,94,2,61.3,"new, charred American oak ",10,0,40,5,5,85,80,65,0,0,25,20,30,0
+425,Widow Jane The Vaults 15 Year Bourbon (2021 Release),14,5,49.5,"new, charred American oak ",20,0,40,50,10,80,90,60,0,20,90,20,10,0
+426,Barrell Bourbon Batch 031,27,3,55.6,"new, charred American oak",20,0,50,30,0,80,90,70,0,0,90,40,20,10
+427,Angel's Envy Bourbon Finished in Port Wine Barrels Cask Strength (2021 Edition),77,5,60.35,"new, charred American oak; finished in port wine barrels",20,0,50,40,10,80,90,60,0,0,70,40,70,10
+428,Shizuoka Prologue K,1,4,55.5,First-fill bourbon casks,25,15,10,40,55,50,40,20,10,10,35,10,30,20
+429,Thomas H. Handy Sazerac Rye (Fall 2021),50,4,64.75,"new, charred American oak",5,0,30,20,10,85,90,70,0,5,30,40,25,10
+430,Barrell Craft Spirits Gray Label 15 Year Bourbon (2021 Release),10,5,50.2,"new, charred American oak ",10,0,35,10,10,70,70,75,0,0,20,40,50,0
+431,Tullibardine Artisan,12,2,40.0,ex-bourbon ,5,0,20,4,15,70,80,70,0,8,25,15,80,5
+432,Michter's US*1 Toasted Barrel Finish Bourbon (2021 Release),92,4,45.7,"new, charred American oak; finished in toasted barrels",5,0,40,10,15,70,70,80,0,0,15,10,20,0
+433,M&H APEX White Wine Cask,5,4,61.2,chardonnay wine casks,0,0,30,70,40,80,70,60,0,0,70,40,80,30
+434,Uncle Nearest Master Blend Edition,15,4,59.2,"new, charred American oak",10,0,50,10,5,40,40,60,0,0,20,35,25,0
+435,Smooth Ambler Contradiction Rye,48,2,52.5,"new, charred American oak ",5,0,75,25,5,65,65,70,0,0,20,15,30,5
+436,Bladnoch Vinaya,20,3,46.7,ex-bourbon and ex-sherry,3,0,10,0,15,40,45,60,0,0,25,15,50,8
+437,Evan Williams 1783 Small Batch Bourbon,239,1,45.0,"new, charred American oak",5,0,25,5,10,65,60,70,0,3,15,10,20,0
+438,Heaven's Door Redbreast Master Blenders' Edition,40,4,50.0,finished in Redbreast Single Pot Still Irish Whiskey casks,10,0,40,30,10,80,90,70,0,20,80,50,80,20
+439,Larceny Barrel Proof Bourbon Batch A121,89,3,57.4,"new, charred American oak",15,0,30,5,20,60,60,65,0,5,40,20,60,0
+440,Springbank 17 Year Madeira Wood,12,5,47.8,"bourbon, rum and Madeira casks",15,10,10,25,40,50,60,40,20,15,20,10,35,10
+441,Bardstown Bourbon Co. Fusion Series #4,152,3,47.45,"new, charred American oak",30,0,20,10,15,65,65,70,0,10,25,15,40,0
+442,Kilchoman Machir Bay Cask Strength (2020 Festive Edition),25,3,58.6,ex Buffalo Trace Bourbon Barrel and ex Sherry Casks,50,30,45,20,35,50,35,20,20,15,35,20,30,25
+443,Jacob's Pardon 15 Year American Whiskey Single Barrel No. 37,0,5,69.75,used barrels,0,0,20,30,10,75,75,65,0,0,40,10,30,0
+444,Eagle Rare 17 Year Bourbon (Fall 2020),46,4,50.5,"new, charred American oak",10,0,30,20,20,60,70,60,0,0,80,20,0,0
+445,Parker's Heritage Heavy Char Bourbon 10 Year,101,4,60.0,"new, charred American oak (char #5)",65,0,45,25,35,60,60,65,0,0,35,40,40,0
+446,Old Fitzgerald Bottled in Bond 14 Year (Fall 2020),87,4,50.0,"new, charred American oak",5,0,30,0,0,75,75,80,0,0,25,20,40,0
+447,Laphroaig 10 Year Cask Strength (Batch 12),44,4,60.1,ex-bourbon,90,80,60,30,50,90,70,70,50,60,80,10,20,10
+448,Bardstown Bourbon Co. Discovery Series #3,50,4,55.0,"new, charred American oak",10,0,60,30,30,90,80,50,0,0,70,30,40,20
+449,George Dickel 15 Year Tennessee Single Barrel,274,3,52.3,"new, charred American oak",30,0,55,20,15,45,55,65,0,0,35,45,45,0
+450,Macallan Double Cask 15 Year,152,4,43.0,American & European sherry seasoned oak casks,25,0,45,20,15,50,50,60,0,0,30,55,70,15
+451,Old Forester Birthday Bourbon 2020,124,4,49.0,"new, charred American oak",25,0,65,20,20,45,45,50,0,0,35,40,35,0
+452,Pittyvaich 30 Year (2020 Special Release),5,5,50.8,first-fill bourbon cask finish,0,0,20,40,30,35,50,20,0,0,20,30,35,10
+453,Nikka Miyagikyo Apple Brandy Barrel Finish (2020 Release),9,5,47.0,finished in apple brandy casks,15,10,35,5,20,70,70,75,2,0,40,15,75,0
+454,Balvenie The Edge of Burnhead Wood 19 Year,17,5,48.7,,30,0,50,60,40,70,80,50,0,0,60,40,80,80
+455,Blood Oath Bourbon Pact No. 6,239,4,49.3,"new, charred American oak, cognac barrels",40,0,80,35,15,45,45,40,0,0,60,35,40,0
+456,Starward Tawny,8,4,48.0,Tawny fortified wine octaves,0,0,20,30,40,40,45,35,0,0,20,35,50,20
+457,"Booker's Bourbon Batch 2020-01 ""Granny's Batch""",236,4,63.2,"new, charred American oak",30,0,80,50,20,90,60,50,10,40,90,30,10,0
+458,Paul John Select Cask PX,7,3,48.0,"ex-bourbon, finished in Pedro Ximenez sherry casks",10,0,25,5,15,60,60,70,0,5,30,15,65,0
+459,Milam & Greene Port Finished Rye,64,2,47.0,finished in port wine casks,10,0,50,20,20,80,80,70,0,0,40,60,80,30
+460,Angel's Envy Bourbon Finished in Tawny Port Wine Barrels (2020 Cellar Collection),83,5,55.8,"new, charred American oak; finished in tawny port wine barrels",5,0,35,20,55,75,75,80,5,5,65,20,50,20
+461,Gooderham & Worts 49 Wellington,8,4,49.0,Red oak and other oak casks,35,0,40,20,20,45,50,45,0,0,30,25,45,20
+462,WhistlePig The Boss Hog 六: The Samurai Scientist,93,5,60.0,finished in Japanese umeshu barrels,10,0,65,40,65,70,75,65,20,10,60,35,30,25
+463,Forty Creek Victory,10,3,40.0,,40,0,45,25,30,45,50,35,0,0,50,25,45,25
+464,Aberfeldy Exceptional Cask Series 24 Year Single Cask,2,5,53.9,sherry butt,15,5,55,30,55,60,65,55,20,15,45,20,15,20
+465,Sazerac Rye 18 Year (Fall 2019),18,4,45.0,"new, charred American oak",20,0,40,30,20,45,45,60,0,0,40,55,60,0
+466,Rabbit Hole Dareringer Straight Bourbon Finished in PX Sherry Casks,521,3,46.5,"new, charred American oak, finished in PX sherry casks",10,0,40,0,35,60,60,20,0,0,20,0,25,0
+467,Glenfiddich Grand Cru 23 Year,87,5,40.0,American and European Oak; finished in French oak cuvée wine casks,5,0,25,30,50,65,65,75,15,10,55,20,35,25
+468,Elijah Craig Barrel Proof Bourbon Batch B519,302,3,61.1,"new, charred American oak",10,0,65,25,75,70,75,75,10,5,60,10,25,15
+469,Benriach 25 Year,18,5,46.8,refurbished American oak ex-bourbon hogsheads & French Burgundy barriques,5,5,15,0,40,60,60,20,20,25,5,0,60,20
+470,Weller Full Proof Bourbon,881,2,57.0,"new, charred American oak",30,0,60,50,0,80,50,60,0,10,80,30,20,0
+471,Tyrconnell 16 Year Oloroso & Moscatel Cask Finish,24,4,46.0,"ex-bourbon, finished in seasoned wine casks which held both oloroso sherry & Moscatel wine ",0,0,85,75,75,90,80,80,0,60,70,50,90,85
+472,Bardstown Bourbon Co. Phifer Pavitt Reserve Finish,56,4,53.5,finished in French oak Napa Valley cabernet sauvignon wine barrels,10,0,60,20,50,65,70,60,15,10,60,20,30,25
+473,GlenDronach Master Vintage 1993 25 Year,14,5,48.2,oloroso and Pedro Ximenez sherry casks,10,0,40,20,40,90,90,60,0,10,50,30,80,20
+474,Belle Meade Cask Strength Single Barrel Bourbon 12 Year,46,4,53.25,"new, charred American oak",30,0,60,50,30,90,70,60,0,20,90,20,0,0
+475,Compass Box Stranger & Stranger,23,5,46.0,"re-charred hogshead, re-charred barrels, sherry butt, refill hogshead ",10,10,40,40,50,60,80,70,0,0,90,10,80,40
+476,MacNair's Lum Reek Peated 21 Year,9,5,46.0,"ex-oloroso sherry, virgin oak, ex-red wine",25,20,15,20,45,50,55,25,10,5,25,15,35,10
+477,Garrison Brothers Cowboy Bourbon (2018 Release),42,5,66.95,"new, charred American oak",30,0,70,40,50,90,60,60,0,0,80,0,0,0
+478,Angel's Envy Bourbon Finished in Port Wine Barrels Cask Strength (2018 Edition),130,5,62.0,"new, charred American oak; finished in port wine casks",15,5,65,10,70,75,70,60,10,10,55,15,25,10
+479,Forty Creek Unity,18,3,43.0,,30,0,40,35,25,60,65,55,5,5,45,25,55,25
+480,Benromach Cask No 1,0,5,60.1,First-fill sherry butt,15,5,35,30,55,55,60,35,5,0,25,35,40,20
+481,WhistlePig The Boss Hog V: The Spirit of Mauve,106,5,58.4,"new, charred American oak, finished in calvados casks",15,0,45,10,5,55,40,15,0,5,15,0,40,0
+482,Parker's Heritage Barrel Finished in Orange Curaçao Barrels,262,4,55.0,"new, charred American oak; finished in orange curaçao barrels",25,0,70,20,35,55,55,60,0,0,35,25,75,0
+483,Glenmorangie Grand Vintage 1989,9,5,43.0,"ex-Côte Rôtie wine, ex-oloroso sherry, ex-bourbon",15,0,35,15,15,50,50,85,10,10,25,35,90,55
+484,Box Quercus II Alba,4,4,50.8,ex-bourbon and virgin American oak,20,10,60,20,50,60,55,45,20,10,35,25,50,20
+485,Blood Oath Bourbon Pact No. 4,274,4,49.3,"new, charred American oak, finished in toasted bourbon barrels",5,0,65,35,60,65,70,60,10,5,60,25,40,20
+486,Ardbeg Grooves (2018 Committee Release),69,4,51.6,heavily-charred ex-red wine casks,70,40,30,20,80,80,70,50,60,40,50,10,20,0
+487,Fukano 12 Year Single Cask,26,4,41.5,"new, charred oak",10,0,35,40,50,65,75,65,5,0,60,10,25,10
+488,Balcones Texas Rye Cask Strength,46,4,62.3,,30,0,80,50,30,90,80,70,0,0,80,10,30,0
+489,Collingwood Town Collection Double Barrel,34,2,45.0,various white oak barrels,50,0,55,20,30,50,55,60,10,0,50,30,65,45
+490,Balvenie Tun 1401 Batch 5,10,5,50.1,ex-bourbon casks & ex-sherry butts,20,0,20,10,10,75,85,30,0,0,25,40,55,0
+491,Ichiro's Malt Chichibu The Peated 2015 Cask Strength,5,5,62.5,,60,85,60,10,70,80,65,30,25,60,20,15,25,20
+492,Timorous Beastie 40 Year,3,5,54.7,Oak,5,0,35,0,60,65,70,65,0,0,50,30,40,35
+493,WhistlePig The Boss Hog IV: The Black Prince,133,5,59.6,"new, charred American oak; finished in Armagnac barrels",20,0,80,40,20,90,70,60,0,10,80,20,20,0
+494,Stranahan's Sherry Cask,256,3,47.0,"new, charred American oak; finished in oloroso sherry  ",20,2,25,30,40,60,78,83,3,2,59,30,75,2
+495,Springbank 14 Year Bourbon Wood,22,3,55.8,ex-bourbon,20,25,10,10,60,60,70,25,45,10,35,20,60,10
+496,Speyburn 15 Year,82,3,46.0,American oak and Spanish oak,10,0,40,20,30,80,90,70,0,0,80,20,70,30
+497,Four Roses Limited Edition Small Batch Bourbon (2017),111,4,53.65,"new, charred American oak",20,0,20,10,0,30,40,60,0,0,60,50,90,85
+498,Teaninich 17 Year (2017 Special Release),7,5,55.9,refill American oak hogheads and refill American oak barrels,20,0,60,20,40,80,70,60,0,10,60,20,40,10
+499,Octomore Masterclass 08.4/170 Virgin Oak,24,5,58.7,"virgin oak, first-fill bourbon, refill European oak",99,95,15,15,65,75,70,60,90,80,45,0,34,5
+500,Octomore OBA Concept,9,5,59.7,not disclosed,70,75,70,65,30,50,65,50,60,65,50,20,75,20
+501,Glenfarclas 30 Year,29,5,43.0,European oak ex-oloroso sherry cask,0,0,25,0,0,15,25,15,0,0,0,0,20,0
+502,Knob Creek 25th Anniversary Single Barrel Reserve,178,4,60.9,"new, charred American oak",20,0,55,15,40,50,45,40,10,0,50,15,10,15
+503,Westland Garryana 2017 Edition 21,25,4,50.0,"first-fill bourbon, virgin American oak, virgin Garry oak",40,0,30,0,20,80,70,70,0,10,80,50,60,0
+504,Peerless Kentucky Straight Rye (24 Months),363,4,53.8,"new, charred American oak",20,0,90,50,20,90,70,60,0,10,70,30,0,0
+505,Dalmore Quintessence,9,5,45.0,"ex-bourbon, finished in California red wine barrels",0,0,50,10,50,70,75,70,10,10,60,70,75,30
+506,Jura Tastival 2016,7,4,51.0,"finished in palomino fino, amoroso oloroso and apostoles oloroso sherry casks",10,0,40,20,50,60,75,60,10,10,60,75,65,40
+507,Kilchoman 100% Islay (7th Edition),53,4,50.0,first-fill and refill ex-bourbon barrels,45,65,50,20,50,40,50,20,70,25,20,20,20,10
+508,Rabbit Hole Straight Bourbon Finished in PX Sherry Casks,283,3,46.5,"new, charred American oak; finished in Pedro Ximenez sherry casks",10,0,40,0,35,60,60,20,0,0,20,0,25,0
+509,Wayne Gretzky No. 99 Ice Cask,93,3,41.5,ex Bourbon and ex Icewine Casks,40,0,50,10,20,55,60,60,0,0,40,20,55,40
+510,Tyrconnell 16 Year Single Malt,57,4,46.0,ex-bourbon American Oak,20,0,25,25,15,50,50,80,0,0,40,35,80,10
+511,Wyoming Whiskey Double Cask,142,3,50.0,"new, charred American oak; finished in Pedro Ximenez sherry casks",20,0,50,30,40,80,80,80,0,0,60,40,60,0
+512,Black Bull 40 Year (Duncan Taylor),4,5,47.6,,0,0,50,30,50,60,75,65,2,2,55,75,65,60
+513,"Booker's Bourbon Batch 2016-06 ""Noe Hard Times""",86,3,63.9,"new, charred American oak",40,0,80,30,30,60,60,70,0,0,45,40,40,0
+514,Ichiro's Malt Chichibu On the Way,25,5,58.5,ex-bourbon American oak and Japanese mizunara oak,20,22,75,48,50,60,45,70,10,5,47,15,80,55
+515,Octomore 10 Year Second Edition (2016 Release),88,5,57.3,ex-bourbon and ex-grenache blanc wine casks,85,80,50,60,60,70,85,50,20,0,40,30,60,60
+516,St. George Single Malt Lot 16,25,4,43.0,"variety of casks including used bourbon, port, and sherry ",10,0,40,20,30,60,80,60,0,0,80,0,30,20
+517,Lagavulin 12 Year (2016 Special Release),94,4,57.7,,70,80,30,40,50,70,50,40,50,60,30,30,40,0
+518,Brora 1977 38 Year (2016 Special Release),15,5,48.6,,70,20,60,20,50,50,50,40,0,20,60,30,10,40
+519,Kilkerran 12 Year,563,2,46.0,first-fill ex-bourbon and sherry,50,40,35,25,40,45,80,40,10,0,45,10,35,20
+520,"Booker's Bourbon Batch 2016-04 ""Bluegill Creek""",103,3,64.0,"new, charred american oak",45,0,80,30,30,60,60,55,0,0,35,40,30,0
+521,Danfield's 21 Year,3,2,40.0,,50,0,45,20,10,50,50,55,0,20,45,15,45,45
+522,WhistlePig 15 Year Estate Oak Rye,356,5,46.0,"#3 charred new American oak, ex-bourbon, and custom #4 charred Vermont white oak",5,0,60,15,0,65,70,35,10,10,45,0,15,10
+523,One Eight Distilling Untitled Whiskey No. 1,5,3,52.5,finished in ex-oloroso sherry,65,0,85,15,70,70,80,75,0,15,45,0,80,20
+524,Wemyss Malts Kiln Embers,14,2,46.0,,80,85,70,60,50,50,40,30,10,10,20,10,40,5
+525,Canadian Rockies 21 Year,11,3,46.0,ex bourbon,35,0,40,10,10,40,45,50,10,0,60,15,55,60
+526,Glen Grant Five Decades,9,4,46.0,,5,0,25,0,10,80,70,70,0,10,60,10,30,15
+527,Deerhammer American Single Malt,77,2,45.0,"new, white American oak; sizes ranging from 25-54 gallons",15,0,10,15,5,60,40,50,0,0,25,0,20,15
+528,Kavalan Manzanilla Single Cask,2,5,57.8,Manzanilla Sherry Cask ,45,0,50,15,10,55,55,50,10,45,60,15,60,30
+529,Kilchoman Sanaig (2016 Edition),544,3,46.0,Ex-Bourbon and Ex-Oloroso Sherry,80,75,55,10,55,60,65,70,50,45,60,0,65,15
+530,Glenmorangie Tayne,165,4,43.0,ex-Amontillado sherry,5,0,30,10,10,75,70,70,0,0,30,5,40,10
+531,The Glenlivet Single Cask Pullman 20th Century Limited,2,5,57.73,refill 500-liter Spanish oak,10,0,30,0,10,80,80,60,0,0,20,5,40,15
+532,Port Charlotte PC5 Evolution,7,5,63.5,ex-bourbon and ex-sherry ,55,70,0,50,40,40,45,30,35,35,20,20,35,20
+533,Laphroaig Cairdeas 2016 Madeira Cask,169,3,51.6,ex-bourbon & Madeira wine hogsheads,70,50,20,40,15,80,80,50,25,30,15,10,40,0
+534,Glengoyne 25 Year,84,5,48.0,First-Fill Sherry Oak,10,0,25,15,15,80,80,75,0,0,50,10,30,10
+535,Teeling Gold Reserve 26 Year Single Malt,2,5,46.0,"ex-bourbon, finished in ex-white Burgundy casks",30,0,50,20,10,60,60,50,0,0,40,20,60,30
+536,Ardbeg Dark Cove (2016 Committee Release),88,4,55.0,ex-bourbon and ex-sherry ,50,30,25,10,20,80,85,70,20,0,40,20,60,0
+537,Pierde Almas Ancestral Corn Whiskey,6,4,50.0,unaged,10,0,50,30,25,35,40,20,10,0,0,20,35,10
+538,anCnoc blas,17,3,54.0,"ex-bourbon, ex-oloroso sherry ",10,0,40,5,20,65,80,70,0,0,30,25,60,15
+539,J.P. Wiser's Red Letter Canadian Whisky (2015 Edition),16,4,45.0,ex-bourbon finished in virgin white oak,50,0,75,30,30,60,60,65,10,0,70,30,50,50
+540,Midleton Dair Ghaelach Grinsell's Wood,33,5,58.0,"ex-bourbon, finished in new Irish oak ",30,0,20,10,20,80,80,60,0,5,30,5,50,10
+541,Straight Edge Bourbon,338,3,42.0,"new, charred American oak and ex-wine French oak",10,0,30,10,30,50,50,60,0,0,30,0,40,10
+542,Port Charlotte PC11 Eòrna Na h-Alba,26,5,59.5,,40,75,70,40,35,60,75,60,20,10,40,20,50,10
+543,Craigellachie 17 Year,114,5,46.0,Oak,40,10,50,20,20,50,50,45,15,15,50,30,55,20
+544,Teeling Hybrid No. 1 Edition,2,2,44.1,,40,70,60,70,60,80,60,40,80,50,50,0,40,0
+545,Jack Daniel's Single Barrel Barrel Proof Tennessee Whiskey,1194,3,66.0,"new, charred American oak",20,0,50,0,30,70,80,70,0,0,70,0,0,0
+546,Yamazaki Distiller's Reserve,396,3,43.0,Mizunara (Japanese oak) and European Oak,10,0,60,40,55,70,65,80,0,0,80,70,95,75
+547,Russell's Reserve 1998,20,5,51.1,"new, charred American oak",20,0,80,0,30,70,60,60,0,0,50,10,10,0
+548,Charbay Hop Flavored Whiskey Lot S 211A,9,4,49.5,used French oak,50,0,75,80,30,60,70,20,20,20,10,30,20,70
+549,The Exile French Oak Tasmanian Single Malt 15 Year,3,5,62.0,French oak,0,0,40,20,20,70,80,60,0,0,40,30,40,40
+550,Bowmore 23 Year Port Cask Matured 1989,23,5,50.8,ex-port,80,60,80,10,60,100,90,80,100,90,20,90,90,0
+551,Tiger Snake Sour Mash Whiskey (5th Batch),12,4,43.0,,10,0,30,30,30,50,30,50,20,30,70,30,50,60
+552,Compass Box This Is Not a Luxury Whisky,43,5,53.1,,20,10,30,10,5,80,80,50,10,0,60,0,30,20
+553,Caol Ila Stitchell Reserve (2013 Special Release),40,4,59.6,"rejuvenated American oak, re-coopered sherry casks",60,0,70,70,30,50,50,60,60,40,50,30,40,60
+554,Hellyers Road Slightly Peated Single Malt,16,3,46.2,,60,40,40,50,50,50,30,40,20,40,40,30,50,60
+555,Heartwood Convict Resurrection Single Malt,1,5,72.0,American oak ex-port,60,30,70,40,20,60,50,40,30,60,40,50,60,40
+556,WhistlePig Old World Cask Finish Rye 12 Year,890,4,43.0,"ex-madeira, ex-sauternes, ex-port",40,0,90,70,50,50,60,70,0,0,50,70,60,70
+557,Nikka Whisky From the Barrel,2750,3,51.4,"ex-bourbon barrels and puncheons; ex-sherry butts, refilled, recharred, and remade hogsheads",50,40,60,20,25,60,70,55,30,40,45,45,60,20
+558,Bakery Hill Cask Strength Peated Malt,7,5,59.5,ex-bourbon,50,70,20,10,50,30,30,30,20,40,40,40,40,30
+559,"Booker's Bourbon Batch 2015-03 ""The Center Cut""",158,3,63.6,"new, charred American oak",20,0,50,10,20,80,75,80,0,0,60,10,40,0
+560,Belle Meade Bourbon Sherry Cask Finish,382,4,45.2,"new, charred American oak and finished in European ex-sherry casks",0,0,40,30,20,90,90,80,0,0,70,20,70,20
+561,Temperance Trader Barrel Strength Straight Bourbon,11,2,57.5,"new, charred American oak",0,0,60,30,20,40,20,60,0,0,60,10,60,20
+562,Ransom Whippersnapper,57,2,42.0,"French oak ex-wine barrels, new and used American whiskey barrels",0,0,20,20,20,40,30,50,0,20,30,0,50,20
+563,Longrow CV,36,3,46.0,"ex-rum, ex-sherry, ex-port, ex-bourbon",30,80,30,50,40,60,60,60,30,40,60,30,70,40
+564,Springbank Green 12 Year,45,4,46.0,ex-bourbon,30,30,40,20,40,60,60,60,40,40,60,30,80,40
+565,MacKinlay's Shackleton: The Journey 2nd Edition,14,5,47.3,,40,60,70,30,40,50,70,40,50,50,70,60,70,80
+566,anCnoc 24 Year,64,5,46.0,ex-bourbon/ex-sherry,0,0,30,0,15,80,85,75,0,0,40,0,40,5
+567,Redemption Barrel Proof 10 Year Straight Rye,25,5,55.05,new charred oak,15,0,30,40,20,80,80,60,0,10,10,0,10,0
+568,Old Potrero Hotaling's Single Malt Rye,27,4,50.0,first fill American oak,10,0,30,35,15,75,75,60,10,0,25,0,15,15
+569,Navazos-Palazzi Palo Cortado Cask Malt Whisky (July 2014),11,4,52.5,ex-palo cortado sherry,0,0,25,0,15,80,85,85,0,25,40,15,40,0
+570,Ardbeg Alligator,73,5,51.2,"used American oak and new, heavily charred American oak",90,80,50,70,30,10,90,60,20,40,70,0,50,50
+571,The Glenrothes 1992 (2nd Edition),11,5,43.0,ex-bourbon/ex-sherry,0,0,20,0,20,85,85,80,0,0,40,10,30,0
+572,Hillrock Estate Seasoned Oak Cask Finished Double Cask Rye,68,4,45.0,new charred oak; finished in seasoned oak,0,0,40,5,10,80,80,80,0,0,30,0,15,5
+573,Teeling Single Grain Whiskey,619,3,46.0,California red wine barrels,35,0,55,30,30,60,75,85,0,0,55,30,45,30
+574,High West A Midwinter Night's Dram,1411,4,49.3,"new, charred American oak, French oak, and ex-port",40,0,75,30,20,60,60,85,0,0,60,40,80,50
+575,Aberlour 18 Year Double Cask Matured,512,4,43.0,ex-bourbon and ex-sherry,40,40,74,42,78,82,83,81,63,64,76,36,84,58
+576,Compass Box The Lost Blend,70,4,46.0,ex-bourbon,50,40,0,10,0,60,70,60,5,0,20,0,30,0
+577,Ardbeg Airigh Nam Beist 1990,39,5,46.0,Oak,70,60,25,10,70,90,100,50,60,55,30,10,60,0
+578,Balcones Texas Single Malt,997,4,52.5,ex-bourbon,5,0,20,0,10,75,75,70,0,0,20,0,20,0
+579,Ardbeg Auriverdes,132,4,49.9,,30,70,35,10,30,65,65,40,50,30,20,40,70,20
+580,George T. Stagg Bourbon (Fall 2014),151,3,69.05,new charred oak,0,0,15,0,10,80,80,80,0,0,20,10,30,5
+581,Glenglassaugh Torfa,158,3,50.0,,35,35,5,15,10,60,50,70,15,20,10,5,10,5
+582,Glengoyne 17 Year,57,3,43.0,ex-bourbon & ex-sherry,0,0,50,30,30,70,70,70,0,20,50,50,80,20
+583,Rittenhouse Rye 25 Year,28,5,50.0,new charred oak,20,0,25,15,0,60,60,50,0,0,10,0,5,10
+584,Woodford Reserve Double Oaked,6799,2,45.2,"new charred oak, seasoned oak",0,0,20,0,0,70,70,70,0,0,15,10,30,0
+585,Dalmore Cigar Malt,226,3,43.0,"ex-Matusalem sherry, ex-bourbon",20,0,60,60,20,60,60,60,0,0,50,30,70,10
+586,Ransom The Emerald 1865 Straight American Whiskey,42,4,43.8,French and American oak,30,0,60,60,20,40,40,40,0,0,20,30,50,10
+587,Wild Turkey Rare Breed,1189,2,54.1,new charred oak,10,0,15,0,0,70,70,80,0,0,30,0,15,0
+588,Belle Meade Sour Mash Straight Bourbon,1161,2,45.2,"new, charred American oak",0,0,82,0,0,50,20,80,0,10,20,15,30,15
+589,Glenlivet 25 Year,199,5,43.0,"ex-Bourbon, ex-Oloroso Sherry",10,0,60,20,20,60,60,70,0,0,60,30,80,30
+590,Compass Box The General,16,5,53.4,"ex-Bourbon, ex-Oloroso Sherry",20,0,70,30,30,60,60,40,0,20,40,40,70,10
+591,Redbreast 12 Year Cask Strength,897,4,57.7,combination of American oak ex-bourbon and European oak ex-oloroso sherry,5,0,15,0,0,65,65,70,0,5,15,10,20,5
+592,Glen Garioch 1994,31,4,53.9,used American Oak barrels,30,30,60,40,30,60,60,50,20,0,60,60,70,20
+593,Pappy Van Winkle 20 Year,1021,4,45.2,"new, charred American oak   ",50,0,50,30,60,60,70,60,30,30,40,30,70,40
+594,Van Winkle Family Reserve Rye 13 Year,261,5,47.8,"new, charred American oak   ",40,0,80,30,50,80,70,20,30,20,10,40,30,20
+595,WhistlePig The Boss Hog Straight Rye Whiskey,388,5,67.3,American Oak,50,0,80,50,40,70,70,60,0,0,70,20,40,20
+596,Russell's Reserve 10 Year Bourbon,4148,2,45.0,"new, charred American oak",40,0,40,50,50,60,50,70,0,0,60,20,50,50
+597,Hakushu 12 Year,1324,3,43.0,"ex-bourbon, ex-oloroso sherry",40,40,20,30,30,60,60,70,20,40,40,60,80,30
+598,Talisker Distillers Edition,895,4,45.8,finished in Amoroso Sherry,70,70,60,40,60,80,90,90,40,50,60,40,80,40
+599,Dalmore 18 Year,487,5,43.0,"ex-Bourbon, ex-Matusalem Sherry",30,10,70,10,10,80,90,80,10,10,60,30,90,30
+600,BenRiach 20 Year,66,4,46.0,ex-Bourbon,50,10,50,10,40,70,70,70,10,20,70,50,70,30
+601,BenRiach Curiositas 10 Year,389,3,46.0,ex-Bourbon,70,80,40,60,50,70,70,40,10,50,60,40,50,10
+602,Weller Antique 107 Bourbon,4674,2,53.5,"new, charred American oak",20,0,50,0,60,60,50,50,0,0,30,40,50,20
+603,Balcones Baby Blue,882,3,46.0,used American oak,20,0,40,20,60,80,60,50,10,0,40,30,60,20
+604,Glenfarclas 17 Year,466,4,43.0,European oak ex-oloroso sherry cask,30,10,60,20,30,70,80,10,20,40,40,40,80,20
+605,Rittenhouse Rye Bottled in Bond,2451,2,50.0,"new, charred American oak",30,0,50,0,60,40,50,40,0,20,20,30,50,0
+606,Hibiki 17 Year,700,4,43.0,"ex-bourbon American oak, ex-sherry European oak, Japanese mizunara",20,10,65,65,50,80,85,75,30,70,70,0,70,65
+607,Smooth Ambler Old Scout Rye 7 Year,169,2,49.5,Charred American White Oak,0,0,40,15,0,71,70,65,0,0,15,0,15,0
+608,Springbank 10 Year,1303,3,46.0,ex-bourbon and ex-sherry,50,60,70,30,60,70,70,60,20,50,40,60,70,20
+609,Lagavulin 16 Year,11437,3,43.0,oak barrels,60,80,60,50,70,80,70,40,70,60,40,20,40,10
+610,Springbank 18 Year,194,4,46.0,ex sherry (80%) & ex bourbon,40,40,50,30,50,70,70,70,40,50,50,40,80,60
+611,Caol Ila 18 Year,230,4,43.0,mixture of refill casks,40,30,30,20,40,60,60,50,10,40,30,20,30,10
+612,Bushmills 16 Year Single Malt,544,3,40.0,"Ex-Bourbon, Ex-Spanish Oloroso Sherry & Ex-Port Pipe",40,10,75,10,30,70,80,80,10,20,60,20,80,40
+613,Elijah Craig 18 Year Single Barrel Bourbon,1043,5,45.0,"new, charred American oak",50,0,60,10,10,65,70,55,10,5,55,25,55,30
+614,Four Roses Small Batch Bourbon,5391,2,45.0,"new, charred American oak",40,0,40,40,50,60,40,70,20,10,50,30,70,30
+615,Nikka Taketsuru 17 Year Pure Malt,279,4,43.0,,30,40,80,40,20,60,60,50,20,10,60,40,60,40
+616,Compass Box Oak Cross,379,3,43.0,American & French Oak Barrels,20,10,70,20,30,50,60,70,10,20,80,50,70,20
+617,Isle of Skye 12 Year,62,2,43.0,,15,10,15,0,0,75,80,85,0,0,30,0,30,0
+618,Uncle Nearest Straight Rye,15,3,50.0,finished in used Uncle Nearest barrels,3,0,30,20,10,50,55,60,0,0,30,15,25,5
+619,Square 6 High-Rye Rye,2,4,47.5,"new, charred American oak",0,0,55,25,0,50,40,20,0,0,5,10,15,3
+620,Bruichladdich Black Art 10.1 Edition 29 Year,4,5,45.1,various casks ,15,0,35,20,10,45,45,50,10,10,5,35,80,10
+621,Castle & Key Small Batch Wheated Bourbon (Batch 1),12,3,50.0,"new, charred American oak",0,0,60,50,20,70,80,60,0,20,90,20,10,0
+622,Hibiki Blossom Harmony 2022,2,5,43.0,finished in sakura casks,20,0,35,10,15,50,50,40,0,0,10,35,45,35
+623,High West A Midwinter Night's Dram Act 10 (All Scenes),70,4,49.3,finished in port barrels,5,0,65,55,10,50,50,40,0,0,15,10,70,3
+624,Barrell Craft Spirits Gray Label Bourbon (2022 Release),1,5,50.29,"new, charred American oak; finished with ex-bourbon barrels",3,0,55,10,20,50,50,60,0,0,20,15,60,0
+625,Jefferson's Ocean Aged at Sea New York Edition,1,4,49.0,"new, charred American oak",5,0,20,0,20,85,80,40,8,0,30,10,20,0
+626,Cascade Moon 15 Year Barrel Proof,1,4,39.9,"new, charred American oak",10,0,15,5,10,70,60,40,0,5,10,25,30,5
+627,Jack Daniel's Twice Barreled American Single Malt (2022 Release),19,3,53.9,"new, charred American oak; finished in oloroso sherry casks",40,0,65,15,10,50,50,45,0,0,45,35,65,0
+628,Rossville Union Barrel Proof Straight Rye (2022 Release),2,3,58.6,"new, charred American oak",30,0,60,35,20,70,70,45,0,0,40,35,20,0
+629,Dingle Single Malt (Core Release),15,4,46.3,"39% Bourbon, 61% PX Sherry",0,0,65,0,15,80,55,55,0,0,15,10,60,0
+630,"Booker's Bourbon Batch 2021-04 ""Noe Strangers Batch""",111,4,62.2,"new, charred American oak",5,0,75,8,10,65,65,80,0,5,20,8,35,0
+631,Port Charlotte Islay Barley 2013,18,4,50.0,American whiskey casks & Bordeaux wine casks,30,30,20,40,60,55,40,35,20,5,35,15,25,15
+632,Waterford The Cuvée,16,4,50.0,"first-fill American oak, virgin American oak, ex-Vin Doux Naturel casks, and French oak",10,0,50,20,30,70,80,60,0,0,70,60,50,30
+633,New Riff Red Turkey Wheated Bourbon,11,2,50.0,"new, charred American oak ",10,0,30,40,30,80,80,60,0,10,80,30,20,0
+634,Paul John Christmas Edition 2021,5,4,46.0,"ex-bourbon, ex-port, ex-madeira",60,30,60,20,50,70,80,60,0,0,50,30,80,60
+635,Elijah Craig Barrel Proof Bourbon Batch C921,123,3,60.1,"new, charred American oak ",10,0,50,10,10,90,85,60,0,0,25,10,30,0
+636,Westland Garryana 2021 Edition 6,12,4,50.0,"garryana, ex-brandy, ex-sherry ",30,0,40,50,20,80,90,50,0,30,80,40,60,20
+637,Eagle Rare 17 Year Bourbon (Fall 2021),17,4,50.5,"new, charred American oak",10,0,80,5,10,70,70,50,0,0,25,20,35,0
+638,Four Roses Limited Edition Small Batch Bourbon (2021),56,4,57.1,"new, charred American oak ",10,0,35,10,15,85,85,70,0,5,15,20,40,0
+639,Bardstown Bourbon Co. Ferrand Finish,32,4,55.0,finished in Maison Ferrand Cognac barrels,20,0,60,40,20,90,80,50,0,20,80,30,70,40
+640,Whiskey Del Bac Distiller's Cut (Spring 2021),8,3,55.9,Pedro Ximenez finish,20,0,30,10,20,90,90,50,0,0,50,30,70,10
+641,Old Fitzgerald Bottled in Bond 8 Year (Spring 2021),59,4,50.0,"new, charred American oak",5,0,20,10,10,85,80,70,0,3,30,15,20,0
+642,Old Forester Birthday Bourbon 2021,72,4,52.0,"new, charred American oak",25,0,45,15,15,55,55,60,0,0,55,45,55,0
+643,Barrell Bourbon Batch 028,45,4,54.43,"new, charred American oak",10,0,65,15,65,80,70,60,10,5,70,20,30,10
+644,Benriach The Twenty One,8,5,46.0,"bourbon, sherry, virgin oak, Bordeaux red wine",15,5,55,20,10,50,50,35,10,5,30,10,55,5
+645,Wild Turkey Master's Keep One,56,5,50.5,finished in toasted oak,20,0,60,80,20,80,60,40,0,0,90,30,20,0
+646,George Dickel 13 Year Bottled in Bond Tennessee Whisky (Spring 2007),134,2,50.0,,20,0,80,40,30,80,90,60,0,0,90,20,10,0
+647,Kingsbarns Family Reserve 2020,3,3,59.2,first-fill ex-bourbon and first-fill STR casks,0,0,35,15,40,50,40,35,0,0,40,20,40,20
+648,Watershed Nocino Finished Bourbon,21,3,59.5,"new charred oak, nocino ",0,0,25,5,5,40,40,75,0,0,30,10,40,10
+649,Aberfeldy 20 Year Small Batch Exceptional Cask Series,10,5,43.0,"refill casks, finished in Sauternes wine barrel",5,0,40,25,55,60,70,65,10,5,65,20,45,40
+650,Barrell Bourbon New Year 2021,27,4,56.95,"new, charred American oak",20,0,50,40,40,80,40,50,0,0,80,20,60,20
+651,Chicken Cock 15 Year Barrel Proof Kentucky Straight Bourbon,5,5,57.0,"new, charred American oak",15,0,55,15,65,70,75,70,5,5,70,10,35,10
+652,Lot No. 40 Dark Oak,32,3,48.0,"American oak, finished in heavily-charred oak barrels",0,0,80,90,20,70,30,20,0,0,50,40,10,0
+653,Russell's Reserve 2003,20,5,44.75,"new, charred American oak",30,0,50,60,0,80,60,50,0,20,80,50,40,0
+654,Longmorn 16 Year,34,4,48.0,"First-fill American oak, ex-sherry and European oak ",0,0,0,5,0,0,0,50,0,0,10,25,55,25
+655,Ardbeg Traigh Bhan 19 Year Batch 2 (2020),22,5,46.2,American oak and oloroso sherry,30,25,10,25,25,40,45,25,10,5,20,25,35,10
+656,Barrell Bourbon Batch 025,53,4,56.7,"new, charred American oak",20,0,40,30,40,80,80,60,0,0,90,30,40,0
+657,Sazerac Rye 18 Year (Fall 2020),22,4,45.0,"new, charred American oak",20,0,70,70,20,70,30,40,0,0,50,0,10,10
+658,Teeling Renaissance 18 Year Single Malt (Volume 2),7,4,46.0,"ex-bourbon casks, Australian shiraz barrels",0,0,10,25,30,40,30,30,0,0,35,30,55,25
+659,Glencadam 17 Year Triple Cask Portwood,3,4,46.0,"ex-bourbon, finished in port wood",0,0,35,15,35,55,60,35,0,0,20,15,35,10
+660,Cedar Ridge The QuintEssential American Single Malt,39,3,46.0,"American oak whiskey barrels; finished in ex-port, ex-wine, ex-sherry, ex-rum, ex-brandy",20,30,40,20,20,70,80,60,0,0,50,10,90,0
+661,Wild Turkey Rare Breed Barrel Proof Rye,493,3,56.1,"new, charred American oak",0,0,65,5,20,64,64,40,0,0,20,10,30,5
+662,Waterford Bannow Island Edition 1.1,12,3,50.0,French & American Oak ,0,0,40,30,45,50,65,35,10,0,15,25,40,10
+663,Lagavulin 12 Year (2020 Special Release),42,5,56.4,refill American oak casks,40,35,20,35,45,55,40,30,10,5,20,25,25,10
+664,Barrell Bourbon Batch 024,43,3,56.95,,10,0,65,15,55,65,70,65,10,5,70,25,25,20
+665,Angel's Envy Bourbon Finished in Mizunara Oak,6,5,48.9,"new, charred American oak; finished in Mizunara oak barrels",40,0,80,20,0,60,40,30,0,10,70,50,40,30
+666,Sweetens Cove 13 Year Tennessee Bourbon,35,5,51.09,"new, charred American oak",10,0,50,30,55,70,75,70,5,5,65,20,30,25
+667,Nikka Yoichi Apple Brandy Barrel Finish (2020 Release),6,5,47.0,,20,10,30,0,20,65,65,75,0,0,30,15,70,5
+668,Barrell Bourbon Batch 023,49,4,53.89,"new, charred American oak",10,0,60,10,65,70,75,60,10,5,70,15,20,15
+669,Daviess County Kentucky Straight Bourbon French Oak Finish,119,2,48.0,finished in French oak,10,0,60,0,60,80,75,90,0,0,90,30,80,95
+670,Daviess County Kentucky Straight Bourbon Cabernet Sauvignon Finish,123,2,48.0,finished in ex-Napa cabernet sauvignon barrels,30,0,85,10,50,85,80,75,0,20,80,20,55,40
+671,"Glentauchers 1996 23 Year The Gentlemen (Deer, Bear & Moose)",3,5,47.2,ex-bourbon hogshead & first-fill bourbon,30,20,35,20,90,85,80,85,10,20,60,55,80,75
+672,Westland Peat Week 2020 Single Cask #3369,16,4,60.4,French puncheon,75,85,45,55,70,90,80,70,65,30,55,20,40,50
+673,J.P. Wiser's Seven Rebels,8,3,42.8,"Ex-Bourbon, Virgin Oak, Ex-Speyside Whisky",50,0,45,20,20,40,45,40,0,0,40,20,45,20
+674,Elijah Craig Barrel Proof Bourbon Batch C919,283,3,68.4,"new, charred American oak",60,0,95,80,90,85,90,65,0,10,75,45,65,70
+675,Bruichladdich Black Art 1994 07.1 Edition 25 Year,31,5,48.4,,0,0,10,25,50,45,60,35,0,0,30,25,35,20
+676,Octomore 10.2/96.9 Scottish Barley,17,5,56.9,first-fill American oak whiskey barrels and ex-Sauternes wine casks,40,35,10,10,50,60,70,45,10,15,30,20,40,10
+677,Kilchoman Vintage 2010,22,4,48.0,ex-bourbon and ex-oloroso sherry,30,50,45,30,60,65,65,40,25,15,55,30,30,20
+678,William Larue Weller Bourbon (Fall 2019),145,4,64.0,"new, charred American oak",20,0,55,35,20,45,45,45,0,0,30,40,30,10
+679,Lux Row Distillers Double Barrel Bourbon 12 Year,110,4,59.2,"new, charred American oak",10,5,70,40,65,70,75,60,5,5,60,20,35,15
+680,Knappogue Castle 12 Year Marchesi di Barolo Cask Finish,10,3,46.0,"ex-bourbon, finished in Barolo wine casks",10,0,40,30,55,65,60,70,10,5,55,20,40,25
+681,Last Straw Straight Ontario Rye,2,3,43.0,Virgin American Oak,35,0,75,40,10,40,45,35,0,0,30,20,35,30
+682,J.P. Wiser's Alumni Whisky Series Larry Robinson,11,2,40.0,"ex-Bourbon, Canadian, re-charred barrels, Caribbean rum, port and French oak casks",45,0,55,30,15,40,50,50,0,0,35,30,50,30
+683,Old Forester Birthday Bourbon 2019,157,4,52.5,"new, charred American oak",20,0,60,40,30,90,80,60,0,0,90,20,20,0
+684,Westland Barley Series Maris Otter Single Cask #2560,2,4,60.3,ex-bourbon,20,0,50,30,20,80,70,60,0,0,80,20,20,10
+685,Balvenie A Day of Dark Barley 26 Year,20,5,47.8,first-fill bourbon barrels,20,5,40,15,55,65,65,60,10,5,40,10,30,10
+686,Kilchoman STR Cask Matured (2019 Edition),36,4,50.0,red wine hogsheads,70,80,80,60,80,90,85,60,75,50,30,0,30,0
+687,High West Bourye (2019 Release),159,3,46.0,"new, charred American oak",30,0,60,40,30,60,80,70,0,20,80,40,20,0
+688,Balblair 18 Year,26,5,46.0,"American oak ex-bourbon, finished in first-fill Spanish oak sherry butts",15,0,40,20,50,75,70,60,15,10,60,15,35,20
+689,Kilchoman Loch Gorm (2019 Edition),58,3,46.0,ex-oloroso sherry butts,80,85,75,30,75,80,90,70,80,70,50,30,70,30
+690,Benromach Peat Smoke Sherry Cask Matured 2010,34,4,59.9,first-fill sherry hogsheads,40,25,20,10,50,60,40,30,5,5,15,20,40,15
+691,Ranger Creek .36 Texas Straight Bourbon Cask Strength,17,3,63.6,,30,0,70,50,0,90,80,60,0,20,80,10,0,0
+692,291 Colorado Rye Single Barrel,45,4,50.8,finished with charred Aspen staves,10,0,50,50,20,80,80,70,0,20,90,0,30,0
+693,Fukano Jikan,8,4,40.4,,10,0,30,35,35,55,55,60,5,5,40,10,35,45
+694,Thomas H. Handy Sazerac Rye (Fall 2018),146,4,64.4,"new, charred American oak",30,0,80,40,10,45,45,30,0,0,25,25,20,0
+695,Port Charlotte 10 Year,1163,3,50.0,1st and 2nd fill American whiskey casks & 2nd fill French wine casks,60,70,40,25,55,60,65,35,35,15,35,15,20,15
+696,Compass Box Flaming Heart (Sixth Edition),50,4,48.9,a variety of casks including heavily-toasted new French oak,80,30,50,0,10,80,70,60,30,20,70,10,50,0
+697,"Booker's Bourbon Batch 2018-03 ""Kentucky Chew""",199,3,63.35,"new, charred American oak",35,0,65,25,60,60,70,60,5,5,55,10,15,10
+698,Highland Park Wings of the Eagle 16 Year,50,4,44.5,primarily European oak ex-sherry,50,60,40,40,30,70,80,60,0,0,80,0,50,30
+699,Old Fitzgerald Bottled in Bond 9 Year (Fall 2018),174,4,50.0,"new, charred American oak",25,0,55,35,25,50,50,55,0,10,35,40,50,0

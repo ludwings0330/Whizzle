@@ -1,18 +1,22 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
+import Logout from "../../../hooks/Logout";
+import { useRecoilValue } from "recoil";
+import { userState } from "../../../store/userStore";
 // 로고 이미지
 import logo from "../../../assets/img/logo.png";
 
 const Navbar = styled.nav`
-  position: flex;
+  position: absolute;
   top: 0;
   width: 100vw;
   height: 70px;
   display: flex;
-  background-color: #f84f5a;
+  background-color: transparent;
   justify-content: space-between;
-  margin-bottom: 10px;
+  margin-bottom: 0px;
+  max-width: 100%;
 `;
 
 const NavDiv = styled.div`
@@ -63,71 +67,63 @@ const nonActiveStyle = {
 
 // 네비게이션 바
 const Header = () => {
-  const me = true;
+  const user = useRecoilValue(userState);
+  const isLogin = Boolean(user.nickname);
+  const logout = Logout();
+  const signout = () => {
+    logout();
+  };
   return (
     <>
-      <Navbar>
+      <Navbar id="navbar">
         <NavLeftDiv>
           <NavDiv>
-            <NavLink
-              style={({ isActive }) =>
-                isActive ? activeStyle : nonActiveStyle
-              }
-              to="/"
-            >
-              <SLogoImg src={logo} alt="#" />
+            <NavLink style={({ isActive }) => (isActive ? activeStyle : nonActiveStyle)} to="/">
+              <SLogoImg id="logo" src={logo} alt="#" />
             </NavLink>
           </NavDiv>
         </NavLeftDiv>
         <NavRightDiv>
           <NavDiv>
             <NavLink
-              style={({ isActive }) =>
-                isActive ? activeStyle : nonActiveStyle
-              }
+              style={({ isActive }) => (isActive ? activeStyle : nonActiveStyle)}
               to="/recommend/question"
             >
-              <SP>위스키 추천</SP>
+              <SP className="text">위스키 추천</SP>
             </NavLink>
           </NavDiv>
           <NavDiv>
             <NavLink
-              style={({ isActive }) =>
-                isActive ? activeStyle : nonActiveStyle
-              }
+              style={({ isActive }) => (isActive ? activeStyle : nonActiveStyle)}
               to="/diary"
             >
-              <SP>위스키 다이어리</SP>
+              <SP className="text">위스키 다이어리</SP>
             </NavLink>
           </NavDiv>
           <NavDiv>
             <NavLink
-              style={({ isActive }) =>
-                isActive ? activeStyle : nonActiveStyle
-              }
+              style={({ isActive }) => (isActive ? activeStyle : nonActiveStyle)}
               to="/search"
             >
-              <SP>위스키 검색</SP>
+              <SP className="text">위스키 검색</SP>
             </NavLink>
           </NavDiv>
           <NavDiv>
-            {me ? (
+            {!isLogin ? (
               <NavLink
-                style={({ isActive }) =>
-                  isActive ? activeStyle : nonActiveStyle
-                }
+                style={({ isActive }) => (isActive ? activeStyle : nonActiveStyle)}
                 to="/login"
               >
-                <SP>로그인</SP>
+                <SP className="text">로그인</SP>
               </NavLink>
             ) : (
               <NavLink
-                style={({ isActive }) =>
-                  isActive ? activeStyle : nonActiveStyle
-                }
-                to="/mypage"
+                style={({ isActive }) => (isActive ? activeStyle : nonActiveStyle)}
+                to="/login"
               >
-                <SP>마이페이지</SP>
+                <SP className="text" onClick={signout}>
+                  로그아웃
+                </SP>
               </NavLink>
             )}
           </NavDiv>

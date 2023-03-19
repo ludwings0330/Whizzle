@@ -1,12 +1,8 @@
 package com.bear.whizzle.auth.service;
 
-import com.bear.whizzle.auth.repository.TokenRepository;
 import com.bear.whizzle.domain.model.entity.Member;
-import com.bear.whizzle.domain.model.entity.Token;
-import com.bear.whizzle.domain.model.type.File;
 import com.bear.whizzle.member.MemberRepository;
 import java.util.Map;
-import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -23,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 
     private final MemberRepository memberRepository;
-    private final TokenRepository tokenRepository;
     private final DefaultOAuth2UserService oAuth2UserService = new DefaultOAuth2UserService();
 
     // OAuth 2.0 로그인 성공시 loadUser 를 통해 확인
@@ -60,25 +55,17 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
     public void joinProcess(PrincipalDetails details) {
         log.debug("신규 회원 가입 진행");
-        final File file = File.builder()
-                              .savedName(UUID.randomUUID().toString())
-                              .originName("originName")
-                              .build();
 
-        final Member member = Member.builder().provider(details.getProvider())
+        details.join();
+
+        final Member member = Member.builder()
+                                    .provider(details.getProvider())
                                     .nickname(details.getNickname())
                                     .email(details.getEmail())
-                                    .image(file)
-                                    .level(40f)
                                     .build();
         memberRepository.save(member);
 
-        final Token token = Token.builder()
-                                 .memberId(member.getId())
-                                 .build();
-        tokenRepository.save(token);
-
-        log.debug("신규 회원 가입 완료({}, {})", member, token);
+        log.debug("신규 회원 가입 완료({})", member);
     }
 
 }

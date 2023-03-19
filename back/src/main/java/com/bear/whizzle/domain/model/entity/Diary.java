@@ -16,21 +16,20 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Table(
         name = "diary",
         uniqueConstraints = @UniqueConstraint(columnNames = { "member_id", "created_date_time" })
 )
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@SuperBuilder
 @ToString(callSuper = true)
 public class Diary extends BaseTimeEntity {
 
@@ -54,6 +53,19 @@ public class Diary extends BaseTimeEntity {
 
     @Size(max = 255)
     private String content;
+
+    @NotNull
+    @ColumnDefault("0")
+    private Boolean isDeleted = Boolean.FALSE;
+
+    @Builder
+    private Diary(Member member, Emotion emotion, DrinkLevel drinkLevel, String content) {
+        super();
+        this.member = member;
+        this.emotion = emotion;
+        this.drinkLevel = drinkLevel;
+        this.content = content;
+    }
 
     @Override
     public boolean equals(Object o) {

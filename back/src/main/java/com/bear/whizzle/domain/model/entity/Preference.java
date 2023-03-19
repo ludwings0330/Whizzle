@@ -3,6 +3,7 @@ package com.bear.whizzle.domain.model.entity;
 import com.bear.whizzle.domain.model.type.Age;
 import com.bear.whizzle.domain.model.type.Flavor;
 import com.bear.whizzle.domain.model.type.Gender;
+import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -16,6 +17,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,8 +26,8 @@ import lombok.experimental.SuperBuilder;
 
 @Entity
 @Table(name = "preference")
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 @SuperBuilder
 @ToString(callSuper = true)
@@ -50,6 +52,7 @@ public class Preference extends BaseTimeEntity {
     private Age age;
 
     @NotNull
+    @Column(columnDefinition = "TINYINT")
     @Min(1)
     @Max(5)
     private Integer priceTier;
