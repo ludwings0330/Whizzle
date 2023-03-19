@@ -31,7 +31,7 @@ const SContent = styled.p`
 const SButton = styled.button`
   cursor: pointer;
   display: block;
-  margin: 2vh auto;
+  margin: 4vh auto;
   width: 300px;
   height: 74px;
   border: none;

@@ -6,8 +6,6 @@ import { motion } from "framer-motion";
 import checkImg from "../../../assets/img/check.png";
 import wonderImg from "../../../assets/img/wonder.png";
 import cheersImg from "../../../assets/img/cheers.png";
-import navigateNext from "../../../assets/img/navigate_next.png";
-import navigatePrev from "../../../assets/img/navigate_prev.png";
 
 const SDiv = styled.div`
   display: flex;
@@ -22,6 +20,14 @@ const SDiv = styled.div`
     #f7cb5a 100%
   );
 `;
+
+const slide = {
+  position: "absolute",
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  alignItems: "center",
+};
 
 const SCentered = styled.div`
   display: flex;
@@ -82,32 +88,17 @@ const QuestionExperience = (props) => {
     }));
 
     if (selectedValue === "true") {
-      setTimeout(() => {
-        props.setActivePage(4);
-      }, 300);
+      props.setDirection("next");
+      props.setActivePage(4);
     } else if (selectedValue === "false") {
-      setTimeout(() => {
-        props.setActivePage(5);
-      }, 300);
-    }
-  };
-
-  const nextPageHandler = () => {
-    if (preferenceValue.isExperience === "true") {
-      setTimeout(() => {
-        props.setActivePage(4);
-      }, 300);
-    } else if (preferenceValue.isExperience === "false") {
-      setTimeout(() => {
-        props.setActivePage(5);
-      }, 300);
-    } else {
-      alert("해당되는 내용을 선택해주세요!");
+      props.setDirection("next");
+      props.setActivePage(5);
     }
   };
 
   return (
     <motion.div
+      style={slide}
       variants={props.pageVariants}
       initial="hidden"
       animate="visible"

@@ -12,13 +12,20 @@ const SDiv = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-image: linear-gradient(
-    125.02deg,
-    #f84f5a 28.12%,
-    #f7875a 65.62%,
-    #f7cb5a 100%
-  );
+  // background-image: linear-gradient(
+  //   125.02deg,
+  //   #f84f5a 28.12%,
+  //   #f7875a 65.62%,
+  //   #f7cb5a 100%
+  // );
 `;
+
+const slide = {
+  position: "absolute",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+};
 
 const SCentered = styled.div`
   display: flex;
@@ -108,7 +115,10 @@ const QuestionFilter = (props) => {
     setPreferenceValue((prev) => ({ ...prev, gender: selectedGender }));
 
     if (preferenceValue.age) {
-      props.goNextPage();
+      props.setDirection("next");
+      props.setActivePage((prev) =>
+        props.activePage === 4 ? prev + 2 : prev + 1
+      );
     }
   };
 
@@ -117,20 +127,16 @@ const QuestionFilter = (props) => {
     setPreferenceValue((prev) => ({ ...prev, age: selectedAge }));
 
     if (preferenceValue.gender) {
-      props.goNextPage();
-    }
-  };
-
-  const nextPageHandler = () => {
-    if (preferenceValue.age && preferenceValue.gender) {
-      props.goNextPage();
-    } else {
-      alert("해당되는 내용을 선택해주세요!");
+      props.setDirection("next");
+      props.setActivePage((prev) =>
+        props.activePage === 4 ? prev + 2 : prev + 1
+      );
     }
   };
 
   return (
     <motion.div
+      style={slide}
       variants={props.pageVariants}
       initial="hidden"
       animate="visible"

@@ -4,7 +4,6 @@ import { preference } from "../../../store/preferenceStore";
 import QuestionChooseFlavorItem from "./QuestionChooseFlavorItem";
 import styled from "styled-components";
 import { motion } from "framer-motion";
-import navigatePrev from "../../../assets/img/navigate_prev.png";
 import infoImg from "../../../assets/img/info.png";
 
 const SDiv = styled.div`
@@ -19,6 +18,13 @@ const SDiv = styled.div`
     #f7cb5a 100%
   );
 `;
+
+const slide = {
+  // position: "absolute",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+};
 
 const SCentered = styled.div`
   display: flex;
@@ -126,26 +132,20 @@ const QuestionChooseFlavor = (props) => {
   const preferenceValue = useRecoilValue(preference);
   const [isHover, setIsHover] = useState(false);
 
-  const priorPageHandler = () =>
-    setTimeout(() => {
-      props.setActivePage(3);
-    }, 300);
-
   const submitHandler = () => {
     // axios 요청 들어갈 자리
     console.log(preferenceValue);
-    setTimeout(() => {
-      props.setActivePage(6);
-    }, 300);
+    props.setDirection("next");
+    props.setActivePage(6);
   };
 
   return (
     <motion.div
-      variants={props.pageVariants}
-      initial="hidden"
-      animate="visible"
-      exit="exit"
-      custom={props.direction}
+      style={slide}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 1, delay: 1 }}
     >
       <SCentered>
         <SContent>입맛에 맞는 위스키를 추천해드릴게요!</SContent>

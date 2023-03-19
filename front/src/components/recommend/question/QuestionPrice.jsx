@@ -3,8 +3,6 @@ import { useRecoilState } from "recoil";
 import { preference } from "../../../store/preferenceStore";
 import styled from "styled-components";
 import { motion } from "framer-motion";
-import navigateNext from "../../../assets/img/navigate_next.png";
-import navigatePrev from "../../../assets/img/navigate_prev.png";
 
 const SDiv = styled.div`
   display: flex;
@@ -19,6 +17,14 @@ const SDiv = styled.div`
     #f7cb5a 100%
   );
 `;
+
+const slide = {
+  position: "absolute",
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  alignItems: "center",
+};
 
 const SCentered = styled.div`
   display: flex;
@@ -86,7 +92,7 @@ const SLine = styled.div`
 `;
 
 const ResponsiveSLine = styled(SLine)`
-  @media (max-width: 800px) {
+  @media (max-width: 760px) {
     display: none;
   }
 `;
@@ -108,19 +114,15 @@ const QuestionPrice = (props) => {
     const selectedPrice = event.target.value;
     setPreferenceValue((prev) => ({ ...prev, price: selectedPrice }));
 
-    props.goNextPage();
-  };
-
-  const nextPageHandler = () => {
-    if (preferenceValue.price) {
-      props.goNextPage();
-    } else {
-      alert("해당되는 내용을 선택해주세요!");
-    }
+    props.setDirection("next");
+    props.setActivePage((prev) =>
+      props.activePage === 4 ? prev + 2 : prev + 1
+    );
   };
 
   return (
     <motion.div
+      style={slide}
       variants={props.pageVariants}
       initial="hidden"
       animate="visible"
