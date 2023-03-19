@@ -4,9 +4,11 @@ spring:
     group:
       dev:
         - global-dev
+        - db-dev
         - s3-dev
       prod:
         - global-prod
+        - db-prod
         - s3-prod
     include:
       - global
