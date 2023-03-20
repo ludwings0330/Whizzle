@@ -1,6 +1,9 @@
 package com.bear.whizzle.whisky.service;
 
 import com.bear.whizzle.common.annotation.Performance;
+import com.bear.whizzle.domain.exception.NotFoundException;
+import com.bear.whizzle.domain.model.entity.Whisky;
+import com.bear.whizzle.domain.model.type.Flavor;
 import com.bear.whizzle.whisky.repository.WhiskyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -9,12 +12,20 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class WhiskyServiceImpl implements WhiskyService {
 
-    private final WhiskyRepository memberRepository;
+    private final WhiskyRepository whiskyRepository;
 
     @Performance
     public String test() {
-        memberRepository.findByIdAfterSleepTest(1L);
+        whiskyRepository.findByIdAfterSleepTest(1L);
         return "Testing Service...";
+    }
+
+    @Override
+    public Flavor getWhiskyFlavorById(long whiskyId) {
+        Whisky whisky = whiskyRepository.findById(whiskyId)
+                                        .orElseThrow(() -> new NotFoundException("찾을 수 없는 위스키입니다."));
+
+        return whisky.getFlavor();
     }
 
     @Performance

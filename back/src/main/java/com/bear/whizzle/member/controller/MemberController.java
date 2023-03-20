@@ -9,6 +9,7 @@ import com.bear.whizzle.member.controller.dto.MemberBaseInfoResponseDto;
 import com.bear.whizzle.member.converter.MemberConverter;
 import com.bear.whizzle.member.service.MemberService;
 import com.bear.whizzle.preference.PreferenceConverter;
+import com.bear.whizzle.preference.controller.dto.MemberPreferenceRequestDto;
 import com.bear.whizzle.preference.controller.dto.MemberPreferenceResponseDto;
 import com.bear.whizzle.preference.service.PreferenceService;
 import java.util.List;
@@ -18,7 +19,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -62,6 +65,13 @@ public class MemberController {
         final Preference preference = preferenceService.findByMemberId(memberId);
 
         return PreferenceConverter.toMemberPreferenceResponseDto(preference);
+    }
+
+    @PostMapping("/preference")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void updateMemberPreference(@AuthenticationPrincipal PrincipalDetails user,
+                                       @RequestBody MemberPreferenceRequestDto preference) {
+        preferenceService.updateMemberPreference(user, preference);
     }
 
 }
