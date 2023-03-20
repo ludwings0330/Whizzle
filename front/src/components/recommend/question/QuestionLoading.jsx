@@ -36,7 +36,7 @@ const QuestionLoading = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 1, delay: 2 }}
+      transition={{ duration: 0.75, delay: 1 }}
     >
       <STitle>당신의 취향을 분석 중이에요!</STitle>
     </motion.div>

@@ -145,7 +145,7 @@ const QuestionChooseFlavor = (props) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 1, delay: 1 }}
+      transition={{ duration: 0.65, delay: 0.5 }}
     >
       <SCentered>
         <SContent>입맛에 맞는 위스키를 추천해드릴게요!</SContent>
