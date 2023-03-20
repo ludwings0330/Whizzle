@@ -1,4 +1,4 @@
-package com.bear.whizzle.member.converter;
+package com.bear.whizzle.member.mapper;
 
 import com.bear.whizzle.domain.model.entity.Member;
 import com.bear.whizzle.domain.model.type.Image;

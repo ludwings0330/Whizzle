@@ -1,4 +1,4 @@
-package com.bear.whizzle.preference;
+package com.bear.whizzle.preference.mapper;
 
 import com.bear.whizzle.domain.model.entity.Preference;
 import com.bear.whizzle.preference.controller.dto.MemberPreferenceResponseDto;
