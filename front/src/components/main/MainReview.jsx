@@ -9,7 +9,12 @@ const SDiv = styled.div`
   align-items: center;
   flex-direction: column;
   height: 100vh;
-  background-image: linear-gradient(90deg, #f84f5a 28.12%, #f7875a 65.62%, #f7cb5a 100%);
+  background-image: linear-gradient(
+    90deg,
+    #f84f5a 28.12%,
+    #f7875a 65.62%,
+    #f7cb5a 100%
+  );
 `;
 
 const SText = styled.div`
@@ -24,6 +29,7 @@ const SLight = styled.span`
   font-family: GmarketSansLight;
   font-size: 40px;
   padding-left: 10px;
+  letter-spacing: -2px;
   color: white;
 `;
 
@@ -56,8 +62,10 @@ const MainReview = (props) => {
           <SLight>위즐을 먼저 경험해 본</SLight>
           <br />
           <SLight>
-            <span style={{ fontFamily: "GmarketSansBold" }}>다른 위즐리들의 후기</span>를
-            확인하세요!
+            <span style={{ fontFamily: "GmarketSansBold" }}>
+              다른 위즐리들의 후기
+            </span>
+            를 확인하세요!
           </SLight>
         </motion.div>
       </SText>
@@ -70,7 +78,9 @@ const MainReview = (props) => {
         <SReviewBox>
           {reviewList.map((review, index) => {
             if (index % 2) {
-              return <SReview key={index} style={{ marginTop: "40px" }}></SReview>;
+              return (
+                <SReview key={index} style={{ marginTop: "40px" }}></SReview>
+              );
             } else {
               return <SReview key={index}></SReview>;
             }
