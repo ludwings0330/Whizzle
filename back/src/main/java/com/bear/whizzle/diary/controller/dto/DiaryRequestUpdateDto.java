@@ -5,7 +5,6 @@ import com.bear.whizzle.domain.model.type.Emotion;
 import java.time.LocalDate;
 import java.util.List;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,7 +12,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.springframework.format.annotation.DateTimeFormat;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -21,11 +19,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Builder
 @ToString
 @EqualsAndHashCode
-public class DiaryRequestSaveDto implements DiaryRequestDto {
+public class DiaryRequestUpdateDto implements DiaryRequestDto {
 
     @NotNull
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate date;
+    private Long id;
 
     @NotNull
     private Emotion emotion;
@@ -33,10 +30,18 @@ public class DiaryRequestSaveDto implements DiaryRequestDto {
     @NotNull
     private DrinkLevel drinkLevel;
 
+    @NotNull
     private String content;
 
-    @NotNull
-    @Size(min = 1)
-    private List<Long> whiskyIds;
+    @EqualsAndHashCode.Exclude
+    private List<Integer> deletedDrinkOrders;
+
+    @EqualsAndHashCode.Exclude
+    private List<Long> insertedWhiskyIds;
+
+    @Override
+    public LocalDate getDate() {
+        return null;
+    }
 
 }
