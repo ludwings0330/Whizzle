@@ -1,6 +1,7 @@
 package com.bear.whizzle.diary.controller;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -16,7 +17,6 @@ import com.bear.whizzle.diary.controller.dto.DiaryRequestUpdateDto;
 import com.bear.whizzle.diary.controller.dto.DiaryResponseDto;
 import com.bear.whizzle.diary.repository.DiaryRepository;
 import com.bear.whizzle.diary.service.DiaryService;
-import com.bear.whizzle.domain.exception.NotFoundException;
 import com.bear.whizzle.domain.model.entity.Diary;
 import com.bear.whizzle.domain.model.entity.Drink;
 import com.bear.whizzle.domain.model.entity.Whisky;
@@ -28,10 +28,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -48,9 +45,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 class DiaryControllerTest {
 
-    private static final Long TEST_MEMBER_ID = 1L;
-    private static String TOKEN;
-
     @Autowired
     private MockMvc mockMvc;
 
@@ -66,42 +60,27 @@ class DiaryControllerTest {
     @Autowired
     private DiaryRepository diaryRepository;
 
+    private Long testMemberId;
+    private String testToken;
+    private Long testDiaryId;
+
     @BeforeEach
     void beforeEach() {
-        if (TOKEN == null) {
-            TOKEN = jwtUtil.generateToken(PrincipalDetails.builder()
-                                                          .memberId(TEST_MEMBER_ID)
-                                                          .build(),
-                                          30 * 60 * 60 * 1000);
-        }
-
-        diaryService.writeDiary(
-                TEST_MEMBER_ID,
-                DiaryRequestSaveDto.builder()
-                                   .date(LocalDate.now().plusDays(1L))
-                                   .whiskyIds(List.of(1L, 2L, 3L))
-                                   .emotion(Emotion.GOOD)
-                                   .drinkLevel(DrinkLevel.HEAVY)
-                                   .content("기분이 매우매우 조으다.")
-                                   .build()
-        );
+        testMemberId = 1L;
+        testToken = jwtUtil.generateToken(PrincipalDetails.builder().memberId(testMemberId).build(), 5000);
+        testDiaryId = 1L;
     }
 
     @Test
     @DisplayName("특정 월의 다이어리 목록 조회 테스트")
     void readDiaries() throws Exception {
         // given
-        final String token = jwtUtil.generateToken(PrincipalDetails.builder()
-                                                                   .memberId(TEST_MEMBER_ID)
-                                                                   .build(),
-                                                   30 * 60 * 60 * 1000);
-
         String month = "2023-03";
 
         // when
         String content = mockMvc.perform(
                                         get("/api/diaries")
-                                                .header("Authorization", "Bearer " + token)
+                                                .header("Authorization", "Bearer " + testToken)
                                                 .queryParam("month", month)
                                 )
                                 .andExpect(status().isOk())
@@ -111,7 +90,7 @@ class DiaryControllerTest {
 
         // then
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
-        objectMapper.readValue(content, new TypeReference<List<DiaryResponseDto>>() {})
+        objectMapper.readValue(content, new TypeReference<List<DiaryResponseDto>>() { })
                     .forEach(actual -> assertThat(actual.getDate().format(formatter)).isEqualTo(month));
     }
 
@@ -130,35 +109,28 @@ class DiaryControllerTest {
         // when
         mockMvc.perform(
                 post("/api/diaries")
-                        .header("Authorization", "Bearer " + TOKEN)
+                        .header("Authorization", "Bearer " + testToken)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(saveDto))
         ).andExpect(status().isCreated());
 
         // then
-        Diary written = diaryRepository.findByMemberIdAndDate(TEST_MEMBER_ID, LocalDate.now())
-                                       .orElseThrow(() -> new NotFoundException("다이어리 작성 실패"));
-
-        assertThat(DiaryMapper.toDiaryRequestSaveDto(written)).isEqualTo(saveDto);
+        assertThatCode(
+                () -> {
+                    Diary actual = diaryRepository.findByMemberIdAndDate(testMemberId, LocalDate.now()).get();
+                    assertThat(DiaryMapper.toDiaryRequestSaveDto(actual)).isEqualTo(saveDto);
+                }
+        ).doesNotThrowAnyException();
     }
 
     @Test
     @DisplayName("다이어리 수정 테스트_성공")
     void rewriteDiary_success() throws Exception {
         // given
-        String token = jwtUtil.generateToken(PrincipalDetails.builder()
-                                                             .memberId(TEST_MEMBER_ID)
-                                                             .build(),
-                                             30 * 60 * 60 * 1000);
-
-        Long diaryId = diaryRepository.findByMemberIdAndDate(TEST_MEMBER_ID, LocalDate.now().plusDays(1L))
-                                      .orElseThrow()
-                                      .getId();
-
         List<Integer> deletedDrinkOrders = List.of(0);
         List<Long> insertedWhiskyIds = List.of(0L, 4L, 5L);
         DiaryRequestUpdateDto updateDto = DiaryRequestUpdateDto.builder()
-                                                               .id(diaryId)
+                                                               .id(testDiaryId)
                                                                .emotion(Emotion.GOOD)
                                                                .drinkLevel(DrinkLevel.LIGHT)
                                                                .content("정상 작동")
@@ -169,76 +141,75 @@ class DiaryControllerTest {
         // when
         mockMvc.perform(
                 put("/api/diaries")
-                        .header("Authorization", "Bearer " + token)
+                        .header("Authorization", "Bearer " + testToken)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(updateDto))
         ).andExpect(status().isCreated());
 
         // then
-        Diary updated = diaryRepository.findWithDrinksById(diaryId)
-                                       .orElseThrow();
+        assertThatCode(
+                () -> {
+                    Diary actual = diaryRepository.findWithDrinksById(testDiaryId).get();
 
-        assertThat(DiaryMapper.toDiaryRequestUpdateDto(updated)).isEqualTo(updateDto);
-        assertThat(updated.getDrinks()
-                          .stream()
-                          .filter(Drink::getIsDeleted)
-                          .map(Drink::getDrinkOrder)
-                          .filter(deletedDrinkOrders::contains)
-                          .collect(Collectors.toList()))
-                .isEqualTo(deletedDrinkOrders);
+                    assertThat(DiaryMapper.toDiaryRequestUpdateDto(actual)).isEqualTo(updateDto);
+                    assertThat(actual.getDrinks()
+                                     .stream()
+                                     .filter(Drink::getIsDeleted)
+                                     .map(Drink::getDrinkOrder)
+                                     .filter(deletedDrinkOrders::contains)
+                                     .collect(Collectors.toList()))
+                            .isEqualTo(deletedDrinkOrders);
 
-        assertThat(updated.getDrinks()
-                          .stream()
-                          .filter(drink -> !drink.getIsDeleted())
-                          .map(Drink::getWhisky)
-                          .map(Whisky::getId)
-                          .filter(insertedWhiskyIds::contains)
-                          .collect(Collectors.toList()))
-                .isEqualTo(insertedWhiskyIds);
+                    assertThat(actual.getDrinks()
+                                     .stream()
+                                     .filter(drink -> !drink.getIsDeleted())
+                                     .map(Drink::getWhisky)
+                                     .map(Whisky::getId)
+                                     .filter(insertedWhiskyIds::contains)
+                                     .collect(Collectors.toList()))
+                            .isEqualTo(insertedWhiskyIds);
+                }
+        ).doesNotThrowAnyException();
     }
 
     @Test
     @DisplayName("다이어리 삭제 테스트_성공")
     void eraseDiary_success() throws Exception {
-        // given
-        String token = jwtUtil.generateToken(PrincipalDetails.builder()
-                                                             .memberId(TEST_MEMBER_ID)
-                                                             .build(),
-                                             30 * 60 * 60 * 1000);
-
-        Long diaryId = diaryRepository.findByMemberIdAndDate(TEST_MEMBER_ID, LocalDate.now().plusDays(1L))
-                                      .orElseThrow()
-                                      .getId();
-
         // when
         mockMvc.perform(
-                delete("/api/diaries/" + diaryId)
-                        .header("Authorization", "Bearer " + token)
+                delete("/api/diaries/" + testDiaryId)
+                        .header("Authorization", "Bearer " + testToken)
         ).andExpect(status().isCreated());
 
         // then
-        Diary deleted = diaryRepository.findWithDrinksById(diaryId)
-                                       .orElseThrow();
+        assertThatCode(
+                () -> {
+                    Diary actual = diaryRepository.findWithDrinksById(testDiaryId).get();
 
-        assertThat(deleted.getIsDeleted()).isTrue();
-        assertThat(deleted.getDrinks()
-                          .stream()
-                          .filter(Drink::getIsDeleted)
-                          .count())
-                .isEqualTo(deleted.getDrinks().size());
+                    assertThat(actual.getIsDeleted()).isTrue();
+                    assertThat(actual.getDrinks()
+                                     .stream()
+                                     .filter(Drink::getIsDeleted)
+                                     .count())
+                            .isEqualTo(actual.getDrinks().size());
+                }
+        ).doesNotThrowAnyException();
     }
 
     @Test
     @DisplayName("다이어리 수정 및 삭제 인가_실패")
-    void authorizeWriter_fail() {
+    void authorizeWriter_fail() throws Exception {
         // given
-        Long memberId = 2L;
-        Long diaryId = diaryRepository.findByMemberIdAndDate(TEST_MEMBER_ID, LocalDate.now().plusDays(1L))
-                                      .orElseThrow()
-                                      .getId();
+        String wrongTestToken = jwtUtil.generateToken(PrincipalDetails.builder().memberId(2L).build(), 5000);
 
         // then
-        assertThatThrownBy(() -> diaryService.eraseDiary(memberId, diaryId)).isInstanceOf(AccessDeniedException.class);
+        assertThat(
+                mockMvc.perform(
+                        delete("/api/diaries/" + testDiaryId)
+                                .header("Authorization", "Bearer " + wrongTestToken)
+                                .contentType(MediaType.APPLICATION_JSON)
+                ).andReturn().getResponse().getStatus()
+        ).isEqualTo(403);
     }
 
 }

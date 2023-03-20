@@ -63,7 +63,7 @@ public class DiaryController {
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void writeDiary(@AuthenticationPrincipal PrincipalDetails member, @RequestBody @Valid DiaryRequestSaveDto diaryRequestSaveDto) {
+    public void writeDiary(@AuthenticationPrincipal PrincipalDetails member, @Valid @RequestBody DiaryRequestSaveDto diaryRequestSaveDto) {
         if (diaryRequestSaveDto.getDate().isAfter(LocalDate.now())) {
             throw new IllegalArgumentException("오늘 이후의 다이어리를 미리 작성할 수 없습니다.");
         }
@@ -81,7 +81,7 @@ public class DiaryController {
      */
     @PutMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void rewriteDiary(@AuthenticationPrincipal PrincipalDetails member, @Valid @ RequestBody DiaryRequestUpdateDto diaryRequestUpdateDto) {
+    public void rewriteDiary(@AuthenticationPrincipal PrincipalDetails member, @Valid @RequestBody DiaryRequestUpdateDto diaryRequestUpdateDto) {
         diaryService.rewriteDiary(member.getMemberId(), diaryRequestUpdateDto);
     }
 
