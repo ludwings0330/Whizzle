@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface DiaryRepository extends JpaRepository<Diary, Long> {
+public interface DiaryRepository extends JpaRepository<Diary, Long>, DiaryCustomRepository {
 
     @Query("SELECT d FROM Diary d JOIN FETCH d.drinks WHERE d.id = :id")
     Optional<Diary> findWithDrinksById(@Param("id") Long id);
@@ -18,7 +18,7 @@ public interface DiaryRepository extends JpaRepository<Diary, Long> {
     @Query("SELECT DISTINCT d FROM Diary d JOIN FETCH d.drinks WHERE d.member.id = :memberId")
     List<Diary> findByMemberId(@Param("memberId") Long memberId);
 
-    @Query("SELECT d FROM Diary d JOIN FETCH d.drinks WHERE d.member.id = :memberId AND d.date = :today")
-    Optional<Diary> findByMemberIdAndDate(@Param("memberId") Long memberId, @Param("today") LocalDate today);
+    @Query("SELECT d FROM Diary d JOIN FETCH d.drinks WHERE d.member.id = :memberId AND d.date = :date")
+    Optional<Diary> findByMemberIdAndDate(@Param("memberId") Long memberId, @Param("date") LocalDate date);
 
 }

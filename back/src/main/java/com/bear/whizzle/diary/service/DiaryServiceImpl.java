@@ -27,6 +27,11 @@ public class DiaryServiceImpl implements DiaryService {
     private final DiaryRepository diaryRepository;
 
     @Override
+    public List<Diary> readDiaries(Long memberId, String month) {
+        return diaryRepository.findAllByMemberIdAndMonth(memberId, month);
+    }
+
+    @Override
     @Transactional
     public void writeDiary(Long memberId, DiaryRequestSaveDto diaryRequestSaveDto) {
         Member member = memberRepository.getReferenceById(memberId);
