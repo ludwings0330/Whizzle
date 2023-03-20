@@ -9,7 +9,7 @@ import com.bear.whizzle.domain.model.entity.Diary;
 import com.bear.whizzle.domain.model.entity.Drink;
 import com.bear.whizzle.domain.model.entity.Member;
 import com.bear.whizzle.domain.model.entity.Whisky;
-import com.bear.whizzle.member.MemberRepository;
+import com.bear.whizzle.member.repository.MemberRepository;
 import com.bear.whizzle.whisky.repository.WhiskyRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

@@ -7,4 +7,6 @@ public interface BadgeService {
 
     List<BadgeResponseDto> findAllBadgeByMemberId(Long memberId);
 
+    void memberAchieveBadge(Long memberId, Long badgeId);
+
 }
