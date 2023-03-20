@@ -1,15 +1,28 @@
 import React from "react";
 import { useRecoilValue } from "recoil";
 import { preference } from "../../../store/preferenceStore";
+import { motion } from "framer-motion";
 import QuestionChooseWhiskyItem from "./QuestionChooseWhiskyItem";
 import styled from "styled-components";
 
 const SDiv = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  background: #f84f5a;
+  background-image: linear-gradient(
+    125.02deg,
+    #f84f5a 28.12%,
+    #f7875a 65.62%,
+    #f7cb5a 100%
+  );
 `;
+
+const slide = {
+  // position: "absolute",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+};
 
 const SCentered = styled.div`
   display: flex;
@@ -19,7 +32,7 @@ const SCentered = styled.div`
 `;
 
 const SContent = styled.p`
-  margin-top: 100px;
+  margin-top: 200px;
   margin-bottom: 10px;
   text-align: center;
   font-size: 24px;
@@ -52,9 +65,22 @@ const SButton = styled.button`
   height: 80px;
   border: none;
   border-radius: 999px;
+  margin-bottom: 25vh;
+  background: white;
+`;
+
+const SButtonText = styled.span`
   font-size: 18px;
   font-family: "Pretendard Variable";
-  margin-bottom: 25vh;
+  font-weight: bold;
+  background-image: linear-gradient(
+    125.02deg,
+    #f84f5a 28.12%,
+    #f7875a 65.62%,
+    #f7cb5a 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 `;
 
 const whiskyPresetData = [
@@ -101,9 +127,11 @@ const QuestionChooseWhisky = (props) => {
   const preferenceValue = useRecoilValue(preference);
 
   const submitHandler = () => {
-    if (preferenceValue.whiskies) {
+    if (preferenceValue.whiskies.length > 0) {
       // axios 요청 들어갈 자리
       console.log(preferenceValue);
+      // props.goNextPage();
+      props.setDirection("next");
       props.setActivePage(6);
     } else {
       alert("1개 이상의 위스키를 선택해주세요!");
@@ -111,8 +139,13 @@ const QuestionChooseWhisky = (props) => {
   };
 
   return (
-    <SDiv>
-      <button onClick={props.goPriorPage}>이전</button>
+    <motion.div
+      style={slide}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 1 }}
+    >
       <SCentered>
         <SContent>위스키를 즐겨 드시는군요!</SContent>
         <STitle>가장 선호하는 위스키를 3개까지 선택해주세요</STitle>
@@ -122,11 +155,10 @@ const QuestionChooseWhisky = (props) => {
           ))}
         </SBox>
         <SButton onClick={submitHandler}>
-          나만의 위스키 추천 결과 보러가기
+          <SButtonText>나만의 위스키 추천 결과 보러가기</SButtonText>
         </SButton>
       </SCentered>
-      <div></div>
-    </SDiv>
+    </motion.div>
   );
 };
 

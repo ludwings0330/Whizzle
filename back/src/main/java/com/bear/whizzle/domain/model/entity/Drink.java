@@ -35,17 +35,26 @@ public class Drink {
 
     @Column(columnDefinition = "TINYINT")
     @NotNull
-    private Integer whiskyOrder;
+    private Integer drinkOrder;
 
     @NotNull
     @ColumnDefault("0")
     private Boolean isDeleted = Boolean.FALSE;
 
     @Builder
-    public Drink(Diary diary, Whisky whisky, Integer whiskyOrder) {
+    public Drink(Diary diary, Whisky whisky, Integer drinkOrder) {
         this.diary = diary;
         this.whisky = whisky;
-        this.whiskyOrder = whiskyOrder;
+        this.drinkOrder = drinkOrder;
+    }
+
+    public void delete() {
+        this.isDeleted = Boolean.TRUE;
+    }
+
+    public void writeDiary(Diary diary) {
+        this.diary = diary;
+        this.drinkOrder = diary.getDrinks().size() - 1;
     }
 
     public String toString() {

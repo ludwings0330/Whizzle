@@ -9,7 +9,7 @@ import MainReview from "../components/main/MainReview";
 import MainWhiskyList from "../components/main/MainWhiskyList";
 
 const SImg = styled.div`
-  height: 92vh;
+  height: 100vh;
   background-image: url(${main});
 `;
 

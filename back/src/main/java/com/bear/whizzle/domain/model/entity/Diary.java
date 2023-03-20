@@ -2,7 +2,12 @@ package com.bear.whizzle.domain.model.entity;
 
 import com.bear.whizzle.domain.model.type.DrinkLevel;
 import com.bear.whizzle.domain.model.type.Emotion;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -12,6 +17,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
@@ -26,12 +33,12 @@ import org.hibernate.annotations.ColumnDefault;
 @Entity
 @Table(
         name = "diary",
-        uniqueConstraints = @UniqueConstraint(columnNames = { "member_id", "created_date_time" })
+        uniqueConstraints = @UniqueConstraint(columnNames = { "member_id", "date" })
 )
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@ToString(callSuper = true)
-public class Diary extends BaseTimeEntity {
+@ToString
+public class Diary {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,6 +49,10 @@ public class Diary extends BaseTimeEntity {
     @NotNull
     @ToString.Exclude
     private Member member;
+
+    @Column(columnDefinition = "DATE", updatable = false)
+    @NotNull
+    private LocalDate date;
 
     @NotNull
     @Enumerated(EnumType.STRING)
@@ -58,13 +69,45 @@ public class Diary extends BaseTimeEntity {
     @ColumnDefault("0")
     private Boolean isDeleted = Boolean.FALSE;
 
+    @OneToMany(
+            mappedBy = "diary",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY
+    )
+    @OrderBy("drinkOrder ASC")
+    @ToString.Exclude
+    private final List<Drink> drinks = new ArrayList<>();
+
     @Builder
-    private Diary(Member member, Emotion emotion, DrinkLevel drinkLevel, String content) {
+    private Diary(Member member, LocalDate date, Emotion emotion, DrinkLevel drinkLevel, String content) {
         super();
         this.member = member;
+        this.date = date;
         this.emotion = emotion;
         this.drinkLevel = drinkLevel;
         this.content = content;
+    }
+
+    public void update(Diary diary) {
+        this.emotion = diary.getEmotion();
+        this.drinkLevel = diary.getDrinkLevel();
+        this.content = diary.getContent();
+    }
+
+    public void delete() {
+        this.isDeleted = Boolean.TRUE;
+        for (Drink drink : drinks) {
+            drink.delete();
+        }
+    }
+
+    public void addDrink(Drink drink) {
+        this.drinks.add(drink);
+        drink.writeDiary(this);
+    }
+
+    public void deleteDrink(Integer index) {
+        this.drinks.get(index).delete();
     }
 
     @Override
@@ -78,13 +121,13 @@ public class Diary extends BaseTimeEntity {
         }
 
         Diary that = (Diary) o;
-        return Objects.equals(this.getCreatedDateTime(), that.getCreatedDateTime())
+        return Objects.equals(this.getDate(), that.getDate())
                 && Objects.equals(this.getMember().getId(), that.getMember().getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.getCreatedDateTime(), this.getId());
+        return Objects.hash(this.getDate(), this.getMember().getId());
     }
 
 }
