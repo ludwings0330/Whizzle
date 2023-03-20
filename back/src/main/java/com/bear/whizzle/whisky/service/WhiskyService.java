@@ -1,5 +1,7 @@
 package com.bear.whizzle.whisky.service;
 
+import com.bear.whizzle.domain.model.type.Flavor;
+
 public interface WhiskyService {
 
     String test();
@@ -7,5 +9,7 @@ public interface WhiskyService {
     String testException();
 
     String sleep();
+
+    Flavor getWhiskyFlavorById(long whiskyId);
 
 }

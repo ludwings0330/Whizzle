@@ -22,7 +22,7 @@ public class AuthServiceImpl implements AuthService {
         final String refreshToken = jwtUtil.resolveToken(authorization);
 
         final ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
-        final String key = user.getEmail() + ":" + user.getProvider();
+        final String key = "member:rft:" + user.getMemberId();
         final String savedToken = valueOperations.get(key);
 
         if (savedToken != null && savedToken.equals(refreshToken)) {
