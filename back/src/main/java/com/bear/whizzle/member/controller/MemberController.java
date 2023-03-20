@@ -4,9 +4,13 @@ import com.bear.whizzle.auth.service.PrincipalDetails;
 import com.bear.whizzle.badge.controller.dto.BadgeResponseDto;
 import com.bear.whizzle.badge.service.BadgeService;
 import com.bear.whizzle.domain.model.entity.Member;
+import com.bear.whizzle.domain.model.entity.Preference;
 import com.bear.whizzle.member.controller.dto.MemberBaseInfoResponseDto;
 import com.bear.whizzle.member.converter.MemberConverter;
 import com.bear.whizzle.member.service.MemberService;
+import com.bear.whizzle.preference.PreferenceConverter;
+import com.bear.whizzle.preference.controller.dto.MemberPreferenceResponseDto;
+import com.bear.whizzle.preference.service.PreferenceService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +35,8 @@ public class MemberController {
 
     private final BadgeService badgeService;
 
+    private final PreferenceService preferenceService;
+
 
     @GetMapping("/{memberId}")
     public MemberBaseInfoResponseDto findMember(@PathVariable Long memberId) {
@@ -51,5 +57,11 @@ public class MemberController {
         return badgeService.findAllBadgeByMemberId(memberId);
     }
 
+    @GetMapping("/{memberId}/preference")
+    public MemberPreferenceResponseDto findPreferenceByMemberId(@PathVariable Long memberId) {
+        final Preference preference = preferenceService.findByMemberId(memberId);
+
+        return PreferenceConverter.toMemberPreferenceResponseDto(preference);
+    }
 
 }
