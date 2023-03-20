@@ -20,6 +20,9 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 @Builder
 public class PrincipalDetails implements OAuth2User, UserDetails {
 
+    private static final String EMAIL_PATTERN = "email";
+
+    private Long memberId;
     private String email;
     private String nickname;
     private String provider;
@@ -44,7 +47,7 @@ public class PrincipalDetails implements OAuth2User, UserDetails {
 
         return PrincipalDetails.builder()
                                .provider("KAKAO")
-                               .email((String) kakaoAccount.get("email"))
+                               .email((String) kakaoAccount.get(EMAIL_PATTERN))
                                .nickname((String) profile.get("nickname"))
                                .build();
     }
@@ -54,7 +57,7 @@ public class PrincipalDetails implements OAuth2User, UserDetails {
 
         return PrincipalDetails.builder()
                                .provider("NAVER")
-                               .email((String) response.get("email"))
+                               .email((String) response.get(EMAIL_PATTERN))
                                .nickname((String) response.get("name"))
                                .build();
     }
@@ -62,9 +65,13 @@ public class PrincipalDetails implements OAuth2User, UserDetails {
     private static PrincipalDetails ofGoogle(Map<String, Object> attributes) {
         return PrincipalDetails.builder()
                                .provider("GOOGLE")
-                               .email((String) attributes.get("email"))
+                               .email((String) attributes.get(EMAIL_PATTERN))
                                .nickname((String) attributes.get("name"))
                                .build();
+    }
+
+    public void setMemberId(Long memberId) {
+        this.memberId = memberId;
     }
 
     public void join() {

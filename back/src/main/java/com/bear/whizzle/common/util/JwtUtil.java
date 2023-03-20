@@ -35,8 +35,7 @@ public class JwtUtil {
 
     public String generateToken(PrincipalDetails user, long expirationTime) {
         return Jwts.builder()
-                   .claim("email", user.getEmail())
-                   .claim("provider", user.getProvider())
+                   .claim("memberId", user.getMemberId())
                    .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
                    .signWith(key, SignatureAlgorithm.HS256)
                    .compact();
@@ -76,8 +75,7 @@ public class JwtUtil {
         final Claims claims = this.getClaims(token);
 
         final PrincipalDetails user = PrincipalDetails.builder()
-                                                      .provider((String) claims.get("provider"))
-                                                      .email((String) claims.get("email"))
+                                                      .memberId(((Integer) claims.get("memberId")).longValue())
                                                       .build();
 
         return new UsernamePasswordAuthenticationToken(user, token, null);
