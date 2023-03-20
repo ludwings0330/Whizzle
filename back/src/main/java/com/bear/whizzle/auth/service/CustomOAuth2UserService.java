@@ -46,7 +46,10 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         // 3. 최초 로그인 이면 회원 가입 + token 생성
         if (details != null) {
             memberRepository.findByEmailAndProvider(details.getEmail(), details.getProvider())
-                            .ifPresentOrElse(id -> log.debug("이미 존재하는 회원 (id : {})", id),
+                            .ifPresentOrElse(member -> {
+                                                 details.setMemberId(member.getId());
+                                                 log.debug("이미 존재하는 회원 (member : {})", member);
+                                             },
                                              () -> joinProcess(details));
         }
 
@@ -64,6 +67,8 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
                                     .email(details.getEmail())
                                     .build();
         memberRepository.save(member);
+
+        details.setMemberId(member.getId());
 
         log.debug("신규 회원 가입 완료({})", member);
     }
