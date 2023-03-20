@@ -142,16 +142,6 @@ const DiaryItem = ({ onRemove, onEdit, today, whisky, drinklevel, emotion, conte
     }
   }, [localDrinklevel, localEmotion]);
 
-  // const handleEmotionImageChange = (e) => {
-  //   if (localEmotion <= 33) {
-  //     setLocalEmotionImage(sad);
-  //   } else if (localEmotion <= 66) {
-  //     setLocalEmotionImage(soso);
-  //   } else {
-  //     setLocalEmotionImage(good);
-  //   }
-  // };
-
   const handleQuitEdit = () => {
     setIsEdit(false);
     setLocalWhisky(localWhisky);

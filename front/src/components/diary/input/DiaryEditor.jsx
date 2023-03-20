@@ -76,7 +76,7 @@ const SRangeInput = styled.input`
     border: 2px solid #F84F5A;
     background : #F84F5A;
     height: calc(1.2em / 0.7); 
-    width: calc(1.2em / 0.7);    
+    width: calc(1.2em / 0.7);
     border-radius: 50%;
   }
   }
