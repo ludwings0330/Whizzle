@@ -1,10 +1,13 @@
 package com.bear.whizzle.member.controller;
 
 import com.bear.whizzle.auth.service.PrincipalDetails;
+import com.bear.whizzle.badge.controller.dto.BadgeResponseDto;
+import com.bear.whizzle.badge.service.BadgeService;
 import com.bear.whizzle.domain.model.entity.Member;
 import com.bear.whizzle.member.controller.dto.MemberBaseInfoResponseDto;
 import com.bear.whizzle.member.converter.MemberConverter;
 import com.bear.whizzle.member.service.MemberService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -26,6 +29,9 @@ public class MemberController {
 
     private final MemberService memberService;
 
+    private final BadgeService badgeService;
+
+
     @GetMapping("/{memberId}")
     public MemberBaseInfoResponseDto findMember(@PathVariable Long memberId) {
         final Member member = memberService.findMemberById(memberId);
@@ -39,5 +45,11 @@ public class MemberController {
                                  @RequestParam(required = false) MultipartFile profileImageFile) {
         memberService.updateMemberBaseInfo(user, nickname, profileImageFile);
     }
+
+    @GetMapping("/{memberId}/badges")
+    public List<BadgeResponseDto> findAllBadgesByMemberId(@PathVariable Long memberId) {
+        return badgeService.findAllBadgeByMemberId(memberId);
+    }
+
 
 }
