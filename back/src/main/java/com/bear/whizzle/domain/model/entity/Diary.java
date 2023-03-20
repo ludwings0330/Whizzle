@@ -94,6 +94,13 @@ public class Diary {
         this.content = diary.getContent();
     }
 
+    public void delete() {
+        this.isDeleted = Boolean.TRUE;
+        for (Drink drink : drinks) {
+            drink.delete();
+        }
+    }
+
     public void addDrink(Drink drink) {
         this.drinks.add(drink);
         drink.writeDiary(this);

@@ -38,17 +38,28 @@ public class DiaryServiceImpl implements DiaryService {
     @Override
     @Transactional
     public void rewriteDiary(Long memberId, DiaryRequestUpdateDto diaryRequestUpdateDto) {
-        Diary diary = diaryRepository.findWithDrinksById(diaryRequestUpdateDto.getId())
+        Diary diary = authorizeWriter(memberId, diaryRequestUpdateDto.getId());
+        diary.update(DiaryMapper.toDiary(diaryRequestUpdateDto));
+        eraseDrinks(diary, diaryRequestUpdateDto.getDeletedDrinkOrders());
+        writeDrinks(diary, diaryRequestUpdateDto.getInsertedWhiskyIds());
+    }
+
+    @Override
+    @Transactional
+    public void eraseDiary(Long memberId, Long diaryId) {
+        Diary diary = authorizeWriter(memberId, diaryId);
+        diary.delete();
+    }
+
+    private Diary authorizeWriter(Long memberId, Long diaryId) {
+        Diary diary = diaryRepository.findWithDrinksById(diaryId)
                                      .orElseThrow(() -> new NotFoundException("다이어리를 찾을 수 없습니다."));
 
         if (!memberId.equals(diary.getMember().getId())) {
             throw new AccessDeniedException("다이어리는 본인만 수정할 수 있습니다.");
         }
 
-        Member member = memberRepository.getReferenceById(memberId);
-        diary.update(DiaryMapper.toDiary(member, diaryRequestUpdateDto));
-        eraseDrinks(diary, diaryRequestUpdateDto.getDeletedDrinkOrders());
-        writeDrinks(diary, diaryRequestUpdateDto.getInsertedWhiskyIds());
+        return diary;
     }
 
     private void eraseDrinks(Diary diary, List<Integer> deletedDrinkOrders) {
