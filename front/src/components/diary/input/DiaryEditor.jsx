@@ -55,7 +55,7 @@ const STextarea = styled.textarea`
   background: #fcfcfc;
   border-radius: 8px;
   margin-left: 20px;
-  padding: 25px;
+  padding: 20px;
   width: 350px;
   font-size: 16px;
   line-height: 1.5;

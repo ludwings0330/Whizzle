@@ -66,7 +66,7 @@ const STextarea = styled.textarea`
   background: #fcfcfc;
   border-radius: 8px;
   margin-left: 20px;
-  padding: 25px;
+  padding: 20px;
   width: 350px;
   font-size: 16px;
   line-height: 1.5;
@@ -116,6 +116,7 @@ const DiaryItem = ({ onRemove, onEdit, today, whisky, drinklevel, emotion, conte
     if (window.confirm(`${today}날의 일기를 정말 삭제하시겠습니까?`)) {
       toggleIsEdit();
       onRemove(today);
+      return;
     }
   };
 
@@ -156,8 +157,6 @@ const DiaryItem = ({ onRemove, onEdit, today, whisky, drinklevel, emotion, conte
       onEdit(today, localContent);
       onEdit(today, localDrinklevel);
       onEdit(today, localEmotion);
-      // handleEmotionImageChange();
-      // handleDrinkImageChange();
       toggleIsEdit();
     }
   };

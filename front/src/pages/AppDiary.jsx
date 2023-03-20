@@ -23,7 +23,7 @@ const SMainDiv = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  align-items: center;
+  align-items: start;
   min-height: calc(100vh - 300px);
   margin: 30px 0 0 0;
 

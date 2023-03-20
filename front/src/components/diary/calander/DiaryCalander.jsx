@@ -80,23 +80,6 @@ const SPrevButton = styled.button`
     content: "<";
     color: #f84f5a;
   }
-
-  &::after {
-    content: "";
-    display: block;
-    font-size: 60px;
-    line-height: 1;
-    color: #fff;
-    background: linear-gradient(to right, #f84f5a, #f6cb5a);
-    padding: 10 10px;
-    margin-bottom: 10px;
-  }
-
-  &::after span {
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
 `;
 
 const SNextButton = styled.button`
@@ -111,23 +94,6 @@ const SNextButton = styled.button`
   &::before {
     content: ">";
     color: #f84f5a;
-  }
-
-  &::after {
-    content: "";
-    display: block;
-    font-size: 60px;
-    line-height: 1;
-    color: #fff;
-    background: linear-gradient(to right, #f84f5a, #f6cb5a);
-    padding: 10 10px;
-    margin-bottom: 10px;
-  }
-
-  &::after span {
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
   }
 `;
 
