@@ -55,6 +55,13 @@ const SCalanderDiv = styled.div`
     font-weight: bold;
   }
 
+  td {
+    &:hover {
+      background: #f84f5a;
+      color: white;
+    }
+  }
+
   th {
     text-align: inherit;
     background-color: #f8f9fa;
