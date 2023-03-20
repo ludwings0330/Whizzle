@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class MemberBaseInfoDto {
+public class MemberBaseInfoResponseDto {
 
     private String nickname;
 

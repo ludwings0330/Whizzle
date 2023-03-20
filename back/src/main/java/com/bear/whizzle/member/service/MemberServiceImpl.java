@@ -24,6 +24,11 @@ public class MemberServiceImpl implements MemberService {
                                .orElseThrow(() -> new NotFoundException("존재하지 않는 유저"));
     }
 
+    @Override
+    public Member findMemberById(Long id) {
+        return memberRepository.findById(id)
+                               .orElseThrow(() -> new NotFoundException("존재하지 않는 유저"));
+    }
 
     @Override
     @Transactional

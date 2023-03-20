@@ -8,6 +8,8 @@ public interface MemberService {
 
     Member findByEmailAndProvider(String email, String provider);
 
+    Member findMemberById(Long id);
+
     void updateMemberBaseInfo(PrincipalDetails user, String nickname, MultipartFile profileFile);
 
 }
