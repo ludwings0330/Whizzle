@@ -48,7 +48,7 @@ public class SecurityConfig {
 
         http.authorizeRequests(request ->
                                        request
-                                               .antMatchers("/api/auth/token-check").permitAll() // 테스트를 위해 추가
+                                               .antMatchers("/api/auth/refresh").authenticated()
                                                .antMatchers("/login/**").permitAll()
                                                .antMatchers(HttpMethod.GET).permitAll()
                                                .anyRequest().authenticated());
