@@ -100,21 +100,21 @@ const AppRecommendQuestion = () => {
         x: direction === "next" ? 500 : -500,
         opacity: 0,
         scale: 0.9,
-        transition: { duration: 1 },
+        transition: { duration: 0.75 },
       };
     },
     visible: {
       x: 0,
       opacity: 1,
       scale: 1,
-      transition: { duration: 1, delay: 1 },
+      transition: { duration: 0.75, delay: 0.75 },
     },
     exit: function (direction) {
       return {
         x: direction === "next" ? -500 : 500,
         opacity: 0,
         scale: 0.9,
-        transition: { duration: 1 },
+        transition: { duration: 0.75 },
       };
     },
   };

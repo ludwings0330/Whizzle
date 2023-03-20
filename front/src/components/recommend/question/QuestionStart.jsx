@@ -62,7 +62,7 @@ const QuestionStart = (props) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 1 }}
+      transition={{ duration: 0.6 }}
     >
       <STitle>나만의 취향 찾기, 위스키 추천</STitle>
       <SContent>
