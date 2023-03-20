@@ -40,8 +40,8 @@ class SaveDiaryData {
                         Diary.builder()
                              .memberId(memberId)
                              .date(today.minusDays(i))
-                             .emotion(RandomDataUtil.getEmotion())
-                             .drinkLevel(RandomDataUtil.getDrinkLevel())
+                             .emotion(RandomDataUtil.getEnum(Emotion.class))
+                             .drinkLevel(RandomDataUtil.getEnum(DrinkLevel.class))
                              .content(RandomDataUtil.getContent())
                              .build()
                 );

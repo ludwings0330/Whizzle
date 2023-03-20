@@ -1,7 +1,6 @@
 package com.bear.whizzle.common.util;
 
-import com.bear.whizzle.domain.model.type.DrinkLevel;
-import com.bear.whizzle.domain.model.type.Emotion;
+import com.bear.whizzle.domain.model.type.Flavor;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
@@ -93,17 +92,32 @@ public final class RandomDataUtil {
         return (int) (2 * Math.random()) == 1;
     }
 
-    public static Emotion getEmotion() {
-        return Emotion.values()[(int) (3 * Math.random())];
-    }
-
-    public static DrinkLevel getDrinkLevel() {
-        return DrinkLevel.values()[(int) (3 * Math.random())];
-    }
-
     public static String getContent() {
         int length = (int) (256 * Math.random());
         return getKoreanAndAlphabetAndNumber(length);
+    }
+
+    public static <T extends Enum<T>> T getEnum(Class<T> type) {
+        T[] values = type.getEnumConstants();
+        return values[(int) (values.length * Math.random())];
+    }
+
+    public static Flavor getFlavor() {
+        return Flavor.builder()
+                     .smoky((int) (101 * Math.random()))
+                     .peaty((int) (101 * Math.random()))
+                     .spicy((int) (101 * Math.random()))
+                     .herbal((int) (101 * Math.random()))
+                     .oily((int) (101 * Math.random()))
+                     .body((int) (101 * Math.random()))
+                     .rich((int) (101 * Math.random()))
+                     .sweet((int) (101 * Math.random()))
+                     .salty((int) (101 * Math.random()))
+                     .vanilla((int) (101 * Math.random()))
+                     .tart((int) (101 * Math.random()))
+                     .fruity((int) (101 * Math.random()))
+                     .floral((int) (101 * Math.random()))
+                     .build();
     }
 
     public static String chooseRandomly(String target, int size) {
