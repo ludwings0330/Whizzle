@@ -12,7 +12,7 @@ const SDiv = styled.div`
   border-radius: 8px;
   display: inline-block;
   width: 460px;
-  height: 580px;
+  height: 650px;
   margin: 0 10px;
   text-align: left;
   padding: 40px 60px 40px 40px;
