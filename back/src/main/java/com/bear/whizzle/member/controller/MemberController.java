@@ -36,8 +36,8 @@ public class MemberController {
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void updateMemberInfo(@AuthenticationPrincipal PrincipalDetails user,
                                  @RequestParam(required = false) String nickname,
-                                 @RequestParam(required = false) MultipartFile profileFile) {
-        memberService.updateMemberBaseInfo(user, nickname, profileFile);
+                                 @RequestParam(required = false) MultipartFile profileImageFile) {
+        memberService.updateMemberBaseInfo(user, nickname, profileImageFile);
     }
 
 }
