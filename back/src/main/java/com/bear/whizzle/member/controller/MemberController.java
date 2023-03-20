@@ -6,9 +6,9 @@ import com.bear.whizzle.badge.service.BadgeService;
 import com.bear.whizzle.domain.model.entity.Member;
 import com.bear.whizzle.domain.model.entity.Preference;
 import com.bear.whizzle.member.controller.dto.MemberBaseInfoResponseDto;
-import com.bear.whizzle.member.converter.MemberConverter;
+import com.bear.whizzle.member.converter.MemberMapper;
 import com.bear.whizzle.member.service.MemberService;
-import com.bear.whizzle.preference.PreferenceConverter;
+import com.bear.whizzle.preference.PreferenceMapper;
 import com.bear.whizzle.preference.controller.dto.MemberPreferenceRequestDto;
 import com.bear.whizzle.preference.controller.dto.MemberPreferenceResponseDto;
 import com.bear.whizzle.preference.service.PreferenceService;
@@ -41,10 +41,10 @@ public class MemberController {
     private final PreferenceService preferenceService;
 
 
-    @GetMapping("/{memberId}")
+    @GetMapping("/{memberId}/any")
     public MemberBaseInfoResponseDto findMember(@PathVariable Long memberId) {
         final Member member = memberService.findMemberById(memberId);
-        return MemberConverter.toMemberBaseInfoDto(member);
+        return MemberMapper.toMemberBaseInfoDto(member);
     }
 
     @PutMapping
@@ -55,16 +55,16 @@ public class MemberController {
         memberService.updateMemberBaseInfo(user, nickname, profileImageFile);
     }
 
-    @GetMapping("/{memberId}/badges")
+    @GetMapping("/{memberId}/badges/any")
     public List<BadgeResponseDto> findAllBadgesByMemberId(@PathVariable Long memberId) {
         return badgeService.findAllBadgeByMemberId(memberId);
     }
 
-    @GetMapping("/{memberId}/preference")
+    @GetMapping("/{memberId}/preference/any")
     public MemberPreferenceResponseDto findPreferenceByMemberId(@PathVariable Long memberId) {
         final Preference preference = preferenceService.findByMemberId(memberId);
 
-        return PreferenceConverter.toMemberPreferenceResponseDto(preference);
+        return PreferenceMapper.toMemberPreferenceResponseDto(preference);
     }
 
     @PostMapping("/preference")

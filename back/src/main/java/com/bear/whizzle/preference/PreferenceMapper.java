@@ -6,7 +6,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class PreferenceConverter {
+public final class PreferenceMapper {
 
     public static MemberPreferenceResponseDto toMemberPreferenceResponseDto(Preference preference) {
         return MemberPreferenceResponseDto.builder()

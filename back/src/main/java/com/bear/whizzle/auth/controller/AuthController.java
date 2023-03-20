@@ -8,7 +8,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,12 +23,6 @@ public class AuthController {
     @ResponseStatus(HttpStatus.OK)
     public String regenerateAccessToken(@AuthenticationPrincipal PrincipalDetails user, @RequestHeader String authorization) {
         return authService.regenerateAccessToken(user, authorization);
-    }
-
-    @GetMapping("/token-check")
-    @ResponseStatus(HttpStatus.OK)
-    public String tokenTest(@RequestParam String accessToken, @RequestParam String refreshToken, @RequestParam String isNew) {
-        return "accessToken : " + accessToken + " \n refreshToken : " + refreshToken + "\n isNew : " + isNew;
     }
 
 }

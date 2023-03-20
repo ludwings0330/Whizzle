@@ -15,5 +15,4 @@ public class MemberPreferenceResponseDto {
     private Integer priceTier;
     private Flavor flavor;
 
-
 }

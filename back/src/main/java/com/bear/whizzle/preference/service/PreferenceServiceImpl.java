@@ -26,12 +26,6 @@ public class PreferenceServiceImpl implements PreferenceService {
     private final MemberRepository memberRepository;
 
     @Override
-    public Preference findByMemberId(Long memberId) {
-        return preferenceRepository.findById(memberId)
-                                   .orElseThrow(() -> new NotFoundException("선호 정보를 찾을 수 없습니다."));
-    }
-
-    @Override
     @Transactional
     public void updateMemberPreference(PrincipalDetails user, MemberPreferenceRequestDto preference) {
         if (!isBeginner(preference)) {
@@ -47,8 +41,7 @@ public class PreferenceServiceImpl implements PreferenceService {
 
         // 기존 Preference 가 있을 수 도, 없을 수도 있다.
         preferenceRepository.findById(user.getMemberId())
-                            .ifPresentOrElse(p ->
-                                                     p.updatePreference(preference)
+                            .ifPresentOrElse(p -> p.updatePreference(preference)
                                     , () -> saveFirstPreference(user, preference));
 
     }
@@ -65,6 +58,13 @@ public class PreferenceServiceImpl implements PreferenceService {
 
         preferenceRepository.save(created);
     }
+
+    @Override
+    public Preference findByMemberId(Long memberId) {
+        return preferenceRepository.findById(memberId)
+                                   .orElseThrow(() -> new NotFoundException("선호 정보를 찾을 수 없습니다."));
+    }
+
 
     private boolean isBeginner(MemberPreferenceRequestDto preference) {
         return preference.getFlavor() != null;

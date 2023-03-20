@@ -9,7 +9,6 @@ import com.bear.whizzle.common.handler.JwtAuthenticationEntryPoint;
 import com.bear.whizzle.common.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -48,9 +47,8 @@ public class SecurityConfig {
 
         http.authorizeRequests(request ->
                                        request
-                                               .antMatchers("/api/auth/refresh").authenticated()
                                                .antMatchers("/login/**").permitAll()
-                                               .antMatchers(HttpMethod.GET).permitAll()
+                                               .antMatchers("/api/**/any").permitAll()
                                                .anyRequest().authenticated());
 
         http.csrf().disable();
