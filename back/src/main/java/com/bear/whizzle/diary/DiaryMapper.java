@@ -3,6 +3,8 @@ package com.bear.whizzle.diary;
 import com.bear.whizzle.diary.controller.dto.DiaryRequestDto;
 import com.bear.whizzle.diary.controller.dto.DiaryRequestSaveDto;
 import com.bear.whizzle.diary.controller.dto.DiaryRequestUpdateDto;
+import com.bear.whizzle.diary.controller.dto.DiaryResponseDto;
+import com.bear.whizzle.diary.controller.dto.DrinkDto;
 import com.bear.whizzle.domain.model.entity.Diary;
 import com.bear.whizzle.domain.model.entity.Drink;
 import com.bear.whizzle.domain.model.entity.Member;
@@ -27,6 +29,22 @@ public final class DiaryMapper {
 
     public static Diary toDiary(DiaryRequestDto diaryRequestDto) {
         return toDiary(null, diaryRequestDto);
+    }
+
+    public static DiaryResponseDto toDiaryResponseDto(Diary diary) {
+        List<DrinkDto> drinkDtos = diary.getDrinks()
+                                        .stream()
+                                        .map(DrinkMapper::toDrinkDto)
+                                        .collect(Collectors.toList());
+
+        return DiaryResponseDto.builder()
+                               .id(diary.getId())
+                               .date(diary.getDate())
+                               .emotion(diary.getEmotion())
+                               .drinkLevel(diary.getDrinkLevel())
+                               .content(diary.getContent())
+                               .drinks(drinkDtos)
+                               .build();
     }
 
     public static DiaryRequestSaveDto toDiaryRequestSaveDto(Diary diary) {
