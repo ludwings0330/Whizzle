@@ -1,18 +1,15 @@
 package com.bear.whizzle.badge.service;
 
-import com.bear.whizzle.badge.controller.dto.BadgeResponseDto;
 import com.bear.whizzle.badge.repository.BadgeRepository;
-import com.bear.whizzle.badge.repository.projection.BadgeProjectionRepository;
+import com.bear.whizzle.badge.repository.MemberHasBadgeRepository;
 import com.bear.whizzle.diary.service.DiaryService;
 import com.bear.whizzle.domain.model.entity.Badge;
 import com.bear.whizzle.domain.model.entity.Member;
 import com.bear.whizzle.domain.model.entity.MemberHasBadge;
-import com.bear.whizzle.domain.model.entity.MemberHasBadgeRepository;
 import com.bear.whizzle.domain.model.type.BadgeType;
 import com.bear.whizzle.keep.service.KeepService;
 import com.bear.whizzle.member.repository.MemberRepository;
 import com.bear.whizzle.review.service.ReviewService;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class BadgeServiceImpl implements BadgeService {
 
-    private final BadgeProjectionRepository badgeProjectionRepository;
     private final ReviewService reviewService;
     private final BadgeRepository badgeRepository;
     private final MemberRepository memberRepository;
@@ -31,11 +27,6 @@ public class BadgeServiceImpl implements BadgeService {
 
     private final DiaryService diaryService;
 
-
-    @Override
-    public List<BadgeResponseDto> findAllBadgeByMemberId(Long memberId) {
-        return badgeProjectionRepository.findAllBadgesByMemberId(memberId);
-    }
 
     @Override
     @Transactional

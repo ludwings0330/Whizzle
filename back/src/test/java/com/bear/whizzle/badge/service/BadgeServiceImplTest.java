@@ -1,13 +1,15 @@
 package com.bear.whizzle.badge.service;
 
-import com.bear.whizzle.badge.controller.dto.BadgeResponseDto;
+import com.bear.whizzle.badge.repository.MemberHasBadgeRepository;
 import com.bear.whizzle.diary.repository.DiaryRepository;
+import com.bear.whizzle.domain.model.entity.Badge;
 import com.bear.whizzle.domain.model.entity.Diary;
 import com.bear.whizzle.domain.model.entity.Keep;
 import com.bear.whizzle.domain.model.entity.Member;
 import com.bear.whizzle.domain.model.entity.Review;
 import com.bear.whizzle.domain.model.entity.Whisky;
 import com.bear.whizzle.domain.model.type.Action;
+import com.bear.whizzle.domain.model.type.BadgeType;
 import com.bear.whizzle.domain.model.type.DrinkLevel;
 import com.bear.whizzle.domain.model.type.Emotion;
 import com.bear.whizzle.keep.repository.KeepRepository;
@@ -15,7 +17,7 @@ import com.bear.whizzle.member.repository.MemberRepository;
 import com.bear.whizzle.review.repository.ReviewRepository;
 import com.bear.whizzle.whisky.repository.WhiskyRepository;
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Optional;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -28,7 +30,6 @@ class BadgeServiceImplTest {
 
     @Autowired
     private BadgeService badgeService;
-
     @Autowired
     private MemberRepository memberRepository;
     @Autowired
@@ -39,6 +40,8 @@ class BadgeServiceImplTest {
     private KeepRepository keepRepository;
     @Autowired
     private DiaryRepository diaryRepository;
+    @Autowired
+    private MemberHasBadgeRepository memberHasBadgeRepository;
 
     @Test
     @DisplayName("리뷰 갯수에 따른 배지 획득")
@@ -60,8 +63,8 @@ class BadgeServiceImplTest {
         badgeService.awardBadgeOnReviewCountReached(member.getId());
 
         //then
-        List<BadgeResponseDto> badges = badgeService.findAllBadgeByMemberId(member.getId());
-        Assertions.assertThat(badges).hasSize(1);
+        Optional<Badge> badge = memberHasBadgeRepository.findByMemberIdAndBadgeId(member.getId(), BadgeType.FIRST_REVIEW.getId());
+        Assertions.assertThat(badge).isPresent();
 
         //when 2 - 5 개 작성시
         for (int i = 0; i < 4; i++) {
@@ -71,8 +74,8 @@ class BadgeServiceImplTest {
         badgeService.awardBadgeOnReviewCountReached(member.getId());
 
         //then 2
-        badges = badgeService.findAllBadgeByMemberId(member.getId());
-        Assertions.assertThat(badges).hasSize(2);
+        badge = memberHasBadgeRepository.findByMemberIdAndBadgeId(member.getId(), BadgeType.FIFTH_REVIEW.getId());
+        Assertions.assertThat(badge).isPresent();
 
     }
 
@@ -99,8 +102,8 @@ class BadgeServiceImplTest {
         badgeService.awardBadgeOnLevelReached(member.getId());
 
         //then
-        List<BadgeResponseDto> badges = badgeService.findAllBadgeByMemberId(member.getId());
-        Assertions.assertThat(badges).hasSize(1);
+        Optional<Badge> badge = memberHasBadgeRepository.findByMemberIdAndBadgeId(member.getId(), BadgeType.LEVEL_50.getId());
+        Assertions.assertThat(badge).isPresent();
 
         for (int i = 0; i < 200; i++) {
             member.levelUp(Action.REVIEW);
@@ -108,8 +111,8 @@ class BadgeServiceImplTest {
 
         badgeService.awardBadgeOnLevelReached(member.getId());
 
-        badges = badgeService.findAllBadgeByMemberId(member.getId());
-        Assertions.assertThat(badges).hasSize(2);
+        badge = memberHasBadgeRepository.findByMemberIdAndBadgeId(member.getId(), BadgeType.LEVEL_60.getId());
+        Assertions.assertThat(badge).isPresent();
     }
 
     @Test
@@ -138,11 +141,11 @@ class BadgeServiceImplTest {
 
         badgeService.awardBadgeOnKeepCountReached(member.getId());
 
-        List<BadgeResponseDto> badges = badgeService.findAllBadgeByMemberId(member.getId());
-
         //then
-        Assertions.assertThat(badges).hasSize(1);
+        Optional<Badge> badge = memberHasBadgeRepository.findByMemberIdAndBadgeId(member.getId(), BadgeType.FIRST_KEEP.getId());
+        Assertions.assertThat(badge).isPresent();
 
+        //when
         for (long i = 2; i <= 10; i++) {
             whisky = whiskyRepository.findById(i).orElseThrow();
             keep = Keep.builder().member(member).whisky(whisky).build();
@@ -152,9 +155,9 @@ class BadgeServiceImplTest {
 
         badgeService.awardBadgeOnKeepCountReached(member.getId());
 
-        badges = badgeService.findAllBadgeByMemberId(member.getId());
-
-        Assertions.assertThat(badges).hasSize(2);
+        //then
+        badge = memberHasBadgeRepository.findByMemberIdAndBadgeId(member.getId(), BadgeType.TENTH_KEEP.getId());
+        Assertions.assertThat(badge).isPresent();
     }
 
     @Test
@@ -181,11 +184,12 @@ class BadgeServiceImplTest {
 
         //when
         badgeService.awardBadgeOnDiaryCountReached(member.getId());
-        List<BadgeResponseDto> badges = badgeService.findAllBadgeByMemberId(member.getId());
+        Optional<Badge> badge = memberHasBadgeRepository.findByMemberIdAndBadgeId(member.getId(), BadgeType.FIRST_DIARY.getId());
 
         //then
-        Assertions.assertThat(badges).hasSize(1);
+        Assertions.assertThat(badge).isPresent();
 
+        //when
         for (int i = 1; i <= 4; i++) {
             diary = Diary.builder()
                          .member(member)
@@ -198,9 +202,10 @@ class BadgeServiceImplTest {
         }
 
         badgeService.awardBadgeOnDiaryCountReached(member.getId());
-        badges = badgeService.findAllBadgeByMemberId(member.getId());
+        badge = memberHasBadgeRepository.findByMemberIdAndBadgeId(member.getId(), BadgeType.FIFTH_DIARY.getId());
 
-        Assertions.assertThat(badges).hasSize(2);
+        //then
+        Assertions.assertThat(badge).isPresent();
     }
 
     void addReview(Member member, Whisky whisky) {
