@@ -85,6 +85,20 @@ public class BadgeServiceImpl implements BadgeService {
 
     @Override
     public void awardBadgeOnLevelReached(Long memberId) {
+        final Member member = memberRepository.findById(memberId)
+                                              .orElseThrow();
+        final Float level = member.getLevel();
+        BadgeType badgeType = null;
+
+        if (level == 50) {
+            badgeType = BadgeType.LEVEL_50;
+        } else if (level == 60) {
+            badgeType = BadgeType.LEVEL_60;
+        }
+
+        if (badgeType != null) {
+            this.memberAchieveBadge(memberId, badgeType);
+        }
 
     }
 

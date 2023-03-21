@@ -11,7 +11,7 @@ public enum BadgeType {
     TENTH_KEEP(8L),
     FIRST_PREFERENCE(9L),
     FIRST_DAILY(10L),
-    LEVE_50(11L),
+    LEVEL_50(11L),
     LEVEL_60(12L);
 
     private final Long id;
