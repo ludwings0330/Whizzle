@@ -1,10 +1,12 @@
 package com.bear.whizzle.badge.service;
 
 import com.bear.whizzle.badge.controller.dto.BadgeResponseDto;
+import com.bear.whizzle.domain.model.entity.Keep;
 import com.bear.whizzle.domain.model.entity.Member;
 import com.bear.whizzle.domain.model.entity.Review;
 import com.bear.whizzle.domain.model.entity.Whisky;
 import com.bear.whizzle.domain.model.type.Action;
+import com.bear.whizzle.keep.repository.KeepRepository;
 import com.bear.whizzle.member.repository.MemberRepository;
 import com.bear.whizzle.review.repository.ReviewRepository;
 import com.bear.whizzle.whisky.repository.WhiskyRepository;
@@ -28,6 +30,8 @@ class BadgeServiceImplTest {
     private WhiskyRepository whiskyRepository;
     @Autowired
     private ReviewRepository reviewRepository;
+    @Autowired
+    private KeepRepository keepRepository;
 
     @Test
     @DisplayName("리뷰 갯수에 따른 배지 획득")
@@ -98,6 +102,51 @@ class BadgeServiceImplTest {
         badgeService.awardBadgeOnLevelReached(member.getId());
 
         badges = badgeService.findAllBadgeByMemberId(member.getId());
+        Assertions.assertThat(badges).hasSize(2);
+    }
+
+    @Test
+    @DisplayName("Keep 갯수에 따른 배지 획득")
+    @Transactional
+    void memberAchieveKeepBadge() {
+        //given
+
+        final Member member = Member.builder()
+                                    .provider("google")
+                                    .nickname("test")
+                                    .email("test@gmail.com")
+                                    .build();
+
+        memberRepository.save(member);
+
+        //when
+        Whisky whisky = whiskyRepository.findById(1L).orElseThrow();
+
+        Keep keep = Keep.builder()
+                        .member(member)
+                        .whisky(whisky)
+                        .build();
+
+        keepRepository.save(keep);
+
+        badgeService.awardBadgeOnKeepCountReached(member.getId());
+
+        List<BadgeResponseDto> badges = badgeService.findAllBadgeByMemberId(member.getId());
+
+        //then
+        Assertions.assertThat(badges).hasSize(1);
+
+        for (long i = 2; i <= 10; i++) {
+            whisky = whiskyRepository.findById(i).orElseThrow();
+            keep = Keep.builder().member(member).whisky(whisky).build();
+
+            keepRepository.save(keep);
+        }
+
+        badgeService.awardBadgeOnKeepCountReached(member.getId());
+
+        badges = badgeService.findAllBadgeByMemberId(member.getId());
+
         Assertions.assertThat(badges).hasSize(2);
     }
 
