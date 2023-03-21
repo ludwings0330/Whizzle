@@ -39,13 +39,13 @@ const DiaryInput = ({ selectedDate }) => {
   };
 
   const onRemove = (today) => {
-    const newDiaryContent = data.filter((it) => it.id === today);
+    const newDiaryContent = data.filter((it) => it.today === today);
     setData(newDiaryContent);
     setCurrentComponent("diaryEditor");
   };
 
   const onEdit = (today, newContent) => {
-    setData(data.map((it) => (it.id === today ? { ...it, content: newContent } : it)));
+    setData(data.map((it) => (it.today === today ? { ...it, content: newContent } : it)));
   };
 
   return (
