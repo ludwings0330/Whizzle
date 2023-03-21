@@ -65,7 +65,7 @@ const SName = styled.div`
   align-items: center;
   text-align: center;
   padding-top: 10px;
-  padding-bottom: 25px;
+  padding-bottom: 30px;
 `;
 
 const DailyResultItem = (props) => {
