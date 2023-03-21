@@ -1,14 +1,16 @@
 import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
+import { useSetRecoilState, useRecoilValue } from "recoil";
 import { userState } from "../store/userStore";
 import jwtDecode from "jwt-decode";
+import { UserInfo } from "./userinfo";
 
 const Callback = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const queryParams = new URLSearchParams(location.search);
   const setUser = useSetRecoilState(userState);
+  const user = useRecoilValue(userState);
 
   const accessToken = queryParams.get("accessToken");
   const refreshToken = queryParams.get("refreshToken");
@@ -19,15 +21,16 @@ const Callback = () => {
       sessionStorage.setItem("accessToken", accessToken);
       sessionStorage.setItem("refreshToken", refreshToken);
 
-      // access 토큰의 payload에서 유저 정보 추출 후, 전역 변수로 저장
+      // JWT 파싱하여 유저 id와 exp를 저장
       const jwt = jwtDecode(accessToken);
-      setUser((prev) => ({
-        ...prev,
-        nickname: jwt.nickname,
-        email: jwt.email,
-        provider: jwt.provider,
+      const newUser = {
+        ...user,
+        id: jwt.memberId,
         exp: jwt.exp,
-      }));
+      };
+      setUser(newUser);
+      // user Id값을 통해 user 정보를 가져오는 axios 요청
+      UserInfo(jwt.memberId);
     } catch (error) {
       console.log("Token 저장 실패");
     }

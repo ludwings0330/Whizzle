@@ -12,10 +12,15 @@ function Logout() {
 
     // useState 초기화
     setUser({
+      id: 0,
       nickname: "",
       email: "",
       provider: "",
-      exp: 0,
+      image: {
+        url: "",
+        originName: "",
+      },
+      level: 0,
     });
 
     // 로그인 페이지로 redirect
