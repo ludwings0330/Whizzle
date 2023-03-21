@@ -1,6 +1,7 @@
 package com.bear.whizzle.diary.controller;
 
 import com.bear.whizzle.auth.service.PrincipalDetails;
+import com.bear.whizzle.badge.service.BadgeService;
 import com.bear.whizzle.diary.DiaryMapper;
 import com.bear.whizzle.diary.controller.dto.DiaryRequestSaveDto;
 import com.bear.whizzle.diary.controller.dto.DiaryRequestUpdateDto;
@@ -33,6 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class DiaryController {
 
     private final DiaryService diaryService;
+    private final BadgeService badgeService;
 
     /**
      * 몇 월의 다이어리 목록과 상태 코드 200 반환
@@ -69,6 +71,8 @@ public class DiaryController {
         }
 
         diaryService.writeDiary(member.getMemberId(), diaryRequestSaveDto);
+
+        badgeService.awardBadgeOnDiaryCountReached(member.getMemberId());
     }
 
     /**
