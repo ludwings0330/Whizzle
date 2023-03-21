@@ -39,14 +39,44 @@ const SImgDiv = styled.div`
 `;
 
 const ImageUploader = () => {
-  const [image, setImage] = useState(null);
+  const [images, setImages] = useState([]);
 
-  const onDrop = useCallback((acceptedFiles) => {
-    // 파일을 업로드합니다.
-    // 파일 업로드 후 서버에서 이미지 URL을 받아와 setImage로 상태를 업데이트합니다.
-  }, []);
+  const onDrop = useCallback(
+    (acceptedFiles) => {
+      if (acceptedFiles.length > 5) {
+        alert("최대 5장의 사진까지 업로드 가능합니다.");
+        return;
+      }
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+      const imageFiles = acceptedFiles.filter(
+        (file) => file.type === "image/jpeg" || file.type === "image/png"
+      );
+
+      if (imageFiles.length > 5 - images.length) {
+        alert(
+          `최대 5장까지 업로드 가능합니다. 현재 ${images.length}장의 사진이 업로드되어 있습니다.`
+        );
+        return;
+      }
+
+      const imageUrls = [];
+
+      for (let i = 0; i < imageFiles.length; i++) {
+        const reader = new FileReader();
+        reader.readAsDataURL(imageFiles[i]);
+        reader.onload = () => {
+          imageUrls.push(reader.result);
+
+          if (imageUrls.length === imageFiles.length) {
+            setImages((prevImages) => [...prevImages, ...imageUrls]);
+          }
+        };
+      }
+    },
+    [images]
+  );
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop, multiple: true });
 
   return (
     <>
@@ -64,7 +94,7 @@ const ImageUploader = () => {
             <p>지원 확장자 : jpg, jpeg, png</p>
           </SImgDiv>
         )}
-        {image && <img src={image} alt="Uploaded image" />}
+        {images && <img src={images} alt="Uploaded image" />}
       </SDiv>
     </>
   );
