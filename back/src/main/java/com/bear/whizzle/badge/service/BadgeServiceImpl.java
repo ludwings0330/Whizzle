@@ -92,11 +92,6 @@ public class BadgeServiceImpl implements BadgeService {
     }
 
     @Override
-    public void awardBadgeOnPreferenceSaveCountReached(Long memberId) {
-
-    }
-
-    @Override
     public void awardBadgeOnLevelReached(Long memberId) {
         final Member member = memberRepository.findById(memberId)
                                               .orElseThrow();

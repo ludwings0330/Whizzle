@@ -1,9 +1,11 @@
 package com.bear.whizzle.preference.service;
 
 import com.bear.whizzle.auth.service.PrincipalDetails;
+import com.bear.whizzle.badge.service.BadgeService;
 import com.bear.whizzle.domain.exception.NotFoundException;
 import com.bear.whizzle.domain.model.entity.Member;
 import com.bear.whizzle.domain.model.entity.Preference;
+import com.bear.whizzle.domain.model.type.BadgeType;
 import com.bear.whizzle.domain.model.type.Flavor;
 import com.bear.whizzle.member.repository.MemberRepository;
 import com.bear.whizzle.preference.controller.dto.MemberPreferenceRequestDto;
@@ -24,6 +26,7 @@ public class PreferenceServiceImpl implements PreferenceService {
 
     private final WhiskyService whiskyService;
     private final MemberRepository memberRepository;
+    private final BadgeService badgeService;
 
     @Override
     @Transactional
@@ -55,6 +58,8 @@ public class PreferenceServiceImpl implements PreferenceService {
                                              .build();
 
         created.updatePreference(preference);
+
+        badgeService.memberAchieveBadge(user.getMemberId(), BadgeType.FIRST_PREFERENCE);
 
         preferenceRepository.save(created);
     }

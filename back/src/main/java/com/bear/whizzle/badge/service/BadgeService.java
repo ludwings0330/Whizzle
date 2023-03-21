@@ -16,8 +16,6 @@ public interface BadgeService {
 
     void awardBadgeOnKeepCountReached(Long memberId);
 
-    void awardBadgeOnPreferenceSaveCountReached(Long memberId);
-
     void awardBadgeOnLevelReached(Long memberId);
 
 }
