@@ -79,10 +79,14 @@ public class DiaryController {
      * @throws NotFoundException     잘못된 다이어리 ID를 전달한 경우에 발생
      * @throws AccessDeniedException 다이어리 작성자와 현재 자신이 다른 경우에 발생
      */
-    @PutMapping
+    @PutMapping("/{diaryId}")
     @ResponseStatus(HttpStatus.CREATED)
-    public void rewriteDiary(@AuthenticationPrincipal PrincipalDetails member, @Valid @RequestBody DiaryRequestUpdateDto diaryRequestUpdateDto) {
-        diaryService.rewriteDiary(member.getMemberId(), diaryRequestUpdateDto);
+    public void rewriteDiary(
+            @AuthenticationPrincipal PrincipalDetails member,
+            @PathVariable Long diaryId,
+            @Valid @RequestBody DiaryRequestUpdateDto diaryRequestUpdateDto
+    ) {
+        diaryService.rewriteDiary(member.getMemberId(), diaryId, diaryRequestUpdateDto);
     }
 
     /**

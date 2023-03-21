@@ -22,9 +22,6 @@ import lombok.ToString;
 public class DiaryRequestUpdateDto implements DiaryRequestDto {
 
     @NotNull
-    private Long id;
-
-    @NotNull
     private Emotion emotion;
 
     @NotNull

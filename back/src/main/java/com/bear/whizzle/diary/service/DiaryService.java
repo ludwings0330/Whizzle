@@ -11,7 +11,7 @@ public interface DiaryService {
 
     void writeDiary(Long memberId, DiaryRequestSaveDto diaryRequestSaveDto);
 
-    void rewriteDiary(Long memberId, DiaryRequestUpdateDto diaryRequestUpdateDto);
+    void rewriteDiary(Long memberId, Long diaryId, DiaryRequestUpdateDto diaryRequestUpdateDto);
 
     void eraseDiary(Long memberId, Long diaryId);
 
