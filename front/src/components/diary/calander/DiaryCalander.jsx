@@ -55,6 +55,13 @@ const SCalanderDiv = styled.div`
     font-weight: bold;
   }
 
+  td {
+    &:hover {
+      background: #f84f5a;
+      color: white;
+    }
+  }
+
   th {
     text-align: inherit;
     background-color: #f8f9fa;
@@ -80,23 +87,6 @@ const SPrevButton = styled.button`
     content: "<";
     color: #f84f5a;
   }
-
-  &::after {
-    content: "";
-    display: block;
-    font-size: 60px;
-    line-height: 1;
-    color: #fff;
-    background: linear-gradient(to right, #f84f5a, #f6cb5a);
-    padding: 10 10px;
-    margin-bottom: 10px;
-  }
-
-  &::after span {
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
 `;
 
 const SNextButton = styled.button`
@@ -112,23 +102,10 @@ const SNextButton = styled.button`
     content: ">";
     color: #f84f5a;
   }
+`;
 
-  &::after {
-    content: "";
-    display: block;
-    font-size: 60px;
-    line-height: 1;
-    color: #fff;
-    background: linear-gradient(to right, #f84f5a, #f6cb5a);
-    padding: 10 10px;
-    margin-bottom: 10px;
-  }
-
-  &::after span {
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
+const STbody = styled.tbody`
+  border: 1px solid black;
 `;
 
 //다이어리 캘린더
@@ -160,12 +137,26 @@ const DiaryCalander = ({ onDateClick }) => {
     return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDay();
   }
 
+  const [clickedDay, setClickedDay] = useState(null);
+
   function handleDateClick(event) {
     const clickedDate = new Date(date.getFullYear(), date.getMonth(), event.target.textContent);
     const year = clickedDate.getFullYear();
     const month = clickedDate.getMonth() + 1;
     const day = clickedDate.getDate();
     const clickedDateString = `${year}.${month}.${day}`;
+
+    const now = new Date();
+    if (clickedDate > now) {
+      alert("오늘 이후의 날짜는 선택할 수 없습니다!");
+      return;
+    }
+
+    if (clickedDay) {
+      clickedDay.style.backgroundColor = "white";
+    }
+    event.target.style.backgroundColor = "#F84F5A";
+    setClickedDay(event.target);
     onDateClick(clickedDateString);
   }
 
