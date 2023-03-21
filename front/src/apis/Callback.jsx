@@ -18,8 +18,8 @@ const Callback = () => {
 
   function setting() {
     try {
-      sessionStorage.setItem("accessToken", accessToken);
-      sessionStorage.setItem("refreshToken", refreshToken);
+      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("refreshToken", refreshToken);
 
       // JWT 파싱하여 유저 id와 exp를 저장
       const jwt = jwtDecode(accessToken);

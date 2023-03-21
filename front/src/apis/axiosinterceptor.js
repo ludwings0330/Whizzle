@@ -6,7 +6,7 @@ const api = axios.create({
 });
 
 api.interceptors.request.use((config) => {
-  const accessToken = sessionStorage.getItem("accessToken");
+  const accessToken = localStorage.getItem("accessToken");
   if (accessToken) {
     config.headers.Authorization = `Bearer ${accessToken}`;
   }
@@ -19,7 +19,7 @@ api.interceptors.response.use(
     if (error.response && error.response.status === 401 && !error.config._isRetry) {
       error.config._isRetry = true;
 
-      const refreshToken = sessionStorage.getItem("refreshToken");
+      const refreshToken = localStorage.getItem("refreshToken");
 
       if (refreshToken) {
         try {
@@ -33,18 +33,18 @@ api.interceptors.response.use(
             }
           );
           const newAccessToken = response.data;
-          sessionStorage.setItem("accessToken", newAccessToken);
+          localStorage.setItem("accessToken", newAccessToken);
 
           error.config.headers.Authorization = `Bearer ${newAccessToken}`;
           return axios(error.config);
         } catch (refreshError) {
-          sessionStorage.removeItem("accessToken");
-          sessionStorage.removeItem("refreshToken");
+          localStorage.removeItem("accessToken");
+          localStorage.removeItem("refreshToken");
           window.location.href = `${LOCAL_FRONT_URL}/login`;
         }
       } else {
-        sessionStorage.removeItem("accessToken");
-        sessionStorage.removeItem("refreshToken");
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
         window.location.href = `${LOCAL_FRONT_URL}/login`;
       }
     }

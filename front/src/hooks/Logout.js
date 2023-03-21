@@ -8,7 +8,7 @@ function Logout() {
 
   const logout = () => {
     // 토큰 삭제
-    sessionStorage.clear();
+    localStorage.clear();
 
     // useState 초기화
     setUser({
