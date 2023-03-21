@@ -20,12 +20,14 @@ const SContent = styled.div`
 const SLight = styled.span`
   font-family: GmarketSansLight;
   font-size: 40px;
+  letter-spacing: -2px;
   padding-left: 10px;
 `;
 
 const SStrong = styled.span`
   font-family: GmarketSansBold;
   font-size: 40px;
+  letter-spacing: -2px;
   padding-left: 10px;
 `;
 
@@ -43,7 +45,8 @@ const MainDiary = (props) => {
           <SLight>위스키 한잔에 담아보는 오늘의 기억</SLight>
           <br />
           <SStrong>
-            <span style={{ color: "#F84F5A" }}>기억을 기록하다,</span> 위스키 다이어리
+            <span style={{ color: "#F84F5A" }}>기억을 기록하다,</span> 위스키
+            다이어리
           </SStrong>
         </motion.div>
         <motion.div
@@ -52,7 +55,7 @@ const MainDiary = (props) => {
           whileInView="visible"
           viewport={{ once: true }}
         >
-          <img src={diaryImg} alt="diary.png" />
+          <img src={diaryImg} alt="diary.png" style={{ marginTop: "20px" }} />
         </motion.div>
       </SContent>
     </SDiv>
