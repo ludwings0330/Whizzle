@@ -21,6 +21,9 @@ import lombok.ToString;
 @EqualsAndHashCode
 public class DiaryRequestUpdateDto implements DiaryRequestDto {
 
+    @EqualsAndHashCode.Exclude
+    private Long id;
+
     @NotNull
     private Emotion emotion;
 
@@ -35,6 +38,10 @@ public class DiaryRequestUpdateDto implements DiaryRequestDto {
 
     @EqualsAndHashCode.Exclude
     private List<Long> insertedWhiskyIds;
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     @Override
     public LocalDate getDate() {

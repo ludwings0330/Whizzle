@@ -44,8 +44,8 @@ public class DiaryServiceImpl implements DiaryService {
 
     @Override
     @Transactional
-    public void rewriteDiary(Long memberId, Long diaryId, DiaryRequestUpdateDto diaryRequestUpdateDto) {
-        Diary diary = authorizeWriter(memberId, diaryId);
+    public void rewriteDiary(Long memberId, DiaryRequestUpdateDto diaryRequestUpdateDto) {
+        Diary diary = authorizeWriter(memberId, diaryRequestUpdateDto.getId());
         diary.update(DiaryMapper.toDiary(diaryRequestUpdateDto));
         eraseDrinks(diary, diaryRequestUpdateDto.getDeletedDrinkOrders());
         writeDrinks(diary, diaryRequestUpdateDto.getInsertedWhiskyIds());

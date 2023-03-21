@@ -75,6 +75,7 @@ public class DiaryController {
      * 다이어리 수정 완료 시 상태 코드 201 반환
      *
      * @param member                현재 다이어리를 수정한 본인의 계정 정보
+     * @param diaryId               수정하려는 다이어리의 ID
      * @param diaryRequestUpdateDto 다이어리 수정에 필요한 데이터
      * @throws NotFoundException     잘못된 다이어리 ID를 전달한 경우에 발생
      * @throws AccessDeniedException 다이어리 작성자와 현재 자신이 다른 경우에 발생
@@ -86,7 +87,8 @@ public class DiaryController {
             @PathVariable Long diaryId,
             @Valid @RequestBody DiaryRequestUpdateDto diaryRequestUpdateDto
     ) {
-        diaryService.rewriteDiary(member.getMemberId(), diaryId, diaryRequestUpdateDto);
+        diaryRequestUpdateDto.setId(diaryId);
+        diaryService.rewriteDiary(member.getMemberId(), diaryRequestUpdateDto);
     }
 
     /**
