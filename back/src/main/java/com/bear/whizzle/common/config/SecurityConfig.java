@@ -47,8 +47,8 @@ public class SecurityConfig {
 
         http.authorizeRequests(request ->
                                        request
-                                               .antMatchers("/api/auth/token-check").permitAll() // 테스트를 위해 추가
                                                .antMatchers("/login/**").permitAll()
+                                               .antMatchers("/api/**/any").permitAll()
                                                .anyRequest().authenticated());
 
         http.csrf().disable();

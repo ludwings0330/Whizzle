@@ -54,7 +54,7 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
             final ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
 
             // java compiler 에서 자동적으로 StringBuilder 를 사용하는 코드로 Optimization
-            final String key = user.getEmail() + ":" + user.getProvider();
+            final String key = "member:rft:" + user.getMemberId();
 
             valueOperations.set(key, refreshToken, Duration.ofDays(21));
         } catch (NoSuchElementException e) {

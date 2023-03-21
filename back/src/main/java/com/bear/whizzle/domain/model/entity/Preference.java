@@ -3,6 +3,7 @@ package com.bear.whizzle.domain.model.entity;
 import com.bear.whizzle.domain.model.type.Age;
 import com.bear.whizzle.domain.model.type.Flavor;
 import com.bear.whizzle.domain.model.type.Gender;
+import com.bear.whizzle.preference.controller.dto.MemberPreferenceRequestDto;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -60,5 +61,12 @@ public class Preference extends BaseTimeEntity {
     @Embedded
     @NotNull
     private Flavor flavor;
+
+    public void updatePreference(MemberPreferenceRequestDto preference) {
+        this.gender = preference.getGender();
+        this.age = preference.getAge();
+        this.priceTier = preference.getPriceTier();
+        this.flavor = preference.getFlavor();
+    }
 
 }

@@ -31,6 +31,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @ToString
+//@DynamicUpdate // dirty checking 후에 변경사항이 있으면 모든 column 이 업데이트 되는데, 해당 어노테이션으로 변경분만 업데이트 할 수 있다.
 public class Member {
 
     @Id
@@ -80,6 +81,14 @@ public class Member {
         this.image = Image.getDefaultMemberImage();
         this.isActive = Boolean.TRUE;
         this.level = 40.0f;
+    }
+
+    public void updateNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public void updateImage(Image image) {
+        this.image = image;
     }
 
 }
