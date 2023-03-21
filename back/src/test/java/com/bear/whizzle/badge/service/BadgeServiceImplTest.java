@@ -1,15 +1,20 @@
 package com.bear.whizzle.badge.service;
 
 import com.bear.whizzle.badge.controller.dto.BadgeResponseDto;
+import com.bear.whizzle.diary.repository.DiaryRepository;
+import com.bear.whizzle.domain.model.entity.Diary;
 import com.bear.whizzle.domain.model.entity.Keep;
 import com.bear.whizzle.domain.model.entity.Member;
 import com.bear.whizzle.domain.model.entity.Review;
 import com.bear.whizzle.domain.model.entity.Whisky;
 import com.bear.whizzle.domain.model.type.Action;
+import com.bear.whizzle.domain.model.type.DrinkLevel;
+import com.bear.whizzle.domain.model.type.Emotion;
 import com.bear.whizzle.keep.repository.KeepRepository;
 import com.bear.whizzle.member.repository.MemberRepository;
 import com.bear.whizzle.review.repository.ReviewRepository;
 import com.bear.whizzle.whisky.repository.WhiskyRepository;
+import java.time.LocalDate;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -32,6 +37,8 @@ class BadgeServiceImplTest {
     private ReviewRepository reviewRepository;
     @Autowired
     private KeepRepository keepRepository;
+    @Autowired
+    private DiaryRepository diaryRepository;
 
     @Test
     @DisplayName("리뷰 갯수에 따른 배지 획득")
@@ -145,6 +152,52 @@ class BadgeServiceImplTest {
 
         badgeService.awardBadgeOnKeepCountReached(member.getId());
 
+        badges = badgeService.findAllBadgeByMemberId(member.getId());
+
+        Assertions.assertThat(badges).hasSize(2);
+    }
+
+    @Test
+    @DisplayName("다이어리 작성에 따른 배지 획득 검증")
+    @Transactional
+    void memberAchieveDiaryBadge() {
+        //given
+        final Member member = Member.builder()
+                                    .provider("google")
+                                    .nickname("test")
+                                    .email("test@gmail.com")
+                                    .build();
+
+        memberRepository.save(member);
+
+        Diary diary = Diary.builder()
+                           .member(member)
+                           .date(LocalDate.now())
+                           .emotion(Emotion.GOOD)
+                           .drinkLevel(DrinkLevel.HEAVY)
+                           .build();
+
+        diaryRepository.save(diary);
+
+        //when
+        badgeService.awardBadgeOnDiaryCountReached(member.getId());
+        List<BadgeResponseDto> badges = badgeService.findAllBadgeByMemberId(member.getId());
+
+        //then
+        Assertions.assertThat(badges).hasSize(1);
+
+        for (int i = 1; i <= 4; i++) {
+            diary = Diary.builder()
+                         .member(member)
+                         .date(LocalDate.now().minusDays(i))
+                         .emotion(Emotion.GOOD)
+                         .drinkLevel(DrinkLevel.HEAVY)
+                         .build();
+
+            diaryRepository.save(diary);
+        }
+
+        badgeService.awardBadgeOnDiaryCountReached(member.getId());
         badges = badgeService.findAllBadgeByMemberId(member.getId());
 
         Assertions.assertThat(badges).hasSize(2);
