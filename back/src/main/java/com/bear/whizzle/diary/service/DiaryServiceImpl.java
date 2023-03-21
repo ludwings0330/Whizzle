@@ -3,6 +3,7 @@ package com.bear.whizzle.diary.service;
 import com.bear.whizzle.diary.DiaryMapper;
 import com.bear.whizzle.diary.controller.dto.DiaryRequestSaveDto;
 import com.bear.whizzle.diary.controller.dto.DiaryRequestUpdateDto;
+import com.bear.whizzle.diary.repository.DiaryCustomRepository;
 import com.bear.whizzle.diary.repository.DiaryRepository;
 import com.bear.whizzle.domain.exception.NotFoundException;
 import com.bear.whizzle.domain.model.entity.Diary;
@@ -25,10 +26,11 @@ public class DiaryServiceImpl implements DiaryService {
     private final MemberRepository memberRepository;
     private final WhiskyRepository whiskyRepository;
     private final DiaryRepository diaryRepository;
+    private final DiaryCustomRepository diaryCustomRepository;
 
     @Override
     public List<Diary> readDiaries(Long memberId, String month) {
-        return diaryRepository.findAllByMemberIdAndMonth(memberId, month);
+        return diaryCustomRepository.findAllByMemberIdAndMonth(memberId, month);
     }
 
     @Override
