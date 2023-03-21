@@ -104,6 +104,10 @@ const SNextButton = styled.button`
   }
 `;
 
+const STbody = styled.tbody`
+  border: 1px solid black;
+`;
+
 //다이어리 캘린더
 const DiaryCalander = ({ onDateClick }) => {
   const [date, setDate] = useState(new Date());
@@ -133,12 +137,26 @@ const DiaryCalander = ({ onDateClick }) => {
     return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDay();
   }
 
+  const [clickedDay, setClickedDay] = useState(null);
+
   function handleDateClick(event) {
     const clickedDate = new Date(date.getFullYear(), date.getMonth(), event.target.textContent);
     const year = clickedDate.getFullYear();
     const month = clickedDate.getMonth() + 1;
     const day = clickedDate.getDate();
     const clickedDateString = `${year}.${month}.${day}`;
+
+    const now = new Date();
+    if (clickedDate > now) {
+      alert("오늘 이후의 날짜는 선택할 수 없습니다!");
+      return;
+    }
+
+    if (clickedDay) {
+      clickedDay.style.backgroundColor = "white";
+    }
+    event.target.style.backgroundColor = "#F84F5A";
+    setClickedDay(event.target);
     onDateClick(clickedDateString);
   }
 
