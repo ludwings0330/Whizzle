@@ -1,10 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 //import component
 import DiaryNewContent from "./DiaryNewContent";
 
 //import css
 import styled from "styled-components";
+
+//import images
+import good from "../../../assets/img/good.png";
+import soso from "../../../assets/img/soso.png";
+import sad from "../../../assets/img/sad.png";
+import littledrink from "../../../assets/img/littledrink.png";
+import normaldrink from "../../../assets/img/normaldrink.png";
+import largedrink from "../../../assets/img/largedrink.png";
 
 const SP = styled.p`
   font-size: 23px;
@@ -47,7 +55,7 @@ const STextarea = styled.textarea`
   background: #fcfcfc;
   border-radius: 8px;
   margin-left: 20px;
-  padding: 25px;
+  padding: 20px;
   width: 350px;
   font-size: 16px;
   line-height: 1.5;
@@ -56,26 +64,58 @@ const STextarea = styled.textarea`
 
 const SRangeInput = styled.input`
   margin-left: 20px;
+  -webkit-appearance: none;
+  border : 1px solid #F84F5A;
+  background : #F84F5A;
+  height : 1px;
+  width : 320px;
+
+  ::-webkit-slider-thumb {
+    -webkit-appearance : none;
+    cursor : pointer;
+    border: 2px solid #F84F5A;
+    background : #F84F5A;
+    height: calc(1.2em / 0.7); 
+    width: calc(1.2em / 0.7);
+    border-radius: 50%;
+  }
+  }
 `;
 
-const DiaryEditor = ({ onCreate, today }) => {
+const SRangeP = styled.p`
+  font-size: 16px;
+  margin-left: 20px;
+`;
+
+const DiaryEditor = ({ onCreate, today, currentComponent, setCurrentComponent }) => {
+  const [emotionImage, setEmotionImage] = useState(soso);
+  const [drinkImage, setDrinkImage] = useState(normaldrink);
+
   const [drinklevelValue, setDrinklevelValue] = useState(0);
   const [emotionValue, setEmotionValue] = useState(100);
 
   const [emotion, setEmotion] = useState("최고예요");
   const [drinklevel, setDrinklevel] = useState("소량");
 
-  const [currentComponent, setCurrentComponent] = useState("diaryEditor");
+  useEffect(() => {
+    setEmotionValue(50);
+    setDrinklevelValue(50);
+    setEmotion("그냥그래요");
+    setDrinklevel("적당히");
+  }, [currentComponent]);
 
   const handleEmotionChange = (e) => {
     const emotionValue = e.target.value;
     setEmotionValue(emotionValue);
     if (emotionValue <= 33) {
       setEmotion("별로예요");
+      setEmotionImage(sad);
     } else if (emotionValue <= 66) {
       setEmotion("그냥그래요");
+      setEmotionImage(soso);
     } else {
       setEmotion("최고예요");
+      setEmotionImage(good);
     }
   };
 
@@ -84,10 +124,13 @@ const DiaryEditor = ({ onCreate, today }) => {
     setDrinklevelValue(drinklevelValue);
     if (drinklevelValue <= 33) {
       setDrinklevel("소량");
+      setDrinkImage(littledrink);
     } else if (drinklevelValue <= 66) {
       setDrinklevel("적당히");
+      setDrinkImage(normaldrink);
     } else {
       setDrinklevel("만취");
+      setDrinkImage(largedrink);
     }
   };
 
@@ -151,29 +194,34 @@ const DiaryEditor = ({ onCreate, today }) => {
             <div>
               <SP>오늘의 주량</SP>
               <div>
+                <SRangeP>
+                  {drinklevel}
+                  <img src={drinkImage} alt={""} />
+                </SRangeP>
                 <SRangeInput
                   type="range"
                   name="drinklevel"
                   min="0"
                   max="100"
-                  step="1"
+                  step="50"
                   onChange={handleDrinklevelChange}
                 />
-                <p>오늘의 주량: {drinklevel}</p>
               </div>
             </div>
             <div>
               <SP>오늘의 기분</SP>
               <div>
+                <SRangeP>
+                  {emotion} <img src={emotionImage} alt={""} />
+                </SRangeP>
                 <SRangeInput
                   type="range"
                   name="emotion"
                   min="0"
                   max="100"
-                  step="1"
+                  step="50"
                   onChange={handleEmotionChange}
                 />
-                <p>오늘의 기분: {emotion}</p>
               </div>
             </div>
             <div>

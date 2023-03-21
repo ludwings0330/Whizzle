@@ -13,7 +13,7 @@ const SImg = styled.div`
 `;
 
 const SBlock = styled.div`
-  width: 390px;
+  width: 350px;
 `;
 
 const SContent = styled.div`
@@ -24,12 +24,14 @@ const SContent = styled.div`
 const SLight = styled.span`
   font-family: GmarketSansLight;
   font-size: 48px;
+  letter-spacing: -2px;
   color: white;
 `;
 
 const SStrong = styled.span`
   font-family: GmarketSansBold;
   font-size: 48px;
+  letter-spacing: -2px;
   color: white;
 `;
 
@@ -42,7 +44,12 @@ const SButton = styled.button`
   height: 74px;
   border: none;
   border-radius: 999px;
-  background: linear-gradient(125.02deg, #f84f5a 28.12%, #f7875a 65.62%, #f7cb5a 100%); ;
+  background: linear-gradient(
+    125.02deg,
+    #f84f5a 28.12%,
+    #f7875a 65.62%,
+    #f7cb5a 100%
+  ); ;
 `;
 
 const SButtonText = styled.span`

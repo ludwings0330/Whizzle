@@ -10,12 +10,7 @@ const SDiv = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-image: linear-gradient(
-    125.02deg,
-    #f84f5a 28.12%,
-    #f7875a 65.62%,
-    #f7cb5a 100%
-  );
+  background-image: linear-gradient(125.02deg, #f84f5a 28.12%, #f7875a 65.62%, #f7cb5a 100%);
 `;
 
 const slide = {
@@ -115,9 +110,7 @@ const QuestionPrice = (props) => {
     setPreferenceValue((prev) => ({ ...prev, price: selectedPrice }));
 
     props.setDirection("next");
-    props.setActivePage((prev) =>
-      props.activePage === 4 ? prev + 2 : prev + 1
-    );
+    props.setActivePage((prev) => (props.activePage === 4 ? prev + 2 : prev + 1));
   };
 
   return (

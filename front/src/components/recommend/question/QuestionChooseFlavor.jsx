@@ -11,12 +11,7 @@ const SDiv = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-image: linear-gradient(
-    125.02deg,
-    #f84f5a 28.12%,
-    #f7875a 65.62%,
-    #f7cb5a 100%
-  );
+  background-image: linear-gradient(125.02deg, #f84f5a 28.12%, #f7875a 65.62%, #f7cb5a 100%);
 `;
 
 const slide = {
@@ -56,18 +51,20 @@ const SImg = styled.img``;
 
 const SInfo = styled.div`
   position: absolute;
+  z-index: 1;
   text-align: left;
   top: 5px;
   left: 102%;
-  min-width: 460px;
+  min-width: 420px;
   padding: 15px 20px;
   gap: 10px;
   background: rgba(255, 255, 255, 0.75);
   box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
   font-weight: normal;
-  font-size: 18px;
-  color: #212121;
+  font-size: 16px;
+  line-height: 130%;
+  color: #666666;
   display: ${(props) => (props.hover ? "block" : "none")};
 `;
 
@@ -77,14 +74,12 @@ const SBox = styled.div`
   justify-content: center;
   align-items: center;
   gap: 0px 20px;
-  flex-wrap: wrap;
   max-width: 800px;
-  // height: 284px;
   background: #ffffff;
   border: 1px solid #d8d8d8;
   border-radius: 16px;
   margin-bottom: 70px;
-  padding: 20px;
+  padding: 30px 20px 20px 20px;
 `;
 
 const SButton = styled.button`
@@ -101,12 +96,7 @@ const SButtonText = styled.span`
   font-size: 18px;
   font-family: "Pretendard Variable";
   font-weight: bold;
-  background-image: linear-gradient(
-    125.02deg,
-    #f84f5a 28.12%,
-    #f7875a 65.62%,
-    #f7cb5a 100%
-  );
+  background-image: linear-gradient(125.02deg, #f84f5a 28.12%, #f7875a 65.62%, #f7cb5a 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 `;

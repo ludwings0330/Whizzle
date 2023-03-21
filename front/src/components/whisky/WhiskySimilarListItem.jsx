@@ -8,10 +8,12 @@ const SContainer = styled.div`
   background: #ffffff;
   border: 1px solid #d8d8d8;
   border-radius: 16px;
+  margin-bottom: 30px;
 
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 `;
 
 const WhiskySimilarListItem = () => {
