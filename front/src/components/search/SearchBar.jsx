@@ -2,18 +2,19 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
 const SInput = styled.input`
-  width: 862px;
-  height: 69px;
+  width: 560px;
+  height: 45px;
   border: 1px solid #c1c1c1;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 999px;
   padding-left: 50px;
-  font-size: 24px;
+  font-size: 14px;
 
   ::placeholder {
-    font-size: 24px;
+    font-size: 14px;
     color: #adadad;
-    text-indent: 10px;
+    text-indent: 0px;
+    font-family: "Pretendard Variable";
   }
 `;
 
@@ -22,19 +23,18 @@ const SDiv = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding: 5px 16px;
+  padding: 3px 13px;
   gap: 4px;
   margin-right: 10px;
 
-  height: 34px;
-  left: 1030px;
+  height: 31px;
 
   background: #f84f5a;
   border-radius: 999px;
 `;
 
 const SP = styled.p`
-  font-size: 20px;
+  font-size: 14px;
   color: #ffffff;
   cursor: pointer;
 `;
@@ -44,7 +44,15 @@ const SButton = styled.button`
   background-color: transparent;
   color: #ffffff;
   cursor: pointer;
-  font-size: 20px;
+  font-size: 14px;
+`;
+
+const SWordDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+  width: 560px;
+  height: 50px;
 `;
 
 //searchBar
@@ -103,7 +111,7 @@ const SearchBar = () => {
         onChange={wordChange}
         value={searchWord}
       />
-      <div style={{ display: "flex", marginTop: "50px" }}>
+      <SWordDiv>
         {recentSearch.map((word, index) => (
           <SDiv>
             <SP onClick={(e) => setRecentSearchData(e.target.innerText)} key={index}>
@@ -112,7 +120,7 @@ const SearchBar = () => {
             <SButton onClick={() => deleteRecentSearchWord(word)}>X</SButton>
           </SDiv>
         ))}
-      </div>
+      </SWordDiv>
     </>
   );
 };
