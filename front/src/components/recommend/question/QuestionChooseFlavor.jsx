@@ -64,7 +64,7 @@ const SInfo = styled.div`
   font-weight: normal;
   font-size: 16px;
   line-height: 130%;
-  color: #212121;
+  color: #666666;
   display: ${(props) => (props.hover ? "block" : "none")};
 `;
 
