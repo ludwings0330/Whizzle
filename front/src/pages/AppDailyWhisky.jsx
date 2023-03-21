@@ -1,8 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 import DailyFlavor from "../components/daily/DailyFlavor";
-import DailyFlavorItem from "../components/daily/DailyFlavorItem";
 import DailyPrice from "../components/daily/DailyPrice";
 import DailyResult from "../components/daily/DailyResult";
 
@@ -27,11 +26,43 @@ const SMainDiv = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: calc(100vh - 300px);
+  min-height: calc(100vh - 300px);
 `;
 
+const SHr = styled.hr`
+  border: 0.1px solid #d8d8d8;
+  min-width: 900px;
+`;
 //데일리추천페이지
 const AppDailyWhisky = () => {
+  const [flavorData, setFlavorData] = useState({
+    smoky: 0,
+    peaty: 0,
+    spicy: 0,
+    herbal: 0,
+    oily: 0,
+    body: 0,
+    rich: 0,
+    sweet: 0,
+    salty: 0,
+    vanilla: 0,
+    tart: 0,
+    fruity: 0,
+    floral: 0,
+  });
+
+  const [priceData, setPriceData] = useState("1");
+
+  const body = {
+    price: priceData,
+    flavor: flavorData,
+  };
+
+  useEffect(() => {
+    // axios 들어갈 자리
+    // console.log(body);
+  }, [flavorData, priceData]);
+
   return (
     <>
       <SHeaderDiv>
@@ -45,9 +76,9 @@ const AppDailyWhisky = () => {
         </SP>
       </SHeaderDiv>
       <SMainDiv>
-        <DailyFlavor />
-        <DailyFlavorItem />
-        <DailyPrice />
+        <DailyPrice priceData={priceData} setPriceData={setPriceData} />
+        <DailyFlavor flavorData={flavorData} setFlavorData={setFlavorData} />
+        <SHr />
         <DailyResult />
       </SMainDiv>
     </>
