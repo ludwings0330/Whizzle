@@ -15,4 +15,6 @@ public interface DiaryService {
 
     void eraseDiary(Long memberId, Long diaryId);
 
+    long getDiaryCountByMemberId(Long memberId);
+
 }

@@ -87,4 +87,9 @@ public class DiaryServiceImpl implements DiaryService {
         }
     }
 
+    @Override
+    public long getDiaryCountByMemberId(Long memberId) {
+        return diaryRepository.countByMemberId(memberId);
+    }
+
 }

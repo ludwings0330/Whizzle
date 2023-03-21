@@ -3,6 +3,7 @@ package com.bear.whizzle.badge.service;
 import com.bear.whizzle.badge.controller.dto.BadgeResponseDto;
 import com.bear.whizzle.badge.repository.BadgeRepository;
 import com.bear.whizzle.badge.repository.projection.BadgeProjectionRepository;
+import com.bear.whizzle.diary.service.DiaryService;
 import com.bear.whizzle.domain.model.entity.Badge;
 import com.bear.whizzle.domain.model.entity.Member;
 import com.bear.whizzle.domain.model.entity.MemberHasBadge;
@@ -27,6 +28,8 @@ public class BadgeServiceImpl implements BadgeService {
     private final MemberRepository memberRepository;
     private final KeepService keepService;
     private final MemberHasBadgeRepository memberHasBadgeRepository;
+
+    private final DiaryService diaryService;
 
 
     @Override
@@ -72,7 +75,20 @@ public class BadgeServiceImpl implements BadgeService {
 
     @Override
     public void awardBadgeOnDiaryCountReached(Long memberId) {
+        final long diaryCount = diaryService.getDiaryCountByMemberId(memberId);
+        BadgeType badgeType = null;
 
+        if (diaryCount == 1) {
+            badgeType = BadgeType.FIRST_DIARY;
+        } else if (diaryCount == 5) {
+            badgeType = BadgeType.FIFTH_DIARY;
+        } else if (diaryCount == 20) {
+            badgeType = BadgeType.TWENTIETH_DIARY;
+        }
+
+        if (badgeType != null) {
+            this.memberAchieveBadge(memberId, badgeType);
+        }
     }
 
     @Override
