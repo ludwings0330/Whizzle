@@ -8,6 +8,7 @@ import com.bear.whizzle.domain.model.entity.Member;
 import com.bear.whizzle.domain.model.entity.MemberHasBadge;
 import com.bear.whizzle.domain.model.entity.MemberHasBadgeRepository;
 import com.bear.whizzle.domain.model.type.BadgeType;
+import com.bear.whizzle.keep.service.KeepService;
 import com.bear.whizzle.member.repository.MemberRepository;
 import com.bear.whizzle.review.service.ReviewService;
 import java.util.List;
@@ -24,6 +25,7 @@ public class BadgeServiceImpl implements BadgeService {
     private final ReviewService reviewService;
     private final BadgeRepository badgeRepository;
     private final MemberRepository memberRepository;
+    private final KeepService keepService;
     private final MemberHasBadgeRepository memberHasBadgeRepository;
 
 
@@ -75,7 +77,18 @@ public class BadgeServiceImpl implements BadgeService {
 
     @Override
     public void awardBadgeOnKeepCountReached(Long memberId) {
+        final long keepCount = keepService.getKeepCountByMemberId(memberId);
+        BadgeType badgeType = null;
 
+        if (keepCount == 1) {
+            badgeType = BadgeType.FIRST_KEEP;
+        } else if (keepCount == 10) {
+            badgeType = BadgeType.TENTH_KEEP;
+        }
+
+        if (badgeType != null) {
+            this.memberAchieveBadge(memberId, badgeType);
+        }
     }
 
     @Override
