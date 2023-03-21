@@ -87,7 +87,7 @@ const Graph = () => {
             textColor: "#ffffff",
             fontSize: "20px",
           }}
-          margin={{ top: 30, right: 30, bottom: 40, left: 30 }}
+          margin={{ top: 30, right: 30, bottom: 40, left: 35 }}
           lineWidth={"5px"}
           xScale={{ type: "point" }}
           yScale={{

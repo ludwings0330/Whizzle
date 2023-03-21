@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 //import components
 import Graph from "../components/common/Graph";
@@ -85,8 +86,53 @@ const SBoldColorP = styled.p`
   margin-bottom: 0px;
 `;
 
+const SBtnDiv = styled.div`
+  width: 100vw;
+  max-width: 100%;
+  display: flex;
+  justify-content: center;
+`;
+
+const SQuestionBtn = styled.button`
+  width: 318px;
+  height: 74px;
+  margin-right: 30px;
+  margin-bottom: 200px;
+  border: 3px solid transparent;
+  border-radius: 999px;
+  background-image: linear-gradient(#fff, #fff),
+    linear-gradient(120.33deg, #f84f5a, #f29060, #f7cb5a);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+  box-shadow: 2px 1000px 1px #fff inset;
+  cursor: pointer;
+  font-family: "Pretendard Variable";
+`;
+
+const SDailyBtn = styled.button`
+  width: 318px;
+  height: 74px;
+  border: 1px solid transparent;
+  font-family: "Pretendard Variable";
+  background: linear-gradient(106.95deg, #f84f5a 11.68%, #f2a660 86.99%);
+  border-radius: 999px;
+  font-size: 20px;
+  color: #ffffff;
+  cursor: pointer;
+  font-weight: 600;
+`;
+
 //추천 결과 페이지
 const AppRecommnedResult = () => {
+  const navigate = useNavigate();
+  const onClickHandler = (e) => {
+    if (e.target.innerText === "취향 정보 다시 입력하기") {
+      navigate("/recommend/question");
+    } else if (e.target.innerText === "데일리 위스키 추천받기") {
+      navigate("/daily");
+    }
+  };
+
   return (
     <>
       <SHeader>
@@ -109,6 +155,14 @@ const AppRecommnedResult = () => {
       </SGraphDiv>
       <ResultMainWhisky SGraphP={SGraphP} SColorSpan={SColorSpan} SSpan={SSpan} STitleP={STitleP} />
       <ResultWhiskyList />
+      <SBtnDiv>
+        <SQuestionBtn onClick={onClickHandler}>
+          <SColorSpan style={{ fontSize: "20px", fontWeight: "600" }}>
+            취향 정보 다시 입력하기
+          </SColorSpan>
+        </SQuestionBtn>
+        <SDailyBtn onClick={onClickHandler}>데일리 위스키 추천받기</SDailyBtn>
+      </SBtnDiv>
     </>
   );
 };

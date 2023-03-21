@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import WhiskySimilarListItem from "../../whisky/WhiskySimilarListItem";
 import styled from "styled-components";
 
@@ -12,7 +12,9 @@ const Wrapper = styled.div`
 const SDiv = styled.div`
   width: 990px;
   display: flex;
+  justify-content: center;
   align-items: flex-start;
+  margin-bottom: 100px;
   flex-wrap: wrap;
 
   & > * {
@@ -22,17 +24,66 @@ const SDiv = styled.div`
   }
 `;
 
+const SSimilarDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const SSimilarP = styled.p`
+  margin-top: 0px;
+  margin-bottom: 20px;
+  font-family: "Pacifico";
+  display: inline-block;
+  font-weight: 400;
+  font-size: 48px;
+  color: #636363;
+`;
+
+const SBtn = styled.button`
+  width: 257px;
+  height: 64px;
+  font-family: "Pretendard Variable";
+  border: 1px solid #a2a2a2;
+  border-radius: 10px;
+  color: #9b9b9b;
+  font-size: 20px;
+  background-color: transparent;
+  cursor: pointer;
+  margin-top: 50px;
+
+  :hover {
+    background-color: rgba(155, 155, 155, 0.2);
+    color: rgba(0, 0, 0, 0.8);
+  }
+`;
+
 //추천 위스키 리스트 목록
 const ResultWhiskyList = () => {
+  const sample = [4, 5, 6, 7, 8, 9];
+  const [seeMore, setSeemore] = useState(false);
+  const onClickHandler = () => {
+    setSeemore(!seeMore);
+  };
+
   return (
     <Wrapper>
       <SDiv>
-        <WhiskySimilarListItem />
-        <WhiskySimilarListItem />
-        <WhiskySimilarListItem />
-        <WhiskySimilarListItem />
-        <WhiskySimilarListItem />
-        <WhiskySimilarListItem />
+        {sample &&
+          seeMore &&
+          sample.map((item, index) => {
+            return (
+              <SSimilarDiv>
+                <SSimilarP>no.{item}</SSimilarP>
+                <WhiskySimilarListItem />
+              </SSimilarDiv>
+            );
+          })}
+        {!seeMore ? (
+          <SBtn onClick={onClickHandler}>더 보기</SBtn>
+        ) : (
+          <SBtn onClick={onClickHandler}>접기</SBtn>
+        )}
       </SDiv>
     </Wrapper>
   );
