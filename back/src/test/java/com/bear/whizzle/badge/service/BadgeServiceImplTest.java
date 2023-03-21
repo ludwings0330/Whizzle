@@ -4,6 +4,7 @@ import com.bear.whizzle.badge.controller.dto.BadgeResponseDto;
 import com.bear.whizzle.domain.model.entity.Member;
 import com.bear.whizzle.domain.model.entity.Review;
 import com.bear.whizzle.domain.model.entity.Whisky;
+import com.bear.whizzle.domain.model.type.Action;
 import com.bear.whizzle.member.repository.MemberRepository;
 import com.bear.whizzle.review.repository.ReviewRepository;
 import com.bear.whizzle.whisky.repository.WhiskyRepository;
@@ -62,6 +63,42 @@ class BadgeServiceImplTest {
         badges = badgeService.findAllBadgeByMemberId(member.getId());
         Assertions.assertThat(badges).hasSize(2);
 
+    }
+
+    @Test
+    @DisplayName("Level 에 따른 배지 획득 검증")
+    @Transactional
+    void memberAchieveLevelBadge() {
+        //given
+        final Member member = Member.builder()
+                                    .provider("google")
+                                    .nickname("test")
+                                    .email("test@gmail.com")
+                                    .build();
+
+        memberRepository.save(member);
+
+        for (int i = 0; i < 200; i++) {
+            member.levelUp(Action.REVIEW);
+        }
+
+        Assertions.assertThat(member.getLevel()).isEqualTo(50f);
+
+        //when
+        badgeService.awardBadgeOnLevelReached(member.getId());
+
+        //then
+        List<BadgeResponseDto> badges = badgeService.findAllBadgeByMemberId(member.getId());
+        Assertions.assertThat(badges).hasSize(1);
+
+        for (int i = 0; i < 200; i++) {
+            member.levelUp(Action.REVIEW);
+        }
+
+        badgeService.awardBadgeOnLevelReached(member.getId());
+
+        badges = badgeService.findAllBadgeByMemberId(member.getId());
+        Assertions.assertThat(badges).hasSize(2);
     }
 
     void addReview(Member member, Whisky whisky) {
