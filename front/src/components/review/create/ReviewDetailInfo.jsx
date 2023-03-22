@@ -9,7 +9,6 @@ const SDiv = styled.div`
   height: 350px;
   justify-content: center;
   align-items: flex-end;
-  background: #f7f3f0;
 `;
 
 const SInfoDiv = styled.div`

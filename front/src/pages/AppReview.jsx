@@ -19,11 +19,13 @@ const SContainer = styled.div`
   justify-content: center;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 100px;
 `;
 
 const STitleDiv = styled.div`
+  width: 900px;
   display: flex;
-  height: 80px;
+  align-items: left;
 `;
 
 const STitleP = styled.p`
@@ -74,6 +76,12 @@ const SContentP = styled.p`
   font-size: 25px;
   font-weight: bold;
   margin-top: 50px;
+`;
+
+const SContentDiv = styled.div`
+  width: 900px;
+  display: flex;
+  align-items: left;
 `;
 
 //리뷰작성 페이지
@@ -130,15 +138,21 @@ const AppReview = () => {
     <>
       <SContainer>
         <STitleDiv>
-          <STitleP>리뷰 등록</STitleP>
+          <STitleP>리뷰 작성</STitleP>
           <SP>아래 위스키에 대한 리뷰를 작성해주세요</SP>
         </STitleDiv>
         <ReviewDetailInfo whisky={exampleWhisky} />
-        <SContentP>사진 등록(최대 5장)</SContentP>
+        <SContentDiv>
+          <SContentP>사진 등록(최대 5장)</SContentP>
+        </SContentDiv>
         <ImageUploader />
-        <SContentP>리뷰 내용</SContentP>
+        <SContentDiv>
+          <SContentP>리뷰 내용</SContentP>
+        </SContentDiv>
         <ReviewContent />
-        <SContentP>평점 등록</SContentP>
+        <SContentDiv>
+          <SContentP>평점 등록</SContentP>
+        </SContentDiv>
         <ReviewRating whisky={exampleWhisky} />
         <SButton>작성완료</SButton>
       </SContainer>
