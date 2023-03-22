@@ -48,14 +48,16 @@ const MyLevel = (props) => {
   const levelPercent = Math.min(Math.max((level / max) * 100, 0), 100);
   return (
     <>
-      <STitleDiv>
-        <SP>나의 도수</SP>
-        <SLevelP>{level}%</SLevelP>
-      </STitleDiv>
-      <SWrapper>
-        <SProgress style={{ width: `${levelPercent}%` }} />
-        <SRemaining style={{ width: `${100 - levelPercent}%` }} />
-      </SWrapper>
+      <div>
+        <STitleDiv>
+          <SP>나의 도수</SP>
+          <SLevelP>{level}%</SLevelP>
+        </STitleDiv>
+        <SWrapper>
+          <SProgress style={{ width: `${levelPercent}%` }} />
+          <SRemaining style={{ width: `${100 - levelPercent}%` }} />
+        </SWrapper>
+      </div>
     </>
   );
 };

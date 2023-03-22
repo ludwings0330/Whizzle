@@ -3,11 +3,11 @@ import styled from "styled-components";
 import MyLevel from "./MyLevel";
 
 const SImg = styled.img`
-  height: 365px;
+  height: 300px;
 `;
 
 const SP = styled.p`
-  font-size: 50px;
+  font-size: 40px;
   font-weight: bold;
   margin-bottom: 15px;
 `;
@@ -16,7 +16,9 @@ const SInfoDiv = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  height: 250px;
   margin-bottom: 50px;
+  margin-left: 50px;
 `;
 
 const SMainDiv = styled.div`

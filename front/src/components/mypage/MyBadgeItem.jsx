@@ -13,8 +13,8 @@ const SCard = styled.div`
   cursor: pointer;
   justify-content: center;
   align-items: center;
-  max-width: 130px;
-  height: 130px;
+  width: 110px;
+  height: 110px;
   background: #d9d9d9;
   border-radius: 999px;
   transition: 0.5s;
@@ -23,7 +23,7 @@ const SCard = styled.div`
 `;
 
 const SImg = styled.img`
-  width: 127px;
+  width: 100px;
   transition: 0.5s;
   -ms-user-select: none;
   -moz-user-select: -moz-none;

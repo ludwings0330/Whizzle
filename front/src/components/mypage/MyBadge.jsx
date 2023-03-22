@@ -9,7 +9,7 @@ const SBox = styled.div`
   align-items: center;
   gap: 0px 20px;
   flex-wrap: wrap;
-  max-width: 950px;
+  max-width: 900px;
   background: #ffffff;
   border: 1px solid #b9b9b9;
   border-radius: 16px;
