@@ -1,0 +1,7 @@
+HELP.md
+.gradle
+
+#### ipynb ####
+# Ignore Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+*.csv
