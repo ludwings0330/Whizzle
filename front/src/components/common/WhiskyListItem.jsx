@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import favoriteBorder from "../../assets/img/favorite_border.png";
+import favoriteFilled from "../../assets/img/favorite_filled.png";
 import ReactStars from "react-stars";
 
 const SCard = styled.div`
@@ -32,7 +33,7 @@ const STop = styled.div`
 const SContainer = styled.div`
   left: 23px;
   width: 90px;
-  height: 240px;
+  height: 225px;
   text-align: center;
   position: absolute;
 `;
@@ -57,6 +58,16 @@ const SRight = styled.div`
   gap: 30px;
   padding-right: 0px;
   min-width: 105px;
+`;
+
+const SLikeImg = styled.img`
+  height: 30px;
+  transition: 0.5s;
+  z-index: 2;
+  &:hover {
+    transform: scale(1.2);
+    transition: 0.5s;
+  }
 `;
 
 const SRating = styled.div`
@@ -86,19 +97,29 @@ const SName = styled.div`
 
 const WhiskyListItem = (props) => {
   const navigate = useNavigate();
+  const [isLiked, setIsLiked] = useState(false);
 
   const goDetail = () => {
     navigate(`/whisky/${props.whisky.id}`);
+  };
+
+  const keepHandler = (event) => {
+    event.stopPropagation();
+    setIsLiked((prev) => !prev);
   };
 
   return (
     <SCard onClick={goDetail}>
       <STop>
         <SContainer>
-          <SImg src={require(`../../assets/img/whisky_preset/${props.index + 17}.png`)} />
+          <SImg src={require(`../../assets/img/whisky_preset/${props.index + 1}.png`)} />
         </SContainer>
         <SRight>
-          <img src={favoriteBorder} alt="like.png" style={{ height: "30px" }} />
+          {isLiked ? (
+            <SLikeImg onClick={keepHandler} src={favoriteFilled} alt="like.png" />
+          ) : (
+            <SLikeImg onClick={keepHandler} src={favoriteBorder} alt="like.png" />
+          )}
           <SRating>
             <SAvg>{props.whisky.avg_rating}</SAvg>
             <ReactStars

@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import DailyFlavor from "../components/daily/DailyFlavor";
 import DailyPrice from "../components/daily/DailyPrice";
-import DailyResult from "../components/daily/DailyResult";
+import WhiskyList from "../components/common/WhiskyList";
 
 const SHeaderDiv = styled.div`
   max-width: 100vw;
@@ -33,6 +33,7 @@ const SHr = styled.hr`
   border: 0.1px solid #d8d8d8;
   min-width: 900px;
 `;
+
 //데일리추천페이지
 const AppDailyWhisky = () => {
   const [flavorData, setFlavorData] = useState({
@@ -52,6 +53,63 @@ const AppDailyWhisky = () => {
   });
 
   const [priceData, setPriceData] = useState("1");
+
+  const whiskys = [
+    {
+      name: "Glenfiddich 12 Year",
+      category: "Single Malt",
+      location: "Speyside, Scotland",
+      abv: "40",
+      priceTier: 2,
+      avg_rating: 3.36,
+      total_rating: 5952,
+    },
+    {
+      name: "Glenlivet 12 Year Double Oak",
+      category: "Single Malt",
+      location: "Speyside, Scotland",
+      abv: "40",
+      priceTier: 2,
+      avg_rating: 3.41,
+      total_rating: 5811,
+    },
+    {
+      name: "Macallan 12 Year Sherry Oak Cask",
+      category: "Single Malt",
+      location: "Highlands, Scotland",
+      abv: "43",
+      priceTier: 3,
+      avg_rating: 3.82,
+      total_rating: 5442,
+    },
+    {
+      name: "Glenfiddich 12 Year",
+      category: "Single Malt",
+      location: "Speyside, Scotland",
+      abv: "40",
+      priceTier: 2,
+      avg_rating: 3.36,
+      total_rating: 5952,
+    },
+    {
+      name: "Glenlivet 12 Year Double Oak",
+      category: "Single Malt",
+      location: "Speyside, Scotland",
+      abv: "40",
+      priceTier: 2,
+      avg_rating: 3.41,
+      total_rating: 5811,
+    },
+    {
+      name: "Macallan 12 Year Sherry Oak Cask",
+      category: "Single Malt",
+      location: "Highlands, Scotland",
+      abv: "43",
+      priceTier: 3,
+      avg_rating: 3.82,
+      total_rating: 5442,
+    },
+  ];
 
   const body = {
     price: priceData,
@@ -79,7 +137,8 @@ const AppDailyWhisky = () => {
         <DailyPrice priceData={priceData} setPriceData={setPriceData} />
         <DailyFlavor flavorData={flavorData} setFlavorData={setFlavorData} />
         <SHr />
-        <DailyResult />
+        <div style={{ height: "0px" }}></div>
+        <WhiskyList whiskys={whiskys} />
       </SMainDiv>
     </>
   );
