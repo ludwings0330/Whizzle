@@ -60,7 +60,7 @@ const ProgressBar = styled(motion.div)`
   height: 6px;
   width: ${(props) => props.width}%;
   background-color: #ffffff;
-  position: fixed;
+  position: absolute;
   top: 70px;
   left: 0;
   z-index: 9999;
