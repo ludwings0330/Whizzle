@@ -22,4 +22,8 @@ public class MemberLevelLogRedisRepository {
         redisTemplate.opsForHash().put(MEMBER_LOG_COUNTER_KEY, memberId, counter);
     }
 
+    public void clearLevelLogCounter() {
+        redisTemplate.delete(MEMBER_LOG_COUNTER_KEY);
+    }
+
 }

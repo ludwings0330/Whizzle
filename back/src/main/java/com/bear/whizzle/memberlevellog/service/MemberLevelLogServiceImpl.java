@@ -9,6 +9,7 @@ import com.bear.whizzle.memberlevellog.repository.MemberLevelLogRedisRepository;
 import com.bear.whizzle.memberlevellog.repository.MemberLevelLogRepository;
 import com.bear.whizzle.memberlevellog.repository.dto.LevelLogCounter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -71,6 +72,12 @@ public class MemberLevelLogServiceImpl implements MemberLevelLogService {
         memberLevelLogRedisRepository.save(memberId, counter);
 
         return count > action.getLimit();
+    }
+
+    @Override
+    @Scheduled(cron = "0 0 0 * * *") // 매일 자정 실행
+    public void clearLevelLog() {
+        memberLevelLogRedisRepository.clearLevelLogCounter();
     }
 
 }

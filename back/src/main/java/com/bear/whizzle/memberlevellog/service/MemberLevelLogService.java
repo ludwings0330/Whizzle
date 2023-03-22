@@ -6,4 +6,6 @@ public interface MemberLevelLogService {
 
     void increaseLevelByActivity(Long memberId, Action action);
 
+    void clearLevelLog();
+
 }
