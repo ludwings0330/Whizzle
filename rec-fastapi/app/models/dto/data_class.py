@@ -1,4 +1,4 @@
-from fastapi import Body, Query
+from fastapi import Body
 from pydantic import BaseModel
 
 
