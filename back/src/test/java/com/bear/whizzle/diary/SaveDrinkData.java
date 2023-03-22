@@ -39,7 +39,7 @@ class SaveDrinkData {
                         Drink.builder()
                              .diaryId(diaryId)
                              .whiskyId(whiskeyId)
-                             .drinkOrder(++idx)
+                             .drinkOrder(idx++)
                              .build()
                 );
 
