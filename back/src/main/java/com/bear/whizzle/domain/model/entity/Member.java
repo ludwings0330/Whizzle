@@ -93,7 +93,7 @@ public class Member {
     }
 
     public void levelUp(Action action) {
-        this.level += action.score();
+        this.level += action.getScore();
         this.level = Math.round(this.level * 100) / 100f;
     }
 
