@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import colorLogo from "../assets/img/colorLogo.png";
 import logo from "../assets/img/logo.png";
 import styled from "styled-components";
@@ -6,15 +6,23 @@ import styled from "styled-components";
 //components import
 import MyBadge from "../components/mypage/MyBadge";
 import MyKeep from "../components/mypage/MyKeep";
-import MyLevel from "../components/mypage/MyLevel";
 import MyProfile from "../components/mypage/MyProfile";
 import MyReivew from "../components/mypage/MyReivew";
 
 const SContainer = styled.div`
-  margin-top: 70px;
+  margin-top: 150px;
   max-width: 100%;
   width: 100vw;
   display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const SInfoDiv = styled.div`
+  display: flex;
+  width: 100%;
+  flex-direction: column;
   justify-content: center;
   flex-direction: column;
   align-items: center;
@@ -52,9 +60,10 @@ const AppMyPage = () => {
   return (
     <>
       <SContainer>
-        <MyProfile user={exampleUser} />
-        <MyLevel level={exampleUser.level} max={100} />
-        <MyBadge />
+        <SInfoDiv>
+          <MyProfile user={exampleUser} />
+          <MyBadge />
+        </SInfoDiv>
         <MyKeep />
         <MyReivew />
       </SContainer>

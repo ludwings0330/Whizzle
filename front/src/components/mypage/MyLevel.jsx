@@ -23,12 +23,35 @@ const SRemaining = styled.div`
   border-radius: 0px 10px 10px 0px;
 `;
 
+const STitleDiv = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 600px;
+`;
+
+const SP = styled.p`
+  font-size: 20px;
+  font-weight: 500;
+  margin: 0;
+`;
+
+const SLevelP = styled.p`
+  font-size: 20px;
+  font-weight: bold;
+  color: #f84f5a;
+  margin: 0;
+`;
+
 const MyLevel = (props) => {
   const { level, max } = props;
 
   const levelPercent = Math.min(Math.max((level / max) * 100, 0), 100);
   return (
     <>
+      <STitleDiv>
+        <SP>나의 도수</SP>
+        <SLevelP>{level}%</SLevelP>
+      </STitleDiv>
       <SWrapper>
         <SProgress style={{ width: `${levelPercent}%` }} />
         <SRemaining style={{ width: `${100 - levelPercent}%` }} />
