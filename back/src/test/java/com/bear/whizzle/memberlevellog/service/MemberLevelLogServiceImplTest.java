@@ -167,6 +167,31 @@ class MemberLevelLogServiceImplTest {
                   .isEqualTo(current + Action.LIKE.getScore() * Action.LIKE.getLimit());
     }
 
+    @Test
+    @DisplayName("자정 Counter 초기화 검증")
+    @Transactional
+    void clearLevelLogByDaily() {
+        //given
+        Member member = createMember();
+        final Float current = member.getLevel();
+
+        //when
+        memberLevelLogService.increaseLevelByActivity(member.getId(), Action.LOGIN);
+
+        memberLevelLogService.clearLevelLog();
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        memberLevelLogService.increaseLevelByActivity(member.getId(), Action.LOGIN);
+
+        //then
+        Assertions.assertThat(member.getLevel()).isEqualTo(current + Action.LOGIN.getScore() * 2);
+    }
+
     private Member createMember() {
         final Member member = Member.builder()
                                     .email("test@gmail.com")
