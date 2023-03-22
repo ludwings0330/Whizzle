@@ -1,10 +1,12 @@
-from fastapi import APIRouter, Body, Path, BackgroundTasks
+from fastapi import APIRouter, Body, Path, BackgroundTasks, Depends
 
 import time
 import random
 
 from service.rec_service import predict_personal_whisky, predict_similar_whisky
 from models.dto.data_class import Preference
+from common.context.ItemFeatures import ItemFeatures
+
 
 rec = APIRouter(
     prefix="/rec",
@@ -23,13 +25,19 @@ async def retrain_model():
 
 
 @rec.get("/personal-whisky", status_code=200)
-async def rec_personal_whisky(preference: Preference = Body(...)):
-    return predict_personal_whisky(preference)
+async def rec_personal_whisky(
+    preference: Preference = Body(...),
+    item_features: ItemFeatures = Depends(ItemFeatures),
+):
+    return predict_personal_whisky(preference, item_features.data)
 
 
 @rec.get("/similary-whisky/{whisky_id}", status_code=200)
-async def rec_similar_whisky(whisky_id: int = Path(..., ge=0, le=3534)):
-    return predict_similar_whisky(whisky_id)
+async def rec_similar_whisky(
+    whisky_id: int = Path(..., ge=0, le=3534),
+    item_features: ItemFeatures = Depends(ItemFeatures),
+):
+    return predict_similar_whisky(whisky_id, item_features.data)
 
 
 @rec.get("/async/", status_code=202)
