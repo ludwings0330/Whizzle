@@ -46,12 +46,7 @@ const SButtonText = styled.span`
   font-size: 18px;
   font-family: "Pretendard Variable";
   font-weight: bold;
-  background-image: linear-gradient(
-    125.02deg,
-    #f84f5a 28.12%,
-    #f7875a 65.62%,
-    #f7cb5a 100%
-  );
+  background-image: linear-gradient(125.02deg, #f84f5a 28.12%, #f7875a 65.62%, #f7cb5a 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 `;

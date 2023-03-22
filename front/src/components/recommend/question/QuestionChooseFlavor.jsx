@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { preference } from "../../../store/preferenceStore";
 import QuestionChooseFlavorItem from "./QuestionChooseFlavorItem";
@@ -128,6 +128,10 @@ const QuestionChooseFlavor = (props) => {
     props.setDirection("next");
     props.setActivePage(6);
   };
+
+  useEffect(() => {
+    props.setBarWidth(window.innerWidth * 0.8);
+  });
 
   return (
     <motion.div
