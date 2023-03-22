@@ -37,3 +37,15 @@ def predict_personal_whisky(preference: Preference):
         user_features=user_features,
     )
     return np.argsort(-scores).tolist()
+
+
+def predict_similar_whisky(whisky_id: int, k: int = 5):
+    item_features = load_item_features()
+    # get Cosine Similarity
+    cosine_sim = cosine_similarity(item_features, item_features)
+
+    # get similarity scores
+    scores = cosine_sim[whisky_id]
+
+    # sort by similarity
+    return np.argsort(-scores)[1: k + 1].tolist()
