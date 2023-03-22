@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import favoriteBorder from "../../assets/img/favorite_border.png";
 import ReactStars from "react-stars";
@@ -84,8 +85,14 @@ const SName = styled.div`
 `;
 
 const WhiskyListItem = (props) => {
+  const navigate = useNavigate();
+
+  const goDetail = () => {
+    navigate(`/whisky/${props.whisky.id}`);
+  };
+
   return (
-    <SCard>
+    <SCard onClick={goDetail}>
       <STop>
         <SContainer>
           <SImg src={require(`../../assets/img/whisky_preset/${props.index + 17}.png`)} />
