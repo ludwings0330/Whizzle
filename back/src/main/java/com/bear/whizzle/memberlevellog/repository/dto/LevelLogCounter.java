@@ -1,11 +1,12 @@
 package com.bear.whizzle.memberlevellog.repository.dto;
 
+import java.io.Serializable;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class LevelLogCounter {
+public class LevelLogCounter implements Serializable {
 
     private int loginCount = 0;
     private int reviewCount = 0;
