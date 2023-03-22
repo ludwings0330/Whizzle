@@ -4,7 +4,7 @@ import { LOCAL_BASE_URL, LOCAL_FRONT_URL } from "../constants/url";
 const api = axios.create({
   baseURL: LOCAL_BASE_URL,
 });
-
+console.log("인터셉터 파일");
 api.interceptors.request.use((config) => {
   const accessToken = localStorage.getItem("accessToken");
   if (accessToken) {
@@ -38,13 +38,11 @@ api.interceptors.response.use(
           error.config.headers.Authorization = `Bearer ${newAccessToken}`;
           return axios(error.config);
         } catch (refreshError) {
-          localStorage.removeItem("accessToken");
-          localStorage.removeItem("refreshToken");
+          localStorage.clear();
           window.location.href = `${LOCAL_FRONT_URL}/login`;
         }
       } else {
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshToken");
+        localStorage.clear();
         window.location.href = `${LOCAL_FRONT_URL}/login`;
       }
     }

@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useSetRecoilState, useRecoilValue } from "recoil";
 import { userState } from "../store/userStore";
 import jwtDecode from "jwt-decode";
-import { UserInfo } from "./userinfo";
+import UserInfo from "./Userinfo";
 
 const Callback = () => {
   const location = useLocation();

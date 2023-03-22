@@ -1,15 +1,15 @@
-import api from "./axiosinterceptor";
-import { useSetRecoilState } from "recoil";
+import api from "./axiosInterceptor";
+import { useRecoilState } from "recoil";
 import { userState } from "../store/userStore";
 
-export const UserInfo = (id) => {
-  const setUser = useSetRecoilState(userState);
+const UserInfo = (id) => {
+  const [user, setUser] = useRecoilState(userState);
 
   api
     .get(`/api/members/${id}/any`)
     .then((res) => {
       const newUserData = {
-        ...userState,
+        ...user,
         nickname: res.data.nickname,
         email: res.data.email,
         provider: res.data.provider,
@@ -24,3 +24,5 @@ export const UserInfo = (id) => {
       console.log(error);
     });
 };
+
+export default UserInfo;
