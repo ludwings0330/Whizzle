@@ -7,6 +7,9 @@ import com.bear.whizzle.domain.model.type.Image;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
@@ -88,11 +91,11 @@ class SaveWhiskyData {
             Assertions.fail(e.getMessage());
         }
 
-        saveWhiskyImage(whiskies);
+        saveOldWhiskyImage(whiskies);
         bulkInsert(whiskies);
     }
 
-    private void saveWhiskyImage(List<Whisky> whiskies) {
+    private void saveNewWhiskyImage(List<Whisky> whiskies) {
         whiskies.forEach(whisky -> {
             String originalName = "NO_" + whisky.getId() + ".png";
             String key = "images/whiskies/" + originalName;
@@ -110,13 +113,35 @@ class SaveWhiskyData {
         });
     }
 
+    private void saveOldWhiskyImage(List<Whisky> whiskies) {
+        whiskies.forEach(
+                whisky -> {
+                    String originalName = "NO_" + whisky.getId() + ".png";
+                    String key = "images/whiskies/" + originalName;
+                    String url = "https://half-moon-bear.s3.ap-northeast-2.amazonaws.com/" + key;
+
+                    try {
+                        whisky.changeImage(
+                                Image.builder()
+                                     .originalName(originalName)
+                                     .savedPath(key)
+                                     .url(new URL(url))
+                                     .build()
+                        );
+                    } catch (MalformedURLException e) {
+                        throw new UncheckedIOException(e);
+                    }
+                }
+        );
+    }
+
     private void bulkInsert(List<Whisky> whiskies) {
         final String INSERT_SQL = "INSERT INTO whisky (id, name, category, location, price_tier, abv, cask_type, smoky, peaty, spicy, herbal, oily, body, rich, sweet, salty, vanilla, tart, fruity, floral, original_name, saved_path, url) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         jdbcTemplate.batchUpdate(
                 INSERT_SQL, whiskies, whiskies.size(),
                 (preparedStatement, whisky) -> {
                     int idx = 0;
-                    preparedStatement.setLong(++idx, whisky.getId());
+                    preparedStatement.setLong(++idx, whisky.getId() + 1);
                     preparedStatement.setString(++idx, whisky.getName());
                     preparedStatement.setString(++idx, whisky.getCategory());
                     preparedStatement.setString(++idx, whisky.getLocation());

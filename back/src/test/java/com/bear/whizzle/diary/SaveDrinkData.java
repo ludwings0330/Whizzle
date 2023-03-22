@@ -14,7 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 @SpringBootTest
-@Disabled("다이어리에 작성한 위스키 데이터 저장")
+@Disabled("다이어리에 작성한 마신 위스키 데이터 저장")
 class SaveDrinkData {
 
     private final JdbcTemplate jdbcTemplate;
@@ -39,7 +39,7 @@ class SaveDrinkData {
                         Drink.builder()
                              .diaryId(diaryId)
                              .whiskyId(whiskeyId)
-                             .whiskyOrder(++idx)
+                             .drinkOrder(++idx)
                              .build()
                 );
 
@@ -56,14 +56,14 @@ class SaveDrinkData {
     }
 
     private void bulkInsert(List<Drink> drinks) {
-        final String INSERT_SQL = "INSERT INTO drink (diary_id, whisky_id, whisky_order) VALUES (?, ?, ?)";
+        final String INSERT_SQL = "INSERT INTO drink (diary_id, whisky_id, drink_order) VALUES (?, ?, ?)";
         jdbcTemplate.batchUpdate(
                 INSERT_SQL, drinks, drinks.size(),
                 (preparedStatement, drink) -> {
                     int idx = 0;
                     preparedStatement.setLong(++idx, drink.diaryId);
                     preparedStatement.setLong(++idx, drink.whiskyId);
-                    preparedStatement.setLong(++idx, drink.whiskyOrder);
+                    preparedStatement.setInt(++idx, drink.drinkOrder);
                 }
         );
     }
@@ -71,11 +71,9 @@ class SaveDrinkData {
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     @Builder
     private static class Drink {
-
         private Long diaryId;
         private Long whiskyId;
-        private Integer whiskyOrder;
-
+        private Integer drinkOrder;
     }
 
 }
