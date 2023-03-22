@@ -131,7 +131,7 @@ const QuestionFilter = (props) => {
   };
 
   useEffect(() => {
-    props.setBarWidth(window.innerWidth * 0.2);
+    props.setBarWidth(window.innerWidth * 0.25);
   });
 
   return (

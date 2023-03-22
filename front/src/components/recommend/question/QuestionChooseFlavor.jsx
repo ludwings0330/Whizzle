@@ -130,7 +130,7 @@ const QuestionChooseFlavor = (props) => {
   };
 
   useEffect(() => {
-    props.setBarWidth(window.innerWidth * 0.8);
+    props.setBarWidth(window.innerWidth);
   });
 
   return (

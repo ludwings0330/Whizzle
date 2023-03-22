@@ -114,7 +114,7 @@ const QuestionPrice = (props) => {
   };
 
   useEffect(() => {
-    props.setBarWidth(window.innerWidth * 0.4);
+    props.setBarWidth(window.innerWidth * 0.5);
   });
 
   return (

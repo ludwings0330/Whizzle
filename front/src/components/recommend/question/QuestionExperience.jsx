@@ -92,7 +92,7 @@ const QuestionExperience = (props) => {
   };
 
   useEffect(() => {
-    props.setBarWidth(window.innerWidth * 0.6);
+    props.setBarWidth(window.innerWidth * 0.75);
   });
 
   return (

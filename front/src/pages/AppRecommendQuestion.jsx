@@ -219,6 +219,7 @@ const AppRecommendQuestion = () => {
             pageVariants={pageVariants}
             setActivePage={setActivePage}
             setDirection={setDirection}
+            barWidth={barWidth}
             setBarWidth={setBarWidth}
           />
         );

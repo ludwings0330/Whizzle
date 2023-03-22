@@ -22,7 +22,7 @@ const STitle = styled.span`
 //추천 후 로딩
 const QuestionLoading = (props) => {
   useEffect(() => {
-    props.setBarWidth(window.innerWidth);
+    props.setBarWidth(0);
   });
 
   return (
