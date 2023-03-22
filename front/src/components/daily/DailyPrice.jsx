@@ -16,7 +16,7 @@ const STitle = styled.p`
   justify-content: center;
   align-items: center;
   padding-top: 70px;
-  font-size: 20px;
+  font-size: 24px;
   font-weight: bold;
   color: #666666;
 `;
@@ -79,9 +79,9 @@ const ResponsiveSLine = styled(SLine)`
 const selectedStyle = {
   position: "absolute",
   zIndex: "-1",
-  width: "120px",
+  width: "115px",
   height: "150px",
-  borderRadius: "10px",
+  borderRadius: "16px",
   backgroundColor: "rgba(255, 202, 205, 0.28)",
 };
 

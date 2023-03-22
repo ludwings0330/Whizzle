@@ -4,29 +4,42 @@ import favoriteBorder from "../../assets/img/favorite_border.png";
 import ReactStars from "react-stars";
 
 const SCard = styled.div`
-  cursor: pointer;
   position: relative;
+  cursor: pointer;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   width: 261px;
   height: 312px;
   border: 1px solid #d8d8d8;
   border-radius: 16px;
-  padding: 27px;
+  padding-top: 28px;
+  padding-bottom: 10px;
 `;
 
 const STop = styled.div`
   display: flex;
-  width: 190px;
-  justify-content: space-between;
+  justify-content: end;
   align-items: center;
+  padding-right: 18px;
+  gap: 25px;
+  width: 220px;
+`;
+
+const SContainer = styled.div`
+  left: 23px;
+  width: 90px;
+  height: 240px;
+  text-align: center;
+  position: absolute;
 `;
 
 const SImg = styled.img`
-  height: 230px;
+  max-width: 100%;
+  height: 100%;
+  object-fit: cover;
   transition: 0.5s;
   transform-origin: bottom;
   ${SCard}:hover & {
@@ -41,6 +54,8 @@ const SRight = styled.div`
   justify-content: end;
   align-items: end;
   gap: 30px;
+  padding-right: 0px;
+  min-width: 105px;
 `;
 
 const SRating = styled.div`
@@ -64,15 +79,17 @@ const SName = styled.div`
   display: flex;
   align-items: center;
   text-align: center;
-  padding-top: 10px;
-  padding-bottom: 30px;
+  padding-left: 25px;
+  padding-right: 25px;
 `;
 
 const DailyResultItem = (props) => {
   return (
     <SCard>
       <STop>
-        <SImg src={require(`../../assets/img/whisky_preset/2.png`)} />
+        <SContainer>
+          <SImg src={require(`../../assets/img/whisky_preset/${props.index + 17}.png`)} />
+        </SContainer>
         <SRight>
           <img src={favoriteBorder} alt="like.png" style={{ height: "30px" }} />
           <SRating>

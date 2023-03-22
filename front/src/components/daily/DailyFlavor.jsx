@@ -24,7 +24,7 @@ const STitle = styled.div`
   align-items: center;
   margin-top: 70px;
   margin-bottom: 20px;
-  font-size: 20px;
+  font-size: 24px;
   font-weight: bold;
   color: #666666;
 `;
