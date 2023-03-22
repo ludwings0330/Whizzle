@@ -5,9 +5,8 @@ import styled from "styled-components";
 
 //components import
 import MyBadge from "../components/mypage/MyBadge";
-import MyKeep from "../components/mypage/MyKeep";
 import MyProfile from "../components/mypage/MyProfile";
-import MyReivew from "../components/mypage/MyReivew";
+import MypageTab from "../components/mypage/MypageTab";
 
 const SContainer = styled.div`
   margin-top: 150px;
@@ -24,7 +23,6 @@ const SInfoDiv = styled.div`
   width: 100%;
   flex-direction: column;
   justify-content: center;
-  flex-direction: column;
   align-items: center;
 `;
 
@@ -64,8 +62,7 @@ const AppMyPage = () => {
           <MyProfile user={exampleUser} />
           <MyBadge />
         </SInfoDiv>
-        <MyKeep />
-        <MyReivew />
+        <MypageTab />
       </SContainer>
     </>
   );

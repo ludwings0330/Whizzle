@@ -9,14 +9,14 @@ const SImg = styled.img`
 const SP = styled.p`
   font-size: 50px;
   font-weight: bold;
-  margin: 0;
+  margin-bottom: 15px;
 `;
 
 const SInfoDiv = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 365px;
+  margin-bottom: 50px;
 `;
 
 const SMainDiv = styled.div`

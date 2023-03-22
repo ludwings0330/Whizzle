@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import MyBadgeItem from "./MyBadgeItem";
 
@@ -9,13 +9,14 @@ const SBox = styled.div`
   align-items: center;
   gap: 0px 20px;
   flex-wrap: wrap;
-  max-width: 800px;
+  max-width: 950px;
   background: #ffffff;
   border: 1px solid #b9b9b9;
   border-radius: 16px;
   margin-bottom: 70px;
-  margin-top: 100px;
-  padding: 40px;
+  margin-top: 25px;
+  padding-left: 30px;
+  padding-right: 30px;
 `;
 
 const exampleBadges = [

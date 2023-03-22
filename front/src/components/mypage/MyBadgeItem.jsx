@@ -5,6 +5,7 @@ const SWrap = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  margin: 25px 25px 25px 25px;
 `;
 
 const SCard = styled.div`
@@ -12,8 +13,8 @@ const SCard = styled.div`
   cursor: pointer;
   justify-content: center;
   align-items: center;
-  width: 127px;
-  height: 127px;
+  max-width: 130px;
+  height: 130px;
   background: #d9d9d9;
   border-radius: 999px;
   transition: 0.5s;
