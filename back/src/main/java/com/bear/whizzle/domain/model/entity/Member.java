@@ -1,5 +1,6 @@
 package com.bear.whizzle.domain.model.entity;
 
+import com.bear.whizzle.domain.model.type.Action;
 import com.bear.whizzle.domain.model.type.Image;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
@@ -89,6 +90,11 @@ public class Member {
 
     public void updateImage(Image image) {
         this.image = image;
+    }
+
+    public void levelUp(Action action) {
+        this.level += action.score();
+        this.level = Math.round(this.level * 100) / 100f;
     }
 
 }
