@@ -2,7 +2,7 @@ package com.bear.whizzle.member.controller;
 
 import com.bear.whizzle.auth.service.PrincipalDetails;
 import com.bear.whizzle.badge.controller.dto.BadgeResponseDto;
-import com.bear.whizzle.badge.service.BadgeService;
+import com.bear.whizzle.badge.service.query.BadgeQueryService;
 import com.bear.whizzle.domain.model.entity.Member;
 import com.bear.whizzle.domain.model.entity.Preference;
 import com.bear.whizzle.member.controller.dto.MemberBaseInfoResponseDto;
@@ -36,7 +36,7 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    private final BadgeService badgeService;
+    private final BadgeQueryService badgeQueryService;
 
     private final PreferenceService preferenceService;
 
@@ -57,7 +57,7 @@ public class MemberController {
 
     @GetMapping("/{memberId}/badges/any")
     public List<BadgeResponseDto> findAllBadgesByMemberId(@PathVariable Long memberId) {
-        return badgeService.findAllBadgeByMemberId(memberId);
+        return badgeQueryService.findAllBadgeByMemberId(memberId);
     }
 
     @GetMapping("/{memberId}/preference/any")
