@@ -1,6 +1,9 @@
 package com.bear.whizzle.auth.service;
 
 import com.bear.whizzle.common.util.JwtUtil;
+import com.bear.whizzle.domain.exception.NotFoundException;
+import com.bear.whizzle.domain.model.entity.Review;
+import com.bear.whizzle.review.repository.ReviewRepository;
 import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -14,6 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class AuthServiceImpl implements AuthService {
 
     private final JwtUtil jwtUtil;
+
+    private final ReviewRepository reviewRepository;
 
     private final RedisTemplate<String, String> redisTemplate;
 
@@ -30,6 +35,14 @@ public class AuthServiceImpl implements AuthService {
         }
 
         throw new JwtException("토큰 재발급 중 예외 발생");
+    }
+
+    @Override
+    public boolean canMemberEditReview(long memberId, long reviewId) {
+        Review review = reviewRepository.findById(reviewId)
+                                        .orElseThrow(() -> new NotFoundException("리뷰를 찾을 수 없습니다."));
+
+        return !review.getIsDeleted() && review.getMember().getId() == memberId;
     }
 
 }

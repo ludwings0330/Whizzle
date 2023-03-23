@@ -4,4 +4,6 @@ public interface AuthService {
 
     String regenerateAccessToken(PrincipalDetails user, String authorization);
 
+    boolean canMemberEditReview(long memberId, long reviewId);
+
 }
