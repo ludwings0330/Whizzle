@@ -15,9 +15,9 @@ node {
       echo "사용하지 않는 이미지 삭제"
       docker image prune -a -f
     '''
-}
+  }
 
-stage('Build Spring Server Image')
+  stage('Build Spring Server Image') {
     echo "Dockerfile를 이용하여 백엔드 서버 이미지 생성"
     sh '''
       docker build -t whizzle/back ./back
@@ -34,3 +34,4 @@ stage('Build Spring Server Image')
         whizzle/back
     '''
   }
+}
