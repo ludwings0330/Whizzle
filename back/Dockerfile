@@ -17,7 +17,7 @@ COPY --from=builder /app/build/libs/*.jar /app/app.jar
 # 컨테이너 실행 직후 컨테이너에서 다음 명령어를 수행하여 Spring 웹 서버 실행
 ENTRYPOINT ["java", \
              "-jar", \
-             "-Dspring.profiles.active=prod", \
+             "-Dspring.profiles.active=dev", \
              "-Dspring.config.location=classpath:/application.yml,/app/config/application-db.yml,/app/config/application-s3.yml,/app/config/application-security.yml,/app/config/application-ssl.yml", \
              "/app/app.jar"]
 

@@ -68,7 +68,7 @@ const nonActiveStyle = {
 // 네비게이션 바
 const Header = () => {
   const user = useRecoilValue(userState);
-  const isLogin = Boolean(user.nickname);
+  const isLogin = Boolean(user.id);
   const logout = Logout();
   const signout = () => {
     logout();
