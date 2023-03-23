@@ -74,31 +74,95 @@ const STextarea = styled.textarea`
 `;
 
 const SRangeInput = styled.input`
-margin-left: 20px;
--webkit-appearance: none;
-border : 1px solid #F84F5A;
-background : #F84F5A;
-height : 1px;
-width : 320px;
-
-::-webkit-slider-thumb {
-  -webkit-appearance : none;
-  cursor : pointer;
-  border: 2px solid #F84F5A;
-  background : #F84F5A;
-  height: calc(1.2em / 0.7); 
-  width: calc(1.2em / 0.7);    
-  border-radius: 50%;
-}
-}
-`;
-
-const SRangeP = styled.p`
-  font-size: 16px;
   margin-left: 20px;
+  -webkit-appearance: none;
+  border: 1px solid #f84f5a;
+  background: linear-gradient(to right, #f84f5a, #f84f5a) no-repeat;
+  background-size: ${(props) => (props.value / props.max) * 100}% 100%;
+  height: 1px;
+  width: 100%;
+
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    cursor: pointer;
+    width: 25px;
+    height: 25px;
+    background-color: #ffffff;
+    border: 2px solid #f84f5a;
+    border-radius: 50%;
+    box-shadow: 0 0 0 8px rgba(248, 79, 90, 0.2);
+    transition: box-shadow 0.2s ease-in-out;
+  }
+
+  &::-webkit-slider-runnable-track {
+    background-color: transparent;
+  }
+
+  &:hover::-webkit-slider-thumb {
+    box-shadow: 0 0 0 8px rgba(248, 79, 90, 0.2);
+  }
+
+  &:hover::-webkit-slider-runnable-track {
+    background: rgba(248, 79, 90, 0.2);
+  }
+
+  position: relative;
+
+  &::before {
+    position: absolute;
+    bottom: 120%;
+    left: ${(props) => (props.value / props.max) * 100}%;
+    transform: translateX(-50%);
+    font-size: 12px;
+    color: #000;
+    background-color: #fff;
+    border-radius: 3px;
+    padding: 3px 6px;
+    white-space: nowrap;
+    display: none;
+  }
+
+  &:hover::before {
+    display: block;
+  }
 `;
 
-const DiaryItem = ({ onRemove, onEdit, today, whisky, drinklevel, emotion, content }) => {
+const SRangeDiv = styled.div`
+  font-size: 16px;
+  margin-top: 20px;
+  margin-left: 20px;
+  margin-bottom: 0;
+  position: absolute;
+  display: flex;
+  top: -80px;
+  left: ${(props) => (props.value / props.max) * 100}%;
+`;
+
+const SRangeContainer = styled.div`
+  position: relative;
+  margin-top: 80px;
+`;
+
+const STextP = styled.p`
+  font-size: 16px;
+  font-weight: bold;
+`;
+
+const SImg = styled.img`
+  width: 40px;
+  height: 40px;
+`;
+
+const DiaryItem = ({
+  onRemove,
+  onEdit,
+  today,
+  whisky,
+  drinklevel,
+  emotion,
+  content,
+  searchTerms,
+}) => {
   const [localContent, setLocalContent] = useState(content);
   const [localWhisky, setLocalWhisky] = useState(whisky);
   const [localDrinklevel, setLocalDrinklevel] = useState(drinklevel);
@@ -110,6 +174,9 @@ const DiaryItem = ({ onRemove, onEdit, today, whisky, drinklevel, emotion, conte
   const [emotionValue, setEmotionValue] = useState("");
 
   const [isEdit, setIsEdit] = useState(false);
+
+  const [localSearchTerms, setLocalSearchTerms] = useState(searchTerms);
+
   const toggleIsEdit = () => setIsEdit(!isEdit);
 
   const handleClickRemove = () => {
@@ -160,6 +227,9 @@ const DiaryItem = ({ onRemove, onEdit, today, whisky, drinklevel, emotion, conte
       toggleIsEdit();
     }
   };
+  const handleTagDelete = (tag) => {
+    setLocalSearchTerms(searchTerms.filter((t) => t !== tag));
+  };
 
   return (
     <>
@@ -192,59 +262,78 @@ const DiaryItem = ({ onRemove, onEdit, today, whisky, drinklevel, emotion, conte
         <div>
           <SP>오늘의 위스키</SP>
           {isEdit ? (
-            <SInput
-              value={localWhisky}
-              type="text"
-              onChange={(e) => setLocalWhisky(e.target.value)}
-            />
+            <>
+              <SInput
+                value={localWhisky}
+                type="text"
+                onChange={(e) => setLocalWhisky(e.target.value)}
+              />
+              <div>
+                {localSearchTerms.map((tag, index) => (
+                  <div key={index}>
+                    <span>{tag}</span>
+                    <button onClick={() => handleTagDelete(tag)}>x</button>
+                  </div>
+                ))}
+              </div>
+            </>
           ) : (
-            <SInput value={localWhisky} type="text" disabled={!isEdit} />
+            <div>
+              {localSearchTerms.map((tag, index) => (
+                <div key={index}>
+                  <span>{tag}</span>
+                </div>
+              ))}
+            </div>
           )}
         </div>
         <div>
           <SP>오늘의 주량</SP>
-          {drinklevel ? (
-            <div>
-              <SRangeP>
-                {drinkValue}
-                <img src={drinkImage} alt={""} />
-              </SRangeP>
-
-              <SRangeInput
-                type="range"
-                min="0"
-                max="100"
-                step="50"
-                value={localDrinklevel}
-                onChange={(e) => setLocalDrinklevel(e.target.value)}
-                disabled={!isEdit}
-              />
-            </div>
-          ) : (
-            localDrinklevel
-          )}
+          <SRangeContainer>
+            {drinklevel ? (
+              <div>
+                <SRangeDiv>
+                  <STextP>{drinkValue}</STextP>
+                  <SImg src={drinkImage} alt={""} />
+                </SRangeDiv>
+                <SRangeInput
+                  type="range"
+                  min="0"
+                  max="100"
+                  step="50"
+                  value={localDrinklevel}
+                  onChange={(e) => setLocalDrinklevel(e.target.value)}
+                  disabled={!isEdit}
+                />
+              </div>
+            ) : (
+              localDrinklevel
+            )}
+          </SRangeContainer>
         </div>
         <div>
           <SP>오늘의 기분</SP>
-          {emotion ? (
-            <div>
-              <SRangeP>
-                {emotionValue}
-                <img src={emotionImage} alt={""} />
-              </SRangeP>
-              <SRangeInput
-                type="range"
-                min="0"
-                max="100"
-                step="50"
-                value={localEmotion}
-                onChange={(e) => setLocalEmotion(e.target.value)}
-                disabled={!isEdit}
-              />
-            </div>
-          ) : (
-            localEmotion
-          )}
+          <SRangeContainer>
+            {emotion ? (
+              <div>
+                <SRangeDiv>
+                  <STextP>{emotionValue}</STextP>
+                  <SImg src={emotionImage} alt={""} />
+                </SRangeDiv>
+                <SRangeInput
+                  type="range"
+                  min="0"
+                  max="100"
+                  step="50"
+                  value={localEmotion}
+                  onChange={(e) => setLocalEmotion(e.target.value)}
+                  disabled={!isEdit}
+                />
+              </div>
+            ) : (
+              localEmotion
+            )}
+          </SRangeContainer>
         </div>
         <div>
           <SP>오늘의 한마디</SP>

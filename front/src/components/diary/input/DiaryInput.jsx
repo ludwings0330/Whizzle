@@ -27,13 +27,14 @@ const DiaryInput = ({ selectedDate }) => {
   const today = selectedDate;
 
   //위스키 이름, 주량, 기분, 한마디
-  const onCreate = (whisky, drinklevel, emotion, content) => {
+  const onCreate = (whisky, drinklevel, emotion, content, searchTerms) => {
     const newItem = {
       whisky,
       drinklevel,
       emotion,
       content,
       id: today,
+      searchTerms,
     };
     setData([newItem, ...data]);
   };

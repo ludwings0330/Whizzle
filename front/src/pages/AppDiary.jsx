@@ -25,7 +25,7 @@ const SMainDiv = styled.div`
   justify-content: center;
   align-items: start;
   min-height: calc(100vh - 300px);
-  margin: 30px 0 0 0;
+  margin: 30px 0 50px 0;
 
   @media only screen and (max-height: 768px) and (-webkit-min-device-pixel-ratio: 1.25),
     only screen and (max-height: 768px) and (min-resolution: 120dpi),

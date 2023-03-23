@@ -65,29 +65,105 @@ const STextarea = styled.textarea`
 const SRangeInput = styled.input`
   margin-left: 20px;
   -webkit-appearance: none;
-  border : 1px solid #F84F5A;
-  background : #F84F5A;
-  height : 1px;
-  width : 320px;
+  border: 1px solid #f84f5a;
+  background: linear-gradient(to right, #f84f5a, #f84f5a) no-repeat;
+  background-size: ${(props) => (props.value / props.max) * 100}% 100%;
+  height: 1px;
+  width: 100%;
 
-  ::-webkit-slider-thumb {
-    -webkit-appearance : none;
-    cursor : pointer;
-    border: 2px solid #F84F5A;
-    background : #F84F5A;
-    height: calc(1.2em / 0.7); 
-    width: calc(1.2em / 0.7);
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    cursor: pointer;
+    width: 25px;
+    height: 25px;
+    background-color: #ffffff;
+    border: 2px solid #f84f5a;
     border-radius: 50%;
+    box-shadow: 0 0 0 8px rgba(248, 79, 90, 0.2);
+    transition: box-shadow 0.2s ease-in-out;
   }
+
+  &::-webkit-slider-runnable-track {
+    background-color: transparent;
+  }
+
+  &:hover::-webkit-slider-thumb {
+    box-shadow: 0 0 0 8px rgba(248, 79, 90, 0.2);
+  }
+
+  &:hover::-webkit-slider-runnable-track {
+    background: rgba(248, 79, 90, 0.2);
+  }
+
+  position: relative;
+
+  &::before {
+    position: absolute;
+    bottom: 120%;
+    left: ${(props) => (props.value / props.max) * 100}%;
+    transform: translateX(-50%);
+    font-size: 12px;
+    color: #000;
+    background-color: #fff;
+    border-radius: 3px;
+    padding: 3px 6px;
+    white-space: nowrap;
+    display: none;
+  }
+
+  &:hover::before {
+    display: block;
   }
 `;
 
-const SRangeP = styled.p`
+const SRangeDiv = styled.div`
   font-size: 16px;
   margin-left: 20px;
+  margin-top: 20px;
+  margin-bottom: 0;
+  position: absolute;
+  display: flex;
+  top: -80px;
+  left: ${(props) => (props.value / props.max) * 100}%;
+`;
+
+const SRangeContainer = styled.div`
+  position: relative;
+  margin-top: 80px;
+`;
+
+const STextP = styled.p`
+  font-size: 16px;
+  font-weight: bold;
+`;
+
+const SImg = styled.img`
+  width: 40px;
+  height: 40px;
 `;
 
 const DiaryEditor = ({ onCreate, today, currentComponent, setCurrentComponent }) => {
+  const [searchTerm, setSearchTerm] = useState(""); // 검색어 상태값
+  const [searchTerms, setSearchTerms] = useState([]); // 검색어 배열 상태값
+
+  // 검색어 입력 이벤트 처리 함수
+  const handleInputChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  // 검색어 추가 이벤트 처리 함수
+  const handleInputEnter = (event) => {
+    if (event.key === "Enter" && searchTerm !== "") {
+      setSearchTerms([...searchTerms, searchTerm]);
+      setSearchTerm("");
+    }
+  };
+
+  // 검색어 삭제 이벤트 처리 함수
+  const handleTagDelete = (tag) => {
+    setSearchTerms(searchTerms.filter((t) => t !== tag));
+  };
+
   const [emotionImage, setEmotionImage] = useState(soso);
   const [drinkImage, setDrinkImage] = useState(normaldrink);
 
@@ -102,6 +178,7 @@ const DiaryEditor = ({ onCreate, today, currentComponent, setCurrentComponent })
     setDrinklevelValue(50);
     setEmotion("그냥그래요");
     setDrinklevel("적당히");
+    setSearchTerms([]);
   }, [currentComponent]);
 
   const handleEmotionChange = (e) => {
@@ -149,7 +226,7 @@ const DiaryEditor = ({ onCreate, today, currentComponent, setCurrentComponent })
   };
 
   const handleSubmit = () => {
-    onCreate(state.whisky, drinklevelValue, emotionValue, state.content);
+    onCreate(state.whisky, drinklevelValue, emotionValue, state.content, searchTerms);
     alert("등록 완료");
     setState({
       whisky: "",
@@ -184,20 +261,29 @@ const DiaryEditor = ({ onCreate, today, currentComponent, setCurrentComponent })
             <div>
               <SP>오늘의 위스키</SP>
               <SInput
-                value={state.whisky}
-                onChange={handleChangeState}
+                value={searchTerm}
+                onChange={handleInputChange}
                 name="whisky"
+                onKeyPress={handleInputEnter}
                 placeholder="위스키 이름을 입력해주세요"
                 type="text"
               />
+              <div>
+                {searchTerms.map((tag, index) => (
+                  <div key={index}>
+                    <span>{tag}</span>
+                    <button onClick={() => handleTagDelete(tag)}>x</button>
+                  </div>
+                ))}
+              </div>
             </div>
             <div>
               <SP>오늘의 주량</SP>
-              <div>
-                <SRangeP>
-                  {drinklevel}
-                  <img src={drinkImage} alt={""} />
-                </SRangeP>
+              <SRangeContainer>
+                <SRangeDiv>
+                  <STextP>{drinklevel}</STextP>
+                  <SImg src={drinkImage} alt={""} />
+                </SRangeDiv>
                 <SRangeInput
                   type="range"
                   name="drinklevel"
@@ -206,14 +292,15 @@ const DiaryEditor = ({ onCreate, today, currentComponent, setCurrentComponent })
                   step="50"
                   onChange={handleDrinklevelChange}
                 />
-              </div>
+              </SRangeContainer>
             </div>
             <div>
               <SP>오늘의 기분</SP>
-              <div>
-                <SRangeP>
-                  {emotion} <img src={emotionImage} alt={""} />
-                </SRangeP>
+              <SRangeContainer>
+                <SRangeDiv>
+                  <STextP>{emotion}</STextP>
+                  <SImg src={emotionImage} alt={""} />
+                </SRangeDiv>
                 <SRangeInput
                   type="range"
                   name="emotion"
@@ -222,7 +309,7 @@ const DiaryEditor = ({ onCreate, today, currentComponent, setCurrentComponent })
                   step="50"
                   onChange={handleEmotionChange}
                 />
-              </div>
+              </SRangeContainer>
             </div>
             <div>
               <SP>오늘의 한마디</SP>
