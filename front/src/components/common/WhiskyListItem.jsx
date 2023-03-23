@@ -19,6 +19,11 @@ const SCard = styled.div`
   border-radius: 16px;
   padding-top: 28px;
   padding-bottom: 10px;
+  transition: 0.5s;
+  &:hover {
+    box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.2);
+    transition: 0.5s;
+  }
 `;
 
 const STop = styled.div`
