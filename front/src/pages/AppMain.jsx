@@ -3,11 +3,10 @@ import { useRef } from "react";
 import { motion } from "framer-motion";
 
 //components import
-import Main from "../components/main/Main";
+import MainDefault from "../components/main/MainDefault";
+import MainRecommend from "../components/main/MainRecommend";
 import MainDiary from "../components/main/MainDiary";
 import MainReview from "../components/main/MainReview";
-import MainRecommend from "../components/main/MainRecommend";
-import MainWhiskyList from "../components/main/MainWhiskyList";
 
 const AppMain = () => {
   const scrollRef = useRef(null);
@@ -33,7 +32,16 @@ const AppMain = () => {
 
   return (
     <div ref={scrollRef}>
-      <Main key="0" variants={variants} viewport={{ root: scrollRef, once: true, amount: 0.3 }} />
+      {/* <MainDefault
+        key="0"
+        variants={variants}
+        viewport={{ root: scrollRef, once: true, amount: 0.3 }}
+      /> */}
+      <MainRecommend
+        key="0"
+        variants={variants}
+        viewport={{ root: scrollRef, once: true, amount: 0.3 }}
+      />
       <MainDiary
         key="1"
         variants={variants}

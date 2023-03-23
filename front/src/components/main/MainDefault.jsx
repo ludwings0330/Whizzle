@@ -3,7 +3,7 @@ import { useNavigate } from "react-router";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import mainImg from "../../assets/img/main.png";
-import "./Main.css";
+import "./MainDefault.css";
 
 const SImg = styled.div`
   height: calc(var(--vh, 1vh) * 100);
@@ -36,17 +36,17 @@ const SStrong = styled.span`
   color: white;
 `;
 
-const SButton = styled.button`
-  cursor: pointer;
-  display: block;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  width: 275px;
-  height: 74px;
-  border: none;
-  border-radius: 999px;
-  background: linear-gradient(125.02deg, #f84f5a 28.12%, #f7875a 65.62%, #f7cb5a 100%);
-`;
+// const SButton = styled.button`
+//   cursor: pointer;
+//   display: block;
+//   margin-top: 20px;
+//   margin-bottom: 20px;
+//   width: 275px;
+//   height: 74px;
+//   border: none;
+//   border-radius: 999px;
+//   background: linear-gradient(125.02deg, #f84f5a 28.12%, #f7875a 65.62%, #f7cb5a 100%);
+// `;
 
 const SButtonText = styled.span`
   font-size: 20px;
@@ -55,7 +55,7 @@ const SButtonText = styled.span`
   z-index: 2;
 `;
 
-const Main = (props) => {
+const MainDefault = (props) => {
   const navigate = useNavigate();
 
   const goRecommend = () => {
@@ -98,4 +98,4 @@ const Main = (props) => {
   );
 };
 
-export default Main;
+export default MainDefault;
