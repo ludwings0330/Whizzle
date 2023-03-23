@@ -11,13 +11,13 @@ node {
 
   stage('Run Spring Server Container') {
     echo "백엔드 서버 컨테이너 실행 중"
-    sh ```
+    sh '''
     docker run -it -d \
       --name whizzle-back \
       -p 8080:8080 \
       --net backend-network \
       -v /~/data/spring/config:/~/config \
       whizzle/back
-    ```
+    '''
   }
 }
