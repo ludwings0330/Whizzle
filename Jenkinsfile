@@ -1,7 +1,7 @@
 node {
   stage('Git Clone') {
     echo "GitLab master 브랜치 Clone 중..."
-    git 'git@lab.ssafy.com:s08-bigdata-recom-sub2/S08P22A805.git'
+    git credentialsId: 'gitlab', url: 'https://lab.ssafy.com/s08-bigdata-recom-sub2/S08P22A805.git'
   }
 
   stage('Build Spring Server Image') {
