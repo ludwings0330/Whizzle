@@ -31,7 +31,7 @@ const Callback = () => {
     try {
       const newUser = await userInfo(jwt.memberId);
       const newUserData = {
-        id: jwt.id, // JWT 파싱하여 유저 id와 exp를 저장
+        id: jwt.memberId, // JWT 파싱하여 유저 id와 exp를 저장
         exp: jwt.exp,
         nickname: newUser.nickname,
         email: newUser.email,
