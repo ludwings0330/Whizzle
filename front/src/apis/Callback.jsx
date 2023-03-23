@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { userState } from "../store/userStore";
 import jwtDecode from "jwt-decode";
 import { userInfo } from "./userinfo";
@@ -9,7 +9,7 @@ const Callback = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const queryParams = new URLSearchParams(location.search);
-  const [user, setUser] = useRecoilState(userState);
+  const setUser = useSetRecoilState(userState);
 
   const accessToken = queryParams.get("accessToken");
   const refreshToken = queryParams.get("refreshToken");
@@ -21,14 +21,6 @@ const Callback = () => {
     try {
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("refreshToken", refreshToken);
-
-      // JWT 파싱하여 유저 id와 exp를 저장
-      const newUser = {
-        ...user,
-        id: jwt.memberId,
-        exp: jwt.exp,
-      };
-      setUser(newUser);
     } catch (error) {
       console.log("토큰 저장 실패");
     }
@@ -39,8 +31,8 @@ const Callback = () => {
     try {
       const newUser = await userInfo(jwt.memberId);
       const newUserData = {
-        id: user.id,
-        exp: user.exp,
+        id: jwt.id, // JWT 파싱하여 유저 id와 exp를 저장
+        exp: jwt.exp,
         nickname: newUser.nickname,
         email: newUser.email,
         provider: newUser.provider,
