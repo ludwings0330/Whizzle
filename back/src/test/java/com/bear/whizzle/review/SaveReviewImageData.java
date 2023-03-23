@@ -14,7 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 @SpringBootTest
-//@Disabled("리뷰 이미지 데이터 추가 완료")
+@Disabled("리뷰 이미지 데이터 추가 완료")
 class SaveReviewImageData {
 
     @Autowired

@@ -53,7 +53,7 @@ const SearchBar = () => {
   const [recentSearch, setRecentSearch] = useState([]);
 
   useEffect(() => {
-    const recentSearchData = JSON.parse(sessionStorage.getItem("recentSearch"));
+    const recentSearchData = JSON.parse(localStorage.getItem("recentSearch"));
     if (recentSearchData) {
       setRecentSearch(recentSearchData);
     }
@@ -70,7 +70,7 @@ const SearchBar = () => {
     if (updatedRecentSearch.length > 5) {
       updatedRecentSearch.shift();
     }
-    sessionStorage.setItem("recentSearch", JSON.stringify(updatedRecentSearch));
+    localStorage.setItem("recentSearch", JSON.stringify(updatedRecentSearch));
     setRecentSearch(updatedRecentSearch);
   };
 
@@ -90,7 +90,7 @@ const SearchBar = () => {
     const existingIndex = updatedRecentSearch.indexOf(word);
     if (existingIndex !== -1) {
       updatedRecentSearch.splice(existingIndex, 1);
-      sessionStorage.setItem("recentSearch", JSON.stringify(updatedRecentSearch));
+      localStorage.setItem("recentSearch", JSON.stringify(updatedRecentSearch));
       setRecentSearch(updatedRecentSearch);
     }
   };

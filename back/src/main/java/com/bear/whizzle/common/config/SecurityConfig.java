@@ -14,6 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
+import org.springframework.web.cors.CorsConfiguration;
 
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -28,6 +29,12 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        // Disable CORS support
+        http.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues());
+
+        // Disable CSRF protection
+        http.csrf().disable();
+
         http.addFilterAfter(new JwtAuthenticationFilter(jwtUtil), LogoutFilter.class);
 
         http.exceptionHandling(handle ->
@@ -50,8 +57,6 @@ public class SecurityConfig {
                                                .antMatchers("/login/**").permitAll()
                                                .antMatchers("/api/**/any").permitAll()
                                                .anyRequest().authenticated());
-
-        http.csrf().disable();
 
         return http.build();
     }
