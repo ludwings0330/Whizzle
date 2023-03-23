@@ -13,6 +13,7 @@ function Logout() {
     // useState 초기화
     setUser({
       id: 0,
+      exp: 0,
       nickname: "",
       email: "",
       provider: "",
