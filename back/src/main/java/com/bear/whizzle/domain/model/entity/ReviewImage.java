@@ -55,4 +55,17 @@ public class ReviewImage {
         this.imageOrder = imageOrder;
     }
 
+    public void setReview(Review review) {
+        if (this.review != null) {
+            this.review.getImages().remove(this);
+        }
+
+        this.review = review;
+        review.getImages().add(this);
+    }
+
+    public void delete() {
+        this.isDeleted = true;
+    }
+
 }

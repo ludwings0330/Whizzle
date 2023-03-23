@@ -5,6 +5,7 @@ import com.bear.whizzle.domain.model.entity.Member;
 import com.bear.whizzle.domain.model.entity.Review;
 import com.bear.whizzle.domain.model.entity.Whisky;
 import com.bear.whizzle.member.repository.MemberRepository;
+import com.bear.whizzle.review.controller.dto.ReviewUpdateRequestDto;
 import com.bear.whizzle.review.controller.dto.ReviewWriteRequestDto;
 import com.bear.whizzle.review.repository.ReviewRepository;
 import com.bear.whizzle.reviewimage.service.ReviewImageService;
@@ -49,6 +50,17 @@ public class ReviewServiceImpl implements ReviewService {
         reviewRepository.save(review);
 
         reviewImageService.saveAllReviewImages(review, requestDto.getReviewImageFiles());
+    }
+
+    @Override
+    @Transactional
+    public void updateReview(Long reviewId, ReviewUpdateRequestDto reviewUpdateRequestDto) {
+        Review review = reviewRepository.findById(reviewId).orElseThrow(() -> new NotFoundException("존재하지 않는 리뷰입니다."));
+
+        review.update(reviewUpdateRequestDto);
+
+        reviewImageService.deleteAllReviewImages(review, reviewUpdateRequestDto.getDeletedReviewImageIds());
+        reviewImageService.saveAllReviewImages(review, reviewUpdateRequestDto.getAddedReviewImageFiles());
     }
 
 }

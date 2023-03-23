@@ -8,4 +8,6 @@ public interface ReviewImageService {
 
     void saveAllReviewImages(Review review, List<MultipartFile> reviewImageFiles);
 
+    void deleteAllReviewImages(Review review, List<Long> deletedReviewImageIds);
+
 }

@@ -30,11 +30,15 @@ public class ReviewImageServiceImpl implements ReviewImageService {
 
         for (Image image :
                 uploadedImages) {
-            reviewImages.add(ReviewImage.builder()
-                                        .imageOrder(order++)
-                                        .image(image)
-                                        .review(review)
-                                        .build());
+            ReviewImage reviewImage = ReviewImage.builder()
+                                                 .imageOrder(order++)
+                                                 .image(image)
+                                                 .review(review)
+                                                 .build();
+
+            reviewImage.setReview(review);
+
+            reviewImages.add(reviewImage);
         }
 
         reviewImageRepository.saveAll(reviewImages);
@@ -42,6 +46,12 @@ public class ReviewImageServiceImpl implements ReviewImageService {
 
     private int getLastOrderOfReview(Review review) {
         return reviewImageRepository.findLastOrderByReviewId(review.getId()).orElse(0);
+    }
+
+    @Override
+    @Transactional
+    public void deleteAllReviewImages(Review review, List<Long> deletedReviewImageIds) {
+        reviewImageRepository.markDeletedImagesAsDeleted(review.getId(), deletedReviewImageIds);
     }
 
 }
