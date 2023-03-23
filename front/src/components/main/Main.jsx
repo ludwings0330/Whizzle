@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import mainImg from "../../assets/img/main.png";
+import "./Main.css";
 
 const SImg = styled.div`
   height: calc(var(--vh, 1vh) * 100);
@@ -44,18 +45,14 @@ const SButton = styled.button`
   height: 74px;
   border: none;
   border-radius: 999px;
-  background: linear-gradient(
-    125.02deg,
-    #f84f5a 28.12%,
-    #f7875a 65.62%,
-    #f7cb5a 100%
-  ); ;
+  background: linear-gradient(125.02deg, #f84f5a 28.12%, #f7875a 65.62%, #f7cb5a 100%);
 `;
 
 const SButtonText = styled.span`
   font-size: 20px;
   font-family: "Pretendard Variable";
   color: white;
+  z-index: 2;
 `;
 
 const Main = (props) => {
@@ -85,9 +82,15 @@ const Main = (props) => {
             whileInView="visible"
             viewport={{ once: true }}
           >
-            <SButton onClick={goRecommend}>
+            {/* <SButton onClick={goRecommend}>
               <SButtonText>나만의 위스키 추천받기</SButtonText>
-            </SButton>
+            </SButton> */}
+            <div className="container container-two" onClick={goRecommend}>
+              <button className="selected-button">
+                <SButtonText>나만의 위스키 추천받기</SButtonText>
+                <div className="fill-two"></div>
+              </button>
+            </div>
           </motion.div>
         </SContent>
       </SImg>
