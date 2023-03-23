@@ -19,4 +19,7 @@ public interface ReviewImageRepository extends JpaRepository<ReviewImage, Long> 
     void markDeletedImagesAsDeleted(@Param("reviewId") long reviewId,
                                     @Param("deletedReviewImageIds") List<Long> deletedReviewImageIds);
 
+    @Query("SELECT COUNT(*) FROM ReviewImage  ri WHERE ri.review.id = :reviewId AND ri.isDeleted = false")
+    Integer countByReviewIdAndIsDeletedFalse(@Param("reviewId") long reviewId);
+
 }

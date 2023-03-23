@@ -25,6 +25,10 @@ public class ReviewImageServiceImpl implements ReviewImageService {
     public void saveAllReviewImages(Review review, List<MultipartFile> reviewImageFiles) {
         int order = getLastOrderOfReview(review) + 1;
 
+        if (isExceededSizeBeforeAdd(review, reviewImageFiles.size())) {
+            throw new IllegalArgumentException("최대 이미지 갯수를 초과했습니다.");
+        }
+
         List<Image> uploadedImages = awsS3Service.uploadReviewImages(reviewImageFiles.toArray(new MultipartFile[0]));
         List<ReviewImage> reviewImages = new ArrayList<>();
 
@@ -52,6 +56,10 @@ public class ReviewImageServiceImpl implements ReviewImageService {
     @Transactional
     public void deleteAllReviewImages(Review review, List<Long> deletedReviewImageIds) {
         reviewImageRepository.markDeletedImagesAsDeleted(review.getId(), deletedReviewImageIds);
+    }
+
+    private boolean isExceededSizeBeforeAdd(Review review, int addedSize) {
+        return reviewImageRepository.countByReviewIdAndIsDeletedFalse(review.getId()) + addedSize > 5;
     }
 
 }
