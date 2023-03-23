@@ -176,7 +176,6 @@ const DiaryItem = ({
   const [isEdit, setIsEdit] = useState(false);
 
   const [localSearchTerms, setLocalSearchTerms] = useState(searchTerms);
-
   const toggleIsEdit = () => setIsEdit(!isEdit);
 
   const handleClickRemove = () => {
@@ -224,13 +223,20 @@ const DiaryItem = ({
       onEdit(today, localContent);
       onEdit(today, localDrinklevel);
       onEdit(today, localEmotion);
+      onEdit(today, localSearchTerms);
+
       toggleIsEdit();
     }
   };
   const handleTagDelete = (tag) => {
-    setLocalSearchTerms(searchTerms.filter((t) => t !== tag));
+    setLocalSearchTerms(localSearchTerms.filter((t) => t !== tag));
   };
-
+  const handleInputEnter = (event) => {
+    if (event.key === "Enter" && localWhisky !== "") {
+      setLocalSearchTerms([...localSearchTerms, localWhisky]);
+      setLocalWhisky("");
+    }
+  };
   return (
     <>
       <SHeaderDiv>
@@ -267,6 +273,7 @@ const DiaryItem = ({
                 value={localWhisky}
                 type="text"
                 onChange={(e) => setLocalWhisky(e.target.value)}
+                onKeyPress={handleInputEnter}
               />
               <div>
                 {localSearchTerms.map((tag, index) => (

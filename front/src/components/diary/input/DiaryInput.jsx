@@ -3,6 +3,7 @@ import React, { useState } from "react";
 //import component
 import DiaryEditor from "./DiaryEditor";
 import DiaryNewContent from "./DiaryNewContent";
+import { diaryCreate } from "../../../apis/diary";
 
 //import css
 import styled from "styled-components";
@@ -21,22 +22,29 @@ const SDiv = styled.div`
 
 //input 최상단 component
 const DiaryInput = ({ selectedDate }) => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState();
   const [currentComponent, setCurrentComponent] = useState("diaryEditor");
 
-  const today = selectedDate;
+  const today = new Date(selectedDate)
+    .toISOString()
+    .slice(0, 10)
+    .replaceAll("-", ".")
+    .replace(/^(\d{4})-(\d{2})-(\d{2})$/, "$1-$2-$3".replace(/-(\d{1})-/, "-0$1-"));
 
   //위스키 이름, 주량, 기분, 한마디
-  const onCreate = (whisky, drinklevel, emotion, content, searchTerms) => {
+  const onCreate = (drinkLevel, emotion, content, searchTerms) => {
+    const numberSearchTerms = searchTerms.map(Number);
+    const aaa = emotion === 0 ? "SAD" : emotion === 50 ? "SOSO" : "GOOD";
     const newItem = {
-      whisky,
-      drinklevel,
-      emotion,
+      drinkLevel,
+      emotion: aaa,
       content,
-      id: today,
-      searchTerms,
+      date: today.replaceAll(".", "-"),
+      whiskyIds: numberSearchTerms,
     };
-    setData([newItem, ...data]);
+    setData(newItem);
+    const createData = diaryCreate(newItem);
+    console.log(createData);
   };
 
   const onRemove = (today) => {

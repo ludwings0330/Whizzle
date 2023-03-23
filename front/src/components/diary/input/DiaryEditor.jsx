@@ -13,6 +13,7 @@ import sad from "../../../assets/img/sad.png";
 import littledrink from "../../../assets/img/littledrink.png";
 import normaldrink from "../../../assets/img/normaldrink.png";
 import largedrink from "../../../assets/img/largedrink.png";
+import { example } from "../../../apis/userinfo";
 
 const SP = styled.p`
   font-size: 23px;
@@ -185,15 +186,16 @@ const DiaryEditor = ({ onCreate, today, currentComponent, setCurrentComponent })
     const emotionValue = e.target.value;
     setEmotionValue(emotionValue);
     if (emotionValue <= 33) {
-      setEmotion("별로예요");
+      setEmotion("별로");
       setEmotionImage(sad);
     } else if (emotionValue <= 66) {
-      setEmotion("그냥그래요");
+      setEmotion("NORMAL");
       setEmotionImage(soso);
     } else {
-      setEmotion("최고예요");
+      setEmotion("GOOD");
       setEmotionImage(good);
     }
+    console.log(emotionValue);
   };
 
   const handleDrinklevelChange = (e) => {

@@ -18,7 +18,7 @@ const DiaryNewContent = ({ onEdit, onRemove, diaryContent, today }) => {
 };
 
 DiaryNewContent.defaultProps = {
-  diaryContent: [],
+  diaryContent: "",
 };
 
 export default DiaryNewContent;
