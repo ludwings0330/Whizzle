@@ -67,14 +67,11 @@ const MainRecommend = () => {
               다시 뵙게 되어 반갑습니다.
               <br />
               <br />
-              <span style={{ fontSize: "36px" }}>
-                <span style={{ fontFamily: "GmarketSansBold" }}>오늘의 위스키</span>를
-                추천해드릴게요.
-                <br />
-                옆의 위스키 사진을 클릭해
-                <br />
-                오늘의 위스키를 알아보세요 :)
-              </span>
+              <span style={{ fontFamily: "GmarketSansBold" }}>오늘의 위스키</span>를 추천해드릴게요.
+              <br />
+              옆의 위스키 사진을 클릭해
+              <br />
+              오늘의 위스키를 알아보세요 :)
             </SText>
           </SRight>
         </SContainer>
