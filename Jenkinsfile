@@ -8,7 +8,7 @@ node {
     sh '''
       echo "백엔드 서버 컨테이너 종료"
       if docker ps -a --format "{{.Names}}" | grep -q whizzle-back; then
-        echo "Stopping container: whizzle-back
+        echo "Stopping container: whizzle-back"
         docker stop whizzle-back
       else
         echo "Container whizzle-back does not exist"
