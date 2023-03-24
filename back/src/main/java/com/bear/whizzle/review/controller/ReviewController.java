@@ -20,6 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,6 +41,14 @@ public class ReviewController {
     private final ReviewService reviewService;
     private final ReviewQueryService reviewQueryService;
     private final AuthService authService;
+
+    @GetMapping("/whiskies/{whiskyId}/my")
+    public List<ReviewListResponseDto> getReviewsByMemberIdAndWhiskyId(@AuthenticationPrincipal PrincipalDetails member,
+                                                                       @PathVariable Long whiskyId) {
+        List<Review> reviews = reviewQueryService.findAllReviewByMemberIdAndWhiskyId(member.getMemberId(), whiskyId);
+
+        return ReviewMapper.toReviewListResponseDto(reviews);
+    }
 
     @GetMapping("/whiskies/{whiskyId}/any")
     @ResponseStatus(HttpStatus.OK)
@@ -87,6 +96,16 @@ public class ReviewController {
             reviewService.updateReview(reviewId, reviewUpdateRequestDto);
         } else {
             throw new AccessDeniedException("리뷰 수정 권한이 없습니다.");
+        }
+    }
+
+    @DeleteMapping("/{reviewId}")
+    public void deleteReview(@AuthenticationPrincipal PrincipalDetails member,
+                             @PathVariable Long reviewId) {
+        if (authService.canMemberEditReview(member.getMemberId(), reviewId)) {
+            reviewService.deleteReview(reviewId);
+        } else {
+            throw new AccessDeniedException("리뷰 삭제 권한이 없습니다.");
         }
     }
 

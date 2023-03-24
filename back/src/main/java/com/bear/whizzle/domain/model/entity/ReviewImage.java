@@ -64,7 +64,7 @@ public class ReviewImage {
         review.getImages().add(this);
     }
 
-    public void delete() {
+    public void markDelete() {
         this.isDeleted = true;
     }
 

@@ -29,4 +29,12 @@ public class ReviewQueryServiceImpl implements ReviewQueryService {
         return reviewProjectionRepository.findAllByMemberIdAndSearchCondition(memberId, searchCondition);
     }
 
+    @Override
+    public List<Review> findAllReviewByMemberIdAndWhiskyId(Long memberId, Long whiskyId) {
+        List<Review> reviews = reviewProjectionRepository.findAllByMemberIdAndWhiskyId(memberId, whiskyId);
+        reviews.forEach(review -> Hibernate.initialize(review.getImages()));
+
+        return reviews;
+    }
+
 }

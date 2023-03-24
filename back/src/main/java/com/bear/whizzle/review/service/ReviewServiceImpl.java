@@ -63,4 +63,12 @@ public class ReviewServiceImpl implements ReviewService {
         reviewImageService.saveAllReviewImages(review, reviewUpdateRequestDto.getAddedReviewImageFiles());
     }
 
+    @Override
+    @Transactional
+    public void deleteReview(Long reviewId) {
+        Review review = reviewRepository.findById(reviewId).orElseThrow(() -> new NotFoundException("존재하지 않는 리뷰입니다."));
+
+        review.markDeleted();
+    }
+
 }

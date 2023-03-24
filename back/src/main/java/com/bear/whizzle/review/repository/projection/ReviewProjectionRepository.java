@@ -103,4 +103,16 @@ public class ReviewProjectionRepository {
         return (searchCondition.getBaseId() == null) ? null : review.id.lt(searchCondition.getBaseId());
     }
 
+    public List<Review> findAllByMemberIdAndWhiskyId(Long memberId, Long whiskyId) {
+        return queryFactory
+                .select(review)
+                .from(review)
+                .innerJoin(review.member, member).fetchJoin()
+                .where(review.whisky.id.eq(whiskyId),
+                       review.member.id.eq(memberId))
+                .orderBy(new OrderSpecifier<>(Order.DESC, review.createdDateTime))
+                .limit(3)
+                .fetch();
+    }
+
 }

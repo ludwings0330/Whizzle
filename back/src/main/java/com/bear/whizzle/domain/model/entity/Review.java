@@ -93,4 +93,13 @@ public class Review extends BaseTimeEntity {
         }
     }
 
+    public void markDeleted() {
+        this.isDeleted = true;
+
+        for (ReviewImage image :
+                this.images) {
+            image.markDelete();
+        }
+    }
+
 }
