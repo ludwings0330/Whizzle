@@ -61,6 +61,7 @@ const MainDefault = (props) => {
   const goRecommend = () => {
     navigate(`/recommend/question`);
   };
+
   return (
     <>
       <SImg>
