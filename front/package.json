@@ -19,6 +19,7 @@
     "react-stars": "^2.2.5",
     "react-tabs": "^6.0.0",
     "recoil": "^0.7.7",
+    "recoil-persist": "^4.2.0",
     "styled-components": "^5.3.8",
     "web-vitals": "^2.1.4"
   },
