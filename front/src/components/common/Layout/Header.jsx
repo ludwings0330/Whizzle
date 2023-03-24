@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import Logout from "../../../hooks/Logout";
@@ -99,17 +99,6 @@ const Header = () => {
     setIsdrop(!isdrop);
   };
 
-  // const [sUserPWidth, setSUserPWidth] = useState(0);
-  // useEffect(() => {
-  //   if (isLogin) {
-  //     const userP = document.getElementById("sUserP");
-  //     console.log(userP.offsetWidth);
-  //     setSUserPWidth(userP.offsetWidth);
-  //   }
-  // }, []);
-
-  // const navDivWidth = sUserPWidth + 33;
-  // console.log(navDivWidth);
   return (
     <>
       <Navbar id="navbar">
@@ -157,18 +146,20 @@ const Header = () => {
           ) : (
             <NavDiv style={{ marginRight: "2.5vw" }}>
               <SUserImg src={user.image.url} alt="프로필사진" />
-              <SUserP id="sUserP" onClick={dropdownHandler}>
-                drunk
-              </SUserP>
+              <SUserP onClick={dropdownHandler}>drunk</SUserP>
             </NavDiv>
-            // <NavLink
-            //   style={({ isActive }) => (isActive ? activeStyle : nonActiveStyle)}
-            //   to="/login"
-            // >
-            //   <SP className="text" onClick={signout}>
-            //     로그아웃
-            //   </SP>
-            // </NavLink>
+          )}
+          {isdrop && (
+            <NavDiv>
+              <NavLink
+                style={({ isActive }) => (isActive ? activeStyle : nonActiveStyle)}
+                to="/login"
+              >
+                <SP className="text" onClick={signout}>
+                  로그아웃
+                </SP>
+              </NavLink>
+            </NavDiv>
           )}
         </NavRightDiv>
       </Navbar>
