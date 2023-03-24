@@ -5,8 +5,9 @@ RUN npm install
 RUN npm run build
 
 FROM nginx:latest
-WORKDIR /app
-#RUN rm /etc/nginx/conf.d/default.conf
+RUN rm /etc/nginx/conf.d/default.conf
 COPY default.conf /etc/nginx/http.conf
+
+RUN rm -Rf /usr/share/nginx/html
 COPY --from=builder /app/build /usr/share/nginx/html
 ENTRYPOINT ["nginx", "-g", "daemon off;"]
