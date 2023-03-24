@@ -1,5 +1,7 @@
 import React from "react";
 import { useState, useEffect, useRef } from "react";
+import { useRecoilValue } from "recoil";
+import { userState } from "../../store/userStore";
 import styled, { keyframes } from "styled-components";
 import { motion } from "framer-motion";
 import mainRecommendImg from "../../assets/img/main_recommend.jpg";
@@ -82,15 +84,17 @@ const SUserName = styled.span`
 
 //메인화면에 띄워줄 추천부분(비로그인 사용자)
 const MainRecommend = () => {
-  const userName = "이예진짱";
+  const user = useRecoilValue(userState);
+
+  const userName = user.nickname;
   const userNameLen = userName.length;
 
-  const whiskyName = "블랙라벨";
+  const whiskyName = "와일드 터키";
   const whiskyNameLen = whiskyName.length;
 
   const textRef = useRef(null);
   const [text, setText] = useState("");
-  const letters = `안녕녕하세요. ${userName}님, \n 위즐에 오신 것을 환영합니다 ! \n \n 오늘의 위스키를 추천해드릴게요. \n 왼쪽의 위스키 사진을 클릭하셔서 \n '${whiskyName}'에 대해 알아보세요 :)`;
+  const letters = `안녕녕하세요. ${userName}님, \n 위즐에 오신 것을 환영합니다 ! \n \n 오늘의 위스키를 추천해드릴게요. \n 왼쪽의 사진을 클릭하셔서 \n '${whiskyName}'에 대해 알아보세요 :)`;
 
   const speed = 100;
   let i = 0;
@@ -141,11 +145,11 @@ const MainRecommend = () => {
               <SText ref={textRef}>
                 {text.slice(0, 7)}
                 <SUserName>{text.slice(7, 7 + userNameLen)}</SUserName>
-                {text.slice(7 + userNameLen, 74 + userNameLen)}
+                {text.slice(7 + userNameLen, 70 + userNameLen)}
                 <span style={{ fontFamily: "GmarketSansBold" }}>
-                  {text.slice(74 + userNameLen, 76 + userNameLen + whiskyNameLen)}
+                  {text.slice(70 + userNameLen, 72 + userNameLen + whiskyNameLen)}
                 </span>
-                {text.slice(76 + userNameLen + whiskyNameLen)}
+                {text.slice(72 + userNameLen + whiskyNameLen)}
               </SText>
             </STextCon>
           </SRight>
