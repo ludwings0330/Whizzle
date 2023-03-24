@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 
 //import component
 import DiaryNewContent from "./DiaryNewContent";
+import { diaryCreate } from "../../../apis/diary";
 
 //import css
 import styled from "styled-components";
@@ -155,36 +156,28 @@ const SDiv = styled.div`
   background: #f84f5a;
 `;
 
-const DiaryEditor = ({ onCreate, today, currentComponent, setCurrentComponent }) => {
+const DiaryEditor = ({ today, currentComponent, setCurrentComponent }) => {
+  const [emotionImage, setEmotionImage] = useState(soso);
+  const [drinkImage, setDrinkImage] = useState(normaldrink);
+
+  const [drinklevelValue, setDrinklevelValue] = useState(50);
+  const [emotionValue, setEmotionValue] = useState(50);
+
+  const [emotion, setEmotion] = useState("그냥그래요");
+  const [drinklevel, setDrinklevel] = useState("적당히");
+
   const [searchWhisky, setSearchWhisky] = useState("");
   const [recentSearch, setRecentSearch] = useState([]);
 
-  // 검색어 추가 이벤트 처리 함수
-  const handleInputEnter = (event) => {
-    if (event.key === "Enter" && searchWhisky !== "") {
+  const [content, setContent] = useState("");
+
+  const contentChange = (e) => {
+    setContent(e.target.value);
+  };
+
+  const setWhiskyName = (e) => {
+    if (e.key === "Enter" && searchWhisky !== "") {
       setRecentSearch([...recentSearch, searchWhisky]);
-      setSearchWhisky("");
-    }
-  };
-
-  const setRecentSearchData = (value) => {
-    // axios 작업 필요
-    let updatedRecentSearch = [...recentSearch];
-    const existingIndex = updatedRecentSearch.indexOf(value);
-    if (existingIndex !== -1) {
-      updatedRecentSearch.splice(existingIndex, 1);
-    }
-    updatedRecentSearch.push(value);
-    if (updatedRecentSearch.length > 5) {
-      updatedRecentSearch.shift();
-    }
-    sessionStorage.setItem("recentSearch", JSON.stringify(updatedRecentSearch));
-    setRecentSearch(updatedRecentSearch);
-  };
-
-  const setCookie = (e) => {
-    if (e.key === "Enter") {
-      setRecentSearchData(searchWhisky);
       setSearchWhisky("");
     }
   };
@@ -198,19 +191,9 @@ const DiaryEditor = ({ onCreate, today, currentComponent, setCurrentComponent })
     const existingIndex = updatedRecentSearch.indexOf(word);
     if (existingIndex !== -1) {
       updatedRecentSearch.splice(existingIndex, 1);
-      sessionStorage.setItem("recentSearch", JSON.stringify(updatedRecentSearch));
       setRecentSearch(updatedRecentSearch);
     }
   };
-
-  const [emotionImage, setEmotionImage] = useState(soso);
-  const [drinkImage, setDrinkImage] = useState(normaldrink);
-
-  const [drinklevelValue, setDrinklevelValue] = useState(0);
-  const [emotionValue, setEmotionValue] = useState(100);
-
-  const [emotion, setEmotion] = useState();
-  const [drinklevel, setDrinklevel] = useState();
 
   useEffect(() => {
     setEmotionValue(50);
@@ -236,7 +219,6 @@ const DiaryEditor = ({ onCreate, today, currentComponent, setCurrentComponent })
       setEmotion("최고예요");
       setEmotionImage(good);
     }
-    console.log(emotionValue);
   };
 
   const handleDrinklevelChange = (e) => {
@@ -252,39 +234,29 @@ const DiaryEditor = ({ onCreate, today, currentComponent, setCurrentComponent })
       setDrinklevel("만취");
       setDrinkImage(largedrink);
     }
-    console.log(drinklevelValue);
   };
 
-  const [state, setState] = useState({
-    whisky: "",
-    drinklevel: "",
-    emotion: "",
-    content: "",
-  });
-
-  const handleChangeState = (e) => {
-    setState({
-      ...state,
-      [e.target.name]: e.target.value,
-    });
+  //위스키 이름, 주량, 기분, 한마디
+  const onCreate = () => {
+    const numberSearchTerms = recentSearch.map(Number);
+    const changeEmotionApi = emotionValue === 0 ? "SAD" : emotionValue === 50 ? "SOSO" : "GOOD";
+    const changeDrinkLevelApi =
+      drinklevelValue === 0 ? "LIGHT" : drinklevelValue === 50 ? "MODERATE" : "HEAVY";
+    const newItem = {
+      date: today.replaceAll(".", "-"),
+      emotion: changeEmotionApi,
+      drinkLevel: changeDrinkLevelApi,
+      content,
+      whiskyIds: numberSearchTerms,
+    };
+    const createIsOk = diaryCreate(newItem);
+    if (createIsOk) {
+    }
   };
 
   const handleSubmit = () => {
-    const data = {
-      whisky: state.whisky,
-      drinkLevel: drinklevelValue,
-      emotion: emotionValue,
-      content: state.content,
-      searchTerms: recentSearch,
-    };
-    onCreate(data.whisky, data.emotion, data.content, data.searchTerms);
+    onCreate();
     alert("등록 완료");
-    setState({
-      whisky: "",
-      drinklevel: "",
-      emotion: "",
-      content: "",
-    });
     setCurrentComponent("diaryNewContent");
   };
 
@@ -315,17 +287,14 @@ const DiaryEditor = ({ onCreate, today, currentComponent, setCurrentComponent })
                 value={searchWhisky}
                 onChange={wordChange}
                 name="whisky"
-                onKeyPress={handleInputEnter}
-                onKeyDown={(e) => setCookie(e)}
+                onKeyDown={(e) => setWhiskyName(e)}
                 placeholder="위스키 이름을 입력해주세요"
                 type="text"
               />
               <div>
                 {recentSearch.map((word, index) => (
                   <SDiv>
-                    <SP onClick={(e) => setRecentSearchData(e.target.innerText)} key={index}>
-                      {word.length > 6 ? `${word.slice(0, 6)}...` : word}
-                    </SP>
+                    <SP key={index}>{word.length > 6 ? `${word.slice(0, 6)}...` : word}</SP>
                     <SButton onClick={() => deleteRecentSearchWord(word)}>X</SButton>
                   </SDiv>
                 ))}
@@ -367,12 +336,7 @@ const DiaryEditor = ({ onCreate, today, currentComponent, setCurrentComponent })
             </div>
             <div>
               <SP>오늘의 한마디</SP>
-              <STextarea
-                value={state.content}
-                onChange={handleChangeState}
-                name="content"
-                type="text"
-              />
+              <STextarea onKeyDown={contentChange} name="content" type="text" />
             </div>
           </SMainDiv>
         </div>

@@ -3,7 +3,6 @@ import React, { useState } from "react";
 //import component
 import DiaryEditor from "./DiaryEditor";
 import DiaryNewContent from "./DiaryNewContent";
-import { diaryCreate } from "../../../apis/diary";
 
 //import css
 import styled from "styled-components";
@@ -31,22 +30,6 @@ const DiaryInput = ({ selectedDate }) => {
     .replaceAll("-", ".")
     .replace(/^(\d{4})-(\d{2})-(\d{2})$/, "$1-$2-$3".replace(/-(\d{1})-/, "-0$1-"));
 
-  //위스키 이름, 주량, 기분, 한마디
-  const onCreate = (emotion, drinkLevel, content, recentSearch) => {
-    const numberSearchTerms = recentSearch.map(Number);
-    const changeEmotionApi = emotion === 0 ? "SAD" : emotion === 50 ? "SOSO" : "GOOD";
-    const newItem = {
-      date: today.replaceAll(".", "-"),
-      emotion: changeEmotionApi,
-      drinkLevel,
-      content,
-      whiskyIds: numberSearchTerms,
-    };
-    setData(newItem);
-    const createData = diaryCreate(newItem);
-    console.log(createData);
-  };
-
   const onRemove = (today) => {
     const newDiaryContent = data.filter((it) => it.today === today);
     setData(newDiaryContent);
@@ -61,7 +44,6 @@ const DiaryInput = ({ selectedDate }) => {
     <>
       <SDiv>
         <DiaryEditor
-          onCreate={onCreate}
           today={today}
           currentComponent={currentComponent}
           setCurrentComponent={setCurrentComponent}

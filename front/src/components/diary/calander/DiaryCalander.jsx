@@ -1,7 +1,10 @@
 import React, { useState } from "react";
+import { diaryState } from "../../../store/indexStore";
+import { useRecoilValue } from "recoil";
 
 //import css
 import styled from "styled-components";
+import DiaryEditor from "../input/DiaryEditor";
 
 const SDiv = styled.div`
   border: 2px solid #e1e1e1;
@@ -139,12 +142,34 @@ const DiaryCalander = ({ onDateClick }) => {
 
   const [clickedDay, setClickedDay] = useState(null);
 
+  const diaryList = useRecoilValue(diaryState);
+
+  function findItem(arr, value) {
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i].date === value) {
+        return arr[i];
+      }
+    }
+    return -1;
+  }
+
   function handleDateClick(event) {
     const clickedDate = new Date(date.getFullYear(), date.getMonth(), event.target.textContent);
     const year = clickedDate.getFullYear();
     const month = clickedDate.getMonth() + 1;
     const day = clickedDate.getDate() + 1;
-    const clickedDateString = `${year}.${month}.${day}`;
+    const clickedDateString = `${year}-${month < 10 ? "0" : ""}${month}-${
+      day < 10 ? "0" : ""
+    }${day}`;
+
+    const diaryItem = findItem(diaryList, clickedDateString);
+    if (diaryItem === -1) {
+      return <DiaryEditor />;
+    } else {
+    }
+    console.log(diaryItem);
+    //diaryItem 이 -1이면 Editor를 띄워주기
+    //아니라면 DiaryItem 자체를 보여주기
 
     const now = new Date();
     if (clickedDate > now) {

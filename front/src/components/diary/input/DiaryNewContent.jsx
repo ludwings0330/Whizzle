@@ -9,9 +9,7 @@ const DiaryNewContent = ({ onEdit, onRemove, diaryContent, today }) => {
   return (
     <>
       <div>
-        {diaryContent.map((it) => (
-          <DiaryItem key={it.id} {...it} onEdit={onEdit} onRemove={onRemove} today={today} />
-        ))}
+        <DiaryItem onEdit={onEdit} onRemove={onRemove} today={today} />
       </div>
     </>
   );

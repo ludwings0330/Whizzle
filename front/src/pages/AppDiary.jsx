@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
 
 //import css
 import styled from "styled-components";
@@ -7,6 +8,8 @@ import styled from "styled-components";
 import DiaryCalander from "../components/diary/calander/DiaryCalander";
 import DiaryInput from "../components/diary/input/DiaryInput";
 import diary_header from "../assets/img/diary_header.png";
+import { diaryRead } from "../apis/diary";
+import { diaryState } from "../store/indexStore";
 
 const SHeaderDiv = styled.div`
   width: 100vw;
@@ -61,6 +64,27 @@ const SP = styled.p`
 `;
 
 const AppDiary = () => {
+  const [diaryList, setDiaryList] = useRecoilState(diaryState);
+
+  useEffect(() => {
+    const a = new Date();
+    const year = a.getFullYear();
+    const month = a.getMonth() + 1;
+    const formattedDate = year + "-" + (month < 10 ? "0" + month : month);
+
+    const fetchDiaries = async () => {
+      try {
+        const diaries = await diaryRead(formattedDate);
+        console.log(diaries);
+        setDiaryList(diaries);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchDiaries();
+  }, []);
+
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().slice(0, 10));
 
   return (
