@@ -21,6 +21,16 @@ const Callback = () => {
     try {
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("refreshToken", refreshToken);
+      const newUserData = {
+        id: jwt.memberId, // JWT 파싱하여 유저 id와 exp를 저장
+        exp: jwt.exp,
+        nickname: null,
+        email: null,
+        provider: null,
+        image: { url: "/favicon.png" },
+        level: null,
+      };
+      setUser(newUserData);
     } catch (error) {
       console.log("토큰 저장 실패");
     }
