@@ -32,14 +32,14 @@ const DiaryInput = ({ selectedDate }) => {
     .replace(/^(\d{4})-(\d{2})-(\d{2})$/, "$1-$2-$3".replace(/-(\d{1})-/, "-0$1-"));
 
   //위스키 이름, 주량, 기분, 한마디
-  const onCreate = (drinkLevel, emotion, content, searchTerms) => {
-    const numberSearchTerms = searchTerms.map(Number);
-    const aaa = emotion === 0 ? "SAD" : emotion === 50 ? "SOSO" : "GOOD";
+  const onCreate = (emotion, drinkLevel, content, recentSearch) => {
+    const numberSearchTerms = recentSearch.map(Number);
+    const changeEmotionApi = emotion === 0 ? "SAD" : emotion === 50 ? "SOSO" : "GOOD";
     const newItem = {
-      drinkLevel,
-      emotion: aaa,
-      content,
       date: today.replaceAll(".", "-"),
+      emotion: changeEmotionApi,
+      drinkLevel,
+      content,
       whiskyIds: numberSearchTerms,
     };
     setData(newItem);

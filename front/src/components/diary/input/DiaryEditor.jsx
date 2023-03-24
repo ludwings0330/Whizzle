@@ -143,26 +143,65 @@ const SImg = styled.img`
   height: 40px;
 `;
 
-const DiaryEditor = ({ onCreate, today, currentComponent, setCurrentComponent }) => {
-  const [searchTerm, setSearchTerm] = useState(""); // 검색어 상태값
-  const [searchTerms, setSearchTerms] = useState([]); // 검색어 배열 상태값
+const SDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 5px 16px;
+  gap: 4px;
+  margin-right: 10px;
+  height: 20px;
 
-  // 검색어 입력 이벤트 처리 함수
-  const handleInputChange = (event) => {
-    setSearchTerm(event.target.value);
-  };
+  background: #f84f5a;
+`;
+
+const DiaryEditor = ({ onCreate, today, currentComponent, setCurrentComponent }) => {
+  const [searchWhisky, setSearchWhisky] = useState("");
+  const [recentSearch, setRecentSearch] = useState([]);
 
   // 검색어 추가 이벤트 처리 함수
   const handleInputEnter = (event) => {
-    if (event.key === "Enter" && searchTerm !== "") {
-      setSearchTerms([...searchTerms, searchTerm]);
-      setSearchTerm("");
+    if (event.key === "Enter" && searchWhisky !== "") {
+      setRecentSearch([...recentSearch, searchWhisky]);
+      setSearchWhisky("");
     }
   };
 
-  // 검색어 삭제 이벤트 처리 함수
-  const handleTagDelete = (tag) => {
-    setSearchTerms(searchTerms.filter((t) => t !== tag));
+  const setRecentSearchData = (value) => {
+    // axios 작업 필요
+    let updatedRecentSearch = [...recentSearch];
+    const existingIndex = updatedRecentSearch.indexOf(value);
+    if (existingIndex !== -1) {
+      updatedRecentSearch.splice(existingIndex, 1);
+    }
+    updatedRecentSearch.push(value);
+    if (updatedRecentSearch.length > 5) {
+      updatedRecentSearch.shift();
+    }
+    sessionStorage.setItem("recentSearch", JSON.stringify(updatedRecentSearch));
+    setRecentSearch(updatedRecentSearch);
+  };
+
+  const setCookie = (e) => {
+    if (e.key === "Enter") {
+      setRecentSearchData(searchWhisky);
+      setSearchWhisky("");
+    }
+  };
+
+  const wordChange = (e) => {
+    setSearchWhisky(e.target.value);
+  };
+
+  const deleteRecentSearchWord = (word) => {
+    let updatedRecentSearch = [...recentSearch];
+    const existingIndex = updatedRecentSearch.indexOf(word);
+    if (existingIndex !== -1) {
+      updatedRecentSearch.splice(existingIndex, 1);
+      sessionStorage.setItem("recentSearch", JSON.stringify(updatedRecentSearch));
+      setRecentSearch(updatedRecentSearch);
+    }
   };
 
   const [emotionImage, setEmotionImage] = useState(soso);
@@ -171,28 +210,31 @@ const DiaryEditor = ({ onCreate, today, currentComponent, setCurrentComponent })
   const [drinklevelValue, setDrinklevelValue] = useState(0);
   const [emotionValue, setEmotionValue] = useState(100);
 
-  const [emotion, setEmotion] = useState("최고예요");
-  const [drinklevel, setDrinklevel] = useState("소량");
+  const [emotion, setEmotion] = useState();
+  const [drinklevel, setDrinklevel] = useState();
 
   useEffect(() => {
     setEmotionValue(50);
     setDrinklevelValue(50);
     setEmotion("그냥그래요");
     setDrinklevel("적당히");
-    setSearchTerms([]);
+    const recentSearchData = JSON.parse(sessionStorage.getItem("recentSearch"));
+    if (recentSearchData) {
+      setRecentSearch(recentSearchData);
+    }
   }, [currentComponent]);
 
   const handleEmotionChange = (e) => {
     const emotionValue = e.target.value;
     setEmotionValue(emotionValue);
     if (emotionValue <= 33) {
-      setEmotion("별로");
+      setEmotion("별로예요");
       setEmotionImage(sad);
     } else if (emotionValue <= 66) {
-      setEmotion("NORMAL");
+      setEmotion("그냥그래요");
       setEmotionImage(soso);
     } else {
-      setEmotion("GOOD");
+      setEmotion("최고예요");
       setEmotionImage(good);
     }
     console.log(emotionValue);
@@ -211,6 +253,7 @@ const DiaryEditor = ({ onCreate, today, currentComponent, setCurrentComponent })
       setDrinklevel("만취");
       setDrinkImage(largedrink);
     }
+    console.log(drinklevelValue);
   };
 
   const [state, setState] = useState({
@@ -228,7 +271,14 @@ const DiaryEditor = ({ onCreate, today, currentComponent, setCurrentComponent })
   };
 
   const handleSubmit = () => {
-    onCreate(state.whisky, drinklevelValue, emotionValue, state.content, searchTerms);
+    const data = {
+      whisky: state.whisky,
+      drinkLevel: drinklevelValue,
+      emotion: emotionValue,
+      content: state.content,
+      searchTerms: recentSearch,
+    };
+    onCreate(data.whisky, data.emotion, data.content, data.searchTerms);
     alert("등록 완료");
     setState({
       whisky: "",
@@ -263,19 +313,22 @@ const DiaryEditor = ({ onCreate, today, currentComponent, setCurrentComponent })
             <div>
               <SP>오늘의 위스키</SP>
               <SInput
-                value={searchTerm}
-                onChange={handleInputChange}
+                value={searchWhisky}
+                onChange={wordChange}
                 name="whisky"
                 onKeyPress={handleInputEnter}
+                onKeyDown={(e) => setCookie(e)}
                 placeholder="위스키 이름을 입력해주세요"
                 type="text"
               />
               <div>
-                {searchTerms.map((tag, index) => (
-                  <div key={index}>
-                    <span>{tag}</span>
-                    <button onClick={() => handleTagDelete(tag)}>x</button>
-                  </div>
+                {recentSearch.map((word, index) => (
+                  <SDiv>
+                    <SP onClick={(e) => setRecentSearchData(e.target.innerText)} key={index}>
+                      {word.length > 6 ? `${word.slice(0, 6)}...` : word}
+                    </SP>
+                    <SButton onClick={() => deleteRecentSearchWord(word)}>X</SButton>
+                  </SDiv>
                 ))}
               </div>
             </div>

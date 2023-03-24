@@ -143,7 +143,7 @@ const DiaryCalander = ({ onDateClick }) => {
     const clickedDate = new Date(date.getFullYear(), date.getMonth(), event.target.textContent);
     const year = clickedDate.getFullYear();
     const month = clickedDate.getMonth() + 1;
-    const day = clickedDate.getDate();
+    const day = clickedDate.getDate() + 1;
     const clickedDateString = `${year}.${month}.${day}`;
 
     const now = new Date();
