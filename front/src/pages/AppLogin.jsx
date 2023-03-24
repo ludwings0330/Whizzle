@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import { BASE_URL } from "../constants/constants";
 
-// 버튼 import
 import kakao from "../assets/img/kakao.png";
 import naver from "../assets/img/naver.png";
 import google from "../assets/img/google.png";
@@ -32,9 +32,7 @@ const SP = styled.p`
 const AppLogin = () => {
   const onClickHandler = (e) => {
     const clicked = e.target.alt;
-
-    console.log(`${clicked} 로그인`);
-    window.location.href = `http://localhost:8080/oauth2/authorization/${clicked}`;
+    window.location.href = `${BASE_URL}/oauth2/authorization/${clicked}`;
   };
 
   return (
