@@ -9,7 +9,7 @@ node {
       echo "백엔드 서버 컨테이너 종료"
       if docker ps -a --format "{{.Names}}" | grep -q whizzle-back; then
         echo "Stopping container: whizzle-back"
-        docker stop whizzle-back
+        docker stop $(docker ps -a --format "{{.Names}}" | grep whizzle-back)
       else
         echo "Container whizzle-back does not exist"
       fi
@@ -32,11 +32,21 @@ node {
   stage('Run Spring Server Container') {
     echo "백엔드 서버 컨테이너 실행"
     sh '''
-      docker run -it -d \
-        --name whizzle-back \
+      docker run -it --rm \
+        --name whizzle-back-01 \
+        --net backend \
+        --net-alias spring-dns-network \
         -p 8080:8080 \
         -v /app/data/spring/config:/app/config \
-        whizzle/back
+        -d whizzle/back
+
+      docker run -it --rm \
+        --name whizzle-back-02 \
+        --net backend \
+        --net-alias spring-dns-network \
+        -p 8081:8080 \
+        -v /app/data/spring/config:/app/config \
+        -d whizzle/back
     '''
   }
 }
