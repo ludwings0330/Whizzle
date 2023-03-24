@@ -13,7 +13,6 @@ import sad from "../../../assets/img/sad.png";
 import littledrink from "../../../assets/img/littledrink.png";
 import normaldrink from "../../../assets/img/normaldrink.png";
 import largedrink from "../../../assets/img/largedrink.png";
-import { example } from "../../../apis/userinfo";
 
 const SP = styled.p`
   font-size: 23px;
