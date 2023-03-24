@@ -3,6 +3,7 @@ package com.bear.whizzle.review.service;
 import com.bear.whizzle.domain.exception.NotFoundException;
 import com.bear.whizzle.domain.model.entity.Member;
 import com.bear.whizzle.domain.model.entity.Review;
+import com.bear.whizzle.domain.model.entity.ReviewImage;
 import com.bear.whizzle.domain.model.entity.Whisky;
 import com.bear.whizzle.member.repository.MemberRepository;
 import com.bear.whizzle.review.controller.dto.ReviewUpdateRequestDto;
@@ -10,6 +11,8 @@ import com.bear.whizzle.review.controller.dto.ReviewWriteRequestDto;
 import com.bear.whizzle.review.repository.ReviewRepository;
 import com.bear.whizzle.reviewimage.service.ReviewImageService;
 import com.bear.whizzle.whisky.repository.WhiskyRepository;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -69,6 +72,13 @@ public class ReviewServiceImpl implements ReviewService {
         Review review = reviewRepository.findById(reviewId).orElseThrow(() -> new NotFoundException("존재하지 않는 리뷰입니다."));
 
         review.markDeleted();
+
+        List<Long> reviewImageIds = review.getImages().stream()
+                                          .map(ReviewImage::getId)
+                                          .collect(Collectors.toList());
+
+        reviewImageService.deleteAllReviewImages(review, reviewImageIds);
+
     }
 
 }
