@@ -8,5 +8,5 @@ FROM nginx:latest
 WORKDIR /app
 RUN rm /etc/nginx/conf.d/default.conf
 COPY ./default.conf /etc/nginx/conf.d
-COPY --from builder /app/build /usr/share/nginx/html
+COPY --from=builder /app/build /usr/share/nginx/html
 ENTRYPOINT ["nginx", "-g", "daemon off;"]
