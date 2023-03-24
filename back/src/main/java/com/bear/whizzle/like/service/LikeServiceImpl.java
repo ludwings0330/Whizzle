@@ -25,10 +25,10 @@ public class LikeServiceImpl implements LikeService {
 
         likeRepository.findByReviewIdAndMemberId(reviewId, memberId)
                       .ifPresentOrElse(
-                              likeRepository::delete,
-                              () -> likeRepository.save(createLike(memberId, reviewId)));
-
+                              like -> likeDeleteProcess(reviewId, like),
+                              () -> likeSaveProcess(memberId, reviewId));
     }
+
 
     private Like createLike(Long memberId, Long reviewId) {
         // memberId 와 reviewId 가 존재하는 것인지 검증해야한다. 각 서비스안에 검증로직이 들어있음
@@ -36,10 +36,23 @@ public class LikeServiceImpl implements LikeService {
 
         Review review = reviewService.findByReviewId(reviewId);
 
+        review.countUpLike();
+
         return Like.builder()
                    .member(member)
                    .review(review)
                    .build();
+    }
+
+    private void likeDeleteProcess(Long reviewId, Like like) {
+        likeRepository.delete(like);
+
+        Review review = reviewService.findByReviewId(reviewId);
+        review.countDownLike();
+    }
+
+    private void likeSaveProcess(Long memberId, Long reviewId) {
+        likeRepository.save(createLike(memberId, reviewId));
     }
 
 }

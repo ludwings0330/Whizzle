@@ -48,6 +48,7 @@ class LikeServiceImplTest {
         //then
         final Optional<Like> like = likeRepository.findByReviewIdAndMemberId(review.getId(), member.getId());
         Assertions.assertThat(like).isPresent();
+        Assertions.assertThat(review.getLikeCount()).isEqualTo(1);
     }
 
     @Test
@@ -64,13 +65,14 @@ class LikeServiceImplTest {
         //then 1
         Optional<Like> like = likeRepository.findByReviewIdAndMemberId(review.getId(), member.getId());
         Assertions.assertThat(like).isPresent();
-
+        Assertions.assertThat(review.getLikeCount()).isEqualTo(1);
         // 두번 실행하면 취소된다.
         likeService.toggleLikeOnReviewByMemberIdAndReviewId(member.getId(), review.getId());
 
         //then 2
         like = likeRepository.findByReviewIdAndMemberId(review.getId(), member.getId());
         Assertions.assertThat(like).isNotPresent();
+        Assertions.assertThat(review.getLikeCount()).isZero();
     }
 
     private Member createMember() {

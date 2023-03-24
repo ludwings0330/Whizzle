@@ -96,4 +96,12 @@ public class Review extends BaseTimeEntity {
         this.isDeleted = true;
     }
 
+    public void countUpLike() {
+        this.likeCount++;
+    }
+
+    public void countDownLike() {
+        this.likeCount--;
+    }
+
 }
