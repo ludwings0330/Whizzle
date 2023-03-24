@@ -8,4 +8,6 @@ public interface ReviewQueryService {
 
     List<Review> findAllReviewByWhiskyIdAndSearchCondition(Long whiskyId, ReviewSearchCondition searchCondition);
 
+    List<Review> findAllReviewByMemberId(Long memberId, ReviewSearchCondition searchCondition);
+
 }

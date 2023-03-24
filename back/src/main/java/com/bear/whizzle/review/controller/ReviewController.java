@@ -5,6 +5,7 @@ import com.bear.whizzle.auth.service.PrincipalDetails;
 import com.bear.whizzle.domain.model.entity.Review;
 import com.bear.whizzle.like.service.LikeService;
 import com.bear.whizzle.review.controller.dto.ReviewListResponseDto;
+import com.bear.whizzle.review.controller.dto.ReviewMyPageResponseDto;
 import com.bear.whizzle.review.controller.dto.ReviewSearchCondition;
 import com.bear.whizzle.review.controller.dto.ReviewUpdateRequestDto;
 import com.bear.whizzle.review.controller.dto.ReviewWriteRequestDto;
@@ -47,6 +48,14 @@ public class ReviewController {
         List<Review> reviews = reviewQueryService.findAllReviewByWhiskyIdAndSearchCondition(whiskyId, searchCondition);
 
         return ReviewMapper.toReviewListResponseDto(reviews);
+    }
+
+    @GetMapping("/members/{memberId}/any")
+    public List<ReviewMyPageResponseDto> getReviewByMemberId(@PathVariable Long memberId,
+                                                             @RequestBody ReviewSearchCondition searchCondition) {
+        List<Review> reviews = reviewQueryService.findAllReviewByMemberId(memberId, searchCondition);
+
+        return ReviewMapper.toReviewMyPageResponseDto(reviews);
     }
 
     @PostMapping("/{reviewId}/like")

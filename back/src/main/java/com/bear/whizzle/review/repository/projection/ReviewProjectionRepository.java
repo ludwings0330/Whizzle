@@ -2,6 +2,7 @@ package com.bear.whizzle.review.repository.projection;
 
 import static com.bear.whizzle.domain.model.entity.QMember.member;
 import static com.bear.whizzle.domain.model.entity.QReview.review;
+import static com.bear.whizzle.domain.model.entity.QWhisky.whisky;
 
 import com.bear.whizzle.common.annotation.Performance;
 import com.bear.whizzle.domain.model.entity.Review;
@@ -85,6 +86,21 @@ public class ReviewProjectionRepository {
                              .where(
                                      review.id.eq(reviewId)
                              );
+    }
+
+    public List<Review> findAllByMemberIdAndSearchCondition(Long memberId, ReviewSearchCondition searchCondition) {
+        return queryFactory.select(review)
+                           .from(review)
+                           .innerJoin(review.whisky, whisky).fetchJoin()
+                           .where(review.member.id.eq(memberId),
+                                  myPageCondition(searchCondition))
+                           .orderBy(new OrderSpecifier<>(Order.DESC, review.createdDateTime))
+                           .limit(5)
+                           .fetch();
+    }
+
+    private BooleanExpression myPageCondition(ReviewSearchCondition searchCondition) {
+        return (searchCondition.getBaseId() == null) ? null : review.id.lt(searchCondition.getBaseId());
     }
 
 }

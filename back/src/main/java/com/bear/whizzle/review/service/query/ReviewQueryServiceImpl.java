@@ -24,4 +24,9 @@ public class ReviewQueryServiceImpl implements ReviewQueryService {
         return reviews;
     }
 
+    @Override
+    public List<Review> findAllReviewByMemberId(Long memberId, ReviewSearchCondition searchCondition) {
+        return reviewProjectionRepository.findAllByMemberIdAndSearchCondition(memberId, searchCondition);
+    }
+
 }
