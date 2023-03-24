@@ -1,5 +1,6 @@
 import React from "react";
 import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../store/userStore";
 import styled, { keyframes } from "styled-components";
@@ -85,6 +86,7 @@ const SUserName = styled.span`
 //메인화면에 띄워줄 추천부분(비로그인 사용자)
 const MainRecommend = () => {
   const user = useRecoilValue(userState);
+  const navigate = useNavigate();
 
   const userName = user.nickname;
   const userNameLen = userName.length;
@@ -124,6 +126,10 @@ const MainRecommend = () => {
     visible: { x: 0, transition: { duration: 0.8, ease: "easeInOut" } },
   };
 
+  const goDetail = () => {
+    navigate(`/whisky/1`);
+  };
+
   useEffect(() => {
     setTimeout(typing, 1000);
   }, []);
@@ -138,7 +144,7 @@ const MainRecommend = () => {
             initial="hidden"
             animate="visible"
           >
-            <SWhiskyImg src={whisky} />
+            <SWhiskyImg src={whisky} onClick={goDetail} />
           </motion.div>
           <SRight>
             <STextCon>
