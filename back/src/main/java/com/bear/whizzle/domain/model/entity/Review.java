@@ -18,7 +18,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -39,7 +38,7 @@ public class Review extends BaseTimeEntity {
             orphanRemoval = true,
             fetch = FetchType.LAZY
     )
-    @Size(max = 5)
+//    @Size(max = 5) // 삭제한 이미지들을 유지하기때문에 5개 이상이 가능하다.
     @ToString.Exclude
     private final List<ReviewImage> images = new ArrayList<>();
     @Id
