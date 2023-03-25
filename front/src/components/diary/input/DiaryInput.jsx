@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useRecoilState } from "recoil";
+import { diaryState, dataState, currentComponentState } from "../../../store/indexStore";
 
 //import component
 import DiaryEditor from "./DiaryEditor";
@@ -21,8 +23,8 @@ const SDiv = styled.div`
 
 //input 최상단 component
 const DiaryInput = ({ selectedDate }) => {
-  const [data, setData] = useState();
-  const [currentComponent, setCurrentComponent] = useState("diaryEditor");
+  const [currentComponent, setCurrentComponent] = useRecoilState(currentComponentState);
+  const [data, setData] = useRecoilState(dataState);
 
   const today = new Date(selectedDate)
     .toISOString()
@@ -48,7 +50,12 @@ const DiaryInput = ({ selectedDate }) => {
           currentComponent={currentComponent}
           setCurrentComponent={setCurrentComponent}
         />
-        <DiaryNewContent onEdit={onEdit} onRemove={onRemove} diaryContent={data} today={today} />
+        <DiaryNewContent
+          onEdit={onEdit}
+          onRemove={onRemove}
+          diaryContent={data.content}
+          today={today}
+        />
       </SDiv>
     </>
   );

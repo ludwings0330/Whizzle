@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { diaryState } from "../../../store/indexStore";
-import { useRecoilValue } from "recoil";
+import { diaryState, dataState, currentComponentState } from "../../../store/indexStore";
+import { useRecoilState, useRecoilValue } from "recoil";
 
 //import css
 import styled from "styled-components";
@@ -114,6 +114,7 @@ const STbody = styled.tbody`
 //다이어리 캘린더
 const DiaryCalander = ({ onDateClick }) => {
   const [date, setDate] = useState(new Date());
+  const [currentComponent, setCurrentComponent] = useRecoilState(currentComponentState);
 
   // 각 날짜별로 고유한 key 값을 생성하는 함수
   function getKey(year, month, day) {
@@ -143,7 +144,7 @@ const DiaryCalander = ({ onDateClick }) => {
   const [clickedDay, setClickedDay] = useState(null);
 
   const diaryList = useRecoilValue(diaryState);
-
+  const [data, setData] = useRecoilState(dataState);
   function findItem(arr, value) {
     for (let i = 0; i < arr.length; i++) {
       if (arr[i].date === value) {
@@ -157,17 +158,39 @@ const DiaryCalander = ({ onDateClick }) => {
     const clickedDate = new Date(date.getFullYear(), date.getMonth(), event.target.textContent);
     const year = clickedDate.getFullYear();
     const month = clickedDate.getMonth() + 1;
-    const day = clickedDate.getDate() + 1;
+    const day = clickedDate.getDate();
     const clickedDateString = `${year}-${month < 10 ? "0" : ""}${month}-${
       day < 10 ? "0" : ""
     }${day}`;
-
+    console.log(clickedDateString);
+    console.log(diaryList);
     const diaryItem = findItem(diaryList, clickedDateString);
     if (diaryItem === -1) {
-      return <DiaryEditor />;
+      onDateClick(clickedDateString);
+      setCurrentComponent("diaryEditor");
+      setData({
+        id: 0,
+        date: "",
+        emotion: "",
+        drinkLevel: "",
+        content: "",
+        drinks: [
+          {
+            whisky: {
+              id: 0,
+              name: "",
+            },
+            drinkOrder: 0,
+          },
+        ],
+      });
+      return;
     } else {
     }
-    console.log(diaryItem);
+    setCurrentComponent("diaryNewContent");
+    setData(diaryItem);
+    console.log("data=  ");
+    console.log(data);
     //diaryItem 이 -1이면 Editor를 띄워주기
     //아니라면 DiaryItem 자체를 보여주기
 

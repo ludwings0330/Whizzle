@@ -10,6 +10,8 @@ import sad from "../../../assets/img/sad.png";
 import littledrink from "../../../assets/img/littledrink.png";
 import normaldrink from "../../../assets/img/normaldrink.png";
 import largedrink from "../../../assets/img/largedrink.png";
+import { useRecoilState } from "recoil";
+import { dataState } from "../../../store/indexStore";
 
 const SP = styled.p`
   font-size: 23px;
@@ -163,9 +165,11 @@ const DiaryItem = ({
   content,
   searchTerms,
 }) => {
-  const [localContent, setLocalContent] = useState(content);
+  const [data, setData] = useRecoilState(dataState);
+
+  const [localContent, setLocalContent] = useState(data.content);
   const [localWhisky, setLocalWhisky] = useState(whisky);
-  const [localDrinklevel, setLocalDrinklevel] = useState(drinklevel);
+  const [localDrinklevel, setLocalDrinklevel] = useState(30);
   const [localEmotion, setLocalEmotion] = useState(emotion);
 
   const [drinkImage, setDrinkImage] = useState(littledrink);
@@ -175,9 +179,25 @@ const DiaryItem = ({
 
   const [isEdit, setIsEdit] = useState(false);
 
-  const [localSearchTerms, setLocalSearchTerms] = useState(searchTerms);
+  const [localSearchTerms, setLocalSearchTerms] = useState(
+    data.drinks.map((drink) => drink.whisky.id)
+  );
+
   const toggleIsEdit = () => setIsEdit(!isEdit);
 
+  const initData = () => {
+    const newDrinkLevel = data.drinkLevel === "LIGHT" ? 0 : data.drinkLevel === "HEAVY" ? 100 : 50;
+    const newEmotion = data.emotion === "BAD" ? 0 : data.emotion === "GOOD" ? 100 : 50;
+    setLocalWhisky("");
+    setLocalContent(data.content);
+    setLocalDrinklevel(newDrinkLevel);
+    setLocalEmotion(newEmotion);
+    setLocalSearchTerms(data.drinks.map((drink) => drink.whisky.id));
+  };
+
+  useEffect(() => {
+    initData();
+  }, [data]);
   const handleClickRemove = () => {
     if (window.confirm(`${today}날의 일기를 정말 삭제하시겠습니까?`)) {
       toggleIsEdit();
@@ -211,10 +231,7 @@ const DiaryItem = ({
 
   const handleQuitEdit = () => {
     setIsEdit(false);
-    setLocalWhisky(localWhisky);
-    setLocalContent(localContent);
-    setLocalDrinklevel(localDrinklevel);
-    setLocalEmotion(localEmotion);
+    initData();
   };
 
   const handleEdit = () => {
@@ -279,9 +296,13 @@ const DiaryItem = ({
                 {localSearchTerms.map((tag, index) => (
                   <div key={index}>
                     <span>{tag}</span>
-                    <button onClick={() => handleTagDelete(tag)}>x</button>
                   </div>
                 ))}
+                {/*{localSearchTerms.map((tag, index) => (*/}
+                {/*    <div key={index}>*/}
+                {/*      <span>{tag.whisky.name}</span>*/}
+                {/*    </div>*/}
+                {/*))}*/}
               </div>
             </>
           ) : (
@@ -297,7 +318,7 @@ const DiaryItem = ({
         <div>
           <SP>오늘의 주량</SP>
           <SRangeContainer>
-            {drinklevel ? (
+            {localDrinklevel ? (
               <div>
                 <SRangeDiv>
                   <STextP>{drinkValue}</STextP>
@@ -314,14 +335,14 @@ const DiaryItem = ({
                 />
               </div>
             ) : (
-              localDrinklevel
+              localDrinklevel + "h"
             )}
           </SRangeContainer>
         </div>
         <div>
           <SP>오늘의 기분</SP>
           <SRangeContainer>
-            {emotion ? (
+            {localEmotion ? (
               <div>
                 <SRangeDiv>
                   <STextP>{emotionValue}</STextP>

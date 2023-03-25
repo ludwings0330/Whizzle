@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-
+import { useRecoilState } from "recoil";
+import { diaryState, dataState } from "../../../store/indexStore";
 //import component
 import DiaryNewContent from "./DiaryNewContent";
 import { diaryCreate } from "../../../apis/diary";
@@ -157,6 +158,8 @@ const SDiv = styled.div`
 `;
 
 const DiaryEditor = ({ today, currentComponent, setCurrentComponent }) => {
+  const [data, setData] = useRecoilState(dataState);
+
   const [emotionImage, setEmotionImage] = useState(soso);
   const [drinkImage, setDrinkImage] = useState(normaldrink);
 
@@ -196,6 +199,8 @@ const DiaryEditor = ({ today, currentComponent, setCurrentComponent }) => {
   };
 
   useEffect(() => {
+    setSearchWhisky("");
+    setRecentSearch([]);
     setEmotionValue(50);
     setDrinklevelValue(50);
     setEmotion("그냥그래요");
@@ -204,7 +209,7 @@ const DiaryEditor = ({ today, currentComponent, setCurrentComponent }) => {
     if (recentSearchData) {
       setRecentSearch(recentSearchData);
     }
-  }, [currentComponent]);
+  }, [today]);
 
   const handleEmotionChange = (e) => {
     const emotionValue = e.target.value;
@@ -239,7 +244,7 @@ const DiaryEditor = ({ today, currentComponent, setCurrentComponent }) => {
   //위스키 이름, 주량, 기분, 한마디
   const onCreate = () => {
     const numberSearchTerms = recentSearch.map(Number);
-    const changeEmotionApi = emotionValue === 0 ? "SAD" : emotionValue === 50 ? "SOSO" : "GOOD";
+    const changeEmotionApi = emotionValue === 0 ? "BAD" : emotionValue === 50 ? "NORMAL" : "GOOD";
     const changeDrinkLevelApi =
       drinklevelValue === 0 ? "LIGHT" : drinklevelValue === 50 ? "MODERATE" : "HEAVY";
     const newItem = {
@@ -249,6 +254,23 @@ const DiaryEditor = ({ today, currentComponent, setCurrentComponent }) => {
       content,
       whiskyIds: numberSearchTerms,
     };
+
+    const newDrinks = numberSearchTerms.map((id, index) => {
+      return {
+        whisky: {
+          id: id,
+          name: id.toString(),
+        },
+        drinkOrder: index,
+      };
+    });
+    setData({
+      data: newItem.date,
+      emotion: changeEmotionApi,
+      drinkLevel: changeDrinkLevelApi,
+      content: content,
+      drinks: newDrinks,
+    });
     const createIsOk = diaryCreate(newItem);
     if (createIsOk) {
     }
