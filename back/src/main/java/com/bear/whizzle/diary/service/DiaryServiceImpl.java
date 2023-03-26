@@ -58,6 +58,11 @@ public class DiaryServiceImpl implements DiaryService {
         diary.delete();
     }
 
+    @Override
+    public long getDiaryCountByMemberId(Long memberId) {
+        return diaryRepository.countByMemberId(memberId);
+    }
+
     private Diary authorizeWriter(Long memberId, Long diaryId) {
         Diary diary = diaryRepository.findWithDrinksById(diaryId)
                                      .orElseThrow(() -> new NotFoundException("다이어리를 찾을 수 없습니다."));
@@ -79,17 +84,11 @@ public class DiaryServiceImpl implements DiaryService {
         for (Long whiskyId : whiskyIds) {
             Whisky whisky = whiskyRepository.getReferenceById(whiskyId);
             Drink drink = Drink.builder()
-                               .diary(diary)
                                .whisky(whisky)
                                .build();
 
             diary.addDrink(drink);
         }
-    }
-
-    @Override
-    public long getDiaryCountByMemberId(Long memberId) {
-        return diaryRepository.countByMemberId(memberId);
     }
 
 }

@@ -15,7 +15,6 @@ import com.bear.whizzle.diary.controller.dto.DiaryRequestSaveDto;
 import com.bear.whizzle.diary.controller.dto.DiaryRequestUpdateDto;
 import com.bear.whizzle.diary.controller.dto.DiaryResponseDto;
 import com.bear.whizzle.diary.repository.DiaryRepository;
-import com.bear.whizzle.diary.service.DiaryService;
 import com.bear.whizzle.domain.model.entity.Diary;
 import com.bear.whizzle.domain.model.entity.Drink;
 import com.bear.whizzle.domain.model.entity.Whisky;
