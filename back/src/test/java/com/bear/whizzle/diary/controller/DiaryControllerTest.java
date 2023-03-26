@@ -122,7 +122,7 @@ class DiaryControllerTest {
     void rewriteDiary_success() throws Exception {
         // given
         List<Integer> deletedDrinkOrders = List.of(0);
-        List<Long> insertedWhiskyIds = List.of(0L, 4L, 5L);
+        List<Long> insertedWhiskyIds = List.of(1L, 4L, 5L);
         DiaryRequestUpdateDto updateDto = DiaryRequestUpdateDto.builder()
                                                                .id(testDiaryId)
                                                                .emotion(Emotion.GOOD)

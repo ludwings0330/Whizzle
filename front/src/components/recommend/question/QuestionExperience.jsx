@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { preference } from "../../../store/preferenceStore";
 import styled from "styled-components";
@@ -13,12 +13,7 @@ const SDiv = styled.div`
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background-image: linear-gradient(
-    125.02deg,
-    #f84f5a 28.12%,
-    #f7875a 65.62%,
-    #f7cb5a 100%
-  );
+  background-image: linear-gradient(125.02deg, #f84f5a 28.12%, #f7875a 65.62%, #f7cb5a 100%);
 `;
 
 const slide = {
@@ -96,6 +91,10 @@ const QuestionExperience = (props) => {
     }
   };
 
+  useEffect(() => {
+    props.setBarWidth(window.innerWidth * 0.75);
+  });
+
   return (
     <motion.div
       style={slide}
@@ -115,14 +114,8 @@ const QuestionExperience = (props) => {
           onChange={isExperienceSelectHandler}
         />
         <SRadioLabel htmlFor="false">
-          <img
-            src={checkImg}
-            alt="check"
-            style={{ marginRight: "auto", marginLeft: "20px" }}
-          />
-          <span style={{ fontWeight: "bold", marginTop: "25px" }}>
-            위스키가 뭐징?
-          </span>
+          <img src={checkImg} alt="check" style={{ marginRight: "auto", marginLeft: "20px" }} />
+          <span style={{ fontWeight: "bold", marginTop: "25px" }}>위스키가 뭐징?</span>
           <span>위스키에 대해 잘 알지 못해요</span>
           <img
             src={wonderImg}
@@ -141,14 +134,8 @@ const QuestionExperience = (props) => {
           onChange={isExperienceSelectHandler}
         />
         <SRadioLabel htmlFor="true">
-          <img
-            src={checkImg}
-            alt="check"
-            style={{ marginRight: "auto", marginLeft: "20px" }}
-          />
-          <span style={{ fontWeight: "bold", marginTop: "15px" }}>
-            위스키를 즐기는 편이에요!
-          </span>
+          <img src={checkImg} alt="check" style={{ marginRight: "auto", marginLeft: "20px" }} />
+          <span style={{ fontWeight: "bold", marginTop: "15px" }}>위스키를 즐기는 편이에요!</span>
           <span>내가 좋아하는 위스키의 종류를</span>
           <span>이야기할 수 있어요</span>
           <img

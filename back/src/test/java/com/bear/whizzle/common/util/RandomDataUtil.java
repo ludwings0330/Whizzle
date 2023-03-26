@@ -9,18 +9,27 @@ public final class RandomDataUtil {
 
     public static final int WHISKY_SIZE = 3535;
     public static final int MEMBER_SIZE = 100_000;
-    public static final int DIARY_SIZE = 9_911_154;
+    public static final int DIARY_SIZE = 4_956_335;
+    public static final int REVIEW_SIZE = 448_560;
 
-    private final static String PARTIAL_KOREAN =
-            "가강개객갱갹거건걸검겁게격겸경계고곡곤골곽관괘괴구국군궤귀규균귤극근글금김끽남납념녑녕노농뇌뇨누뉵능니닉닐다단댁덕도독둘득등라락란랭략량려력련로록론롱뢰료룡루류륙름릉리린림립맹멱면멸명몌묵문물미민백번벌범법벽변별부북분불붕비빈빙상새색생서석선설섬섭쇄쇠수숙순술숭신실심십쌍씨압앙애액앵야약양어엔여역연열염엽영완왈왕왜외요욕용우욱유육윤율융은을음읍자작잔잠잡장재쟁저적족존졸종좌죄주죽지직진질짐집징차처척천철첨첩청체초축춘출충췌취측칩칭쾌타탁탄탱터토톤통퇴투퉁패팽퍅편폄평픽필핍하학핵행향허헌형혜호혹혼황회획횡훤훼휘휴흠흡흥";
     private static final String ALPHABET_UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     private static final String ALPHABET_LOWER = "abcdefghijklmnopqrstuvwxyz";
     private static final String ALPHABET = ALPHABET_UPPER + ALPHABET_LOWER;
     private static final String NUMERIC = "0123456789";
     private static final String ALPHABET_LOWER_NUMERIC = ALPHABET_LOWER + NUMERIC;
     private static final String ALPHABET_NUMERIC = ALPHABET + NUMERIC;
-    private static final String ALL = PARTIAL_KOREAN + ALPHABET + NUMERIC;
+
+    private static final String[] CONTENTS = {
+            "아무말이나 만들어보고 있습니다.",
+            "아무말이나 만들어보고 있습니다. 이번엔 길이를 좀 더 늘려보려 합니다.",
+            "이 위스키는 정말 맛있네요. 라고 말하는 리뷰 내용을 작성했는데 길이가 짧아서 더 늘려보려고 합니다.",
+            "이 위스키는 내가 먹어본 위스키 중에 최악입니다.",
+            "이 위스키는 정말 맛있어요.",
+            "이 위스키는 정말 제 취향입니다.",
+            "이 서비스를 만든 여러분은 이 나라의 챔피언입니다. 핫!"
+    };
     private static final String[] PROVIDERS = { "GOOGLE", "KAKAO", "NAVER" };
+    private static final Float[] RATINGS = { 0.0f, 0.5f, 1.0f, 1.5f, 2.0f, 2.5f, 3.0f, 3.5f, 4.0f, 4.5f, 5.0f };
 
     private final static Random random = new Random();
 
@@ -51,10 +60,6 @@ public final class RandomDataUtil {
         return chooseRandomly(ALPHABET_LOWER_NUMERIC, size);
     }
 
-    public static String getKoreanAndAlphabetAndNumber(int size) {
-        return chooseRandomly(ALL, size);
-    }
-
     public static String getCellPhone() {
         return "010" + getNumber(8);
     }
@@ -82,7 +87,7 @@ public final class RandomDataUtil {
         Set<Long> whiskyIds = new HashSet<>();
 
         while (whiskyIds.size() < size) {
-            whiskyIds.add((long) (WHISKY_SIZE * Math.random()));
+            whiskyIds.add((long) (WHISKY_SIZE * Math.random()) + 1);
         }
 
         return whiskyIds;
@@ -93,8 +98,7 @@ public final class RandomDataUtil {
     }
 
     public static String getContent() {
-        int length = (int) (256 * Math.random());
-        return getKoreanAndAlphabetAndNumber(length);
+        return CONTENTS[(int) (CONTENTS.length * Math.random())];
     }
 
     public static <T extends Enum<T>> T getEnum(Class<T> type) {
@@ -118,6 +122,10 @@ public final class RandomDataUtil {
                      .fruity((int) (101 * Math.random()))
                      .floral((int) (101 * Math.random()))
                      .build();
+    }
+
+    public static Float getRating() {
+        return RATINGS[(int) (RATINGS.length * Math.random())];
     }
 
     public static String chooseRandomly(String target, int size) {

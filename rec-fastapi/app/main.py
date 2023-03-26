@@ -2,7 +2,9 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+
 from common.config import settings
+from common.context.ItemFeatures import ItemFeatures
 from routers import recommend
 
 
@@ -25,6 +27,13 @@ def get_application():
 
 
 app = get_application()
+
+
+@app.on_event("startup")
+async def startup_event():
+    global item_features
+    item_features = ItemFeatures()
+    return
 
 
 @app.get("/")

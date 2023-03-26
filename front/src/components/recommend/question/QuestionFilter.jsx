@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { preference } from "../../../store/preferenceStore";
 import styled from "styled-components";
@@ -116,9 +116,7 @@ const QuestionFilter = (props) => {
 
     if (preferenceValue.age) {
       props.setDirection("next");
-      props.setActivePage((prev) =>
-        props.activePage === 4 ? prev + 2 : prev + 1
-      );
+      props.setActivePage((prev) => (props.activePage === 4 ? prev + 2 : prev + 1));
     }
   };
 
@@ -128,11 +126,13 @@ const QuestionFilter = (props) => {
 
     if (preferenceValue.gender) {
       props.setDirection("next");
-      props.setActivePage((prev) =>
-        props.activePage === 4 ? prev + 2 : prev + 1
-      );
+      props.setActivePage((prev) => (props.activePage === 4 ? prev + 2 : prev + 1));
     }
   };
+
+  useEffect(() => {
+    props.setBarWidth(window.innerWidth * 0.25);
+  });
 
   return (
     <motion.div

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { preference } from "../../../store/preferenceStore";
 import styled from "styled-components";
@@ -55,9 +55,9 @@ const SRadioLabel = styled.label`
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  width: 134px;
+  width: 125px;
   height: 164px;
-  border-radius: 10px;
+  border-radius: 25px;
   color: white;
   font-size: 18px;
   transition: 0.2s;
@@ -81,7 +81,7 @@ const SCircle = styled.div`
 const SLine = styled.div`
   position: absolute;
   z-index: 100;
-  width: 615px;
+  width: 580px;
   margin-bottom: 68px;
   border: 1px solid rgba(255, 255, 255, 0.5);
 `;
@@ -95,9 +95,9 @@ const ResponsiveSLine = styled(SLine)`
 const selectedStyle = {
   position: "absolute",
   zIndex: "-1",
-  width: "134px",
+  width: "125px",
   height: "164px",
-  borderRadius: "10px",
+  borderRadius: "25px",
   backgroundColor: "#00a3ff",
 };
 
@@ -112,6 +112,10 @@ const QuestionPrice = (props) => {
     props.setDirection("next");
     props.setActivePage((prev) => (props.activePage === 4 ? prev + 2 : prev + 1));
   };
+
+  useEffect(() => {
+    props.setBarWidth(window.innerWidth * 0.5);
+  });
 
   return (
     <motion.div
