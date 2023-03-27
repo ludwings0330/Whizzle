@@ -6,6 +6,7 @@ import com.bear.whizzle.domain.model.entity.ReviewImage;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.Data;
 
@@ -18,6 +19,15 @@ public class ReviewListResponseDto {
     public ReviewListResponseDto(Review review) {
         this.memberInfo = new ReviewMemberInfo(review.getMember());
         this.reviewInfo = new ReviewInfo(review);
+    }
+
+    public ReviewListResponseDto(Review review, Set<Long> likes) {
+        this.memberInfo = new ReviewMemberInfo(review.getMember());
+        this.reviewInfo = new ReviewInfo(review);
+
+        if (likes.contains(review.getId())) {
+            reviewInfo.liked = true;
+        }
     }
 
     @Data
@@ -46,6 +56,7 @@ public class ReviewListResponseDto {
         private Float rating;
         private Integer likeCount;
         private LocalDateTime createdDateTime;
+        private Boolean liked = false;
 
         public ReviewInfo(Review review) {
             this.reviewId = review.getId();

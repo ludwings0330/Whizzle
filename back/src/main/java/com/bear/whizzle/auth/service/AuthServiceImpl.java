@@ -45,4 +45,9 @@ public class AuthServiceImpl implements AuthService {
         return !review.getIsDeleted() && review.getMember().getId() == memberId;
     }
 
+    @Override
+    public boolean isLogined(PrincipalDetails member) {
+        return member != null;
+    }
+
 }

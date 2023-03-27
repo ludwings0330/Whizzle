@@ -6,6 +6,10 @@ import com.bear.whizzle.domain.model.entity.Review;
 import com.bear.whizzle.like.repository.LikeRepository;
 import com.bear.whizzle.member.service.MemberService;
 import com.bear.whizzle.review.service.ReviewService;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +33,25 @@ public class LikeServiceImpl implements LikeService {
                               () -> likeSaveProcess(memberId, reviewId));
     }
 
+    @Override
+    public Set<Long> getReviewLikesStatus(Long memberId, List<Review> reviews) {
+        List<Long> reviewIds = extractReviewIds(reviews);
+
+        final List<Like> likes = likeRepository.findByMemberIdAndReviewIdIn(memberId, reviewIds);
+
+        return likes.stream().map(like -> like.getReview().getId()).collect(Collectors.toSet());
+    }
+
+    private List<Long> extractReviewIds(List<Review> reviews) {
+        List<Long> reviewIds = new ArrayList<>();
+
+        for (Review review :
+                reviews) {
+            reviewIds.add(review.getId());
+        }
+
+        return reviewIds;
+    }
 
     private Like createLike(Long memberId, Long reviewId) {
         // memberId 와 reviewId 가 존재하는 것인지 검증해야한다. 각 서비스안에 검증로직이 들어있음

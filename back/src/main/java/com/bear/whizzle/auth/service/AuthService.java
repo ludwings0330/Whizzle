@@ -6,4 +6,6 @@ public interface AuthService {
 
     boolean canMemberEditReview(long memberId, long reviewId);
 
+    boolean isLogined(PrincipalDetails member);
+
 }

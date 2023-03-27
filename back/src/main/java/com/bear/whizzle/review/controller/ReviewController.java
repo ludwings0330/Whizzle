@@ -12,7 +12,9 @@ import com.bear.whizzle.review.controller.dto.ReviewWriteRequestDto;
 import com.bear.whizzle.review.mapper.ReviewMapper;
 import com.bear.whizzle.review.service.ReviewService;
 import com.bear.whizzle.review.service.query.ReviewQueryService;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -52,11 +54,17 @@ public class ReviewController {
 
     @GetMapping("/whiskies/{whiskyId}/any")
     @ResponseStatus(HttpStatus.OK)
-    public List<ReviewListResponseDto> getReviewsByWhiskyIdOrderBySearchCondition(@PathVariable Long whiskyId,
+    public List<ReviewListResponseDto> getReviewsByWhiskyIdOrderBySearchCondition(@AuthenticationPrincipal PrincipalDetails member,
+                                                                                  @PathVariable Long whiskyId,
                                                                                   @RequestBody ReviewSearchCondition searchCondition) {
         List<Review> reviews = reviewQueryService.findAllReviewByWhiskyIdAndSearchCondition(whiskyId, searchCondition);
+        Set<Long> likeSet = new HashSet<>();
 
-        return ReviewMapper.toReviewListResponseDto(reviews);
+        if (authService.isLogined(member)) {
+            likeSet = likeService.getReviewLikesStatus(member.getMemberId(), reviews);
+        }
+
+        return ReviewMapper.toReviewListResponseDto(reviews, likeSet);
     }
 
     @GetMapping("/members/{memberId}/any")
