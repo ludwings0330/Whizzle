@@ -40,7 +40,7 @@ public class CustomAuthorizationRequestRepository implements AuthorizationReques
             HttpServletResponse response
     ) {
         String state = authorizationRequest.getState();
-        log.debug("saveAuthorizationRequest의 request: {}, state: {}", authorizationRequest, state);
+        log.debug("saveAuthorizationRequest의 request: {}, state: {}", request, state);
 
         String redisKey = getRedisKey(state);
         redisTemplate.opsForValue().set(redisKey, authorizationRequest, Duration.ofMinutes(5));
