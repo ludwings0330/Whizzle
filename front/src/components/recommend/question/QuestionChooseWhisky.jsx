@@ -129,7 +129,7 @@ const QuestionChooseWhisky = (props) => {
   };
 
   useEffect(() => {
-    props.setBarWidth(window.innerWidth);
+    props.setBarWidth(window.innerWidth * 0.99);
   });
 
   return (

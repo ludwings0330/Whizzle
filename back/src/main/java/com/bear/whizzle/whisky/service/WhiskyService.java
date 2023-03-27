@@ -1,14 +1,11 @@
 package com.bear.whizzle.whisky.service;
 
+import com.bear.whizzle.domain.model.entity.Whisky;
 import com.bear.whizzle.domain.model.type.Flavor;
 
 public interface WhiskyService {
 
-    String test();
-
-    String testException();
-
-    String sleep();
+    Whisky findWhisky(Long whiskyId);
 
     Flavor getWhiskyFlavorById(long whiskyId);
 
