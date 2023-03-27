@@ -9,33 +9,42 @@ import com.bear.whizzle.recommend.controller.dto.PreferenceDto;
 import com.bear.whizzle.recommend.controller.dto.RecWhiskyRequestDto;
 import com.bear.whizzle.whisky.repository.WhiskyRepository;
 import com.bear.whizzle.whisky.repository.projection.dto.FlavorSummary;
+import com.bear.whizzle.whisky.service.query.WhiskyQueryService;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class RecServiceImpl implements RecService{
+public class RecServiceImpl implements RecService {
 
     private final WhiskyRepository whiskyRepository;
     private final PreferenceRepository preferenceRepository;
     private final WhiskyQueryService whiskyQueryService;
 
+    @Value("${app.rec.topK}")
+    private Integer topK;
+
+
     /**
      * Min-Max Noramlization 처리 한 Flavor & 선호 가격대 반환
-     * @param memberId : 로그인 했다면 해당 id, 비로그인 시 0
+     *
+     * @param memberId            : 로그인 했다면 해당 id, 비로그인 시 0
      * @param recWhiskyRequestDto : 위스키 추천 요청 DTO
      * @return PreferenceDto : 선호 가격대 & 정규화된 선호 입맛
      * @throws NotFoundException
-     * */
+     */
     @Override
     @Transactional(readOnly = true)
     public PreferenceDto extractPreference(Long memberId, RecWhiskyRequestDto recWhiskyRequestDto) throws NotFoundException {
         List<Long> whiskies = recWhiskyRequestDto.getWhiskies();
-        Flavor flavor=null;
+        Flavor flavor = null;
         Integer priceTier = recWhiskyRequestDto.getPriceTier();
         if (whiskies != null) { // whisky random choice
             Random rand = new Random();
@@ -46,12 +55,35 @@ public class RecServiceImpl implements RecService{
             flavor = recWhiskyRequestDto.getFlavor();
         } else if (memberId != 0) { // use member's preference
             Preference preference = preferenceRepository.findByMemberId(memberId)
-                                             .orElseThrow(() -> new NotFoundException("선호 입맛 데이터가 존재하지 않습니다."));
+                                                        .orElseThrow(() -> new NotFoundException("선호 입맛 데이터가 존재하지 않습니다."));
             flavor = preference.getFlavor();
             priceTier = preference.getPriceTier();
         }
         FlavorSummary flavorSummary = whiskyQueryService.findFlavorMinMax();
         return PreferenceMapper.toPreferenceDto(priceTier, flavor, flavorSummary);
+    }
+
+    /**
+     * 로컬 캐쉬에 저장된 PriceMapping정보를 활용해 추천할 topK개 위스키를 추출합니다.
+     *
+     * @param recWhiskies : 추천모델로부터 받은 whisky index List
+     * @param priceTier   : 원하는 가격대
+     * @return 추천할 topK개 위스키의 index
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public List<Long> filterByPriceTier(List<Long> recWhiskies, Integer priceTier) {
+        Map<Long, Integer> whiskyPriceTier = whiskyQueryService.findWhiskyPriceTier();
+        List<Long> filteredRecWhiskies = new ArrayList<>(topK);
+        for (Long recWhisky : recWhiskies) {
+            Integer whiskyPrice = whiskyPriceTier.get(recWhisky);
+            if (whiskyPrice != null && whiskyPrice.equals(priceTier) && filteredRecWhiskies.size() < 9) {
+                filteredRecWhiskies.add(recWhisky);
+            } else if (filteredRecWhiskies.size() >= 9) {
+                break;
+            }
+        }
+        return filteredRecWhiskies;
     }
 
 }
