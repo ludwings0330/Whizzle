@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
-import { diaryState, dataState, fetchDiaries } from "../../../store/indexStore";
+import { diaryDataState } from "../../../store/indexStore";
 //import component
-import DiaryNewContent from "./DiaryNewContent";
 import { diaryCreate } from "../../../apis/diary";
 
 //import css
@@ -15,6 +14,18 @@ import sad from "../../../assets/img/sad.png";
 import littledrink from "../../../assets/img/littledrink.png";
 import normaldrink from "../../../assets/img/normaldrink.png";
 import largedrink from "../../../assets/img/largedrink.png";
+
+const SBorderDiv = styled.div`
+  border: 2px solid #e1e1e1;
+  border-radius: 8px;
+  display: inline-block;
+  width: 460px;
+  height: 650px;
+  margin: 0 10px;
+  text-align: left;
+  padding: 40px 60px 40px 40px;
+  box-shadow: 5px 5px 5px #e1e1e1;
+`;
 
 const SP = styled.p`
   font-size: 23px;
@@ -157,9 +168,8 @@ const SDiv = styled.div`
   background: #f84f5a;
 `;
 
-const DiaryEditor = ({ today, currentComponent, setCurrentComponent }) => {
-  const [data, setData] = useRecoilState(dataState);
-  const [diaryList, setDiaryList] = useRecoilState(diaryState);
+const DiaryEditor = ({ selectedDate }) => {
+  const [data, setData] = useRecoilState(diaryDataState);
 
   const [emotionImage, setEmotionImage] = useState(soso);
   const [drinkImage, setDrinkImage] = useState(normaldrink);
@@ -211,7 +221,7 @@ const DiaryEditor = ({ today, currentComponent, setCurrentComponent }) => {
     if (recentSearchData) {
       setRecentSearch(recentSearchData);
     }
-  }, [today, currentComponent]);
+  }, [today]);
 
   const handleEmotionChange = (e) => {
     const emotionValue = e.target.value;
@@ -275,7 +285,6 @@ const DiaryEditor = ({ today, currentComponent, setCurrentComponent }) => {
     });
 
     const createIsOk = await diaryCreate(newItem);
-    // await fetchDiaries(setDiaryList,setData,newItem.date); //이거 api연동해서 확인된느치 추가 위에 setData제거하고 실행해야함
 
     if (createIsOk) {
     }
@@ -284,92 +293,93 @@ const DiaryEditor = ({ today, currentComponent, setCurrentComponent }) => {
   const handleSubmit = () => {
     onCreate();
     alert("등록 완료");
-    setCurrentComponent("diaryNewContent");
   };
+
+  const today = new Date(selectedDate)
+    .toISOString()
+    .slice(0, 10)
+    .replaceAll("-", ".")
+    .replace(/^(\d{4})-(\d{2})-(\d{2})$/, "$1-$2-$3".replace(/-(\d{1})-/, "-0$1-"));
 
   return (
     <>
-      {currentComponent === "diaryEditor" ? (
-        <div>
-          <SHeaderDiv>
-            <SP
-              style={{
-                fontSize: "30px",
-                marginTop: "0px",
-                marginBottom: "0px",
-                color: "#F84F5A",
-                flex: "1",
-              }}
-            >
-              {today}
-            </SP>
-            <SButton sytle={{ flex: "1" }} onClick={handleSubmit}>
-              저장
-            </SButton>
-          </SHeaderDiv>
-          <SMainDiv>
+      <SBorderDiv>
+        <SHeaderDiv>
+          <SP
+            style={{
+              fontSize: "30px",
+              marginTop: "0px",
+              marginBottom: "0px",
+              color: "#F84F5A",
+              flex: "1",
+            }}
+          >
+            {today}
+          </SP>
+          <SButton sytle={{ flex: "1" }} onClick={handleSubmit}>
+            저장
+          </SButton>
+        </SHeaderDiv>
+        <SMainDiv>
+          <div>
+            <SP>오늘의 위스키</SP>
+            <SInput
+              value={searchWhisky}
+              onChange={wordChange}
+              name="whisky"
+              onKeyDown={(e) => setWhiskyName(e)}
+              placeholder="위스키 이름을 입력해주세요"
+              type="text"
+            />
             <div>
-              <SP>오늘의 위스키</SP>
-              <SInput
-                value={searchWhisky}
-                onChange={wordChange}
-                name="whisky"
-                onKeyDown={(e) => setWhiskyName(e)}
-                placeholder="위스키 이름을 입력해주세요"
-                type="text"
+              {recentSearch.map((word, index) => (
+                <SDiv key={index}>
+                  <SP>{word.length > 6 ? `${word.slice(0, 6)}...` : word}</SP>
+                  <SButton onClick={() => deleteRecentSearchWord(word)}>X</SButton>
+                </SDiv>
+              ))}
+            </div>
+          </div>
+          <div>
+            <SP>오늘의 주량</SP>
+            <SRangeContainer>
+              <SRangeDiv>
+                <STextP>{drinklevel}</STextP>
+                <SImg src={drinkImage} alt={""} />
+              </SRangeDiv>
+              <SRangeInput
+                type="range"
+                name="drinklevel"
+                min="0"
+                max="100"
+                step="50"
+                onChange={handleDrinklevelChange}
               />
-              <div>
-                {recentSearch.map((word, index) => (
-                  <SDiv key={index}>
-                    <SP>{word.length > 6 ? `${word.slice(0, 6)}...` : word}</SP>
-                    <SButton onClick={() => deleteRecentSearchWord(word)}>X</SButton>
-                  </SDiv>
-                ))}
-              </div>
-            </div>
-            <div>
-              <SP>오늘의 주량</SP>
-              <SRangeContainer>
-                <SRangeDiv>
-                  <STextP>{drinklevel}</STextP>
-                  <SImg src={drinkImage} alt={""} />
-                </SRangeDiv>
-                <SRangeInput
-                  type="range"
-                  name="drinklevel"
-                  min="0"
-                  max="100"
-                  step="50"
-                  onChange={handleDrinklevelChange}
-                />
-              </SRangeContainer>
-            </div>
-            <div>
-              <SP>오늘의 기분</SP>
-              <SRangeContainer>
-                <SRangeDiv>
-                  <STextP>{emotion}</STextP>
-                  <SImg src={emotionImage} alt={""} />
-                </SRangeDiv>
-                <SRangeInput
-                  type="range"
-                  name="emotion"
-                  min="0"
-                  max="100"
-                  step="50"
-                  onChange={handleEmotionChange}
-                />
-              </SRangeContainer>
-            </div>
-            <div>
-              <SP>오늘의 한마디</SP>
-              <STextarea onChange={contentChange} name="content" type="text" />
-            </div>
-          </SMainDiv>
-        </div>
-      ) : (
-        <></>
-      )}
+            </SRangeContainer>
+          </div>
+          <div>
+            <SP>오늘의 기분</SP>
+            <SRangeContainer>
+              <SRangeDiv>
+                <STextP>{emotion}</STextP>
+                <SImg src={emotionImage} alt={""} />
+              </SRangeDiv>
+              <SRangeInput
+                type="range"
+                name="emotion"
+                min="0"
+                max="100"
+                step="50"
+                onChange={handleEmotionChange}
+              />
+            </SRangeContainer>
+          </div>
+          <div>
+            <SP>오늘의 한마디</SP>
+            <STextarea onChange={contentChange} name="content" type="text" />
+          </div>
+        </SMainDiv>
+      </SBorderDiv>
     </>
   );
 };

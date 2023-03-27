@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { diaryState, dataState, currentComponentState } from "../../../store/indexStore";
+import { diaryState, diaryDataState, currentComponentState } from "../../../store/indexStore";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { diaryCreate } from "../../../apis/diary";
+import { diaryRead } from "../../../apis/diary";
 
 //import css
 import styled from "styled-components";
@@ -115,26 +115,11 @@ const STbody = styled.tbody`
   }
 `;
 
-const SCalendarDay = styled.td`
-  &:hover {
-    background-color: #f84f5a;
-    color: white;
-  }
-`;
 //다이어리 캘린더
 const DiaryCalander = ({ onDateClick }) => {
   const [date, setDate] = useState(new Date());
   const [currentComponent, setCurrentComponent] = useRecoilState(currentComponentState);
 
-  // 각 날짜별로 고유한 key 값을 생성하는 함수
-  function getKey(year, month, day) {
-    return `${year}-${month}-${day}`;
-  }
-  useEffect(() => {
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-    diaryCreate(`${year}-${month}`);
-  }, [date]);
   function prevMonth() {
     setDate((prevDate) => new Date(prevDate.getFullYear(), prevDate.getMonth() - 1, 1));
   }
@@ -158,7 +143,8 @@ const DiaryCalander = ({ onDateClick }) => {
   const [clickedDay, setClickedDay] = useState(null);
 
   const diaryList = useRecoilValue(diaryState);
-  const [data, setData] = useRecoilState(dataState);
+  const [data, setData] = useRecoilState(diaryDataState);
+
   function findItem(arr, value) {
     for (let i = 0; i < arr.length; i++) {
       if (arr[i].date === value) {

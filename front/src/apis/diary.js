@@ -17,24 +17,6 @@ export const diaryRead = async (data) => {
     return res.data;
   } catch (error) {
     console.log(error);
-    return [
-      {
-        id: 4956419,
-        date: "2023-03-26",
-        emotion: "GOOD",
-        drinkLevel: "MODERATE",
-        content: "23@",
-        drinks: [
-          {
-            whisky: {
-              id: 2,
-              name: "Highland Park 18 Year",
-            },
-            drinkOrder: 0,
-          },
-        ],
-      },
-    ];
   }
 };
 
@@ -51,8 +33,8 @@ export const diaryUpdate = async (data) => {
 
 export const deleteDiary = async (diaryId) => {
   try {
-    const response = await api.delete(`/api/diaries/${diaryId}`);
-    console.log(response);
+    const res = await api.delete(`/api/diaries/${diaryId}`);
+    console.log(res);
     return true;
   } catch (error) {
     console.log(error);

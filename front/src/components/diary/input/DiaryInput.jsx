@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import { useRecoilState } from "recoil";
-import { diaryState, dataState, currentComponentState } from "../../../store/indexStore";
+import { diaryDataState, currentComponentState } from "../../../store/indexStore";
 
 //import component
 import DiaryEditor from "./DiaryEditor";
-import DiaryNewContent from "./DiaryNewContent";
+import DiaryItem from "./DiaryItem";
 
 //import css
 import styled from "styled-components";
-import DiaryItem from "./DiaryItem";
 
 const SDiv = styled.div`
   border: 2px solid #e1e1e1;
@@ -25,7 +24,7 @@ const SDiv = styled.div`
 //input 최상단 component
 const DiaryInput = ({ selectedDate }) => {
   const [currentComponent, setCurrentComponent] = useRecoilState(currentComponentState);
-  const [data, setData] = useRecoilState(dataState);
+  const [data, setData] = useRecoilState(diaryDataState);
 
   const today = new Date(selectedDate)
     .toISOString()
@@ -33,25 +32,18 @@ const DiaryInput = ({ selectedDate }) => {
     .replaceAll("-", ".")
     .replace(/^(\d{4})-(\d{2})-(\d{2})$/, "$1-$2-$3".replace(/-(\d{1})-/, "-0$1-"));
 
-  const onRemove = (today) => {
-    const newDiaryContent = data.filter((it) => it.today === today);
-    setData(newDiaryContent);
-    setCurrentComponent("diaryEditor");
-  };
-
-  const onEdit = (today, newContent) => {
-    setData(data.map((it) => (it.today === today ? { ...it, content: newContent } : it)));
-  };
-
   return (
     <>
       <SDiv>
-        <DiaryEditor
-          today={today}
-          currentComponent={currentComponent}
-          setCurrentComponent={setCurrentComponent}
-        />
-        {data.drinkLevel && <DiaryItem onEdit={onEdit} onRemove={onRemove} today={today} />}
+        {data && data.date && data.date === today ? (
+          <DiaryItem today={today} />
+        ) : (
+          <DiaryEditor
+            today={today}
+            currentComponent={currentComponent}
+            setCurrentComponent={setCurrentComponent}
+          />
+        )}
       </SDiv>
     </>
   );

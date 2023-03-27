@@ -5,10 +5,14 @@ import styled from "styled-components";
 
 //import component
 import DiaryCalander from "../components/diary/calander/DiaryCalander";
-import DiaryInput from "../components/diary/input/DiaryInput";
+import DiaryEditor from "../components/diary/input/DiaryEditor";
+import DiaryItem from "../components/diary/input/DiaryItem";
+
+//import image
 import diary_header from "../assets/img/diary_header.png";
-import { diaryRead } from "../apis/diary";
-import { diaryState, dataState, fetchDiaries } from "../store/indexStore";
+
+//import recoil
+import { diaryState, diaryDataState, fetchDiaries } from "../store/indexStore";
 
 const SHeaderDiv = styled.div`
   width: 100vw;
@@ -63,24 +67,30 @@ const SP = styled.p`
 `;
 
 const AppDiary = () => {
+  console.log("오류뜨니");
+
   const [diaryList, setDiaryList] = useRecoilState(diaryState);
-  const [data, setData] = useRecoilState(dataState);
+  const [data, setData] = useRecoilState(diaryDataState);
+
+  let [selectedDate, setSelectedDate] = useState(new Date());
   const setCurrentComponent = useSetRecoilState(currentComponentState);
+
+  if (!(selectedDate instanceof Date)) {
+    setSelectedDate(new Date(selectedDate));
+  }
+
   useEffect(() => {
     const fetch = async () => {
-      const today = new Date();
-      const year = today.getFullYear();
-      const month = String(today.getMonth() + 1).padStart(2, "0");
-      const day = String(today.getDate()).padStart(2, "0");
+      const year = selectedDate.getFullYear();
+      const month = String(selectedDate.getMonth() + 1).padStart(2, "0");
+      const day = String(selectedDate.getDate()).padStart(2, "0");
       const result = await fetchDiaries(setDiaryList, setData, `${year}-${month}-${day}`);
       if (result) {
-        await setCurrentComponent("diaryNewContent");
+        await setCurrentComponent("diaryItem");
       }
     };
     fetch();
-  }, []);
-
-  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().slice(0, 10));
+  }, [selectedDate]);
 
   return (
     <>
@@ -97,7 +107,11 @@ const AppDiary = () => {
       <SMainDiv>
         <SMainDivider />
         <DiaryCalander onDateClick={setSelectedDate} />
-        <DiaryInput selectedDate={selectedDate} />
+        {data && data.drinks.length > 0 ? (
+          <DiaryItem selectedDate={selectedDate} />
+        ) : (
+          <DiaryEditor selectedDate={selectedDate} />
+        )}
       </SMainDiv>
     </>
   );

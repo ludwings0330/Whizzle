@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { diaryUpdate, deleteDiary } from "../../../apis/diary";
 import {
   diaryState,
-  dataState,
+  diaryDataState,
   fetchDiaries,
   currentComponentState,
 } from "../../../store/indexStore";
@@ -18,6 +18,18 @@ import sad from "../../../assets/img/sad.png";
 import littledrink from "../../../assets/img/littledrink.png";
 import normaldrink from "../../../assets/img/normaldrink.png";
 import largedrink from "../../../assets/img/largedrink.png";
+
+const SBorderDiv = styled.div`
+  border: 2px solid #e1e1e1;
+  border-radius: 8px;
+  display: inline-block;
+  width: 460px;
+  height: 650px;
+  margin: 0 10px;
+  text-align: left;
+  padding: 40px 60px 40px 40px;
+  box-shadow: 5px 5px 5px #e1e1e1;
+`;
 
 const SP = styled.p`
   font-size: 23px;
@@ -173,23 +185,16 @@ const SImg = styled.img`
   height: 40px;
 `;
 
-const DiaryItem = ({
-  onRemove,
-  onEdit,
-  today,
-  whisky,
-  drinklevel,
-  emotion,
-  content,
-  searchTerms,
-}) => {
+const DiaryItem = ({ selectedDate }) => {
+  console.log("잘 들어옴?");
   const setCurrentComponentState = useSetRecoilState(currentComponentState);
-  const [data, setData] = useRecoilState(dataState);
+  const [data, setData] = useRecoilState(diaryDataState);
+
   const [diaryList, setDiaryList] = useRecoilState(diaryState);
   const [localContent, setLocalContent] = useState(data.content);
-  const [localWhisky, setLocalWhisky] = useState(whisky);
-  const [localDrinklevel, setLocalDrinklevel] = useState(30);
-  const [localEmotion, setLocalEmotion] = useState(emotion);
+  const [localWhisky, setLocalWhisky] = useState(data.whisky);
+  const [localDrinklevel, setLocalDrinklevel] = useState(data.drinkLevel);
+  const [localEmotion, setLocalEmotion] = useState(data.emotion);
 
   const [drinkImage, setDrinkImage] = useState(littledrink);
   const [drinkValue, setDrinkValue] = useState("");
@@ -214,32 +219,45 @@ const DiaryItem = ({
     setLocalSearchTerms(data.drinks.map((drink) => drink.whisky.id));
   };
 
+  const today = new Date(selectedDate)
+    .toISOString()
+    .slice(0, 10)
+    .replaceAll("-", ".")
+    .replace(/^(\d{4})-(\d{2})-(\d{2})$/, "$1-$2-$3".replace(/-(\d{1})-/, "-0$1-"));
+
   useEffect(() => {
     initData();
   }, [data]);
+
   const handleClickRemove = async () => {
     if (window.confirm(`${today}날의 일기를 정말 삭제하시겠습니까?`)) {
       toggleIsEdit();
       deleteDiary(data.id);
-      setData({
-        id: 0,
-        date: "",
-        emotion: "",
-        drinkLevel: "",
-        content: "",
-        drinks: [
-          {
-            whisky: {
-              id: 0,
-              name: "",
-            },
-            drinkOrder: 0,
-          },
-        ],
-      });
-      setCurrentComponentState("diaryEditor");
-      await fetchDiaries(setDiaryList, setData, today);
 
+      // If not in edit mode, render diary editor
+      if (!isEdit) {
+        setData({
+          id: 0,
+          date: "",
+          emotion: "",
+          drinkLevel: "",
+          content: "",
+          drinks: [
+            {
+              whisky: {
+                id: 0,
+                name: "",
+              },
+              drinkOrder: 0,
+            },
+          ],
+        });
+        setCurrentComponentState("diaryEditor");
+      } else {
+        // If in edit mode, render diary item
+        await fetchDiaries(setDiaryList, setData, today);
+        setCurrentComponentState("diaryItem");
+      }
       return;
     }
   };
@@ -268,6 +286,8 @@ const DiaryItem = ({
   }, [localDrinklevel, localEmotion]);
 
   const handleQuitEdit = () => {
+    console.log("오류뜨니");
+
     setIsEdit(false);
     initData();
   };
@@ -311,9 +331,7 @@ const DiaryItem = ({
       toggleIsEdit();
     }
   };
-  const handleTagDelete = (tag) => {
-    setLocalSearchTerms(localSearchTerms.filter((t) => t !== tag));
-  };
+
   const handleInputEnter = (event) => {
     if (event.key === "Enter" && localWhisky !== "") {
       setLocalSearchTerms([...localSearchTerms, localWhisky]);
@@ -332,119 +350,115 @@ const DiaryItem = ({
 
   return (
     <>
-      <SHeaderDiv>
-        <SP
-          style={{
-            fontSize: "30px",
-            marginTop: "0px",
-            marginBottom: "0px",
-            color: "#F84F5A",
-            flex: "1",
-          }}
-        >
-          {today}
-        </SP>
+      <SBorderDiv>
+        <SHeaderDiv>
+          <SP
+            style={{
+              fontSize: "30px",
+              marginTop: "0px",
+              marginBottom: "0px",
+              color: "#F84F5A",
+              flex: "1",
+            }}
+          >
+            {today}
+          </SP>
 
-        {isEdit ? (
-          <>
-            <SUpdateButton onClick={handleQuitEdit}>수정취소</SUpdateButton>
-            <SUpdateButton onClick={handleEdit}>수정완료</SUpdateButton>
-          </>
-        ) : (
-          <>
-            <SButton onClick={toggleIsEdit}>수정</SButton>
-            <SButton onClick={handleClickRemove}>삭제</SButton>
-          </>
-        )}
-      </SHeaderDiv>
-      <SMainDiv>
-        <div>
-          <SP>오늘의 위스키</SP>
           {isEdit ? (
             <>
-              <SInput
-                value={localWhisky}
-                type="text"
-                onChange={(e) => setLocalWhisky(e.target.value)}
-                onKeyPress={handleInputEnter}
-              />
-              <div>
-                <div>
-                  {localSearchTerms.map((word, index) => (
-                    <SDiv key={index}>
-                      <SP>{word.length > 6 ? `${word.slice(0, 6)}...` : word}</SP>
-                      <SButton onClick={() => deleteRecentSearchWord(word)}>X</SButton>
-                    </SDiv>
-                  ))}
-                </div>
-
-                {/*{localSearchTerms.map((tag, index) => (*/}
-                {/*    <div key={index}>*/}
-                {/*      <span>{tag.whisky.name}</span>*/}
-                {/*    </div>*/}
-                {/*))}*/}
-              </div>
+              <SUpdateButton onClick={handleQuitEdit}>수정취소</SUpdateButton>
+              <SUpdateButton onClick={handleEdit}>수정완료</SUpdateButton>
             </>
           ) : (
-            <div>
-              {localSearchTerms.map((tag, index) => (
-                <div key={index}>
-                  <span>{tag}</span>
-                </div>
-              ))}
-            </div>
+            <>
+              <SButton onClick={toggleIsEdit}>수정</SButton>
+              <SButton onClick={handleClickRemove}>삭제</SButton>
+            </>
           )}
-        </div>
-        <div>
-          <SP>오늘의 주량</SP>
-          <SRangeContainer>
-            <div>
-              <SRangeDiv>
-                <STextP>{drinkValue}</STextP>
-                <SImg src={drinkImage} alt={""} />
-              </SRangeDiv>
-              <SRangeInput
-                type="range"
-                min="0"
-                max="100"
-                step="50"
-                value={localDrinklevel}
-                onChange={(e) => setLocalDrinklevel(e.target.value)}
-                disabled={!isEdit}
-              />
-            </div>
-          </SRangeContainer>
-        </div>
-        <div>
-          <SP>오늘의 기분</SP>
-          <SRangeContainer>
-            <div>
-              <SRangeDiv>
-                <STextP>{emotionValue}</STextP>
-                <SImg src={emotionImage} alt={""} />
-              </SRangeDiv>
-              <SRangeInput
-                type="range"
-                min="0"
-                max="100"
-                step="50"
-                value={localEmotion}
-                onChange={(e) => setLocalEmotion(e.target.value)}
-                disabled={!isEdit}
-              />
-            </div>
-          </SRangeContainer>
-        </div>
-        <div>
-          <SP>오늘의 한마디</SP>
-          <STextarea
-            value={localContent}
-            onChange={(e) => setLocalContent(e.target.value)}
-            type="text"
-            disabled={!isEdit}
-          />
-        </div>
-      </SMainDiv>
+        </SHeaderDiv>
+        <SMainDiv>
+          <div>
+            <SP>오늘의 위스키</SP>
+            {isEdit ? (
+              <>
+                <SInput
+                  value={localWhisky}
+                  type="text"
+                  onChange={(e) => setLocalWhisky(e.target.value)}
+                  onKeyPress={handleInputEnter}
+                />
+                <div>
+                  <div>
+                    {localSearchTerms.map((word, index) => (
+                      <SDiv key={index}>
+                        <SP>{word.length > 6 ? `${word.slice(0, 6)}...` : word}</SP>
+                        <SButton onClick={() => deleteRecentSearchWord(word)}>X</SButton>
+                      </SDiv>
+                    ))}
+                  </div>
+                </div>
+              </>
+            ) : (
+              <div>
+                {localSearchTerms.map((tag, index) => (
+                  <div key={index}>
+                    <span>{tag}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+          <div>
+            <SP>오늘의 주량</SP>
+            <SRangeContainer>
+              <div>
+                <SRangeDiv>
+                  <STextP>{drinkValue}</STextP>
+                  <SImg src={drinkImage} alt={""} />
+                </SRangeDiv>
+                <SRangeInput
+                  type="range"
+                  min="0"
+                  max="100"
+                  step="50"
+                  value={localDrinklevel}
+                  onChange={(e) => setLocalDrinklevel(e.target.value)}
+                  disabled={!isEdit}
+                />
+              </div>
+            </SRangeContainer>
+          </div>
+          <div>
+            <SP>오늘의 기분</SP>
+            <SRangeContainer>
+              <div>
+                <SRangeDiv>
+                  <STextP>{emotionValue}</STextP>
+                  <SImg src={emotionImage} alt={""} />
+                </SRangeDiv>
+                <SRangeInput
+                  type="range"
+                  min="0"
+                  max="100"
+                  step="50"
+                  value={localEmotion}
+                  onChange={(e) => setLocalEmotion(e.target.value)}
+                  disabled={!isEdit}
+                />
+              </div>
+            </SRangeContainer>
+          </div>
+          <div>
+            <SP>오늘의 한마디</SP>
+            <STextarea
+              value={localContent}
+              onChange={(e) => setLocalContent(e.target.value)}
+              type="text"
+              disabled={!isEdit}
+            />
+          </div>
+        </SMainDiv>
+      </SBorderDiv>
     </>
   );
 };

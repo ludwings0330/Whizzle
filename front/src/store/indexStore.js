@@ -6,18 +6,19 @@ export const diaryState = atom({
   default: {},
 });
 
-export const dataState = atom({
-  key: "dataState",
+export const diaryDataState = atom({
+  key: "diaryDataState",
   default: {
-    id: 0,
+    id: null,
     date: "",
+    today: "",
     emotion: "",
     drinkLevel: "",
     content: "",
     drinks: [
       {
         whisky: {
-          id: 0,
+          id: null,
           name: "",
         },
         drinkOrder: 0,
