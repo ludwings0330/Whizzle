@@ -2,7 +2,9 @@ package com.bear.whizzle.keep.service;
 
 public interface KeepService {
 
-    void keepOrUnkeepWhisky(Long memberId, Long whiskyId);
+    Boolean isKeptWhisky(Long memberId, Long whiskyId);
+
+    void toggleKeepForWhisky(Long memberId, Long whiskyId);
 
     long getKeepCountByMemberId(Long memberId);
 

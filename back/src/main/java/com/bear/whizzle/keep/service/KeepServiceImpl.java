@@ -3,6 +3,7 @@ package com.bear.whizzle.keep.service;
 import com.bear.whizzle.domain.model.entity.Keep;
 import com.bear.whizzle.domain.model.entity.Member;
 import com.bear.whizzle.domain.model.entity.Whisky;
+import com.bear.whizzle.keep.repository.KeepCustomRepository;
 import com.bear.whizzle.keep.repository.KeepRepository;
 import com.bear.whizzle.member.repository.MemberRepository;
 import com.bear.whizzle.whisky.repository.WhiskyRepository;
@@ -16,12 +17,18 @@ import org.springframework.transaction.annotation.Transactional;
 public class KeepServiceImpl implements KeepService {
 
     private final KeepRepository keepRepository;
+    private final KeepCustomRepository keepCustomRepository;
     private final MemberRepository memberRepository;
     private final WhiskyRepository whiskyRepository;
 
     @Override
+    public Boolean isKeptWhisky(Long memberId, Long whiskyId) {
+        return keepCustomRepository.existByMemberIdAndWhiskyId(memberId, whiskyId);
+    }
+
+    @Override
     @Transactional
-    public void keepOrUnkeepWhisky(Long memberId, Long whiskyId) {
+    public void toggleKeepForWhisky(Long memberId, Long whiskyId) {
         Member member = memberRepository.getReferenceById(memberId);
         Whisky whisky = whiskyRepository.getReferenceById(whiskyId);
 
