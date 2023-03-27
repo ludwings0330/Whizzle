@@ -18,6 +18,3 @@ spring:
       - jwt
       - security
       - ssl
-  servlet:
-    multipart:
-      enabled: true
