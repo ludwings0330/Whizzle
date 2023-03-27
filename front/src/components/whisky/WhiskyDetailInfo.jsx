@@ -32,6 +32,7 @@ const STitleP = styled.p`
   font-size: 36px;
   margin-top: 0px;
   margin-bottom: 35px;
+  max-width: 600px;
 `;
 
 const SP = styled.p`
@@ -107,7 +108,9 @@ const WhiskyDetailInfo = (props) => {
             <SP>{whisky.priceTier}</SP>
           </STextDiv>
           <STextDiv style={{ marginTop: "30px" }}>
-            <SP style={{ fontSize: "40px", marginRight: "20px" }}>{whisky.avg_rating}</SP>
+            <SP style={{ fontSize: "40px", marginRight: "20px" }}>
+              {whisky.avg_rating ? whisky.avg_rating : "NR"}
+            </SP>
             <SRatingDiv>
               <ReactStars
                 count={5}

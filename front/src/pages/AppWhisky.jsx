@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import colorLogo from "../assets/img/colorLogo.png";
 import logo from "../assets/img/logo.png";
-import favorite from "../assets/img/favorite.png";
+import favoriteFilled from "../assets/img/favorite_white_filled.png";
+import favoriteBorder from "../assets/img/favorite_white_border.png";
 import create from "../assets/img/create.png";
 import styled from "styled-components";
 import { whiskyDetail } from "../apis/whiskyDetail";
@@ -19,6 +20,7 @@ const SButton = styled.button`
 
   border-radius: 50%;
   border: none;
+  cursor: pointer;
 
   background: #f84f5a;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -76,7 +78,6 @@ const AppWhisky = () => {
   const [whisky, setWhisky] = useState(null);
   async function getWhiskyInfo(param) {
     try {
-      console.log(param);
       const whiskyInfo = await whiskyDetail(param);
       setWhisky(whiskyInfo);
     } catch (error) {
@@ -162,6 +163,13 @@ const AppWhisky = () => {
     },
   ];
 
+  const [isFavorite, setIsFavorite] = useState(false);
+  const favorite = () => {
+    setIsFavorite(!isFavorite);
+  };
+
+  const navigate = useNavigate();
+
   return (
     <>
       <SContainer>
@@ -176,10 +184,10 @@ const AppWhisky = () => {
         <WhiskySimilarList whiskys={whiskys} />
         <WhiskyDetailReview whisky={whisky} stat={whiskystatistics} />
         <SButtonDiv>
-          <SButton style={{ marginBottom: "10px" }}>
-            <SImg src={favorite} alt="keep" />
+          <SButton onClick={favorite} style={{ marginBottom: "10px" }}>
+            <SImg src={isFavorite ? favoriteFilled : favoriteBorder} alt="keep" />
           </SButton>
-          <SButton>
+          <SButton onClick={() => navigate(`/review/${id}`)}>
             <SImg src={create} alt="create" />
           </SButton>
         </SButtonDiv>
