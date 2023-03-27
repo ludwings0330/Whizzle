@@ -8,10 +8,11 @@ import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service
+@Service("authService")
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class AuthServiceImpl implements AuthService {
@@ -42,7 +43,11 @@ public class AuthServiceImpl implements AuthService {
         Review review = reviewRepository.findById(reviewId)
                                         .orElseThrow(() -> new NotFoundException("리뷰를 찾을 수 없습니다."));
 
-        return !review.getIsDeleted() && review.getMember().getId() == memberId;
+        if (Boolean.TRUE.equals(!review.isDeleted()) && review.getMember().getId() == memberId) {
+            return true;
+        } else {
+            throw new AccessDeniedException("리뷰 수정 권한이 없습니다.");
+        }
     }
 
     @Override

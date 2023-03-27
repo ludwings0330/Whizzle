@@ -19,7 +19,7 @@ import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -45,8 +45,8 @@ public class ReviewController {
     private final AuthService authService;
 
     @GetMapping("/whiskies/{whiskyId}/my")
-    public List<ReviewListResponseDto> getReviewsByMemberIdAndWhiskyId(@AuthenticationPrincipal PrincipalDetails member,
-                                                                       @PathVariable Long whiskyId) {
+    public List<ReviewListResponseDto> getMemberReviewsOnWhisky(@AuthenticationPrincipal PrincipalDetails member,
+                                                                @PathVariable Long whiskyId) {
         List<Review> reviews = reviewQueryService.findAllReviewByMemberIdAndWhiskyId(member.getMemberId(), whiskyId);
 
         return ReviewMapper.toReviewListResponseDto(reviews);
@@ -54,9 +54,9 @@ public class ReviewController {
 
     @GetMapping("/whiskies/{whiskyId}/any")
     @ResponseStatus(HttpStatus.OK)
-    public List<ReviewListResponseDto> getReviewsByWhiskyIdOrderBySearchCondition(@AuthenticationPrincipal PrincipalDetails member,
-                                                                                  @PathVariable Long whiskyId,
-                                                                                  @RequestBody ReviewSearchCondition searchCondition) {
+    public List<ReviewListResponseDto> getWhiskyReviewsBySearchCondition(@AuthenticationPrincipal PrincipalDetails member,
+                                                                         @PathVariable Long whiskyId,
+                                                                         @RequestBody ReviewSearchCondition searchCondition) {
         List<Review> reviews = reviewQueryService.findAllReviewByWhiskyIdAndSearchCondition(whiskyId, searchCondition);
         Set<Long> likeSet = new HashSet<>();
 
@@ -68,23 +68,22 @@ public class ReviewController {
     }
 
     @GetMapping("/members/{memberId}/any")
-    public List<ReviewMyPageResponseDto> getReviewByMemberId(@PathVariable Long memberId,
-                                                             @RequestBody ReviewSearchCondition searchCondition) {
+    public List<ReviewMyPageResponseDto> getMemberReviews(@PathVariable Long memberId,
+                                                          @RequestBody ReviewSearchCondition searchCondition) {
         List<Review> reviews = reviewQueryService.findAllReviewByMemberId(memberId, searchCondition);
 
         return ReviewMapper.toReviewMyPageResponseDto(reviews);
     }
 
     @PostMapping("/{reviewId}/like")
-    @ResponseStatus(HttpStatus.OK)
-    public void toggleLikeOnReview(@AuthenticationPrincipal PrincipalDetails user,
+    public void toggleLikeOnReview(@AuthenticationPrincipal PrincipalDetails member,
                                    @PathVariable Long reviewId) {
-        likeService.toggleLikeOnReviewByMemberIdAndReviewId(user.getMemberId(), reviewId);
+        likeService.toggleLikeOnReviewByMemberIdAndReviewId(member.getMemberId(), reviewId);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void writeReview(@AuthenticationPrincipal PrincipalDetails user,
+    public void writeReview(@AuthenticationPrincipal PrincipalDetails member,
                             @ModelAttribute @Valid ReviewWriteRequestDto reviewWriteRequestDto,
                             BindingResult bindingResult) {
 
@@ -92,29 +91,22 @@ public class ReviewController {
             throw new IllegalArgumentException("Invalid input data");
         }
 
-        reviewService.writeReview(user.getMemberId(), reviewWriteRequestDto);
+        reviewService.writeReview(member.getMemberId(), reviewWriteRequestDto);
     }
 
     @PutMapping("/{reviewId}")
-    @ResponseStatus(HttpStatus.OK)
-    public void updateReview(@AuthenticationPrincipal PrincipalDetails user,
+    @PreAuthorize("@authService.canMemberEditReview(#member.memberId, #reviewId)")
+    public void updateReview(@AuthenticationPrincipal PrincipalDetails member,
                              @PathVariable Long reviewId,
                              @ModelAttribute @Valid ReviewUpdateRequestDto reviewUpdateRequestDto) {
-        if (authService.canMemberEditReview(user.getMemberId(), reviewId)) {
-            reviewService.updateReview(reviewId, reviewUpdateRequestDto);
-        } else {
-            throw new AccessDeniedException("리뷰 수정 권한이 없습니다.");
-        }
+        reviewService.updateReview(reviewId, reviewUpdateRequestDto);
     }
 
     @DeleteMapping("/{reviewId}")
+    @PreAuthorize("@authService.canMemberEditReview(#member.memberId, #reviewId)")
     public void deleteReview(@AuthenticationPrincipal PrincipalDetails member,
                              @PathVariable Long reviewId) {
-        if (authService.canMemberEditReview(member.getMemberId(), reviewId)) {
-            reviewService.deleteReview(reviewId);
-        } else {
-            throw new AccessDeniedException("리뷰 삭제 권한이 없습니다.");
-        }
+        reviewService.deleteReview(reviewId);
     }
 
 }
