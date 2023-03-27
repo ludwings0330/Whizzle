@@ -94,10 +94,11 @@ public class RecServiceImpl implements RecService {
 
     /**
      * 추천 결과 위스키 정보 조회 with Keep
+     *
      * @param filteredWhiskies : 모델로부터 추천받은 위스키 중 원하는 가격대 맞는 9개 위스키 index
-     * @param memberId : 접근중인 주체 memberId
+     * @param memberId         : 접근중인 주체 memberId
      * @return 추천 결과 페이지에 출력할 위스키 정보 DTO
-     * */
+     */
     @Override
     @Transactional(readOnly = true)
     public List<RecWhiskyResponseDto> findRecWhiskies(List<Long> filteredWhiskies, Long memberId) {
