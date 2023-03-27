@@ -20,7 +20,7 @@ export const diaryRead = async (data) => {
     return [
       {
         id: 4956419,
-        date: "2023-03-24",
+        date: "2023-03-26",
         emotion: "GOOD",
         drinkLevel: "MODERATE",
         content: "23@",

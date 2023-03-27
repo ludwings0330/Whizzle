@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { diaryState, dataState, currentComponentState } from "../../../store/indexStore";
 import { useRecoilState, useRecoilValue } from "recoil";
+import { diaryCreate } from "../../../apis/diary";
 
 //import css
 import styled from "styled-components";
@@ -108,9 +109,18 @@ const SNextButton = styled.button`
 `;
 
 const STbody = styled.tbody`
-  border: 1px solid black;
+  .selected-day {
+    background-color: #f84f5a;
+    color: white;
+  }
 `;
 
+const SCalendarDay = styled.td`
+  &:hover {
+    background-color: #f84f5a;
+    color: white;
+  }
+`;
 //다이어리 캘린더
 const DiaryCalander = ({ onDateClick }) => {
   const [date, setDate] = useState(new Date());
@@ -120,7 +130,11 @@ const DiaryCalander = ({ onDateClick }) => {
   function getKey(year, month, day) {
     return `${year}-${month}-${day}`;
   }
-
+  useEffect(() => {
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    diaryCreate(`${year}-${month}`);
+  }, [date]);
   function prevMonth() {
     setDate((prevDate) => new Date(prevDate.getFullYear(), prevDate.getMonth() - 1, 1));
   }
@@ -162,8 +176,18 @@ const DiaryCalander = ({ onDateClick }) => {
     const clickedDateString = `${year}-${month < 10 ? "0" : ""}${month}-${
       day < 10 ? "0" : ""
     }${day}`;
-    console.log(clickedDateString);
-    console.log(diaryList);
+
+    const now = new Date();
+    if (clickedDate > now) {
+      alert("오늘 이후의 날짜는 선택할 수 없습니다!");
+      return;
+    }
+    if (clickedDay) {
+      clickedDay.classList.remove("selected-day");
+    }
+    event.target.classList.add("selected-day");
+    setClickedDay(event.target);
+
     const diaryItem = findItem(diaryList, clickedDateString);
     if (diaryItem === -1) {
       onDateClick(clickedDateString);
@@ -185,26 +209,14 @@ const DiaryCalander = ({ onDateClick }) => {
         ],
       });
       return;
-    } else {
     }
+
     setCurrentComponent("diaryNewContent");
     setData(diaryItem);
-    console.log("data=  ");
-    console.log(data);
+
     //diaryItem 이 -1이면 Editor를 띄워주기
     //아니라면 DiaryItem 자체를 보여주기
 
-    const now = new Date();
-    if (clickedDate > now) {
-      alert("오늘 이후의 날짜는 선택할 수 없습니다!");
-      return;
-    }
-
-    if (clickedDay) {
-      clickedDay.style.backgroundColor = "white";
-    }
-    event.target.style.backgroundColor = "#F84F5A";
-    setClickedDay(event.target);
     onDateClick(clickedDateString);
   }
 
@@ -263,7 +275,7 @@ const DiaryCalander = ({ onDateClick }) => {
                 ))}
               </tr>
             </thead>
-            <tbody>{rows}</tbody>
+            <STbody>{rows}</STbody>
           </table>
         </SCalanderDiv>
       </SDiv>

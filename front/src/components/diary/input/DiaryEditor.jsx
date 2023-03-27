@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
-import { diaryState, dataState } from "../../../store/indexStore";
+import { diaryState, dataState, fetchDiaries } from "../../../store/indexStore";
 //import component
 import DiaryNewContent from "./DiaryNewContent";
 import { diaryCreate } from "../../../apis/diary";
@@ -159,6 +159,7 @@ const SDiv = styled.div`
 
 const DiaryEditor = ({ today, currentComponent, setCurrentComponent }) => {
   const [data, setData] = useRecoilState(dataState);
+  const [diaryList, setDiaryList] = useRecoilState(diaryState);
 
   const [emotionImage, setEmotionImage] = useState(soso);
   const [drinkImage, setDrinkImage] = useState(normaldrink);
@@ -205,11 +206,12 @@ const DiaryEditor = ({ today, currentComponent, setCurrentComponent }) => {
     setDrinklevelValue(50);
     setEmotion("그냥그래요");
     setDrinklevel("적당히");
+    setContent("");
     const recentSearchData = JSON.parse(sessionStorage.getItem("recentSearch"));
     if (recentSearchData) {
       setRecentSearch(recentSearchData);
     }
-  }, [today]);
+  }, [today, currentComponent]);
 
   const handleEmotionChange = (e) => {
     const emotionValue = e.target.value;
@@ -242,7 +244,7 @@ const DiaryEditor = ({ today, currentComponent, setCurrentComponent }) => {
   };
 
   //위스키 이름, 주량, 기분, 한마디
-  const onCreate = () => {
+  const onCreate = async () => {
     const numberSearchTerms = recentSearch.map(Number);
     const changeEmotionApi = emotionValue === 0 ? "BAD" : emotionValue === 50 ? "NORMAL" : "GOOD";
     const changeDrinkLevelApi =
@@ -271,7 +273,10 @@ const DiaryEditor = ({ today, currentComponent, setCurrentComponent }) => {
       content: content,
       drinks: newDrinks,
     });
-    const createIsOk = diaryCreate(newItem);
+
+    const createIsOk = await diaryCreate(newItem);
+    // await fetchDiaries(setDiaryList,setData,newItem.date); //이거 api연동해서 확인된느치 추가 위에 setData제거하고 실행해야함
+
     if (createIsOk) {
     }
   };
@@ -315,8 +320,8 @@ const DiaryEditor = ({ today, currentComponent, setCurrentComponent }) => {
               />
               <div>
                 {recentSearch.map((word, index) => (
-                  <SDiv>
-                    <SP key={index}>{word.length > 6 ? `${word.slice(0, 6)}...` : word}</SP>
+                  <SDiv key={index}>
+                    <SP>{word.length > 6 ? `${word.slice(0, 6)}...` : word}</SP>
                     <SButton onClick={() => deleteRecentSearchWord(word)}>X</SButton>
                   </SDiv>
                 ))}
@@ -358,12 +363,12 @@ const DiaryEditor = ({ today, currentComponent, setCurrentComponent }) => {
             </div>
             <div>
               <SP>오늘의 한마디</SP>
-              <STextarea onKeyDown={contentChange} name="content" type="text" />
+              <STextarea onChange={contentChange} name="content" type="text" />
             </div>
           </SMainDiv>
         </div>
       ) : (
-        <DiaryNewContent />
+        <></>
       )}
     </>
   );

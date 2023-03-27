@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useRecoilState } from "recoil";
-
-//import css
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { currentComponentState } from "../store/indexStore";
 import styled from "styled-components";
 
 //import component
@@ -9,7 +8,7 @@ import DiaryCalander from "../components/diary/calander/DiaryCalander";
 import DiaryInput from "../components/diary/input/DiaryInput";
 import diary_header from "../assets/img/diary_header.png";
 import { diaryRead } from "../apis/diary";
-import { diaryState, dataState } from "../store/indexStore";
+import { diaryState, dataState, fetchDiaries } from "../store/indexStore";
 
 const SHeaderDiv = styled.div`
   width: 100vw;
@@ -66,36 +65,19 @@ const SP = styled.p`
 const AppDiary = () => {
   const [diaryList, setDiaryList] = useRecoilState(diaryState);
   const [data, setData] = useRecoilState(dataState);
-
+  const setCurrentComponent = useSetRecoilState(currentComponentState);
   useEffect(() => {
-    const a = new Date();
-    const year = a.getFullYear();
-    const month = a.getMonth() + 1;
-    const formattedDate = year + "-" + (month < 10 ? "0" + month : month);
-    const date = a.getDate();
-    const today = `${year}-${month < 10 ? `0${month}` : month}-${date < 10 ? `0${date}` : date}`;
-    console.log(formattedDate);
-    console.log(today);
-    const fetchDiaries = async () => {
-      try {
-        const diaries = await diaryRead(formattedDate);
-        console.log(diaries);
-        setDiaryList(diaries);
-
-        diaries.forEach((diary) => {
-          const diaryDate = diary.date;
-          console.log(diaryDate, today);
-          if (diaryDate === today) {
-            console.log(diaryDate);
-            setData(diaryDate);
-          }
-        });
-      } catch (error) {
-        console.log(error);
+    const fetch = async () => {
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = String(today.getMonth() + 1).padStart(2, "0");
+      const day = String(today.getDate()).padStart(2, "0");
+      const result = await fetchDiaries(setDiaryList, setData, `${year}-${month}-${day}`);
+      if (result) {
+        await setCurrentComponent("diaryNewContent");
       }
     };
-
-    fetchDiaries();
+    fetch();
   }, []);
 
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().slice(0, 10));

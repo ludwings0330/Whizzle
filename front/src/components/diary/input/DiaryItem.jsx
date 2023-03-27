@@ -1,4 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { diaryUpdate, deleteDiary } from "../../../apis/diary";
+import {
+  diaryState,
+  dataState,
+  fetchDiaries,
+  currentComponentState,
+} from "../../../store/indexStore";
+import { useRecoilState, useSetRecoilState } from "recoil";
 
 //import css
 import styled from "styled-components";
@@ -10,12 +18,22 @@ import sad from "../../../assets/img/sad.png";
 import littledrink from "../../../assets/img/littledrink.png";
 import normaldrink from "../../../assets/img/normaldrink.png";
 import largedrink from "../../../assets/img/largedrink.png";
-import { useRecoilState } from "recoil";
-import { dataState } from "../../../store/indexStore";
 
 const SP = styled.p`
   font-size: 23px;
   font-weight: bold;
+`;
+const SDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 5px 16px;
+  gap: 4px;
+  margin-right: 10px;
+  height: 20px;
+
+  background: #f84f5a;
 `;
 
 const SHeaderDiv = styled.div`
@@ -165,8 +183,9 @@ const DiaryItem = ({
   content,
   searchTerms,
 }) => {
+  const setCurrentComponentState = useSetRecoilState(currentComponentState);
   const [data, setData] = useRecoilState(dataState);
-
+  const [diaryList, setDiaryList] = useRecoilState(diaryState);
   const [localContent, setLocalContent] = useState(data.content);
   const [localWhisky, setLocalWhisky] = useState(whisky);
   const [localDrinklevel, setLocalDrinklevel] = useState(30);
@@ -198,10 +217,29 @@ const DiaryItem = ({
   useEffect(() => {
     initData();
   }, [data]);
-  const handleClickRemove = () => {
+  const handleClickRemove = async () => {
     if (window.confirm(`${today}날의 일기를 정말 삭제하시겠습니까?`)) {
       toggleIsEdit();
-      onRemove(today);
+      deleteDiary(data.id);
+      setData({
+        id: 0,
+        date: "",
+        emotion: "",
+        drinkLevel: "",
+        content: "",
+        drinks: [
+          {
+            whisky: {
+              id: 0,
+              name: "",
+            },
+            drinkOrder: 0,
+          },
+        ],
+      });
+      setCurrentComponentState("diaryEditor");
+      await fetchDiaries(setDiaryList, setData, today);
+
       return;
     }
   };
@@ -234,14 +272,42 @@ const DiaryItem = ({
     initData();
   };
 
-  const handleEdit = () => {
+  const handleEdit = async () => {
     if (window.confirm(`${today} 날의 일기를 수정하시겠습니까?`)) {
-      onEdit(today, localWhisky);
-      onEdit(today, localContent);
-      onEdit(today, localDrinklevel);
-      onEdit(today, localEmotion);
-      onEdit(today, localSearchTerms);
+      const changeEmotionApi = localEmotion === 0 ? "BAD" : localEmotion === 50 ? "NORMAL" : "GOOD";
+      const changeDrinkLevelApi =
+        localDrinklevel === 0 ? "LIGHT" : localDrinklevel === 50 ? "MODERATE" : "HEAVY";
 
+      const deletedDrinkOrders = [];
+      const insertedWhiskyIds = [];
+
+      // data.drinks 기준으로 삭제된 drinkOrder 번호 찾기
+      data.drinks.forEach((drink) => {
+        if (!localSearchTerms.includes(drink.whisky.id)) {
+          deletedDrinkOrders.push(drink.drinkOrder);
+        }
+      });
+
+      // localSearchTerms 기준으로 추가된 whisky id 찾기
+      localSearchTerms.forEach((whiskyId) => {
+        const found = data.drinks.find((drink) => drink.whisky.id === whiskyId);
+        if (!found) {
+          insertedWhiskyIds.push(whiskyId);
+        }
+      });
+      console.log(insertedWhiskyIds);
+      console.log(deletedDrinkOrders);
+      const editItem = {
+        id: data.id,
+        emotion: changeEmotionApi,
+        drinkLevel: changeDrinkLevelApi,
+        content: localContent,
+        insertedWhiskyIds: insertedWhiskyIds.map(Number),
+        deletedDrinkOrders,
+      };
+      console.log(editItem);
+      await diaryUpdate(editItem);
+      await fetchDiaries(setDiaryList, setData, data.date);
       toggleIsEdit();
     }
   };
@@ -254,6 +320,16 @@ const DiaryItem = ({
       setLocalWhisky("");
     }
   };
+
+  const deleteRecentSearchWord = (word) => {
+    let updatedRecentSearch = [...localSearchTerms];
+    const existingIndex = updatedRecentSearch.indexOf(word);
+    if (existingIndex !== -1) {
+      updatedRecentSearch.splice(existingIndex, 1);
+      setLocalSearchTerms(updatedRecentSearch);
+    }
+  };
+
   return (
     <>
       <SHeaderDiv>
@@ -293,11 +369,15 @@ const DiaryItem = ({
                 onKeyPress={handleInputEnter}
               />
               <div>
-                {localSearchTerms.map((tag, index) => (
-                  <div key={index}>
-                    <span>{tag}</span>
-                  </div>
-                ))}
+                <div>
+                  {localSearchTerms.map((word, index) => (
+                    <SDiv key={index}>
+                      <SP>{word.length > 6 ? `${word.slice(0, 6)}...` : word}</SP>
+                      <SButton onClick={() => deleteRecentSearchWord(word)}>X</SButton>
+                    </SDiv>
+                  ))}
+                </div>
+
                 {/*{localSearchTerms.map((tag, index) => (*/}
                 {/*    <div key={index}>*/}
                 {/*      <span>{tag.whisky.name}</span>*/}
@@ -318,62 +398,51 @@ const DiaryItem = ({
         <div>
           <SP>오늘의 주량</SP>
           <SRangeContainer>
-            {localDrinklevel ? (
-              <div>
-                <SRangeDiv>
-                  <STextP>{drinkValue}</STextP>
-                  <SImg src={drinkImage} alt={""} />
-                </SRangeDiv>
-                <SRangeInput
-                  type="range"
-                  min="0"
-                  max="100"
-                  step="50"
-                  value={localDrinklevel}
-                  onChange={(e) => setLocalDrinklevel(e.target.value)}
-                  disabled={!isEdit}
-                />
-              </div>
-            ) : (
-              localDrinklevel + "h"
-            )}
+            <div>
+              <SRangeDiv>
+                <STextP>{drinkValue}</STextP>
+                <SImg src={drinkImage} alt={""} />
+              </SRangeDiv>
+              <SRangeInput
+                type="range"
+                min="0"
+                max="100"
+                step="50"
+                value={localDrinklevel}
+                onChange={(e) => setLocalDrinklevel(e.target.value)}
+                disabled={!isEdit}
+              />
+            </div>
           </SRangeContainer>
         </div>
         <div>
           <SP>오늘의 기분</SP>
           <SRangeContainer>
-            {localEmotion ? (
-              <div>
-                <SRangeDiv>
-                  <STextP>{emotionValue}</STextP>
-                  <SImg src={emotionImage} alt={""} />
-                </SRangeDiv>
-                <SRangeInput
-                  type="range"
-                  min="0"
-                  max="100"
-                  step="50"
-                  value={localEmotion}
-                  onChange={(e) => setLocalEmotion(e.target.value)}
-                  disabled={!isEdit}
-                />
-              </div>
-            ) : (
-              localEmotion
-            )}
+            <div>
+              <SRangeDiv>
+                <STextP>{emotionValue}</STextP>
+                <SImg src={emotionImage} alt={""} />
+              </SRangeDiv>
+              <SRangeInput
+                type="range"
+                min="0"
+                max="100"
+                step="50"
+                value={localEmotion}
+                onChange={(e) => setLocalEmotion(e.target.value)}
+                disabled={!isEdit}
+              />
+            </div>
           </SRangeContainer>
         </div>
         <div>
           <SP>오늘의 한마디</SP>
-          {isEdit ? (
-            <STextarea
-              value={localContent}
-              onChange={(e) => setLocalContent(e.target.value)}
-              type="text"
-            />
-          ) : (
-            <STextarea value={localContent} disabled={!isEdit} />
-          )}
+          <STextarea
+            value={localContent}
+            onChange={(e) => setLocalContent(e.target.value)}
+            type="text"
+            disabled={!isEdit}
+          />
         </div>
       </SMainDiv>
     </>

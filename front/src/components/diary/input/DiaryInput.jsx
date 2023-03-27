@@ -8,6 +8,7 @@ import DiaryNewContent from "./DiaryNewContent";
 
 //import css
 import styled from "styled-components";
+import DiaryItem from "./DiaryItem";
 
 const SDiv = styled.div`
   border: 2px solid #e1e1e1;
@@ -50,12 +51,7 @@ const DiaryInput = ({ selectedDate }) => {
           currentComponent={currentComponent}
           setCurrentComponent={setCurrentComponent}
         />
-        <DiaryNewContent
-          onEdit={onEdit}
-          onRemove={onRemove}
-          diaryContent={data.content}
-          today={today}
-        />
+        {data.drinkLevel && <DiaryItem onEdit={onEdit} onRemove={onRemove} today={today} />}
       </SDiv>
     </>
   );
