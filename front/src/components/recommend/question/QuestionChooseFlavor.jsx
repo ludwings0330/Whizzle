@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
-import { preference } from "../../../store/preferenceStore";
+import { preference } from "../../../store/indexStore";
 import QuestionChooseFlavorItem from "./QuestionChooseFlavorItem";
 import styled from "styled-components";
 import { motion } from "framer-motion";
@@ -122,13 +122,6 @@ const QuestionChooseFlavor = (props) => {
   const preferenceValue = useRecoilValue(preference);
   const [isHover, setIsHover] = useState(false);
 
-  const submitHandler = () => {
-    // axios 요청 들어갈 자리
-    console.log(preferenceValue);
-    props.setDirection("next");
-    props.setActivePage(6);
-  };
-
   useEffect(() => {
     props.setBarWidth(window.innerWidth * 0.99);
   });
@@ -162,7 +155,7 @@ const QuestionChooseFlavor = (props) => {
             <QuestionChooseFlavorItem key={index} flavor={flavor} />
           ))}
         </SBox>
-        <SButton onClick={submitHandler}>
+        <SButton onClick={props.flavorSubmitHandler}>
           <SButtonText>나만의 위스키 추천 결과 보러가기</SButtonText>
         </SButton>
       </SCentered>

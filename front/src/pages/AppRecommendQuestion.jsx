@@ -1,6 +1,9 @@
 import React, { useState } from "react";
-import { useRecoilState } from "recoil";
-import { preference } from "../store/preferenceStore";
+import { useNavigate } from "react-router";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { preference, recommendResult } from "../store/indexStore";
+import { userState } from "../store/userStore";
+import { preferenceSave, unloginedRecommend, loginedRecommend } from "../apis/recommend";
 import { motion, AnimatePresence } from "framer-motion";
 import styled, { keyframes } from "styled-components";
 import navigateNext from "../assets/img/navigate_next.png";
@@ -97,10 +100,64 @@ const Svg = styled.svg`
 `;
 
 const AppRecommendQuestion = () => {
+  const user = useRecoilValue(userState);
+  const isLogin = Boolean(user.id);
+  const navigate = useNavigate();
+
   const [preferenceValue, setPreferenceValue] = useRecoilState(preference);
+  const [resultValue, setResultValue] = useRecoilState(preference);
   const [activePage, setActivePage] = useState(0);
   const [direction, setDirection] = useState("next");
   const [barWidth, setBarWidth] = useState(0);
+
+  const flavorSubmitHandler = async () => {
+    setDirection("next");
+    setActivePage(6);
+    console.log("로딩페이지로 이동");
+
+    // axios 요청
+    const data = {
+      gender: preferenceValue.gender,
+      age: preferenceValue.age,
+      priceTier: preferenceValue.price,
+      flavor: preferenceValue.flavor,
+    };
+
+    let recommendedResult;
+    if (isLogin) {
+      await preferenceSave(data);
+      recommendedResult = await loginedRecommend(data);
+    } else {
+      recommendedResult = await unloginedRecommend(data);
+    }
+
+    setResultValue(recommendedResult);
+    navigate(`/recommend/result`);
+  };
+
+  const whiskySubmitHandler = async () => {
+    setDirection("next");
+    setActivePage(6);
+
+    // axios 요청
+    const data = {
+      gender: preferenceValue.gender,
+      age: preferenceValue.age,
+      priceTier: preferenceValue.price,
+      whiskies: preferenceValue.whiskies,
+    };
+
+    let recommendedResult;
+    if (isLogin) {
+      await preferenceSave(data);
+      recommendedResult = await loginedRecommend(data);
+    } else {
+      recommendedResult = await unloginedRecommend(data);
+    }
+
+    setResultValue(recommendedResult);
+    navigate(`/recommend/result`);
+  };
 
   const goNextPage = () => {
     if (activePage === 1 && !(preferenceValue.age && preferenceValue.gender)) {
@@ -198,6 +255,7 @@ const AppRecommendQuestion = () => {
             setActivePage={setActivePage}
             setDirection={setDirection}
             setBarWidth={setBarWidth}
+            whiskySubmitHandler={whiskySubmitHandler}
           />
         );
       case 5:
@@ -209,6 +267,7 @@ const AppRecommendQuestion = () => {
             setActivePage={setActivePage}
             setDirection={setDirection}
             setBarWidth={setBarWidth}
+            flavorSubmitHandler={flavorSubmitHandler}
           />
         );
       case 6:

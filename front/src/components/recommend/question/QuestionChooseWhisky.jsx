@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useRecoilValue } from "recoil";
-import { preference } from "../../../store/preferenceStore";
+import { preference } from "../../../store/indexStore";
 import { motion } from "framer-motion";
 import QuestionChooseWhiskyItem from "./QuestionChooseWhiskyItem";
 import styled from "styled-components";
@@ -148,7 +148,7 @@ const QuestionChooseWhisky = (props) => {
             <QuestionChooseWhiskyItem key={whisky.id} whisky={whisky} />
           ))}
         </SBox>
-        <SButton onClick={submitHandler}>
+        <SButton onClick={props.whiskySubmitHandler}>
           <SButtonText>나만의 위스키 추천 결과 보러가기</SButtonText>
         </SButton>
       </SCentered>
