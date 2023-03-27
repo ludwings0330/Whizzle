@@ -7,8 +7,9 @@ const SImg = styled.img`
 `;
 
 const SP = styled.p`
-  font-size: 40px;
+  font-size: 44px;
   font-weight: bold;
+  margin-top: 30px;
   margin-bottom: 15px;
 `;
 
@@ -18,7 +19,7 @@ const SInfoDiv = styled.div`
   justify-content: space-between;
   height: 250px;
   margin-bottom: 50px;
-  margin-left: 50px;
+  margin-left: 20px;
 `;
 
 const SMainDiv = styled.div`

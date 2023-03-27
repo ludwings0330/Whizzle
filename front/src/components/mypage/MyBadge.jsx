@@ -5,18 +5,20 @@ import MyBadgeItem from "./MyBadgeItem";
 const SBox = styled.div`
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
-  gap: 0px 20px;
+  gap: 20px 30px;
   flex-wrap: wrap;
-  max-width: 900px;
+  max-width: 770px;
   background: #ffffff;
   border: 1px solid #b9b9b9;
-  border-radius: 16px;
+  border-radius: 10px;
   margin-bottom: 70px;
   margin-top: 25px;
-  padding-left: 30px;
-  padding-right: 30px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  padding-left: 50px;
+  padding-right: 50px;
 `;
 
 const exampleBadges = [

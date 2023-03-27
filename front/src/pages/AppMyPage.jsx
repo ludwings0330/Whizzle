@@ -11,7 +11,7 @@ import MypageTab from "../components/mypage/MypageTab";
 const SContainer = styled.div`
   margin-top: 150px;
   max-width: 100%;
-  width: 100vw;
+  // width: 100vw;
   display: flex;
   justify-content: center;
   flex-direction: column;
