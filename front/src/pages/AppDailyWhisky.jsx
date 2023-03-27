@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 import DailyFlavor from "../components/daily/DailyFlavor";
 import DailyPrice from "../components/daily/DailyPrice";
+import DailyLoading from "../components/daily/DailyLoading";
 import WhiskyList from "../components/common/WhiskyList";
 
 const SHeaderDiv = styled.div`
@@ -53,6 +54,8 @@ const AppDailyWhisky = () => {
   });
 
   const [priceData, setPriceData] = useState("1");
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const whiskys = [
     {
@@ -118,7 +121,7 @@ const AppDailyWhisky = () => {
 
   useEffect(() => {
     // axios 들어갈 자리
-    // console.log(body);
+    setIsLoading((prev) => !prev);
   }, [flavorData, priceData]);
 
   return (
@@ -138,7 +141,7 @@ const AppDailyWhisky = () => {
         <DailyFlavor flavorData={flavorData} setFlavorData={setFlavorData} />
         <SHr />
         <div style={{ height: "0px" }}></div>
-        <WhiskyList whiskys={whiskys} />
+        {isLoading ? <DailyLoading /> : <WhiskyList whiskys={whiskys} />}
       </SMainDiv>
     </>
   );

@@ -15,7 +15,6 @@ import com.bear.whizzle.diary.controller.dto.DiaryRequestSaveDto;
 import com.bear.whizzle.diary.controller.dto.DiaryRequestUpdateDto;
 import com.bear.whizzle.diary.controller.dto.DiaryResponseDto;
 import com.bear.whizzle.diary.repository.DiaryRepository;
-import com.bear.whizzle.diary.service.DiaryService;
 import com.bear.whizzle.domain.model.entity.Diary;
 import com.bear.whizzle.domain.model.entity.Drink;
 import com.bear.whizzle.domain.model.entity.Whisky;
@@ -84,7 +83,8 @@ class DiaryControllerTest {
 
         // then
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
-        objectMapper.readValue(content, new TypeReference<List<DiaryResponseDto>>() { })
+        objectMapper.readValue(content, new TypeReference<List<DiaryResponseDto>>() {
+                    })
                     .forEach(actual -> assertThat(actual.getDate().format(formatter)).isEqualTo(month));
     }
 
@@ -148,7 +148,7 @@ class DiaryControllerTest {
                     assertThat(DiaryMapper.toDiaryRequestUpdateDto(actual)).isEqualTo(updateDto);
                     assertThat(actual.getDrinks()
                                      .stream()
-                                     .filter(Drink::getIsDeleted)
+                                     .filter(Drink::isDeleted)
                                      .map(Drink::getDrinkOrder)
                                      .filter(deletedDrinkOrders::contains)
                                      .collect(Collectors.toList()))
@@ -156,7 +156,7 @@ class DiaryControllerTest {
 
                     assertThat(actual.getDrinks()
                                      .stream()
-                                     .filter(drink -> !drink.getIsDeleted())
+                                     .filter(drink -> !drink.isDeleted())
                                      .map(Drink::getWhisky)
                                      .map(Whisky::getId)
                                      .filter(insertedWhiskyIds::contains)
@@ -180,10 +180,10 @@ class DiaryControllerTest {
                 () -> {
                     Diary actual = diaryRepository.findWithDrinksById(testDiaryId).get();
 
-                    assertThat(actual.getIsDeleted()).isTrue();
+                    assertThat(actual.isDeleted()).isTrue();
                     assertThat(actual.getDrinks()
                                      .stream()
-                                     .filter(Drink::getIsDeleted)
+                                     .filter(Drink::isDeleted)
                                      .count())
                             .isEqualTo(actual.getDrinks().size());
                 }

@@ -1,15 +1,19 @@
 import React from "react";
 import { useRef } from "react";
 import { motion } from "framer-motion";
+import { useRecoilValue } from "recoil";
+import { userState } from "../store/userStore";
 
 //components import
-import Main from "../components/main/Main";
+import MainDefault from "../components/main/MainDefault";
+import MainRecommend from "../components/main/MainRecommend";
 import MainDiary from "../components/main/MainDiary";
 import MainReview from "../components/main/MainReview";
-import MainRecommend from "../components/main/MainRecommend";
-import MainWhiskyList from "../components/main/MainWhiskyList";
 
 const AppMain = () => {
+  const user = useRecoilValue(userState);
+  const isLogin = Boolean(user.id);
+
   const scrollRef = useRef(null);
   const variants = {
     hidden: { opacity: 0, y: 100 },
@@ -33,7 +37,19 @@ const AppMain = () => {
 
   return (
     <div ref={scrollRef}>
-      <Main key="0" variants={variants} viewport={{ root: scrollRef, once: true, amount: 0.3 }} />
+      {isLogin ? (
+        <MainRecommend
+          key="0"
+          variants={variants}
+          viewport={{ root: scrollRef, once: true, amount: 0.3 }}
+        />
+      ) : (
+        <MainDefault
+          key="0"
+          variants={variants}
+          viewport={{ root: scrollRef, once: true, amount: 0.3 }}
+        />
+      )}
       <MainDiary
         key="1"
         variants={variants}

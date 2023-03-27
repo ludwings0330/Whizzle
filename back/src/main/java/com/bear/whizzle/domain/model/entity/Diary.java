@@ -40,35 +40,6 @@ import org.hibernate.annotations.ColumnDefault;
 @ToString
 public class Diary {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id", updatable = false)
-    @NotNull
-    @ToString.Exclude
-    private Member member;
-
-    @Column(columnDefinition = "DATE", updatable = false)
-    @NotNull
-    private LocalDate date;
-
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    private Emotion emotion;
-
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    private DrinkLevel drinkLevel;
-
-    @Size(max = 255)
-    private String content;
-
-    @NotNull
-    @ColumnDefault("0")
-    private Boolean isDeleted = Boolean.FALSE;
-
     @OneToMany(
             mappedBy = "diary",
             cascade = CascadeType.ALL,
@@ -77,6 +48,28 @@ public class Diary {
     @OrderBy("drinkOrder ASC")
     @ToString.Exclude
     private final List<Drink> drinks = new ArrayList<>();
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id", updatable = false)
+    @NotNull
+    @ToString.Exclude
+    private Member member;
+    @Column(columnDefinition = "DATE", updatable = false)
+    @NotNull
+    private LocalDate date;
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private Emotion emotion;
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private DrinkLevel drinkLevel;
+    @Size(max = 255)
+    private String content;
+    @NotNull
+    @ColumnDefault("0")
+    private Boolean isDeleted = Boolean.FALSE;
 
     @Builder
     private Diary(Member member, LocalDate date, Emotion emotion, DrinkLevel drinkLevel, String content) {
@@ -128,6 +121,10 @@ public class Diary {
     @Override
     public int hashCode() {
         return Objects.hash(this.getDate(), this.getMember().getId());
+    }
+
+    public boolean isDeleted() {
+        return Boolean.TRUE.equals(this.isDeleted);
     }
 
 }
