@@ -36,7 +36,7 @@ const Graph = (props) => {
             fontSize: "20px",
           }}
           margin={{ top: 30, right: 30, bottom: 40, left: 35 }}
-          lineWidth={"5px"}
+          lineWidth={5}
           xScale={{ type: "point" }}
           yScale={{
             type: "linear",

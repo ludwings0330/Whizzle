@@ -59,7 +59,7 @@ const SStatDiv = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 30vw;
+  width: 500px;
   height: 104px;
 
   background: #ffffff;

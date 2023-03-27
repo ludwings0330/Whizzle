@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../../store/userStore";
 import ResultMainWhiskyItem from "./ResultMainWhiskyItem";
+import { NON_LOGIN_NICKNAME } from "../../../constants/constants";
 
 const Wrapper = styled.div`
   display: flex;
@@ -49,7 +50,7 @@ const ResultMainWhisky = (props) => {
     <Wrapper>
       <props.STitleP style={{ width: "209px", height: "44px" }}>위스키 추천 리스트</props.STitleP>
       <props.SGraphP>
-        <props.SColorSpan>{user ? user.nickname : "drunkenbear"}</props.SColorSpan>
+        <props.SColorSpan>{user ? user.nickname : NON_LOGIN_NICKNAME}</props.SColorSpan>
         <props.SSpan>님의 취향에 꼭 맞는 위스키입니다.</props.SSpan>
       </props.SGraphP>
       {whiskys ? (
