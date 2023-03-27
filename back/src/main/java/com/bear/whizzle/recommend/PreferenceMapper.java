@@ -2,6 +2,7 @@ package com.bear.whizzle.recommend;
 
 import com.bear.whizzle.domain.model.type.Flavor;
 import com.bear.whizzle.recommend.controller.dto.PreferenceDto;
+import com.bear.whizzle.whisky.repository.projection.dto.FlavorSummary;
 
 public class PreferenceMapper {
 
