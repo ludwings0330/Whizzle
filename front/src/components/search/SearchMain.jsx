@@ -5,6 +5,10 @@ import SearchBar from "./SearchBar";
 import searchHeader from "../../assets/img/searchHeader.png";
 import colorLogo from "../../assets/img/colorLogo.png";
 
+const Wrapper = styled.div`
+  min-height: 100vh;
+`;
+
 const SHeaderDiv = styled.div`
   width: 100vw;
   max-width: 100%;
@@ -38,7 +42,7 @@ const SImg = styled.img`
 
 const SearchMain = () => {
   return (
-    <>
+    <Wrapper>
       <SHeaderDiv>
         <SP style={{ fontSize: "32px", marginBottom: "0px", fontWeight: "bold" }}>
           나만의 위's키 백과
@@ -49,7 +53,7 @@ const SearchMain = () => {
         <SImg src={colorLogo} alt="#" />
         <SearchBar />
       </SMainDiv>
-    </>
+    </Wrapper>
   );
 };
 
