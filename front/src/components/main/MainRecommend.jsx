@@ -19,14 +19,14 @@ const SBackImg = styled.div`
 const SContainer = styled.div`
   display: flex;
   align-items: end;
-  padding-top: 70px;
-  padding-left: 129px;
-  height: 730px;
+  padding-top: 8vh;
+  padding-left: 11vh;
+  height: 77vh;
 `;
 
 const SWhiskyImg = styled.img`
   cursor: pointer;
-  margin-right: 80px;
+  margin-right: 8vh;
   height: 100%;
   transition: 0.5s;
   transform-origin: bottom;
@@ -37,11 +37,11 @@ const SWhiskyImg = styled.img`
 `;
 
 const STextCon = styled.div`
-  height: 356px;
+  height: 35vh;
   display: flex;
   justify-content: start;
   align-items: flex-start;
-  margin-bottom: 50px;
+  margin-bottom: 6vh;
 `;
 
 const SRight = styled.div`
@@ -62,11 +62,11 @@ const blink = keyframes`
 
 const SText = styled.div`
   font-family: GmarketSansLight;
-  font-size: 40px;
+  font-size: 4vh;
   line-height: 1.5;
   letter-spacing: -2px;
   color: white;
-  padding-bottom: 50px;
+  // padding-bottom: 50px;
   white-space: pre-line;
   &::after {
     content: "";

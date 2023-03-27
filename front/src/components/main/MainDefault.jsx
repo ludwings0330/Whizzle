@@ -13,25 +13,22 @@ const SImg = styled.div`
   align-items: center;
 `;
 
-const SBlock = styled.div`
-  width: 350px;
-`;
-
 const SContent = styled.div`
   display: flex;
   flex-direction: column;
+  margin-left: 33vh;
 `;
 
 const SLight = styled.span`
   font-family: GmarketSansLight;
-  font-size: 48px;
+  font-size: 5vh;
   letter-spacing: -2px;
   color: white;
 `;
 
 const SStrong = styled.span`
   font-family: GmarketSansBold;
-  font-size: 48px;
+  font-size: 5vh;
   letter-spacing: -2px;
   color: white;
 `;
@@ -49,7 +46,7 @@ const SStrong = styled.span`
 // `;
 
 const SButtonText = styled.span`
-  font-size: 20px;
+  font-size: 18px;
   font-family: "Pretendard Variable";
   color: white;
   z-index: 2;
@@ -65,7 +62,6 @@ const MainDefault = (props) => {
   return (
     <>
       <SImg>
-        <SBlock></SBlock>
         <SContent>
           <motion.div
             variants={props.variants}

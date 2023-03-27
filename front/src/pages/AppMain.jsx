@@ -37,7 +37,7 @@ const AppMain = () => {
 
   return (
     <div ref={scrollRef}>
-      {isLogin ? (
+      {!isLogin ? (
         <MainRecommend
           key="0"
           variants={variants}
