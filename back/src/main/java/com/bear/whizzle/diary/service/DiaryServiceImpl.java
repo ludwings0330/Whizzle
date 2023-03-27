@@ -55,7 +55,7 @@ public class DiaryServiceImpl implements DiaryService {
     @Transactional
     public void eraseDiary(Long memberId, Long diaryId) {
         Diary diary = authorizeWriter(memberId, diaryId);
-        diary.delete();
+        diary.delete(); // drink를 update 하기 위해 쿼리가 개수만큼 나간다. bulk update하도록 변경하는 것을 고려해야 한다.
     }
 
     @Override
