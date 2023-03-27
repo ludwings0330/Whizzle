@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 
 import SearchBar from "./SearchBar";
@@ -41,6 +41,11 @@ const SImg = styled.img`
 `;
 
 const SearchMain = () => {
+  useEffect(() => {
+    return () => {
+      window.scrollTo(0, 0);
+    };
+  });
   return (
     <Wrapper>
       <SHeaderDiv>

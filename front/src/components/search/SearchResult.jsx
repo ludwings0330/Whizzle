@@ -44,6 +44,7 @@ const SearchResult = () => {
       for (let i = 0; i < dropdown.length; i++) {
         dropdown[i].style.color = "#ffffff";
       }
+      window.scrollTo(0, 0);
     };
   }, []);
 
