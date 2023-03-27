@@ -17,6 +17,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @EnableWebSecurity
@@ -58,6 +59,7 @@ public class SecurityConfig {
 
         http.authorizeRequests(request ->
                                        request
+                                               .requestMatchers(CorsUtils::isPreFlightRequest).permitAll() // 추가
                                                .antMatchers("/login/**").permitAll()
                                                .antMatchers("/api/**/any").permitAll()
                                                .anyRequest().authenticated());
