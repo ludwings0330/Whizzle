@@ -1,6 +1,6 @@
 package com.bear.whizzle.diary.service;
 
-import com.bear.whizzle.diary.DiaryMapper;
+import com.bear.whizzle.diary.mapper.DiaryMapper;
 import com.bear.whizzle.diary.controller.dto.DiaryRequestSaveDto;
 import com.bear.whizzle.diary.controller.dto.DiaryRequestUpdateDto;
 import com.bear.whizzle.diary.repository.DiaryCustomRepository;

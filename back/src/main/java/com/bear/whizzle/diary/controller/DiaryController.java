@@ -2,7 +2,7 @@ package com.bear.whizzle.diary.controller;
 
 import com.bear.whizzle.auth.service.PrincipalDetails;
 import com.bear.whizzle.badge.service.BadgeService;
-import com.bear.whizzle.diary.DiaryMapper;
+import com.bear.whizzle.diary.mapper.DiaryMapper;
 import com.bear.whizzle.diary.controller.dto.DiaryRequestSaveDto;
 import com.bear.whizzle.diary.controller.dto.DiaryRequestUpdateDto;
 import com.bear.whizzle.diary.controller.dto.DiaryResponseDto;
