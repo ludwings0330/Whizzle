@@ -37,7 +37,6 @@ public class ReviewImageServiceImpl implements ReviewImageService {
             ReviewImage reviewImage = ReviewImage.builder()
                                                  .imageOrder(order++)
                                                  .image(image)
-                                                 .review(review)
                                                  .build();
 
             reviewImage.setReview(review);
