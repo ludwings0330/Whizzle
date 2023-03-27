@@ -113,23 +113,25 @@ const AppRecommendQuestion = () => {
   const flavorSubmitHandler = async () => {
     setDirection("next");
     setActivePage(6);
-    console.log("로딩페이지로 이동");
 
     // axios 요청
-    const data = {
+    const saveData = {
       gender: preferenceValue.gender,
       age: preferenceValue.age,
-      priceTier: preferenceValue.price,
+      priceTier: Number(preferenceValue.price),
       flavor: preferenceValue.flavor,
     };
-    console.log(data);
+    const recommendData = {
+      priceTier: Number(preferenceValue.price),
+      flavor: preferenceValue.flavor,
+    };
 
     let recommendedResult;
     if (isLogin) {
-      await preferenceSave(data);
-      recommendedResult = await loginedRecommend(data);
+      await preferenceSave(saveData);
+      recommendedResult = await loginedRecommend(recommendData);
     } else {
-      recommendedResult = await unloginedRecommend(data);
+      recommendedResult = await unloginedRecommend(recommendData);
     }
 
     setResultValue(recommendedResult);
@@ -141,19 +143,23 @@ const AppRecommendQuestion = () => {
     setActivePage(6);
 
     // axios 요청
-    const data = {
+    const saveData = {
       gender: preferenceValue.gender,
       age: preferenceValue.age,
-      priceTier: preferenceValue.price,
+      priceTier: Number(preferenceValue.price),
+      whiskies: preferenceValue.whiskies,
+    };
+    const recommendData = {
+      priceTier: Number(preferenceValue.price),
       whiskies: preferenceValue.whiskies,
     };
 
     let recommendedResult;
     if (isLogin) {
-      await preferenceSave(data);
-      recommendedResult = await loginedRecommend(data);
+      await preferenceSave(saveData);
+      recommendedResult = await loginedRecommend(recommendData).data;
     } else {
-      recommendedResult = await unloginedRecommend(data);
+      recommendedResult = await unloginedRecommend(recommendData).data;
     }
 
     setResultValue(recommendedResult);

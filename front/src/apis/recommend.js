@@ -15,21 +15,22 @@ export const unloginedRecommend = async (data) => {
   try {
     const res = await api.post(`/api/rec/whisky/any`, data);
     console.log("추천 결과 성공");
-    return true;
+    return res.data;
   } catch (error) {
     console.log("추천 결과 실패");
-    return false;
+    console.log(error);
   }
 };
 
 export const loginedRecommend = async (data) => {
+  console.log(data);
   try {
     const res = await api.post(`/api/rec/whisky`, data);
     console.log("추천 결과 성공");
-    return true;
+    return res.data;
   } catch (error) {
     console.log("추천 결과 실패");
-    return false;
+    console.log(error);
   }
 };
 

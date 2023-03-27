@@ -119,7 +119,7 @@ const QuestionChooseWhisky = (props) => {
   const submitHandler = () => {
     if (preferenceValue.whiskies.length > 0) {
       // axios 요청 들어갈 자리
-      console.log(preferenceValue);
+      // console.log(preferenceValue);
       // props.goNextPage();
       props.setDirection("next");
       props.setActivePage(6);
@@ -129,7 +129,7 @@ const QuestionChooseWhisky = (props) => {
   };
 
   useEffect(() => {
-    console.log(preferenceValue);
+    // console.log(preferenceValue);
     props.setBarWidth(window.innerWidth * 0.99);
   });
 
