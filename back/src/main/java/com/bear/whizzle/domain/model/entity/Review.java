@@ -30,7 +30,7 @@ import org.hibernate.annotations.ColumnDefault;
 @Table(
         name = "review",
         indexes = {
-                @Index(columnList = "like_count"),
+                @Index(columnList = "likeCount"),
                 @Index(columnList = "created_date_time")
         }
 )
