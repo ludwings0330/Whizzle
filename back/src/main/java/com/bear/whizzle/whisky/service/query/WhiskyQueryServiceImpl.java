@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
+@Transactional(readOnly = true)
 public class WhiskyQueryServiceImpl implements WhiskyQueryService {
 
     private final WhiskyProjectionRepository whiskyProjectionRepository;
@@ -28,7 +28,6 @@ public class WhiskyQueryServiceImpl implements WhiskyQueryService {
     private String priceKey;
 
     @Override
-    @Transactional(readOnly = true)
     public FlavorSummary findFlavorMinMax() {
         Cache flavorCache = cacheManager.getCache(CacheType.FLAVOR_MINMAX.getCacheName());
         FlavorSummary summary = flavorCache.get(flavorKey, FlavorSummary.class);
@@ -40,7 +39,6 @@ public class WhiskyQueryServiceImpl implements WhiskyQueryService {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Map<Long, Integer> findWhiskyPriceTier() {
         Cache priceCache = cacheManager.getCache(CacheType.WHISKY_PRICE_TIER.getCacheName());
         Map<Long, Integer> priceTierMap = priceCache.get(priceKey, Map.class);

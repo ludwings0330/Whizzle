@@ -27,7 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
+@Transactional(readOnly = true)
 public class RecServiceImpl implements RecService {
 
     private final WhiskyRepository whiskyRepository;
@@ -49,7 +49,6 @@ public class RecServiceImpl implements RecService {
      * @throws NotFoundException
      */
     @Override
-    @Transactional(readOnly = true)
     public PreferenceDto extractPreference(Long memberId, RecWhiskyRequestDto recWhiskyRequestDto) throws NotFoundException {
         Flavor flavor = null;
         Integer priceTier = recWhiskyRequestDto == null ? null : recWhiskyRequestDto.getPriceTier();
@@ -78,7 +77,6 @@ public class RecServiceImpl implements RecService {
      * @return 추천할 topK개 위스키의 index
      */
     @Override
-    @Transactional(readOnly = true)
     public List<Long> filterByPriceTier(List<Long> recWhiskies, Integer priceTier) {
         Map<Long, Integer> whiskyPriceTier = whiskyQueryService.findWhiskyPriceTier();
         List<Long> filteredRecWhiskies = new ArrayList<>(topK);
@@ -101,7 +99,6 @@ public class RecServiceImpl implements RecService {
      * @return 추천 결과 페이지에 출력할 위스키 정보 DTO
      */
     @Override
-    @Transactional(readOnly = true)
     public List<RecWhiskyResponseDto> findRecWhiskies(List<Long> filteredWhiskies, Long memberId) {
         Map<Long, Whisky> whiskyMap = whiskyCustomRepository.findByIds(filteredWhiskies);
         Map<Long, Boolean> myKeeps = memberId != 0L ? keepCustomRepository.whetherKeep(filteredWhiskies, memberId) : new HashMap<>();
