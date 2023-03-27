@@ -28,5 +28,5 @@ export const preference = atom({
 
 export const recommendResult = atom({
   key: "recommendResult",
-  default: { recWhiskyResponseDtos: [] },
+  default: [],
 });

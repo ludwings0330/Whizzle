@@ -129,6 +129,7 @@ const QuestionChooseWhisky = (props) => {
   };
 
   useEffect(() => {
+    console.log(preferenceValue);
     props.setBarWidth(window.innerWidth * 0.99);
   });
 

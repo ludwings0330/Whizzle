@@ -105,7 +105,7 @@ const AppRecommendQuestion = () => {
   const navigate = useNavigate();
 
   const [preferenceValue, setPreferenceValue] = useRecoilState(preference);
-  const [resultValue, setResultValue] = useRecoilState(preference);
+  const [resultValue, setResultValue] = useRecoilState(recommendResult);
   const [activePage, setActivePage] = useState(0);
   const [direction, setDirection] = useState("next");
   const [barWidth, setBarWidth] = useState(0);
@@ -122,6 +122,7 @@ const AppRecommendQuestion = () => {
       priceTier: preferenceValue.price,
       flavor: preferenceValue.flavor,
     };
+    console.log(data);
 
     let recommendedResult;
     if (isLogin) {

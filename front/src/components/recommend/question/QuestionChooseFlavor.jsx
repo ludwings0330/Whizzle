@@ -123,6 +123,7 @@ const QuestionChooseFlavor = (props) => {
   const [isHover, setIsHover] = useState(false);
 
   useEffect(() => {
+    console.log(preferenceValue);
     props.setBarWidth(window.innerWidth * 0.99);
   });
 
