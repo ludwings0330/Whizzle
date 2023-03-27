@@ -26,6 +26,8 @@ public class WhiskyDetailResponseDto {
 
     private String category;
 
+    private String location;
+
     private Integer priceTier;
 
     private Float abv;
