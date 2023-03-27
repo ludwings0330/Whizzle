@@ -2,7 +2,6 @@ package com.bear.whizzle.recommend.service;
 
 import com.bear.whizzle.domain.exception.NotFoundException;
 import com.bear.whizzle.domain.model.entity.Preference;
-import com.bear.whizzle.domain.model.type.CacheType;
 import com.bear.whizzle.domain.model.type.Flavor;
 import com.bear.whizzle.preference.repository.PreferenceRepository;
 import com.bear.whizzle.recommend.PreferenceMapper;
@@ -13,8 +12,6 @@ import com.bear.whizzle.whisky.repository.projection.dto.FlavorSummary;
 import java.util.List;
 import java.util.Random;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,9 +22,7 @@ public class RecServiceImpl implements RecService{
 
     private final WhiskyRepository whiskyRepository;
     private final PreferenceRepository preferenceRepository;
-    private final CacheManager cacheManager;
-    @Value("${app.cache.flavor-key}")
-    private String flavorKey;
+    private final WhiskyQueryService whiskyQueryService;
 
     /**
      * Min-Max Noramlization 처리 한 Flavor & 선호 가격대 반환
@@ -55,8 +50,7 @@ public class RecServiceImpl implements RecService{
             flavor = preference.getFlavor();
             priceTier = preference.getPriceTier();
         }
-        FlavorSummary flavorSummary = cacheManager.getCache(CacheType.FLAVOR_MINMAX.getCacheName())
-                                                  .get(flavorKey, FlavorSummary.class);
+        FlavorSummary flavorSummary = whiskyQueryService.findFlavorMinMax();
         return PreferenceMapper.toPreferenceDto(priceTier, flavor, flavorSummary);
     }
 
