@@ -33,7 +33,7 @@ public class WhiskyQueryServiceImpl implements WhiskyQueryService {
         Cache flavorCache = cacheManager.getCache(CacheType.FLAVOR_MINMAX.getCacheName());
         FlavorSummary summary = flavorCache.get(flavorKey, FlavorSummary.class);
         if (summary == null) {
-            flavorCache.put("flavorMinMax", whiskyProjectionRepository.findFlavorMinMax());
+            flavorCache.put(flavorKey, whiskyProjectionRepository.findFlavorMinMax());
         }
         return summary;
     }
@@ -44,7 +44,7 @@ public class WhiskyQueryServiceImpl implements WhiskyQueryService {
         Cache priceCache = cacheManager.getCache(CacheType.WHISKY_PRICE_TIER.getCacheName());
         Map<Long, Integer> priceTierMap = priceCache.get(priceKey, Map.class);
         if (priceTierMap == null) {
-            priceCache.put("whiskyPriceTier", whiskyRepository.findAll()
+            priceCache.put(priceKey, whiskyRepository.findAll()
                                                               .stream()
                                                               .collect(Collectors.toMap(Whisky::getId, Whisky::getPriceTier)));
         }
