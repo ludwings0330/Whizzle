@@ -8,6 +8,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
@@ -26,7 +27,13 @@ import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
 
 @Entity
-@Table(name = "review")
+@Table(
+        name = "review",
+        indexes = {
+                @Index(columnList = "like_count"),
+                @Index(columnList = "created_date_time")
+        }
+)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @ToString(callSuper = true)
