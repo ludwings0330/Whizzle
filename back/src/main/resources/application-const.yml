@@ -2,3 +2,5 @@ app:
   cache:
     flavor-key: flavorMinMax
     price-key: whiskyPriceTier
+  rec:
+    topK: 9

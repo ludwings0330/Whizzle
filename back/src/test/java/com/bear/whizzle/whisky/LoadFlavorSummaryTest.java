@@ -19,30 +19,30 @@ class LoadFlavorSummaryTest {
     @Test
     @DisplayName("Local Cache 적용 테스트")
     void localCacheInitTest() {
-        log.info("===================================================================================");
+        log.debug("===================================================================================");
         FlavorSummary flavorSummary = whiskyQueryService.findFlavorMinMax();
-        log.info(flavorSummary.toString());
-        log.info("===================================================================================");
+        log.debug(flavorSummary.toString());
+        log.debug("===================================================================================");
         Map<Long, Integer> longIntegerMap = whiskyQueryService.findWhiskyPriceTier();
-        log.info(longIntegerMap.toString());
-        log.info("===================================================================================");
+        log.debug(longIntegerMap.toString());
+        log.debug("===================================================================================");
         FlavorSummary flavorSummary2 = whiskyQueryService.findFlavorMinMax();
-        log.info(flavorSummary2.toString());
-        log.info("===================================================================================");
+        log.debug(flavorSummary2.toString());
+        log.debug("===================================================================================");
         Map<Long, Integer> longIntegerMap2 = whiskyQueryService.findWhiskyPriceTier();
-        log.info(longIntegerMap2.toString());
-        log.info("===================================================================================");
+        log.debug(longIntegerMap2.toString());
+        log.debug("===================================================================================");
         FlavorSummary flavorSummary3 = whiskyQueryService.findFlavorMinMax();
-        log.info(flavorSummary3.toString());
-        log.info("===================================================================================");
+        log.debug(flavorSummary3.toString());
+        log.debug("===================================================================================");
         Map<Long, Integer> longIntegerMap4 = whiskyQueryService.findWhiskyPriceTier();
-        log.info(longIntegerMap4.toString());
-        log.info("===================================================================================");
+        log.debug(longIntegerMap4.toString());
+        log.debug("===================================================================================");
         FlavorSummary flavorSummary5 = whiskyQueryService.findFlavorMinMax();
-        log.info(flavorSummary5.toString());
-        log.info("===================================================================================");
+        log.debug(flavorSummary5.toString());
+        log.debug("===================================================================================");
         Map<Long, Integer> longIntegerMap5 = whiskyQueryService.findWhiskyPriceTier();
-        log.info(longIntegerMap5.toString());
+        log.debug(longIntegerMap5.toString());
 
     }
 
