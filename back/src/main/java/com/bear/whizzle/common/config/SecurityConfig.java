@@ -1,5 +1,6 @@
 package com.bear.whizzle.common.config;
 
+import com.bear.whizzle.auth.repository.CustomAuthorizationRequestRepository;
 import com.bear.whizzle.auth.service.CustomOAuth2UserService;
 import com.bear.whizzle.common.filter.JwtAuthenticationFilter;
 import com.bear.whizzle.common.handler.CustomAuthenticationFailureHandler;
@@ -26,6 +27,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 public class SecurityConfig {
 
     private final JwtUtil jwtUtil;
+    private final CustomAuthorizationRequestRepository customAuthorizationRequestRepository;
     private final CustomOAuth2UserService customOAuth2UserService;
     private final CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
     private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
@@ -51,6 +53,7 @@ public class SecurityConfig {
 
         http.oauth2Login(oauth2 ->
                                  oauth2
+                                         .authorizationEndpoint(endpoint -> endpoint.authorizationRequestRepository(customAuthorizationRequestRepository))
                                          .userInfoEndpoint()
                                          .userService(customOAuth2UserService)
                                          .and()
