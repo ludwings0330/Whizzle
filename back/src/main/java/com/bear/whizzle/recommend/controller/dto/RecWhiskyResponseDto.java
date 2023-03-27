@@ -18,8 +18,11 @@ public class RecWhiskyResponseDto {
     private String location;
     private Integer priceTier;
     private Float abv;
+    @Builder.Default
     private Integer reviewCount = 0;
+    @Builder.Default
     private Float avgRating = 0f;
-    private Boolean keep;
+    @Builder.Default
+    private Boolean keep = false;
 
 }
