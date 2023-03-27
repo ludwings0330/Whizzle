@@ -2,15 +2,20 @@ package com.bear.whizzle.recommend.service;
 
 import com.bear.whizzle.domain.exception.NotFoundException;
 import com.bear.whizzle.domain.model.entity.Preference;
+import com.bear.whizzle.domain.model.entity.Whisky;
 import com.bear.whizzle.domain.model.type.Flavor;
+import com.bear.whizzle.keep.repository.KeepRepository;
 import com.bear.whizzle.preference.repository.PreferenceRepository;
 import com.bear.whizzle.recommend.PreferenceMapper;
+import com.bear.whizzle.recommend.RecWhiskyMapper;
 import com.bear.whizzle.recommend.controller.dto.PreferenceDto;
 import com.bear.whizzle.recommend.controller.dto.RecWhiskyRequestDto;
+import com.bear.whizzle.recommend.controller.dto.RecWhiskyResponseDto;
 import com.bear.whizzle.whisky.repository.WhiskyRepository;
 import com.bear.whizzle.whisky.repository.projection.dto.FlavorSummary;
 import com.bear.whizzle.whisky.service.query.WhiskyQueryService;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -26,6 +31,7 @@ public class RecServiceImpl implements RecService {
 
     private final WhiskyRepository whiskyRepository;
     private final PreferenceRepository preferenceRepository;
+    private final KeepRepository keepRepository;
     private final WhiskyQueryService whiskyQueryService;
 
     @Value("${app.rec.topK}")
@@ -84,6 +90,22 @@ public class RecServiceImpl implements RecService {
             }
         }
         return filteredRecWhiskies;
+    }
+
+    /**
+     * 추천 결과 위스키 정보 조회 with Keep
+     * @param filteredWhiskies : 모델로부터 추천받은 위스키 중 원하는 가격대 맞는 9개 위스키 index
+     * @param memberId : 접근중인 주체 memberId
+     * @return 추천 결과 페이지에 출력할 위스키 정보 DTO
+     * */
+    @Override
+    @Transactional(readOnly = true)
+    public List<RecWhiskyResponseDto> findRecWhiskies(List<Long> filteredWhiskies, Long memberId) {
+        Map<Long, Whisky> whiskyMap = whiskyRepository.findByIds(filteredWhiskies);
+        Map<Long, Boolean> myKeeps = memberId != 0L ? keepRepository.whetherKeep(filteredWhiskies, memberId) : new HashMap<>();
+        List<RecWhiskyResponseDto> recWhiskyResponseDtos = new ArrayList<>();
+        filteredWhiskies.forEach(r -> recWhiskyResponseDtos.add(RecWhiskyMapper.toRecWhiskyResponseDto(whiskyMap.get(r), myKeeps.containsKey(r))));
+        return recWhiskyResponseDtos;
     }
 
 }
