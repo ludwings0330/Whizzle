@@ -16,7 +16,7 @@ public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationF
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception)
             throws IOException, ServletException {
-        log.debug("OAuth 2.0 Login Failed : {}", exception.getMessage());
+        log.debug("OAuth 2.0 Login Failed : {}", exception.getMessage(), exception);
         super.onAuthenticationFailure(request, response, exception);
     }
 
