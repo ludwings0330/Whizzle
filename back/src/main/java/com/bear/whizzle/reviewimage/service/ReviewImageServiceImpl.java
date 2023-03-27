@@ -29,7 +29,7 @@ public class ReviewImageServiceImpl implements ReviewImageService {
             throw new IllegalArgumentException("최대 이미지 갯수를 초과했습니다.");
         }
 
-        List<Image> uploadedImages = awsS3Service.uploadReviewImages(reviewImageFiles.toArray(new MultipartFile[0]));
+        List<Image> uploadedImages = awsS3Service.uploadReviewImages(reviewImageFiles);
         List<ReviewImage> reviewImages = new ArrayList<>();
 
         for (Image image :
