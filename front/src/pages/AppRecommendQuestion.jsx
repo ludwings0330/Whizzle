@@ -135,7 +135,9 @@ const AppRecommendQuestion = () => {
     }
 
     setResultValue(recommendedResult);
-    navigate(`/recommend/result`);
+    setTimeout(() => {
+      navigate(`/recommend/result`);
+    }, 7000);
   };
 
   const whiskySubmitHandler = async () => {
@@ -163,7 +165,9 @@ const AppRecommendQuestion = () => {
     }
 
     setResultValue(recommendedResult);
-    navigate(`/recommend/result`);
+    setTimeout(() => {
+      navigate(`/recommend/result`);
+    }, 7000);
   };
 
   const goNextPage = () => {

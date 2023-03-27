@@ -23,7 +23,6 @@ export const unloginedRecommend = async (data) => {
 };
 
 export const loginedRecommend = async (data) => {
-  console.log(data);
   try {
     const res = await api.post(`/api/rec/whisky`, data);
     console.log("추천 결과 성공");
