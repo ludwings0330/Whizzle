@@ -1,4 +1,4 @@
-package com.bear.whizzle.member;
+package com.bear.whizzle.keep;
 
 import static com.bear.whizzle.common.util.RandomDataUtil.MEMBER_SIZE;
 
