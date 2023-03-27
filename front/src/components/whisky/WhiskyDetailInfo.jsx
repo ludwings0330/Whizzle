@@ -15,6 +15,7 @@ const SDiv = styled.div`
 
 const SImg = styled.img`
   height: 365px;
+  margin-right: 50px;
 `;
 
 const STextDiv = styled.div`
@@ -86,7 +87,7 @@ const WhiskyDetailInfo = (props) => {
   return (
     <>
       <SDiv>
-        <SImg src={require(`../../${whisky.image.url}`)} alt={whisky.name} />
+        <SImg src={whisky.imageUrl} alt={whisky.name} />
         <div>
           <STitleP>{whisky.name}</STitleP>
           <STextDiv>
@@ -110,13 +111,13 @@ const WhiskyDetailInfo = (props) => {
             <SRatingDiv>
               <ReactStars
                 count={5}
-                value={Math.round(whisky.avg_rating * 2) / 2}
+                value={Math.round(whisky.avgRating * 2) / 2}
                 edit={false}
                 size={21}
                 color1={"rgba(128, 128, 128, 0.2)"}
                 color2={"#F84F5A"}
               />
-              <SRatingP>{whisky.review_count} rating(s)</SRatingP>
+              <SRatingP>{whisky.reviewCount} rating(s)</SRatingP>
             </SRatingDiv>
           </STextDiv>
         </div>

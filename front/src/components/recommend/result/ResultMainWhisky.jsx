@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import { useRecoilValue } from "recoil";
+import { userState } from "../../../store/userStore";
 import ResultMainWhiskyItem from "./ResultMainWhiskyItem";
 
 const Wrapper = styled.div`
@@ -41,11 +43,13 @@ const ResultMainWhisky = (props) => {
       total_rating: 5442,
     },
   ];
+
+  const user = useRecoilValue(userState);
   return (
     <Wrapper>
       <props.STitleP style={{ width: "209px", height: "44px" }}>위스키 추천 리스트</props.STitleP>
       <props.SGraphP>
-        <props.SColorSpan>drunkenbear</props.SColorSpan>
+        <props.SColorSpan>{user ? user.nickname : "drunkenbear"}</props.SColorSpan>
         <props.SSpan>님의 취향에 꼭 맞는 위스키입니다.</props.SSpan>
       </props.SGraphP>
       {whiskys ? (

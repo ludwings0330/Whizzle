@@ -28,7 +28,7 @@ function App() {
         <Route path="/login" element={<AppLogin />} />
         <Route path="/mypage/*" element={<AppMyPage />} />
         <Route path="/search/*" element={<AppSearch />} />
-        <Route path="/whisky/*" element={<AppWhisky />} />
+        <Route path="/whisky/:id" element={<AppWhisky />} />
         <Route path="/recommend/question/*" element={<AppRecommendQuestion />} />
         <Route path="/recommend/result/*" element={<AppRecommnedResult />} />
         <Route path="/review/*" element={<AppReview />} />
