@@ -5,7 +5,6 @@ import com.bear.whizzle.domain.model.entity.Review;
 import com.bear.whizzle.domain.model.entity.ReviewImage;
 import com.bear.whizzle.domain.model.type.Image;
 import com.bear.whizzle.reviewimage.repository.ReviewImageRepository;
-import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,7 +29,6 @@ public class ReviewImageServiceImpl implements ReviewImageService {
         }
 
         List<Image> uploadedImages = awsS3Service.uploadReviewImages(reviewImageFiles);
-        List<ReviewImage> reviewImages = new ArrayList<>();
 
         for (Image image :
                 uploadedImages) {
@@ -40,11 +38,7 @@ public class ReviewImageServiceImpl implements ReviewImageService {
                                                  .build();
 
             reviewImage.setReview(review);
-
-            reviewImages.add(reviewImage);
         }
-
-        reviewImageRepository.saveAll(reviewImages);
     }
 
     private int getLastOrderOfReview(Review review) {
