@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,7 +30,7 @@ public class RecController {
      * @param recWhiskyRequestDto : 사용자 선호 정보
      * @return topK 개 추천 위스키 정보 조회
      */
-    @GetMapping("/api/rec/whisky/any")
+    @PostMapping("/api/rec/whisky/any")
     @ResponseStatus(HttpStatus.OK)
     public List<RecWhiskyResponseDto> recPersonalWhisky(
             @RequestBody RecWhiskyRequestDto recWhiskyRequestDto) { // ResponseDto 로 반환할 것.
@@ -45,7 +45,7 @@ public class RecController {
         return recService.findRecWhiskies(filteredRecWhikies, memberId);
     }
 
-    @GetMapping("/api/rec/whisky")
+    @PostMapping("/api/rec/whisky")
     @ResponseStatus(HttpStatus.OK)
     public List<RecWhiskyResponseDto> recPersonalWhisky(@AuthenticationPrincipal PrincipalDetails principalDetails,
                                                         @RequestBody(required = false) RecWhiskyRequestDto recWhiskyRequestDto) { // ResponseDto 로 반환할 것.
