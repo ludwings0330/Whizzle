@@ -69,7 +69,8 @@ public class Whisky {
     private Flavor flavor;
 
     @Builder
-    private Whisky(Long id, String name, Image image, String category, String location, Integer priceTier, Float abv, String caskType, Flavor flavor) {
+    private Whisky(Long id, String name, Image image, String category, String location, Integer priceTier, Float abv, String caskType,
+                   Flavor flavor) {
         this.id = id;
         this.name = name;
         this.image = image;
@@ -83,6 +84,26 @@ public class Whisky {
 
     public void changeImage(Image image) {
         this.image = image;
+    }
+
+    public void updateRatingByReviewSave(Review review) {
+        float totalRating = (calculateRatingTotalSum() + review.getRating()) * 100;
+        float updatedRating = totalRating / (this.reviewCount + 1);
+
+        avgRating = Math.round(updatedRating) / 100f;
+        reviewCount++;
+    }
+
+    public void updateRatingByReviewDelete(Review review) {
+        float totalRating = (calculateRatingTotalSum() - review.getRating()) * 100;
+        float updatedRating = totalRating / (this.reviewCount - 1);
+
+        avgRating = Math.round(updatedRating) / 100f;
+        reviewCount--;
+    }
+
+    private float calculateRatingTotalSum() {
+        return this.avgRating * this.reviewCount;
     }
 
 }

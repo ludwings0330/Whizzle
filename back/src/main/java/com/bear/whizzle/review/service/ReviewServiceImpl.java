@@ -41,7 +41,8 @@ public class ReviewServiceImpl implements ReviewService {
     @Transactional
     public void writeReview(long memberId, ReviewWriteRequestDto requestDto) {
         final Member member = memberRepository.getReferenceById(memberId);
-        final Whisky whisky = whiskyRepository.getReferenceById(requestDto.getWhiskyId());
+        final Whisky whisky = whiskyRepository.findById(requestDto.getWhiskyId())
+                                              .orElseThrow(() -> new NotFoundException("존재하지 않는 위스키입니다."));
 
         Review review = Review.builder()
                               .member(member)
@@ -51,6 +52,8 @@ public class ReviewServiceImpl implements ReviewService {
                               .build();
 
         reviewRepository.save(review);
+
+        whisky.updateRatingByReviewSave(review);
 
         reviewImageService.saveAllReviewImages(review, requestDto.getReviewImageFiles());
     }
@@ -69,13 +72,16 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     @Transactional
     public void deleteReview(Long reviewId) {
-        Review review = reviewRepository.findById(reviewId).orElseThrow(() -> new NotFoundException("존재하지 않는 리뷰입니다."));
+        Review review = reviewRepository.findById(reviewId)
+                                        .orElseThrow(() -> new NotFoundException("존재하지 않는 리뷰입니다."));
 
         review.markDeleted();
 
         List<Long> reviewImageIds = review.getImages().stream()
                                           .map(ReviewImage::getId)
                                           .collect(Collectors.toList());
+
+        review.getWhisky().updateRatingByReviewDelete(review);
 
         reviewImageService.deleteAllReviewImages(review, reviewImageIds);
 
