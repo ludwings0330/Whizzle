@@ -65,7 +65,7 @@ public class ReviewListResponseDto {
             this.likeCount = review.getLikeCount();
             this.createdDateTime = review.getCreatedDateTime();
 
-            reviewImages = review.getImages().stream().filter(image -> !image.getIsDeleted())
+            reviewImages = review.getImages().stream().filter(image -> !image.isDeleted())
                                  .map(ReviewImageInfo::new)
                                  .collect(Collectors.toList());
         }

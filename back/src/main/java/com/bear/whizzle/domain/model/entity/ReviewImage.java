@@ -68,4 +68,8 @@ public class ReviewImage {
         this.isDeleted = true;
     }
 
+    public boolean isDeleted() {
+        return Boolean.TRUE.equals(this.isDeleted);
+    }
+
 }
