@@ -4,13 +4,14 @@ import com.bear.whizzle.domain.exception.NotFoundException;
 import com.bear.whizzle.domain.model.entity.Preference;
 import com.bear.whizzle.domain.model.entity.Whisky;
 import com.bear.whizzle.domain.model.type.Flavor;
-import com.bear.whizzle.keep.repository.KeepRepository;
+import com.bear.whizzle.keep.repository.KeepCustomRepository;
 import com.bear.whizzle.preference.repository.PreferenceRepository;
 import com.bear.whizzle.recommend.PreferenceMapper;
 import com.bear.whizzle.recommend.RecWhiskyMapper;
 import com.bear.whizzle.recommend.controller.dto.PreferenceDto;
 import com.bear.whizzle.recommend.controller.dto.RecWhiskyRequestDto;
 import com.bear.whizzle.recommend.controller.dto.RecWhiskyResponseDto;
+import com.bear.whizzle.whisky.repository.WhiskyCustomRepository;
 import com.bear.whizzle.whisky.repository.WhiskyRepository;
 import com.bear.whizzle.whisky.repository.projection.dto.FlavorSummary;
 import com.bear.whizzle.whisky.service.query.WhiskyQueryService;
@@ -30,8 +31,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class RecServiceImpl implements RecService {
 
     private final WhiskyRepository whiskyRepository;
+    private final WhiskyCustomRepository whiskyCustomRepository;
     private final PreferenceRepository preferenceRepository;
-    private final KeepRepository keepRepository;
+    private final KeepCustomRepository keepCustomRepository;
     private final WhiskyQueryService whiskyQueryService;
 
     @Value("${app.rec.topK}")
@@ -101,8 +103,8 @@ public class RecServiceImpl implements RecService {
     @Override
     @Transactional(readOnly = true)
     public List<RecWhiskyResponseDto> findRecWhiskies(List<Long> filteredWhiskies, Long memberId) {
-        Map<Long, Whisky> whiskyMap = whiskyRepository.findByIds(filteredWhiskies);
-        Map<Long, Boolean> myKeeps = memberId != 0L ? keepRepository.whetherKeep(filteredWhiskies, memberId) : new HashMap<>();
+        Map<Long, Whisky> whiskyMap = whiskyCustomRepository.findByIds(filteredWhiskies);
+        Map<Long, Boolean> myKeeps = memberId != 0L ? keepCustomRepository.whetherKeep(filteredWhiskies, memberId) : new HashMap<>();
         List<RecWhiskyResponseDto> recWhiskyResponseDtos = new ArrayList<>();
         filteredWhiskies.forEach(r -> recWhiskyResponseDtos.add(RecWhiskyMapper.toRecWhiskyResponseDto(whiskyMap.get(r), myKeeps.containsKey(r))));
         return recWhiskyResponseDtos;

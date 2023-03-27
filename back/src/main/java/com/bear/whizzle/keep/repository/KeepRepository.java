@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-public interface KeepRepository extends JpaRepository<Keep, KeepId>, KeepCustomRepository {
+public interface KeepRepository extends JpaRepository<Keep, KeepId> {
 
     @Query("SELECT COUNT(*) FROM Keep k WHERE k.member.id =:memberId")
     long countByMemberId(@Param("memberId") Long memberId);

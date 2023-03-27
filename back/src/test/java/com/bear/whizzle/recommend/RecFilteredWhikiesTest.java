@@ -2,12 +2,10 @@ package com.bear.whizzle.recommend;
 
 import com.bear.whizzle.domain.model.entity.Whisky;
 import com.bear.whizzle.recommend.service.RecService;
-import com.bear.whizzle.whisky.repository.WhiskyRepository;
+import com.bear.whizzle.whisky.repository.WhiskyCustomRepository;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import lombok.RequiredArgsConstructor;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,7 +19,7 @@ class RecFilteredWhikiesTest {
     @Autowired
     private RecService recService;
     @Autowired
-    private WhiskyRepository whiskyRepository;
+    private WhiskyCustomRepository whiskyCustomRepository;
 
     @Value("${app.rec.topK}")
     private Integer topK;
@@ -42,7 +40,7 @@ class RecFilteredWhikiesTest {
 
         // when
         List<Long> filteredWhiskies = recService.filterByPriceTier(numbers, priceTier);
-        List<Whisky> whiskies = new ArrayList<>(whiskyRepository.findByIds(filteredWhiskies).values());
+        List<Whisky> whiskies = new ArrayList<>(whiskyCustomRepository.findByIds(filteredWhiskies).values());
 
         // then
         Assertions.assertThat(filteredWhiskies).hasSize(topK);
