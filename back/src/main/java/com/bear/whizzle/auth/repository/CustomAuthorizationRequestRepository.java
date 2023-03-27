@@ -4,6 +4,7 @@ import java.time.Duration;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.oauth2.client.web.AuthorizationRequestRepository;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
+@Slf4j
 public class CustomAuthorizationRequestRepository implements AuthorizationRequestRepository<OAuth2AuthorizationRequest> {
 
     private static final String AUTHORIZATION_REQUEST_PREFIX = "authorization_request:";
@@ -21,6 +23,7 @@ public class CustomAuthorizationRequestRepository implements AuthorizationReques
     @Override
     public OAuth2AuthorizationRequest loadAuthorizationRequest(HttpServletRequest request) {
         String state = request.getParameter(OAuth2ParameterNames.STATE);
+        log.debug("loadAuthorizationRequest의 request: {}, state: {}", request, state);
 
         if (state == null) {
             return null;
@@ -37,6 +40,8 @@ public class CustomAuthorizationRequestRepository implements AuthorizationReques
             HttpServletResponse response
     ) {
         String state = authorizationRequest.getState();
+        log.debug("saveAuthorizationRequest의 request: {}, state: {}", authorizationRequest, state);
+
         String redisKey = getRedisKey(state);
         redisTemplate.opsForValue().set(redisKey, authorizationRequest, Duration.ofMinutes(5));
     }
@@ -44,6 +49,7 @@ public class CustomAuthorizationRequestRepository implements AuthorizationReques
     @Override
     public OAuth2AuthorizationRequest removeAuthorizationRequest(HttpServletRequest request) {
         String state = request.getParameter(OAuth2ParameterNames.STATE);
+        log.debug("removeAuthorizationRequest의 request: {}, state: {}", request, state);
 
         if (state == null) {
             return null;
