@@ -25,7 +25,7 @@ public class WhiskyController {
      * @return 위스키 상세 정보
      * @throws com.bear.whizzle.domain.exception.NotFoundException 잘못된 위스키 ID로 조회하여 위스키를 찾을 수 없을 때 발생
      */
-    @GetMapping("/{whiskyId}")
+    @GetMapping("/{whiskyId}/any")
     @ResponseStatus(HttpStatus.OK)
     public WhiskyDetailResponseDto findWhisky(@PathVariable Long whiskyId) {
         return WhiskyMapper.toWhiskyDetailResponseDto(
