@@ -49,21 +49,20 @@ public class RecServiceImpl implements RecService {
     @Override
     @Transactional(readOnly = true)
     public PreferenceDto extractPreference(Long memberId, RecWhiskyRequestDto recWhiskyRequestDto) throws NotFoundException {
-        List<Long> whiskies = recWhiskyRequestDto.getWhiskies();
         Flavor flavor = null;
-        Integer priceTier = recWhiskyRequestDto.getPriceTier();
-        if (whiskies != null) { // whisky random choice
-            Random rand = new Random();
-            flavor = whiskyRepository.findById(whiskies.get(rand.nextInt(whiskies.size())))
-                                     .orElseThrow(() -> new NotFoundException("해당 위스키 데이터가 없습니다."))
-                                     .getFlavor();
-        } else if (recWhiskyRequestDto.getFlavor() != null) { // use flavor
-            flavor = recWhiskyRequestDto.getFlavor();
-        } else if (memberId != 0) { // use member's preference
+        Integer priceTier = recWhiskyRequestDto == null ? null : recWhiskyRequestDto.getPriceTier();
+        if (recWhiskyRequestDto == null) {
             Preference preference = preferenceRepository.findByMemberId(memberId)
                                                         .orElseThrow(() -> new NotFoundException("선호 입맛 데이터가 존재하지 않습니다."));
             flavor = preference.getFlavor();
             priceTier = preference.getPriceTier();
+        } else if (recWhiskyRequestDto.getWhiskies() != null) { // whisky random choice
+            Random rand = new Random();
+            flavor = whiskyRepository.findById(recWhiskyRequestDto.getWhiskies().get(rand.nextInt(recWhiskyRequestDto.getWhiskies().size())))
+                                     .orElseThrow(() -> new NotFoundException("해당 위스키 데이터가 없습니다."))
+                                     .getFlavor();
+        } else if (recWhiskyRequestDto.getFlavor() != null) { // use flavor
+            flavor = recWhiskyRequestDto.getFlavor();
         }
         FlavorSummary flavorSummary = whiskyQueryService.findFlavorMinMax();
         return PreferenceMapper.toPreferenceDto(priceTier, flavor, flavorSummary);
