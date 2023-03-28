@@ -2,7 +2,9 @@ package com.bear.whizzle.whisky.controller;
 
 import com.bear.whizzle.whisky.controller.dto.WhiskyDetailResponseDto;
 import com.bear.whizzle.whisky.mapper.WhiskyMapper;
+import com.bear.whizzle.whisky.repository.WhiskyElasticSearchRepository;
 import com.bear.whizzle.whisky.service.WhiskyService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class WhiskyController {
 
     private final WhiskyService whiskyService;
+    private final WhiskyElasticSearchRepository whiskySearchRepository;
 
     /**
      * 위스키 상세 정보 조회에 성공할 경우 그 정보와 상태 코드 200으로 응답
@@ -31,6 +34,11 @@ public class WhiskyController {
         return WhiskyMapper.toWhiskyDetailResponseDto(
                 whiskyService.findWhisky(whiskyId)
         );
+    }
+
+    @GetMapping("/suggest/{whiskyName}/any")
+    public List<String> autocompleteWhiskyName(@PathVariable String whiskyName) {
+        return whiskySearchRepository.suggestByName(whiskyName);
     }
 
 }
