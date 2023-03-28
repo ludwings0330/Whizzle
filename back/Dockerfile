@@ -2,7 +2,7 @@
 FROM openjdk:11-slim AS builder
 WORKDIR /app
 
-COPY . /app
+COPY .. /app
 RUN ./gradlew bootJar
 
 # 빌드 결과를 담은 이미지 생성
