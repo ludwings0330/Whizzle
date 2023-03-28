@@ -61,4 +61,9 @@ public class Drink {
         return "Drink [diary.id: " + diary.getId() + ", whisky.id: " + whisky.getId() + "]";
     }
 
+
+    public boolean isDeleted() {
+        return Boolean.TRUE.equals(this.isDeleted);
+    }
+
 }

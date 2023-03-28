@@ -32,6 +32,7 @@ public class AwsS3Service {
 
     /**
      * 멤버의 프로필 사진을 저장합니다.
+     *
      * @param file 저장할 1개의 프로필 사진
      * @return Image 객체를 반환합니다. 이 객체는 {@code S3Object}에 대한 기본 정보(이름, 경로, URL)를 담고 있습니다.
      */
@@ -41,10 +42,11 @@ public class AwsS3Service {
 
     /**
      * 리뷰 이미지를 저장합니다. 리뷰 이미지를 저장하는 도중에 실패할 경우 이전까지 저장한 이미지를 롤백하지는 않습니다.
+     *
      * @param files 저장할 1개 이상의 리뷰 이미지 사진
      * @return Image 객체의 리스트를 반환합니다. 이 객체는 {@code S3Object}에 대한 기본 정보(이름, 경로, URL)를 담고 있습니다.
      */
-    public List<Image> uploadReviewImages(MultipartFile[] files) {
+    public List<Image> uploadReviewImages(List<MultipartFile> files) {
         List<Image> images = new ArrayList<>();
 
         for (MultipartFile file : files) {
@@ -56,6 +58,7 @@ public class AwsS3Service {
 
     /**
      * S3에 저장된 파일을 다운로드합니다.
+     *
      * @param key S3에서 파일이 저장된 경로
      * @return 파일을 byte 배열로 반환합니다. 파일의 타입은 key를 파싱하여 얻어야 합니다.
      * @throws UncheckedIOException 파일을 다운로드하여 byte 배열로 변환하는 중에 이 예외가 발생할 수 있습니다.
@@ -71,6 +74,7 @@ public class AwsS3Service {
 
     /**
      * S3에 저장된 파일을 삭제합니다.
+     *
      * @param key S3에서 파일이 저장된 경로
      */
     public void deleteFile(String key) {
