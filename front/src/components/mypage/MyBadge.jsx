@@ -9,14 +9,14 @@ const SBox = styled.div`
   align-items: center;
   gap: 20px 30px;
   flex-wrap: wrap;
-  max-width: 770px;
+  max-width: 730px;
   background: #ffffff;
   border: 1px solid #b9b9b9;
   border-radius: 10px;
   margin-bottom: 70px;
   margin-top: 25px;
-  padding-top: 30px;
-  padding-bottom: 30px;
+  padding-top: 20px;
+  padding-bottom: 20px;
   padding-left: 50px;
   padding-right: 50px;
 `;
@@ -44,16 +44,6 @@ const exampleBadges = [
   },
   {
     url: "assets/img/badge5.png",
-    description: "1번째 다이어리 작성을 축하합니다. 앞으로 달아오를 달력이 기대되네요!",
-    achieveDate: "2023-03-17T06:13:48",
-  },
-  {
-    url: "assets/img/badge6.png",
-    description: "1번째 다이어리 작성을 축하합니다. 앞으로 달아오를 달력이 기대되네요!",
-    achieveDate: "2023-03-17T06:13:48",
-  },
-  {
-    url: "assets/img/badge7.png",
     description: "1번째 다이어리 작성을 축하합니다. 앞으로 달아오를 달력이 기대되네요!",
     achieveDate: "2023-03-17T06:13:48",
   },

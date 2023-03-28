@@ -12,8 +12,8 @@ const SCard = styled.div`
   cursor: pointer;
   justify-content: center;
   align-items: center;
-  width: 130px;
-  height: 130px;
+  width: 121px;
+  height: 121px;
   background: #d9d9d9;
   border-radius: 999px;
   transition: 0.5s;
@@ -38,11 +38,11 @@ const SBalloon = styled.div`
   align-items: center;
   min-width: 240px;
   padding: 6px 20px;
-  top: 142px;
+  top: 135px;
   left: 50%;
   transform: translateX(-50%);
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.8);
   box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.25);
   display: ${({ isHover }) => (isHover ? "flex" : "none")};
   &::before {

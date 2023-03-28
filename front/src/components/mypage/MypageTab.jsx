@@ -20,18 +20,17 @@ const STab = styled(Tab)`
   text-align: center;
   cursor: pointer;
   padding-bottom: 15px;
-  font-size: 20px;
+  font-size: 18px;
   color: #363636;
-  transform: 5s;
 
   &[aria-selected="true"] {
     border-bottom: 1px solid #f84f5a;
     color: #f84f5a;
     font-weight: bold;
-    transition: all 0.2s ease-in-out;
+    // transition: all 0.2s ease-in-out;
   }
 
-  transition: all 0.2s ease-in-out;
+  // transition: all 0.2s ease-in-out;
 
   &:focus {
     outline: none;
@@ -47,7 +46,7 @@ const MypageTab = () => {
 
   return (
     <>
-      <Tabs selectedIndex={activeTabIndex} onSelect={handleTabSelect} style={{ maxWidth: "870px" }}>
+      <Tabs selectedIndex={activeTabIndex} onSelect={handleTabSelect} style={{ maxWidth: "830px" }}>
         <STabList>
           <STab>킵한 위스키</STab>
           <STab>작성한 리뷰</STab>

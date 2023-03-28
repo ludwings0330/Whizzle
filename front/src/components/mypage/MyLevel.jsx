@@ -3,8 +3,8 @@ import styled from "styled-components";
 
 const SWrapper = styled.div`
   display: flex;
-  height: 20px;
-  width: 570px;
+  height: 17px;
+  width: 550px;
   border-radius: 10px;
   overflow: hidden;
   background-color: #dfdfdf;
@@ -29,17 +29,17 @@ const SRemaining = styled.div`
 const STitleDiv = styled.div`
   display: flex;
   justify-content: space-between;
-  width: 570px;
+  width: 550px;
   margin-bottom: 10px;
 `;
 
 const SP = styled.p`
-  font-size: 20px;
+  font-size: 18px;
   margin: 0;
 `;
 
 const SLevelP = styled.p`
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bold;
   color: #f84f5a;
   margin: 0;
@@ -51,7 +51,7 @@ const MyLevel = (props) => {
   const levelPercent = Math.min(Math.max((level / max) * 100, 0), 100);
   return (
     <>
-      <div style={{ paddingRight: "23px" }}>
+      <div style={{ paddingRight: "23px", paddingBottom: "10px" }}>
         <STitleDiv>
           <SP>나의 도수</SP>
           <SLevelP>{level}%</SLevelP>
