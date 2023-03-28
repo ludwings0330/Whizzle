@@ -1,6 +1,6 @@
 package com.bear.whizzle.diary.service;
 
-import com.bear.whizzle.diary.DiaryMapper;
+import com.bear.whizzle.diary.mapper.DiaryMapper;
 import com.bear.whizzle.diary.controller.dto.DiaryRequestSaveDto;
 import com.bear.whizzle.diary.controller.dto.DiaryRequestUpdateDto;
 import com.bear.whizzle.diary.repository.DiaryCustomRepository;
@@ -55,7 +55,12 @@ public class DiaryServiceImpl implements DiaryService {
     @Transactional
     public void eraseDiary(Long memberId, Long diaryId) {
         Diary diary = authorizeWriter(memberId, diaryId);
-        diary.delete();
+        diary.markDelete(); // drink를 update 하기 위해 쿼리가 개수만큼 나간다. bulk update하도록 변경하는 것을 고려해야 한다.
+    }
+
+    @Override
+    public long getDiaryCountByMemberId(Long memberId) {
+        return diaryRepository.countByMemberId(memberId);
     }
 
     private Diary authorizeWriter(Long memberId, Long diaryId) {
@@ -79,17 +84,11 @@ public class DiaryServiceImpl implements DiaryService {
         for (Long whiskyId : whiskyIds) {
             Whisky whisky = whiskyRepository.getReferenceById(whiskyId);
             Drink drink = Drink.builder()
-                               .diary(diary)
                                .whisky(whisky)
                                .build();
 
             diary.addDrink(drink);
         }
-    }
-
-    @Override
-    public long getDiaryCountByMemberId(Long memberId) {
-        return diaryRepository.countByMemberId(memberId);
     }
 
 }
