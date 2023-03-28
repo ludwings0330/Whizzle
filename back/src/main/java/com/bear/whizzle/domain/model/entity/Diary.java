@@ -87,10 +87,10 @@ public class Diary {
         this.content = diary.getContent();
     }
 
-    public void delete() {
+    public void markDelete() {
         this.isDeleted = Boolean.TRUE;
         for (Drink drink : drinks) {
-            drink.delete();
+            drink.markDelete();
         }
     }
 
@@ -100,7 +100,7 @@ public class Diary {
     }
 
     public void deleteDrink(Integer index) {
-        this.drinks.get(index).delete();
+        this.drinks.get(index).markDelete();
     }
 
     @Override
