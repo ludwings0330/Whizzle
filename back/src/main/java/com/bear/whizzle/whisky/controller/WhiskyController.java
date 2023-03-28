@@ -6,8 +6,10 @@ import com.bear.whizzle.whisky.controller.dto.WhiskyDetailResponseDto;
 import com.bear.whizzle.whisky.controller.dto.WhiskySearchCondition;
 import com.bear.whizzle.whisky.repository.projection.dto.WhiskySimpleResponseDto;
 import com.bear.whizzle.whisky.mapper.WhiskyMapper;
+import com.bear.whizzle.whisky.repository.WhiskyElasticSearchRepository;
 import com.bear.whizzle.whisky.service.WhiskyService;
 import com.bear.whizzle.whisky.service.query.WhiskyQueryService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class WhiskyController {
 
     private final WhiskyService whiskyService;
+    private final WhiskyElasticSearchRepository whiskySearchRepository;
     private final WhiskyQueryService whiskyQueryService;
     private final AuthService authService;
 
@@ -62,6 +65,11 @@ public class WhiskyController {
         return WhiskyMapper.toWhiskyDetailResponseDto(
                 whiskyService.findWhisky(whiskyId)
         );
+    }
+
+    @GetMapping("/suggest/{whiskyName}/any")
+    public List<String> autocompleteWhiskyName(@PathVariable String whiskyName) {
+        return whiskySearchRepository.suggestByName(whiskyName);
     }
 
 }
