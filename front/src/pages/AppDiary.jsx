@@ -67,7 +67,7 @@ const SP = styled.p`
 `;
 
 const AppDiary = () => {
-  console.log("오류뜨니");
+  console.log("12323123");
 
   const [diaryList, setDiaryList] = useRecoilState(diaryState);
   const [data, setData] = useRecoilState(diaryDataState);

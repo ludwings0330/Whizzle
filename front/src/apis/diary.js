@@ -31,7 +31,7 @@ export const diaryUpdate = async (data) => {
   }
 };
 
-export const deleteDiary = async (diaryId) => {
+export const diaryDelete = async (diaryId) => {
   try {
     const res = await api.delete(`/api/diaries/${diaryId}`);
     console.log(res);

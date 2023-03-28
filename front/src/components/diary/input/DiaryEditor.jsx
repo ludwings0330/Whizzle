@@ -221,7 +221,7 @@ const DiaryEditor = ({ selectedDate }) => {
     if (recentSearchData) {
       setRecentSearch(recentSearchData);
     }
-  }, [today]);
+  }, []);
 
   const handleEmotionChange = (e) => {
     const emotionValue = e.target.value;
@@ -292,14 +292,15 @@ const DiaryEditor = ({ selectedDate }) => {
 
   const handleSubmit = () => {
     onCreate();
+    console.log("등록?");
     alert("등록 완료");
   };
 
-  const today = new Date(selectedDate)
-    .toISOString()
-    .slice(0, 10)
-    .replaceAll("-", ".")
-    .replace(/^(\d{4})-(\d{2})-(\d{2})$/, "$1-$2-$3".replace(/-(\d{1})-/, "-0$1-"));
+  const today = new Date(selectedDate);
+  const year = today.getFullYear().toString().padStart(4, "0");
+  const month = (today.getMonth() + 1).toString().padStart(2, "0");
+  const day = today.getDate().toString().padStart(2, "0");
+  const formattedDate = `${year}.${month.padStart(2, "0")}.${day.padStart(2, "0")}`;
 
   return (
     <>
@@ -314,7 +315,7 @@ const DiaryEditor = ({ selectedDate }) => {
               flex: "1",
             }}
           >
-            {today}
+            {formattedDate}
           </SP>
           <SButton sytle={{ flex: "1" }} onClick={handleSubmit}>
             저장

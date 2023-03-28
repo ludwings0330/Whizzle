@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { diaryUpdate, deleteDiary } from "../../../apis/diary";
+import { diaryUpdate, diaryDelete } from "../../../apis/diary";
 import {
   diaryState,
   diaryDataState,
@@ -219,11 +219,11 @@ const DiaryItem = ({ selectedDate }) => {
     setLocalSearchTerms(data.drinks.map((drink) => drink.whisky.id));
   };
 
-  const today = new Date(selectedDate)
-    .toISOString()
-    .slice(0, 10)
-    .replaceAll("-", ".")
-    .replace(/^(\d{4})-(\d{2})-(\d{2})$/, "$1-$2-$3".replace(/-(\d{1})-/, "-0$1-"));
+  const today = new Date(selectedDate);
+  const year = today.getFullYear().toString().padStart(4, "0");
+  const month = (today.getMonth() + 1).toString().padStart(2, "0");
+  const day = today.getDate().toString().padStart(2, "0");
+  const formattedDate = `${year}.${month.padStart(2, "0")}.${day.padStart(2, "0")}`;
 
   useEffect(() => {
     initData();
@@ -232,7 +232,7 @@ const DiaryItem = ({ selectedDate }) => {
   const handleClickRemove = async () => {
     if (window.confirm(`${today}날의 일기를 정말 삭제하시겠습니까?`)) {
       toggleIsEdit();
-      deleteDiary(data.id);
+      diaryDelete(data.id);
 
       // If not in edit mode, render diary editor
       if (!isEdit) {
@@ -361,7 +361,7 @@ const DiaryItem = ({ selectedDate }) => {
               flex: "1",
             }}
           >
-            {today}
+            {formattedDate}
           </SP>
 
           {isEdit ? (
