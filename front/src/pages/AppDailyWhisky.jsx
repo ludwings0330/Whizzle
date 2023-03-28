@@ -74,7 +74,7 @@ const AppDailyWhisky = () => {
     const result = await loginedRecommend(body);
     setDailyResult(result);
     setIsLoading(false);
-    console.log(dailyResult);
+    // console.log(dailyResult);
   };
 
   useEffect(() => {

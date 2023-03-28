@@ -67,7 +67,7 @@ const SRight = styled.div`
 `;
 
 const SLikeImg = styled.img`
-  height: 30px;
+  height: 32px;
   transition: 0.5s;
   z-index: 2;
   &:hover {
