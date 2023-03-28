@@ -1,5 +1,5 @@
 import React from "react";
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { userState } from "../store/userStore";
 
@@ -10,6 +10,44 @@ import MainDiary from "../components/main/MainDiary";
 import MainReview from "../components/main/MainReview";
 
 const AppMain = () => {
+  // scroll시 헤더바 변경
+  const [scrollY, setScrollY] = useState(window.scrollY);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  useEffect(() => {
+    const nav = document.getElementById("navbar");
+    if (scrollY > 0) {
+      nav.style.position = "sticky";
+      nav.style.top = "0";
+      nav.style.backgroundColor = "#e042ff";
+      nav.style.transition = "background-color 1s ease-in-out";
+      if (scrollY < 70) {
+        window.scrollTo(window.scrollX, scrollY + 70);
+      }
+    } else {
+      nav.style.position = "absolute";
+      nav.style.top = "";
+      nav.style.backgroundColor = "transparent";
+      nav.style.transition = "";
+    }
+
+    return () => {
+      nav.style.position = "absolute";
+      nav.style.top = "";
+      nav.style.backgroundColor = "transparent";
+      nav.style.transition = "";
+    };
+  }, [scrollY]);
+
   const user = useRecoilValue(userState);
   const isLogin = Boolean(user.id);
 

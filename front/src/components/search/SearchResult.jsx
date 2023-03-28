@@ -3,8 +3,8 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
 import SearchBar from "./SearchBar";
-import SearchList from "./list/SearchList";
 import WhiskyList from "../common/WhiskyList";
+import { changeHeader, rollbackHeader } from "../../hooks/changeHeader";
 
 const Wrapper = styled.div`
   margin-top: 70px;
@@ -32,19 +32,9 @@ const SSpan = styled.span`
 
 const SearchResult = () => {
   useEffect(() => {
-    const nav = document.getElementById("navbar");
-    nav.style.backgroundColor = "#F84F5A";
-    const dropdown = document.getElementsByClassName("dropdown");
-    for (let i = 0; i < dropdown.length; i++) {
-      dropdown[i].style.color = "#181818";
-    }
-
+    changeHeader();
     return () => {
-      nav.style.backgroundColor = "transparent";
-      for (let i = 0; i < dropdown.length; i++) {
-        dropdown[i].style.color = "#ffffff";
-      }
-      window.scrollTo(0, 0);
+      rollbackHeader();
     };
   }, []);
 
