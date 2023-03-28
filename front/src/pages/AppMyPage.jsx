@@ -9,9 +9,9 @@ import MyProfile from "../components/mypage/MyProfile";
 import MypageTab from "../components/mypage/MypageTab";
 
 const SContainer = styled.div`
-  margin-top: 150px;
+  margin-top: 70px;
   max-width: 100%;
-  width: 100vw;
+  // width: 100vw;
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -44,22 +44,11 @@ const AppMyPage = () => {
     };
   }, []);
 
-  const exampleUser = {
-    nickname: "drunkenbear",
-    email: "ludwings0330@gmail.com",
-    provider: "GOOGLE",
-    image: {
-      url: "assets/img/userExampleProfile.png",
-      originName: "default_member_image.png",
-    },
-    level: 43.0,
-  };
-
   return (
     <>
       <SContainer>
         <SInfoDiv>
-          <MyProfile user={exampleUser} />
+          <MyProfile />
           <MyBadge />
         </SInfoDiv>
         <MypageTab />
