@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { dailyRecommend } from "../apis/recommend";
 
 import DailyFlavor from "../components/daily/DailyFlavor";
 import DailyPrice from "../components/daily/DailyPrice";
@@ -114,14 +115,20 @@ const AppDailyWhisky = () => {
     },
   ];
 
-  const body = {
-    price: priceData,
-    flavor: flavorData,
+  const dailyRecommendApi = async () => {
+    setIsLoading(true);
+
+    const body = {
+      priceTier: priceData,
+      flavor: flavorData,
+    };
+
+    const dailyResult = await dailyRecommend(body);
+    setIsLoading(false);
   };
 
   useEffect(() => {
-    // axios 들어갈 자리
-    setIsLoading((prev) => !prev);
+    dailyRecommendApi();
   }, [flavorData, priceData]);
 
   return (

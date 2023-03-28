@@ -12,21 +12,25 @@ const STabList = styled(TabList)`
   padding: 0;
   margin: 0;
   list-style: none;
-  border-bottom: 3px solid #ccc;
+  border-bottom: 1px solid #ccc;
 `;
 
 const STab = styled(Tab)`
   flex: 1;
   text-align: center;
   cursor: pointer;
-  padding: 10px;
+  padding-bottom: 15px;
+  font-size: 18px;
+  color: #363636;
 
   &[aria-selected="true"] {
-    border-bottom: 3px solid #f84f5a;
+    border-bottom: 1px solid #f84f5a;
+    color: #f84f5a;
     font-weight: bold;
+    // transition: all 0.2s ease-in-out;
   }
 
-  transition: all 0.2s ease-in-out;
+  // transition: all 0.2s ease-in-out;
 
   &:focus {
     outline: none;
@@ -42,7 +46,7 @@ const MypageTab = () => {
 
   return (
     <>
-      <Tabs selectedIndex={activeTabIndex} onSelect={handleTabSelect}>
+      <Tabs selectedIndex={activeTabIndex} onSelect={handleTabSelect} style={{ maxWidth: "830px" }}>
         <STabList>
           <STab>킵한 위스키</STab>
           <STab>작성한 리뷰</STab>

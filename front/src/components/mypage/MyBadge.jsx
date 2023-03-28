@@ -5,18 +5,20 @@ import MyBadgeItem from "./MyBadgeItem";
 const SBox = styled.div`
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
-  gap: 0px 20px;
+  gap: 20px 30px;
   flex-wrap: wrap;
-  max-width: 900px;
+  max-width: 730px;
   background: #ffffff;
   border: 1px solid #b9b9b9;
-  border-radius: 16px;
+  border-radius: 10px;
   margin-bottom: 70px;
   margin-top: 25px;
-  padding-left: 30px;
-  padding-right: 30px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 50px;
+  padding-right: 50px;
 `;
 
 const exampleBadges = [
@@ -42,16 +44,6 @@ const exampleBadges = [
   },
   {
     url: "assets/img/badge5.png",
-    description: "1번째 다이어리 작성을 축하합니다. 앞으로 달아오를 달력이 기대되네요!",
-    achieveDate: "2023-03-17T06:13:48",
-  },
-  {
-    url: "assets/img/badge6.png",
-    description: "1번째 다이어리 작성을 축하합니다. 앞으로 달아오를 달력이 기대되네요!",
-    achieveDate: "2023-03-17T06:13:48",
-  },
-  {
-    url: "assets/img/badge7.png",
     description: "1번째 다이어리 작성을 축하합니다. 앞으로 달아오를 달력이 기대되네요!",
     achieveDate: "2023-03-17T06:13:48",
   },

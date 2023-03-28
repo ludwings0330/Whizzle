@@ -90,7 +90,7 @@ const AppReview = () => {
   useEffect(() => {
     const navLogo = document.getElementById("logo");
     navLogo.src = colorLogo;
-    const navTexts = document.getElementsByClassName("text");
+    const navTexts = document.querySelectorAll(".text, .dropdown");
     for (let i = 0; i < navTexts.length; i++) {
       navTexts[i].style.color = "#000000";
     }

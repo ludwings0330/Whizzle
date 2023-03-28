@@ -11,7 +11,9 @@ class Settings(BaseSettings):
     BACKEND_CORS_ORIGINS: List[AnyHttpUrl] = []
     MODEL_PATH: str
     ITEM_FEATURES_PATH: str
+    USER_FEATURES_PATH: str
     ENCODING: str
+    N_USERS: int
 
     @validator("BACKEND_CORS_ORIGINS", pre=True)
     def assemble_cors_origins(cls, v: Union[str, List[str]]) -> Union[List[str], str]:
