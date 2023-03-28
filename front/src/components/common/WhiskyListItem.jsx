@@ -112,7 +112,7 @@ const WhiskyListItem = (props) => {
   const keepHandler = (event) => {
     event.stopPropagation();
     const result = keepApi(props.whisky.id);
-    if (result) {
+    if (result === true) {
       setIsKeep((prev) => !prev);
     }
   };
