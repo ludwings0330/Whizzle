@@ -21,10 +21,16 @@ export const diaryDataState = atom({
           id: null,
           name: "",
         },
-        drinkOrder: 0,
+        drinkOrder: null,
       },
     ],
+    background: "",
   },
+});
+
+export const calanderData = atom({
+  key: "calanderData",
+  default: [],
 });
 
 export const currentComponentState = atom({

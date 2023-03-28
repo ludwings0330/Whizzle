@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { diaryState, diaryDataState, currentComponentState } from "../../../store/indexStore";
+import {
+  diaryState,
+  diaryDataState,
+  currentComponentState,
+  calanderData,
+} from "../../../store/indexStore";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { diaryRead } from "../../../apis/diary";
+import fetchDiaries from "../../../store/indexStore";
 
 //import css
 import styled from "styled-components";
-import DiaryEditor from "../input/DiaryEditor";
 
 const SDiv = styled.div`
   border: 2px solid #e1e1e1;
@@ -199,10 +203,6 @@ const DiaryCalander = ({ onDateClick }) => {
 
     setCurrentComponent("diaryNewContent");
     setData(diaryItem);
-
-    //diaryItem 이 -1이면 Editor를 띄워주기
-    //아니라면 DiaryItem 자체를 보여주기
-
     onDateClick(clickedDateString);
   }
 

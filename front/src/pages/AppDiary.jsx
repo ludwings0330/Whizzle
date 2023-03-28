@@ -67,7 +67,7 @@ const SP = styled.p`
 `;
 
 const AppDiary = () => {
-  console.log("12323123");
+  console.log("AppDiary렌딩");
 
   const [diaryList, setDiaryList] = useRecoilState(diaryState);
   const [data, setData] = useRecoilState(diaryDataState);
@@ -107,8 +107,8 @@ const AppDiary = () => {
       <SMainDiv>
         <SMainDivider />
         <DiaryCalander onDateClick={setSelectedDate} />
-        {data && data.drinks.length > 0 ? (
-          <DiaryItem selectedDate={selectedDate} />
+        {data.id ? (
+          <DiaryItem selectedDate={selectedDate} diaryList={diaryList} />
         ) : (
           <DiaryEditor selectedDate={selectedDate} />
         )}

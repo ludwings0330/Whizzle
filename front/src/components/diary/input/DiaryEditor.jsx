@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
-import { diaryDataState } from "../../../store/indexStore";
+import { diaryDataState, diaryState } from "../../../store/indexStore";
 //import component
-import { diaryCreate } from "../../../apis/diary";
+import { diaryCreate, diaryRead } from "../../../apis/diary";
 
 //import css
 import styled from "styled-components";
@@ -169,7 +169,10 @@ const SDiv = styled.div`
 `;
 
 const DiaryEditor = ({ selectedDate }) => {
+  console.log("DiaryEditor렌딩");
+
   const [data, setData] = useRecoilState(diaryDataState);
+  const [diaryList, setDiaryList] = useRecoilState(diaryState);
 
   const [emotionImage, setEmotionImage] = useState(soso);
   const [drinkImage, setDrinkImage] = useState(normaldrink);
@@ -253,54 +256,41 @@ const DiaryEditor = ({ selectedDate }) => {
     }
   };
 
+  const today = new Date(selectedDate);
+  const year = today.getFullYear().toString().padStart(4, "0");
+  const month = (today.getMonth() + 1).toString().padStart(2, "0");
+  const day = today.getDate().toString().padStart(2, "0");
+  const formattedDate = `${year}.${month.padStart(2, "0")}.${day.padStart(2, "0")}`;
+
   //위스키 이름, 주량, 기분, 한마디
   const onCreate = async () => {
+    console.log(formattedDate);
     const numberSearchTerms = recentSearch.map(Number);
     const changeEmotionApi = emotionValue === 0 ? "BAD" : emotionValue === 50 ? "NORMAL" : "GOOD";
     const changeDrinkLevelApi =
       drinklevelValue === 0 ? "LIGHT" : drinklevelValue === 50 ? "MODERATE" : "HEAVY";
+
     const newItem = {
-      date: today.replaceAll(".", "-"),
+      date: formattedDate.replaceAll(".", "-"),
       emotion: changeEmotionApi,
       drinkLevel: changeDrinkLevelApi,
       content,
       whiskyIds: numberSearchTerms,
     };
 
-    const newDrinks = numberSearchTerms.map((id, index) => {
-      return {
-        whisky: {
-          id: id,
-          name: id.toString(),
-        },
-        drinkOrder: index,
-      };
-    });
-    setData({
-      data: newItem.date,
-      emotion: changeEmotionApi,
-      drinkLevel: changeDrinkLevelApi,
-      content: content,
-      drinks: newDrinks,
-    });
-
+    console.log("create확인");
     const createIsOk = await diaryCreate(newItem);
 
     if (createIsOk) {
+      const updatedData = await diaryRead(formattedDate.slice(0, 7));
+      setDiaryList(updatedData);
     }
   };
 
   const handleSubmit = () => {
     onCreate();
-    console.log("등록?");
     alert("등록 완료");
   };
-
-  const today = new Date(selectedDate);
-  const year = today.getFullYear().toString().padStart(4, "0");
-  const month = (today.getMonth() + 1).toString().padStart(2, "0");
-  const day = today.getDate().toString().padStart(2, "0");
-  const formattedDate = `${year}.${month.padStart(2, "0")}.${day.padStart(2, "0")}`;
 
   return (
     <>
@@ -331,6 +321,7 @@ const DiaryEditor = ({ selectedDate }) => {
               onKeyDown={(e) => setWhiskyName(e)}
               placeholder="위스키 이름을 입력해주세요"
               type="text"
+              autoComplete="off"
             />
             <div>
               {recentSearch.map((word, index) => (

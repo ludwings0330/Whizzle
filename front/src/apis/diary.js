@@ -20,14 +20,13 @@ export const diaryRead = async (data) => {
   }
 };
 
-export const diaryUpdate = async (data) => {
+export const diaryUpdate = async (diaryId, diaryData) => {
   try {
-    const res = await api.put(`/api/diaries/${data.id}`, data);
+    const res = await api.put(`/api/diaries/${diaryId}`, diaryData);
     console.log(res.data);
     return res.data;
   } catch (error) {
     console.log(error);
-    return data;
   }
 };
 

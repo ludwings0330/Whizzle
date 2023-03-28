@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { diaryUpdate, diaryDelete } from "../../../apis/diary";
+import { diaryUpdate, diaryDelete, diaryRead } from "../../../apis/diary";
 import {
   diaryState,
   diaryDataState,
@@ -7,6 +7,7 @@ import {
   currentComponentState,
 } from "../../../store/indexStore";
 import { useRecoilState, useSetRecoilState } from "recoil";
+import moment from "moment";
 
 //import css
 import styled from "styled-components";
@@ -185,12 +186,12 @@ const SImg = styled.img`
   height: 40px;
 `;
 
-const DiaryItem = ({ selectedDate }) => {
+const DiaryItem = ({ selectedDate, diaryItemList }) => {
   console.log("잘 들어옴?");
   const setCurrentComponentState = useSetRecoilState(currentComponentState);
   const [data, setData] = useRecoilState(diaryDataState);
-
   const [diaryList, setDiaryList] = useRecoilState(diaryState);
+
   const [localContent, setLocalContent] = useState(data.content);
   const [localWhisky, setLocalWhisky] = useState(data.whisky);
   const [localDrinklevel, setLocalDrinklevel] = useState(data.drinkLevel);
@@ -229,10 +230,28 @@ const DiaryItem = ({ selectedDate }) => {
     initData();
   }, [data]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const changeDate = moment(selectedDate).format("yyyy-MM-DD");
+      const changeData = diaryList.find((diary) => diary.date === changeDate);
+      if (changeData) {
+        setData(changeData);
+      }
+    };
+
+    fetchData();
+  }, [selectedDate, diaryItemList]);
+
   const handleClickRemove = async () => {
-    if (window.confirm(`${today}날의 일기를 정말 삭제하시겠습니까?`)) {
+    if (window.confirm(`${formattedDate}날의 일기를 정말 삭제하시겠습니까?`)) {
       toggleIsEdit();
-      diaryDelete(data.id);
+      const deletedDiaryId = data.id; // 삭제된 일기의 ID 저장
+
+      await diaryDelete(deletedDiaryId); // 일기 삭제 API 호출
+
+      // 일기 삭제 후, 해당 월의 일기 목록 다시 불러오기
+      const diaryList = await diaryRead(month);
+      setDiaryList(diaryList);
 
       // If not in edit mode, render diary editor
       if (!isEdit) {
@@ -293,7 +312,7 @@ const DiaryItem = ({ selectedDate }) => {
   };
 
   const handleEdit = async () => {
-    if (window.confirm(`${today} 날의 일기를 수정하시겠습니까?`)) {
+    if (window.confirm(`${formattedDate} 날의 일기를 수정하시겠습니까?`)) {
       const changeEmotionApi = localEmotion === 0 ? "BAD" : localEmotion === 50 ? "NORMAL" : "GOOD";
       const changeDrinkLevelApi =
         localDrinklevel === 0 ? "LIGHT" : localDrinklevel === 50 ? "MODERATE" : "HEAVY";
@@ -317,6 +336,7 @@ const DiaryItem = ({ selectedDate }) => {
       });
       console.log(insertedWhiskyIds);
       console.log(deletedDrinkOrders);
+
       const editItem = {
         id: data.id,
         emotion: changeEmotionApi,
@@ -326,7 +346,7 @@ const DiaryItem = ({ selectedDate }) => {
         deletedDrinkOrders,
       };
       console.log(editItem);
-      await diaryUpdate(editItem);
+      await diaryUpdate(editItem.id, editItem);
       await fetchDiaries(setDiaryList, setData, data.date);
       toggleIsEdit();
     }
@@ -391,7 +411,7 @@ const DiaryItem = ({ selectedDate }) => {
                   <div>
                     {localSearchTerms.map((word, index) => (
                       <SDiv key={index}>
-                        <SP>{word.length > 6 ? `${word.slice(0, 6)}...` : word}</SP>
+                        <SP>{word}</SP>
                         <SButton onClick={() => deleteRecentSearchWord(word)}>X</SButton>
                       </SDiv>
                     ))}

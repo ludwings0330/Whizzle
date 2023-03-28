@@ -4,7 +4,6 @@ import { parse, stringify } from "qs";
 import { reissueAccessToken } from "./reissueToken";
 
 const api = axios.create({
-  withCredentials: true,
   baseURL: BASE_URL,
   headers: {
     "Content-Type": "application/json;charset=utf-8",
