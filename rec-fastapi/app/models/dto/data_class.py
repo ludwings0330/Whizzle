@@ -20,5 +20,5 @@ class Flavor(BaseModel):
 
 class Preference(BaseModel):
     user_id: int = Body(..., alias="userId")
-    price_tier: int = Body(..., alias="priceTier", ge=0, le=5)
+    price_tier: int = Body(..., alias="priceTier", ge=1, le=5)
     flavor: Flavor
