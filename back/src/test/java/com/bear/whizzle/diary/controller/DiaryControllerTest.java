@@ -138,7 +138,7 @@ class DiaryControllerTest {
                         .header("Authorization", "Bearer " + testToken)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(updateDto))
-        ).andExpect(status().isCreated());
+        ).andExpect(status().isOk());
 
         // then
         assertThatCode(
@@ -173,7 +173,7 @@ class DiaryControllerTest {
         mockMvc.perform(
                 delete("/api/diaries/" + testDiaryId)
                         .header("Authorization", "Bearer " + testToken)
-        ).andExpect(status().isCreated());
+        ).andExpect(status().isOk());
 
         // then
         assertThatCode(

@@ -1,15 +1,14 @@
 package com.bear.whizzle.diary.service;
 
-import com.bear.whizzle.diary.mapper.DiaryMapper;
 import com.bear.whizzle.diary.controller.dto.DiaryRequestSaveDto;
 import com.bear.whizzle.diary.controller.dto.DiaryRequestUpdateDto;
+import com.bear.whizzle.diary.mapper.DiaryMapper;
 import com.bear.whizzle.diary.repository.DiaryCustomRepository;
 import com.bear.whizzle.diary.repository.DiaryRepository;
 import com.bear.whizzle.domain.exception.NotFoundException;
 import com.bear.whizzle.domain.model.entity.Diary;
-import com.bear.whizzle.domain.model.entity.Drink;
 import com.bear.whizzle.domain.model.entity.Member;
-import com.bear.whizzle.domain.model.entity.Whisky;
+import com.bear.whizzle.drink.service.DrinkService;
 import com.bear.whizzle.member.repository.MemberRepository;
 import com.bear.whizzle.whisky.repository.WhiskyRepository;
 import java.util.List;
@@ -23,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class DiaryServiceImpl implements DiaryService {
 
+    private final DrinkService drinkService;
     private final MemberRepository memberRepository;
     private final WhiskyRepository whiskyRepository;
     private final DiaryRepository diaryRepository;
@@ -34,12 +34,17 @@ public class DiaryServiceImpl implements DiaryService {
     }
 
     @Override
+    public long getDiaryCountByMemberId(Long memberId) {
+        return diaryRepository.countByMemberId(memberId);
+    }
+
+    @Override
     @Transactional
     public void writeDiary(Long memberId, DiaryRequestSaveDto diaryRequestSaveDto) {
         Member member = memberRepository.getReferenceById(memberId);
         Diary diary = DiaryMapper.toDiary(member, diaryRequestSaveDto);
-        writeDrinks(diary, diaryRequestSaveDto.getWhiskyIds());
         diaryRepository.save(diary);
+        drinkService.writeDrinks(diary, diaryRequestSaveDto.getWhiskyIds());
     }
 
     @Override
@@ -47,8 +52,8 @@ public class DiaryServiceImpl implements DiaryService {
     public void rewriteDiary(Long memberId, DiaryRequestUpdateDto diaryRequestUpdateDto) {
         Diary diary = authorizeWriter(memberId, diaryRequestUpdateDto.getId());
         diary.update(DiaryMapper.toDiary(diaryRequestUpdateDto));
-        eraseDrinks(diary, diaryRequestUpdateDto.getDeletedDrinkOrders());
-        writeDrinks(diary, diaryRequestUpdateDto.getInsertedWhiskyIds());
+        drinkService.eraseDrinks(diary, diaryRequestUpdateDto.getDeletedDrinkOrders());
+        drinkService.writeDrinks(diary, diaryRequestUpdateDto.getInsertedWhiskyIds());
     }
 
     @Override
@@ -56,11 +61,6 @@ public class DiaryServiceImpl implements DiaryService {
     public void eraseDiary(Long memberId, Long diaryId) {
         Diary diary = authorizeWriter(memberId, diaryId);
         diary.markDelete(); // drink를 update 하기 위해 쿼리가 개수만큼 나간다. bulk update하도록 변경하는 것을 고려해야 한다.
-    }
-
-    @Override
-    public long getDiaryCountByMemberId(Long memberId) {
-        return diaryRepository.countByMemberId(memberId);
     }
 
     private Diary authorizeWriter(Long memberId, Long diaryId) {
@@ -72,23 +72,6 @@ public class DiaryServiceImpl implements DiaryService {
         }
 
         return diary;
-    }
-
-    private void eraseDrinks(Diary diary, List<Integer> deletedDrinkOrders) {
-        for (Integer index : deletedDrinkOrders) {
-            diary.deleteDrink(index);
-        }
-    }
-
-    private void writeDrinks(Diary diary, List<Long> whiskyIds) {
-        for (Long whiskyId : whiskyIds) {
-            Whisky whisky = whiskyRepository.getReferenceById(whiskyId);
-            Drink drink = Drink.builder()
-                               .whisky(whisky)
-                               .build();
-
-            diary.addDrink(drink);
-        }
     }
 
 }
