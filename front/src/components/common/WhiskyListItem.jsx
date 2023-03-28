@@ -109,9 +109,9 @@ const WhiskyListItem = (props) => {
     navigate(`/whisky/${props.whisky.id}`);
   };
 
-  const keepHandler = (event) => {
+  const keepHandler = async (event) => {
     event.stopPropagation();
-    const result = keepApi(props.whisky.id);
+    const result = await keepApi(props.whisky.id);
     if (result === true) {
       setIsKeep((prev) => !prev);
     }
