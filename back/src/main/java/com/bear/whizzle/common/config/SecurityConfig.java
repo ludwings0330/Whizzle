@@ -53,7 +53,8 @@ public class SecurityConfig {
 
         http.oauth2Login(oauth2 ->
                                  oauth2
-                                         .authorizationEndpoint(endpoint -> endpoint.authorizationRequestRepository(customAuthorizationRequestRepository))
+                                         .authorizationEndpoint(
+                                                 endpoint -> endpoint.authorizationRequestRepository(customAuthorizationRequestRepository))
                                          .userInfoEndpoint()
                                          .userService(customOAuth2UserService)
                                          .and()
@@ -75,11 +76,10 @@ public class SecurityConfig {
         final CorsConfiguration corsConfiguration = new CorsConfiguration();
 
         corsConfiguration.addAllowedOrigin("http://localhost:3000");
-        corsConfiguration.addAllowedOrigin("https://i8a702.p.ssafy.io");
+        corsConfiguration.addAllowedOrigin("https://j8a805.p.ssafy.io");
 
         corsConfiguration.addAllowedHeader("*");
         corsConfiguration.addAllowedMethod("*");
-//        corsConfiguration.setAllowCredentials(true);
 
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", corsConfiguration);
