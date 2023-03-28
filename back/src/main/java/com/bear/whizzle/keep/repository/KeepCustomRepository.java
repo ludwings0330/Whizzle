@@ -24,4 +24,11 @@ public class KeepCustomRepository {
         return myKeeps;
     }
 
+    public Boolean existByMemberIdAndWhiskyId(Long memberId, Long whiskyId) {
+        return queryFactory.selectFrom(keep)
+                           .where(keep.member.id.eq(memberId),
+                                  keep.whisky.id.eq(whiskyId))
+                           .fetchFirst() != null;
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.bear.whizzle.common.config;
 
+import com.bear.whizzle.auth.repository.CustomAuthorizationRequestRepository;
 import com.bear.whizzle.auth.service.CustomOAuth2UserService;
 import com.bear.whizzle.common.filter.JwtAuthenticationFilter;
 import com.bear.whizzle.common.handler.CustomAuthenticationFailureHandler;
@@ -16,6 +17,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.CorsUtils;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -23,6 +27,7 @@ import org.springframework.web.cors.CorsConfiguration;
 public class SecurityConfig {
 
     private final JwtUtil jwtUtil;
+    private final CustomAuthorizationRequestRepository customAuthorizationRequestRepository;
     private final CustomOAuth2UserService customOAuth2UserService;
     private final CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
     private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
@@ -32,7 +37,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         // Disable CORS support
-        http.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues());
+        http.cors().configurationSource(corsConfigurationSource());
 
         // Disable CSRF protection
         http.csrf().disable();
@@ -48,6 +53,7 @@ public class SecurityConfig {
 
         http.oauth2Login(oauth2 ->
                                  oauth2
+                                         .authorizationEndpoint(endpoint -> endpoint.authorizationRequestRepository(customAuthorizationRequestRepository))
                                          .userInfoEndpoint()
                                          .userService(customOAuth2UserService)
                                          .and()
@@ -56,11 +62,29 @@ public class SecurityConfig {
 
         http.authorizeRequests(request ->
                                        request
+                                               .requestMatchers(CorsUtils::isPreFlightRequest).permitAll() // 추가
                                                .antMatchers("/login/**").permitAll()
                                                .antMatchers("/api/**/any").permitAll()
                                                .anyRequest().authenticated());
 
         return http.build();
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        final CorsConfiguration corsConfiguration = new CorsConfiguration();
+
+        corsConfiguration.addAllowedOrigin("http://localhost:3000");
+        corsConfiguration.addAllowedOrigin("https://i8a702.p.ssafy.io");
+
+        corsConfiguration.addAllowedHeader("*");
+        corsConfiguration.addAllowedMethod("*");
+//        corsConfiguration.setAllowCredentials(true);
+
+        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", corsConfiguration);
+
+        return source;
     }
 
 }

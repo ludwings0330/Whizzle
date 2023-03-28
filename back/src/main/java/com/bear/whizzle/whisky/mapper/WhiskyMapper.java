@@ -14,6 +14,7 @@ public final class WhiskyMapper {
                                       .name(whisky.getName())
                                       .imageUrl(whisky.getImage().getUrl())
                                       .category(whisky.getCategory())
+                                      .location(whisky.getLocation())
                                       .priceTier(whisky.getPriceTier())
                                       .abv(whisky.getAbv())
                                       .caskType(whisky.getCaskType())
