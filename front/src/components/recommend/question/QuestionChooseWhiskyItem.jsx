@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
-import { preference } from "../../../store/preferenceStore";
+import { preference } from "../../../store/indexStore";
 import styled from "styled-components";
 
 const SWrap = styled.div`
@@ -20,10 +20,8 @@ const SCard = styled.div`
   border: 1px solid rgba(255, 255, 255, 0.6);
   border-radius: 16px;
   transition: 0.5s;
-  background: ${(props) =>
-    props.isClicked ? "white" : "rgba(255, 255, 255, 0.2)"};
-  box-shadow: ${(props) =>
-    props.isClicked ? "0px 4px 50px rgba(255, 255, 255, 0.5)" : ""};
+  background: ${(props) => (props.isClicked ? "white" : "rgba(255, 255, 255, 0.2)")};
+  box-shadow: ${(props) => (props.isClicked ? "0px 4px 50px rgba(255, 255, 255, 0.5)" : "")};
   ${SWrap}:hover & {
     background: white;
     transition: 0.5s;

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useRecoilValue } from "recoil";
-import { preference } from "../../../store/preferenceStore";
+import { preference } from "../../../store/indexStore";
 import { motion } from "framer-motion";
 import QuestionChooseWhiskyItem from "./QuestionChooseWhiskyItem";
 import styled from "styled-components";
@@ -119,7 +119,7 @@ const QuestionChooseWhisky = (props) => {
   const submitHandler = () => {
     if (preferenceValue.whiskies.length > 0) {
       // axios 요청 들어갈 자리
-      console.log(preferenceValue);
+      // console.log(preferenceValue);
       // props.goNextPage();
       props.setDirection("next");
       props.setActivePage(6);
@@ -129,6 +129,7 @@ const QuestionChooseWhisky = (props) => {
   };
 
   useEffect(() => {
+    // console.log(preferenceValue);
     props.setBarWidth(window.innerWidth * 0.99);
   });
 
@@ -148,7 +149,7 @@ const QuestionChooseWhisky = (props) => {
             <QuestionChooseWhiskyItem key={whisky.id} whisky={whisky} />
           ))}
         </SBox>
-        <SButton onClick={submitHandler}>
+        <SButton onClick={props.whiskySubmitHandler}>
           <SButtonText>나만의 위스키 추천 결과 보러가기</SButtonText>
         </SButton>
       </SCentered>
