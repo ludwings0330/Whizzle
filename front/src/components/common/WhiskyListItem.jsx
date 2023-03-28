@@ -117,25 +117,25 @@ const WhiskyListItem = (props) => {
     <SCard onClick={goDetail}>
       <STop>
         <SContainer>
-          <SImg src={require(`../../assets/img/whisky_preset/${props.index + 1}.png`)} />
+          <SImg src={props.whisky.url} />
         </SContainer>
         <SRight>
-          {isLiked ? (
+          {props.whisky.keep ? (
             <SLikeImg onClick={keepHandler} src={favoriteFilled} alt="like.png" />
           ) : (
             <SLikeImg onClick={keepHandler} src={favoriteBorder} alt="like.png" />
           )}
           <SRating>
-            <SAvg>{props.whisky.avg_rating}</SAvg>
+            <SAvg>{props.whisky.avgRating}</SAvg>
             <ReactStars
               count={5}
-              value={Math.round(props.whisky.avg_rating * 2) / 2}
+              value={Math.round(props.whisky.avgRating * 2) / 2}
               edit={false}
               size={20}
               color1={"rgba(128, 128, 128, 0.2)"}
               color2={"#F84F5A"}
             />
-            <p style={{ margin: 0 }}>{props.whisky.total_rating} rating(s)</p>
+            <p style={{ margin: 0 }}>{props.whisky.reviewCount} rating(s)</p>
           </SRating>
         </SRight>
       </STop>
