@@ -7,12 +7,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.bear.whizzle.auth.service.PrincipalDetails;
 import com.bear.whizzle.common.util.JwtUtil;
+import com.bear.whizzle.keep.controller.dto.KeepSearchCondition;
 import com.bear.whizzle.keep.repository.KeepRepository;
 import com.bear.whizzle.keep.service.KeepService;
+import com.bear.whizzle.keep.service.query.KeepQueryService;
+import com.bear.whizzle.whisky.repository.projection.dto.WhiskySimpleResponseDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,7 +35,66 @@ class KeepControllerTest {
     private KeepService keepService;
 
     @Autowired
+    private KeepQueryService keepQueryService;
+
+    @Autowired
     private KeepRepository keepRepository;
+
+    @Test
+    @DisplayName("특정 유저의 킵한 위스키 목록 조회_회원")
+    void findKeptWhiskiesWithMyKeep() throws Exception {
+        // given
+        final Long TEST_MY_ID = 5L;
+        final String TEST_TOKEN = jwtUtil.generateAccessToken(PrincipalDetails.builder().memberId(TEST_MY_ID).build());
+        final Long TEST_MEMBER_ID = 1L;
+        final Long TEST_LAST_OFFSET = 2900L;
+        final int TEST_SIZE = 5;
+
+        // when
+        mockMvc.perform(
+                get("/api/keeps/whiskies/any")
+                        .header("Authorization", TEST_TOKEN)
+                        .param("memberId", TEST_MEMBER_ID.toString())
+                        .param("lastOffset", TEST_LAST_OFFSET.toString())
+        ).andExpect(status().isOk());
+
+        // then
+        Pageable pageable = Pageable.ofSize(TEST_SIZE);
+        KeepSearchCondition searchCondition = KeepSearchCondition.builder()
+                                                                 .memberId(TEST_MEMBER_ID)
+                                                                 .lastOffset(TEST_LAST_OFFSET)
+                                                                 .build();
+
+        Slice<WhiskySimpleResponseDto> actuals = keepQueryService.findKeptWhiskiesWithMyKeep(TEST_MY_ID, pageable, searchCondition);
+        assertThat(actuals.getSize()).isEqualTo(TEST_SIZE);
+        assertThat(actuals.stream()
+                           .filter(WhiskySimpleResponseDto::isKept)
+                           .count()
+        ).isEqualTo(1);
+    }
+
+    @Test
+    @DisplayName("특정 유저의 킵한 위스키 목록 조회_회원")
+    void findKeptWhiskiesWithoutMyKeep() throws Exception {
+        // given
+        final Long TEST_MEMBER_ID = 1L;
+        final int TEST_SIZE = 5;
+
+        // when
+        mockMvc.perform(
+                get("/api/keeps/whiskies/any")
+                        .param("memberId", TEST_MEMBER_ID.toString())
+        ).andExpect(status().isOk());
+
+        // then
+        Pageable pageable = Pageable.ofSize(TEST_SIZE);
+        KeepSearchCondition searchCondition = KeepSearchCondition.builder()
+                                                                 .memberId(TEST_MEMBER_ID)
+                                                                 .build();
+
+        Slice<WhiskySimpleResponseDto> actuals = keepQueryService.findKeptWhiskiesWithoutMyKeep(pageable, searchCondition);
+        assertThat(actuals.getSize()).isEqualTo(TEST_SIZE);
+    }
 
     @Test
     @DisplayName("위스키 킵 여부 확인")
