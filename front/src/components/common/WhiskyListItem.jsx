@@ -4,6 +4,7 @@ import styled from "styled-components";
 import favoriteBorder from "../../assets/img/favorite_border.png";
 import favoriteFilled from "../../assets/img/favorite_filled.png";
 import ReactStars from "react-stars";
+import { keepApi } from "../../apis/whisky";
 
 const SCard = styled.div`
   position: relative;
@@ -102,7 +103,7 @@ const SName = styled.div`
 
 const WhiskyListItem = (props) => {
   const navigate = useNavigate();
-  const [isLiked, setIsLiked] = useState(false);
+  const [isKeep, setIsKeep] = useState(props.whisky.keep);
 
   const goDetail = () => {
     navigate(`/whisky/${props.whisky.id}`);
@@ -110,7 +111,10 @@ const WhiskyListItem = (props) => {
 
   const keepHandler = (event) => {
     event.stopPropagation();
-    setIsLiked((prev) => !prev);
+    const result = keepApi(props.whisky.id);
+    if (result) {
+      setIsKeep((prev) => !prev);
+    }
   };
 
   return (
@@ -120,7 +124,7 @@ const WhiskyListItem = (props) => {
           <SImg src={props.whisky.url} />
         </SContainer>
         <SRight>
-          {props.whisky.keep ? (
+          {isKeep ? (
             <SLikeImg onClick={keepHandler} src={favoriteFilled} alt="like.png" />
           ) : (
             <SLikeImg onClick={keepHandler} src={favoriteBorder} alt="like.png" />
