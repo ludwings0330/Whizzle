@@ -48,7 +48,7 @@ public class Drink {
         this.drinkOrder = drinkOrder;
     }
 
-    public void delete() {
+    public void markDelete() {
         this.isDeleted = Boolean.TRUE;
     }
 

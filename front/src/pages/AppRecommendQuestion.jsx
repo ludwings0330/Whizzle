@@ -1,6 +1,9 @@
 import React, { useState } from "react";
-import { useRecoilState } from "recoil";
-import { preference } from "../store/preferenceStore";
+import { useNavigate } from "react-router";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { preference, recommendResult } from "../store/indexStore";
+import { userState } from "../store/userStore";
+import { preferenceSave, unloginedRecommend, loginedRecommend } from "../apis/recommend";
 import { motion, AnimatePresence } from "framer-motion";
 import styled, { keyframes } from "styled-components";
 import navigateNext from "../assets/img/navigate_next.png";
@@ -97,10 +100,75 @@ const Svg = styled.svg`
 `;
 
 const AppRecommendQuestion = () => {
+  const user = useRecoilValue(userState);
+  const isLogin = Boolean(user.id);
+  const navigate = useNavigate();
+
   const [preferenceValue, setPreferenceValue] = useRecoilState(preference);
+  const [resultValue, setResultValue] = useRecoilState(recommendResult);
   const [activePage, setActivePage] = useState(0);
   const [direction, setDirection] = useState("next");
   const [barWidth, setBarWidth] = useState(0);
+
+  const flavorSubmitHandler = async () => {
+    setDirection("next");
+    setActivePage(6);
+
+    // axios 요청
+    const saveData = {
+      gender: preferenceValue.gender,
+      age: preferenceValue.age,
+      priceTier: Number(preferenceValue.price),
+      flavor: preferenceValue.flavor,
+    };
+    const recommendData = {
+      priceTier: Number(preferenceValue.price),
+      flavor: preferenceValue.flavor,
+    };
+
+    let recommendedResult;
+    if (isLogin) {
+      await preferenceSave(saveData);
+      recommendedResult = await loginedRecommend(recommendData);
+    } else {
+      recommendedResult = await unloginedRecommend(recommendData);
+    }
+
+    setResultValue(recommendedResult);
+    setTimeout(() => {
+      navigate(`/recommend/result`);
+    }, 7000);
+  };
+
+  const whiskySubmitHandler = async () => {
+    setDirection("next");
+    setActivePage(6);
+
+    // axios 요청
+    const saveData = {
+      gender: preferenceValue.gender,
+      age: preferenceValue.age,
+      priceTier: Number(preferenceValue.price),
+      whiskies: preferenceValue.whiskies,
+    };
+    const recommendData = {
+      priceTier: Number(preferenceValue.price),
+      whiskies: preferenceValue.whiskies,
+    };
+
+    let recommendedResult;
+    if (isLogin) {
+      await preferenceSave(saveData);
+      recommendedResult = await loginedRecommend(recommendData).data;
+    } else {
+      recommendedResult = await unloginedRecommend(recommendData).data;
+    }
+
+    setResultValue(recommendedResult);
+    setTimeout(() => {
+      navigate(`/recommend/result`);
+    }, 7000);
+  };
 
   const goNextPage = () => {
     if (activePage === 1 && !(preferenceValue.age && preferenceValue.gender)) {
@@ -198,6 +266,7 @@ const AppRecommendQuestion = () => {
             setActivePage={setActivePage}
             setDirection={setDirection}
             setBarWidth={setBarWidth}
+            whiskySubmitHandler={whiskySubmitHandler}
           />
         );
       case 5:
@@ -209,6 +278,7 @@ const AppRecommendQuestion = () => {
             setActivePage={setActivePage}
             setDirection={setDirection}
             setBarWidth={setBarWidth}
+            flavorSubmitHandler={flavorSubmitHandler}
           />
         );
       case 6:

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { BASE_URL } from "../constants/constants";
 
@@ -30,6 +30,16 @@ const SP = styled.p`
 `;
 
 const AppLogin = () => {
+  // footer 제거하는 로직
+  useEffect(() => {
+    const footer = document.getElementById("footer");
+    footer.style.display = "none";
+
+    return () => {
+      footer.style.display = "flex";
+    };
+  });
+
   const onClickHandler = (e) => {
     const clicked = e.target.alt;
     window.location.href = `${BASE_URL}/oauth2/authorization/${clicked}`;
@@ -44,7 +54,7 @@ const AppLogin = () => {
         <SP>login with social networks</SP>
         <SImg src={naver} alt="naver" onClick={onClickHandler} />
         <SImg src={kakao} alt="kakao" onClick={onClickHandler} />
-        <SImg src={google} alt="google" onClick={onClickHandler} />
+        <SImg style={{ borderRadius: "3px" }} src={google} alt="google" onClick={onClickHandler} />
       </SDiv>
     </>
   );

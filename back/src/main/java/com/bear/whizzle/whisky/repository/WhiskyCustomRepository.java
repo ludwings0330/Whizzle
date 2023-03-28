@@ -1,14 +1,12 @@
 package com.bear.whizzle.whisky.repository;
 
-import static com.bear.whizzle.domain.model.entity.QWhisky.*;
+import static com.bear.whizzle.domain.model.entity.QWhisky.whisky;
 
-import com.bear.whizzle.common.annotation.Performance;
 import com.bear.whizzle.domain.model.entity.Whisky;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -25,21 +23,6 @@ public class WhiskyCustomRepository {
                     .fetch()
                     .forEach(w -> whiskies.put(w.getId(), w));
         return whiskies;
-    }
-
-    @Performance
-    public Optional<Whisky> findByIdAfterSleepTest(Long id) {
-        try {
-            Thread.sleep(300);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-
-        return Optional.ofNullable(
-                queryFactory.selectFrom(whisky)
-                            .where(whisky.id.eq(id))
-                            .fetchOne()
-        );
     }
 
 }
