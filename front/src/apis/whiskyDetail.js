@@ -10,3 +10,22 @@ export const whiskyDetail = async (id) => {
     console.log(error);
   }
 };
+
+export const getKeep = async (id) => {
+  try {
+    const res = await api.get(`/api/keeps/${id}`);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const keepToggle = async (id) => {
+  try {
+    const res = await api.post(`/api/keeps/${id}`);
+    console.log(res);
+    console.log("킵 요청 성공");
+  } catch (error) {
+    console.log(error);
+  }
+};

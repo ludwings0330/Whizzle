@@ -6,7 +6,9 @@ import favoriteFilled from "../assets/img/favorite_white_filled.png";
 import favoriteBorder from "../assets/img/favorite_white_border.png";
 import create from "../assets/img/create.png";
 import styled from "styled-components";
-import { whiskyDetail } from "../apis/whiskyDetail";
+import { whiskyDetail, getKeep, keepToggle } from "../apis/whiskyDetail";
+import { userState } from "../store/userStore";
+import { useRecoilValue } from "recoil";
 
 //import components
 import WhiskyDetailInfo from "../components/whisky/WhiskyDetailInfo";
@@ -85,6 +87,20 @@ const AppWhisky = () => {
     }
   }
 
+  async function getKeepInfo(param) {
+    try {
+      const keepInfo = await getKeep(param);
+      console.log(keepInfo);
+      setIsKeep(keepInfo);
+    } catch (error) {
+      console.log("킵 정보 조회 실패");
+    }
+  }
+
+  const user = useRecoilValue(userState);
+  const isLogin = Boolean(user.id);
+  const [isKeep, setIsKeep] = useState(false);
+
   useEffect(() => {
     // 위스키 상세 조회 요청
     getWhiskyInfo(id);
@@ -93,7 +109,9 @@ const AppWhisky = () => {
     // 리뷰 목록 요청
 
     // 킵 여부 조회 요청
-
+    if (isLogin) {
+      getKeepInfo(id);
+    }
     window.scrollTo(0, 0);
   }, [id]);
 
@@ -165,9 +183,13 @@ const AppWhisky = () => {
     },
   ];
 
-  const [isFavorite, setIsFavorite] = useState(false);
   const favorite = () => {
-    setIsFavorite(!isFavorite);
+    if (isLogin) {
+      setIsKeep(!isKeep);
+      keepToggle(id);
+    } else if (window.confirm("로그인이 필요한 기능입니다.\n로그인 페이지로 이동하시겠습니까?")) {
+      navigate("/login");
+    }
   };
 
   const navigate = useNavigate();
@@ -187,7 +209,7 @@ const AppWhisky = () => {
         <WhiskyDetailReview whisky={whisky} stat={whiskystatistics} />
         <SButtonDiv>
           <SButton onClick={favorite} style={{ marginBottom: "10px" }}>
-            <SImg src={isFavorite ? favoriteFilled : favoriteBorder} alt="keep" />
+            <SImg src={isKeep ? favoriteFilled : favoriteBorder} alt="keep" />
           </SButton>
           <SButton onClick={() => navigate(`/review/${id}`)}>
             <SImg src={create} alt="create" />
