@@ -30,7 +30,8 @@ public class DiaryCustomRepository {
                            .innerJoin(drink.whisky, whisky).fetchJoin()
                            .where(diary.member.id.eq(memberId),
                                   diaryMonth.eq(month),
-                                  diary.isDeleted.isFalse())
+                                  diary.isDeleted.isFalse(),
+                                  drink.isDeleted.isFalse())
                            .orderBy(diary.date.asc(), drink.drinkOrder.asc())
                            .fetch();
     }
