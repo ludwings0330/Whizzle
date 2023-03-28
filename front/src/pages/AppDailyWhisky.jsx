@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { unloginedRecommend } from "../apis/recommend";
+import { loginedRecommend } from "../apis/recommend";
 
 import DailyFlavor from "../components/daily/DailyFlavor";
 import DailyPrice from "../components/daily/DailyPrice";
@@ -71,7 +71,7 @@ const AppDailyWhisky = () => {
       flavor: flavorData,
     };
 
-    const result = await unloginedRecommend(body);
+    const result = await loginedRecommend(body);
     setDailyResult(result);
     setIsLoading(false);
     console.log(dailyResult);
