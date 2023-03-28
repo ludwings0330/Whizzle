@@ -92,6 +92,8 @@ const AppWhisky = () => {
 
     // 리뷰 목록 요청
 
+    // 킵 여부 조회 요청
+
     window.scrollTo(0, 0);
   }, [id]);
 

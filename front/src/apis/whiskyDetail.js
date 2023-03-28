@@ -6,7 +6,7 @@ export const whiskyDetail = async (id) => {
     const res = await api.get(`/api/whiskies/${id}/any`);
     return res.data;
   } catch (error) {
-    window.location.href = `${LOCAL_FRONT_URL}/error`;
+    // window.location.href = `${LOCAL_FRONT_URL}/error`;
     console.log(error);
   }
 };
