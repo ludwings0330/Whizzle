@@ -1,5 +1,6 @@
 FROM python:3.9.16
 COPY .. /app
 WORKDIR /app
-RUN pip install --no-cache-dir --upgrade -r ./requirements.txt
+RUN echo pwd
+RUN pip install --no-cache-dir --upgrade -r /app/requirements.txt
 ENTRYPOINT ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
