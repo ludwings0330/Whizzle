@@ -1,7 +1,7 @@
 FROM python:3.9.16
 WORKDIR /src
 
-COPY ../app /src
+COPY ./app /src
 
 RUN echo "$pwd"
 RUN ls -l
