@@ -1,10 +1,12 @@
 FROM python:3.9.16
-WORKDIR /src/app
-
-RUN pwd
-RUN ls
+WORKDIR /src
 
 COPY ../app /src
+
+RUN echo "$pwd"
+RUN ls -l
+
+WORKDIR app
 
 RUN pwd
 RUN ls
