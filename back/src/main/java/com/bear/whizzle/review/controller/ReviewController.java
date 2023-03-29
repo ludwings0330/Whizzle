@@ -28,7 +28,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -54,9 +53,9 @@ public class ReviewController {
 
     @GetMapping("/whiskies/{whiskyId}/any")
     @ResponseStatus(HttpStatus.OK)
-    public List<ReviewListResponseDto> getWhiskyReviewsBySearchCondition(@AuthenticationPrincipal PrincipalDetails member,
-                                                                         @PathVariable Long whiskyId,
-                                                                         @RequestBody ReviewSearchCondition searchCondition) {
+    public List<ReviewListResponseDto> getWhiskyReviewsByWhiskyId(@AuthenticationPrincipal PrincipalDetails member,
+                                                                  @PathVariable Long whiskyId,
+                                                                  @ModelAttribute ReviewSearchCondition searchCondition) {
         List<Review> reviews = reviewQueryService.findAllReviewByWhiskyIdAndSearchCondition(whiskyId, searchCondition);
         Set<Long> likeSet = new HashSet<>();
 
@@ -69,7 +68,7 @@ public class ReviewController {
 
     @GetMapping("/members/{memberId}/any")
     public List<ReviewMyPageResponseDto> getMemberReviews(@PathVariable Long memberId,
-                                                          @RequestBody ReviewSearchCondition searchCondition) {
+                                                          @ModelAttribute ReviewSearchCondition searchCondition) {
         List<Review> reviews = reviewQueryService.findAllReviewByMemberId(memberId, searchCondition);
 
         return ReviewMapper.toReviewMyPageResponseDto(reviews);
