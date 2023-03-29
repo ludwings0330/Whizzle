@@ -2,6 +2,7 @@ package com.bear.whizzle.recommend;
 
 import com.bear.whizzle.domain.model.entity.Whisky;
 import com.bear.whizzle.recommend.controller.dto.RecWhiskyResponseDto;
+import com.bear.whizzle.recommend.controller.dto.SimilarWhiskyResponseDto;
 
 public class RecWhiskyMapper {
 
@@ -21,6 +22,17 @@ public class RecWhiskyMapper {
                                    .location(whisky.getLocation())
                                    .isKept(keep)
                                    .build();
+    }
+
+    public static SimilarWhiskyResponseDto toSimilarWhiskyResponseDto(Whisky whisky, Boolean keep) {
+        return SimilarWhiskyResponseDto.builder()
+                                       .id(whisky.getId())
+                                       .name(whisky.getName())
+                                       .avgRating(whisky.getAvgRating())
+                                       .imageUrl(whisky.getImage().getUrl())
+                                       .isKept(keep)
+                                       .reviewCount(whisky.getReviewCount())
+                                       .build();
     }
 
 }
