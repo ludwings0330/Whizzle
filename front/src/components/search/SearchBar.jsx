@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
 import searchIcon from "../../assets/img/searchIcon.png";
+import { getAutocomplete } from "../../apis/search";
 
 const SInputDiv = styled.div`
   box-sizing: border-box;
@@ -107,6 +108,17 @@ const SearchBar = () => {
   const navigate = useNavigate();
   const [searchWord, setSearchWord] = useState("");
   const [recentSearch, setRecentSearch] = useState([]);
+  const [autocompleteWords, setAutocompleteWords] = useState([]);
+
+  async function autoword(word) {
+    try {
+      const autoWord = await getAutocomplete(word);
+      console.log(autoWord);
+      setAutocompleteWords(autoWord);
+    } catch (error) {
+      console.log("검색어 자동 완성 실패");
+    }
+  }
 
   useEffect(() => {
     const recentSearchData = JSON.parse(localStorage.getItem("recentSearch"));
