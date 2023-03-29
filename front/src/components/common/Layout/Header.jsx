@@ -190,7 +190,7 @@ const Header = () => {
             <NavDiv>
               <NavLink
                 style={({ isActive }) => (isActive ? activeStyle : nonActiveStyle)}
-                to="/login"
+                to="/signin"
               >
                 <SP className="text">로그인</SP>
               </NavLink>

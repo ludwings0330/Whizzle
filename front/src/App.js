@@ -25,7 +25,7 @@ function App() {
       <Routes>
         <Route path="/" element={<AppMain />} />
         <Route path="/diary/*" element={<AppDiary />} />
-        <Route path="/login" element={<AppLogin />} />
+        <Route path="/signin" element={<AppLogin />} />
         <Route path="/mypage/*" element={<AppMyPage />} />
         <Route path="/search/*" element={<AppSearch />} />
         <Route path="/whisky/*" element={<AppWhisky />} />
