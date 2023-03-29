@@ -1,6 +1,10 @@
 FROM python:3.9.16
-COPY ../app /src
 WORKDIR /src/app
+
+RUN pwd
+RUN ls
+
+COPY ../app /src
 
 RUN pwd
 RUN ls
