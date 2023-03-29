@@ -10,7 +10,6 @@ import com.bear.whizzle.domain.model.entity.Diary;
 import com.bear.whizzle.domain.model.entity.Member;
 import com.bear.whizzle.drink.service.DrinkService;
 import com.bear.whizzle.member.repository.MemberRepository;
-import com.bear.whizzle.whisky.repository.WhiskyRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
@@ -24,7 +23,6 @@ public class DiaryServiceImpl implements DiaryService {
 
     private final DrinkService drinkService;
     private final MemberRepository memberRepository;
-    private final WhiskyRepository whiskyRepository;
     private final DiaryRepository diaryRepository;
     private final DiaryCustomRepository diaryCustomRepository;
 
@@ -43,8 +41,18 @@ public class DiaryServiceImpl implements DiaryService {
     public void writeDiary(Long memberId, DiaryRequestSaveDto diaryRequestSaveDto) {
         Member member = memberRepository.getReferenceById(memberId);
         Diary diary = DiaryMapper.toDiary(member, diaryRequestSaveDto);
-        diaryRepository.save(diary);
-        drinkService.writeDrinks(diary, diaryRequestSaveDto.getWhiskyIds());
+
+        diaryRepository.findByMemberIdAndDate(memberId, diary.getDate())
+                       .ifPresentOrElse(
+                               found -> {
+                                   found.update(diary);
+                                   drinkService.writeDrinks(found, diaryRequestSaveDto.getWhiskyIds());
+                               },
+                               () -> {
+                                   diaryRepository.save(diary);
+                                   drinkService.writeDrinks(diary, diaryRequestSaveDto.getWhiskyIds());
+                               }
+                       );
     }
 
     @Override
@@ -60,7 +68,7 @@ public class DiaryServiceImpl implements DiaryService {
     @Transactional
     public void eraseDiary(Long memberId, Long diaryId) {
         Diary diary = authorizeWriter(memberId, diaryId);
-        diary.markDelete(); // drink를 update 하기 위해 쿼리가 개수만큼 나간다. bulk update하도록 변경하는 것을 고려해야 한다.
+        diary.markDeleted(); // drink를 update 하기 위해 쿼리가 개수만큼 나간다. bulk update하도록 변경하는 것을 고려해야 한다.
     }
 
     private Diary authorizeWriter(Long memberId, Long diaryId) {

@@ -1,9 +1,8 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
+import { changeHeader, rollbackHeader } from "../hooks/changeHeader";
 
 //import images
-import colorLogo from "../assets/img/colorLogo.png";
-import logo from "../assets/img/logo.png";
 import ImageUploader from "../components/review/create/ImageUploader";
 
 //import components
@@ -88,18 +87,9 @@ const SContentDiv = styled.div`
 const AppReview = () => {
   // 페이지 mount시 네비게이션 바 이미지와 글씨 색 변경
   useEffect(() => {
-    const navLogo = document.getElementById("logo");
-    navLogo.src = colorLogo;
-    const navTexts = document.querySelectorAll(".text, .dropdown");
-    for (let i = 0; i < navTexts.length; i++) {
-      navTexts[i].style.color = "#000000";
-    }
-    // 페이지 unmount시 원래대로 복구
+    changeHeader();
     return () => {
-      navLogo.src = logo;
-      for (let i = 0; i < navTexts.length; i++) {
-        navTexts[i].style.color = "#ffffff";
-      }
+      rollbackHeader();
     };
   }, []);
 

@@ -38,7 +38,7 @@ public class WhiskyQueryServiceImpl implements WhiskyQueryService {
 
     @Override
     public Slice<WhiskySimpleResponseDto> findWhiskiesWithKeep(Long memberId, Pageable pageable, WhiskySearchCondition searchCondition) {
-        Slice<WhiskySimpleResponseDto> whiskyDtos = whiskyProjectionRepository.findTopNByNameAndLastOffset(pageable, searchCondition);
+        Slice<WhiskySimpleResponseDto> whiskyDtos = whiskyProjectionRepository.findTopNByWordAndLastOffset(pageable, searchCondition);
 
         Set<Long> keptWhiskyIds = keepRepository.findAllByMemberId(memberId);
         whiskyDtos.forEach(dto -> {
@@ -52,7 +52,7 @@ public class WhiskyQueryServiceImpl implements WhiskyQueryService {
 
     @Override
     public Slice<WhiskySimpleResponseDto> findWhiskiesWithoutKeep(Pageable pageable, WhiskySearchCondition searchCondition) {
-        return whiskyProjectionRepository.findTopNByNameAndLastOffset(pageable, searchCondition);
+        return whiskyProjectionRepository.findTopNByWordAndLastOffset(pageable, searchCondition);
     }
 
     @Override
