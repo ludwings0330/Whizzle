@@ -10,11 +10,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.bear.whizzle.auth.service.PrincipalDetails;
 import com.bear.whizzle.common.util.JwtUtil;
-import com.bear.whizzle.diary.mapper.DiaryMapper;
 import com.bear.whizzle.diary.controller.dto.DiaryRequestSaveDto;
 import com.bear.whizzle.diary.controller.dto.DiaryRequestUpdateDto;
 import com.bear.whizzle.diary.controller.dto.DiaryResponseDto;
+import com.bear.whizzle.diary.mapper.DiaryMapper;
 import com.bear.whizzle.diary.repository.DiaryRepository;
+import com.bear.whizzle.domain.exception.NotFoundException;
 import com.bear.whizzle.domain.model.entity.Diary;
 import com.bear.whizzle.domain.model.entity.Drink;
 import com.bear.whizzle.domain.model.entity.Whisky;
@@ -25,6 +26,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
@@ -94,7 +96,7 @@ class DiaryControllerTest {
         // given
         DiaryRequestSaveDto saveDto = DiaryRequestSaveDto.builder()
                                                          .date(LocalDate.now())
-                                                         .whiskyIds(List.of(1L, 2L, 3L))
+                                                         .whiskyIds(Set.of(1L, 2L, 3L))
                                                          .emotion(Emotion.GOOD)
                                                          .drinkLevel(DrinkLevel.HEAVY)
                                                          .content("기분이 매우매우 조으다.")
@@ -121,8 +123,8 @@ class DiaryControllerTest {
     @DisplayName("다이어리 수정 테스트_성공")
     void rewriteDiary_success() throws Exception {
         // given
-        List<Integer> deletedDrinkOrders = List.of(0);
-        List<Long> insertedWhiskyIds = List.of(1L, 4L, 5L);
+        Set<Integer> deletedDrinkOrders = Set.of(0);
+        Set<Long> insertedWhiskyIds = Set.of(1L, 4L, 5L);
         DiaryRequestUpdateDto updateDto = DiaryRequestUpdateDto.builder()
                                                                .id(testDiaryId)
                                                                .emotion(Emotion.GOOD)
@@ -151,7 +153,7 @@ class DiaryControllerTest {
                                      .filter(Drink::isDeleted)
                                      .map(Drink::getDrinkOrder)
                                      .filter(deletedDrinkOrders::contains)
-                                     .collect(Collectors.toList()))
+                                     .collect(Collectors.toSet()))
                             .isEqualTo(deletedDrinkOrders);
 
                     assertThat(actual.getDrinks()
@@ -160,7 +162,7 @@ class DiaryControllerTest {
                                      .map(Drink::getWhisky)
                                      .map(Whisky::getId)
                                      .filter(insertedWhiskyIds::contains)
-                                     .collect(Collectors.toList()))
+                                     .collect(Collectors.toSet()))
                             .isEqualTo(insertedWhiskyIds);
                 }
         ).doesNotThrowAnyException();
@@ -188,6 +190,45 @@ class DiaryControllerTest {
                             .isEqualTo(actual.getDrinks().size());
                 }
         ).doesNotThrowAnyException();
+    }
+
+    @Test
+    @DisplayName("다이어리 작성 후 삭제 후 작성")
+    void writeAndDeleteAndWriteDiary() throws Exception {
+        // given
+        final long TEST_MEMBER_ID = 1L;
+        final String TEST_TOKEN = jwtUtil.generateAccessToken(PrincipalDetails.builder().memberId(TEST_MEMBER_ID).build());
+        DiaryRequestSaveDto saveDto = DiaryRequestSaveDto.builder()
+                                                         .date(LocalDate.now())
+                                                         .whiskyIds(Set.of(1L, 2L, 3L))
+                                                         .emotion(Emotion.GOOD)
+                                                         .drinkLevel(DrinkLevel.HEAVY)
+                                                         .content("기분이 매우매우 조으다.")
+                                                         .build();
+
+        // when
+        mockMvc.perform(
+                post("/api/diaries")
+                        .header("Authorization", "Bearer " + TEST_TOKEN)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(saveDto))
+        ).andExpect(status().isCreated());
+
+        Diary diary = diaryRepository.findByMemberIdAndDate(TEST_MEMBER_ID, LocalDate.now())
+                                     .orElseThrow(() -> new NotFoundException("다이어리 작성 실패"));
+
+        mockMvc.perform(
+                delete("/api/diaries/" + diary.getId())
+                        .header("Authorization", "Bearer " + TEST_TOKEN)
+        ).andExpect(status().isOk());
+
+        // then
+        mockMvc.perform(
+                post("/api/diaries")
+                        .header("Authorization", "Bearer " + TEST_TOKEN)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(saveDto))
+        ).andExpect(status().isCreated());
     }
 
     @Test

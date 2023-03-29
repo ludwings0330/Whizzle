@@ -48,8 +48,12 @@ public class Drink {
         this.drinkOrder = drinkOrder;
     }
 
-    public void toggleDelete() {
-        this.isDeleted = !this.isDeleted;
+    public void markDeleted() {
+        this.isDeleted = Boolean.TRUE;
+    }
+
+    public void markNotDeleted() {
+        this.isDeleted = Boolean.FALSE;
     }
 
     public void writeDiary(Diary diary) {
