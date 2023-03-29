@@ -103,7 +103,7 @@ const SName = styled.div`
 
 const WhiskyListItem = (props) => {
   const navigate = useNavigate();
-  const [isKeep, setIsKeep] = useState(props.whisky.keep);
+  const [isKeep, setIsKeep] = useState(props.whisky.isKept);
 
   const goDetail = () => {
     navigate(`/whisky/${props.whisky.id}`);
@@ -121,7 +121,7 @@ const WhiskyListItem = (props) => {
     <SCard onClick={goDetail}>
       <STop>
         <SContainer>
-          <SImg src={props.whisky.url} />
+          <SImg src={props.whisky.imageUrl} />
         </SContainer>
         <SRight>
           {isKeep ? (
