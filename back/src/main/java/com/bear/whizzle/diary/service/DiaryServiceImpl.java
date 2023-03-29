@@ -53,8 +53,6 @@ public class DiaryServiceImpl implements DiaryService {
                                    drinkService.writeDrinks(diary, diaryRequestSaveDto.getWhiskyIds());
                                }
                        );
-
-
     }
 
     @Override
