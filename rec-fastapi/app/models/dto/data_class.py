@@ -2,7 +2,9 @@ from fastapi import Body
 from pydantic import BaseModel
 
 
-class Flavor(BaseModel):
+class Preference(BaseModel):
+    user_id: int = Body(..., alias="memberId")
+    price_tier: int = Body(..., alias="priceTier", ge=1, le=5)
     smoky: float = Body(..., ge=0, le=1)
     peaty: float = Body(..., ge=0, le=1)
     spicy: float = Body(..., ge=0, le=1)
@@ -17,8 +19,20 @@ class Flavor(BaseModel):
     fruity: float = Body(..., ge=0, le=1)
     floral: float = Body(..., ge=0, le=1)
 
-
-class Preference(BaseModel):
-    user_id: int = Body(..., alias="userId")
-    price_tier: int = Body(..., alias="priceTier", ge=1, le=5)
-    flavor: Flavor
+    def get_my_feature(self):
+        return [
+            self.price_tier,
+            self.smoky,
+            self.peaty,
+            self.spicy,
+            self.herbal,
+            self.oily,
+            self.body,
+            self.rich,
+            self.sweet,
+            self.salty,
+            self.vanilla,
+            self.tart,
+            self.fruity,
+            self.floral,
+        ]
