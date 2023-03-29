@@ -4,6 +4,8 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { preference, recommendResult } from "../store/indexStore";
 import { userState } from "../store/userStore";
 import { preferenceSave, unloginedRecommend, loginedRecommend } from "../apis/recommend";
+import presetWisky from "../constants/presetWhisky";
+import { whiskyDetail } from "../apis/whiskyDetail";
 import { motion, AnimatePresence } from "framer-motion";
 import styled, { keyframes } from "styled-components";
 import navigateNext from "../assets/img/navigate_next.png";
@@ -153,7 +155,7 @@ const AppRecommendQuestion = () => {
     };
     const recommendData = {
       priceTier: Number(preferenceValue.price),
-      whiskies: preferenceValue.whiskies,
+      whiskies: [preferenceValue.whiskies[0]],
     };
 
     let recommendedResult;
@@ -165,6 +167,13 @@ const AppRecommendQuestion = () => {
     }
 
     setResultValue(recommendedResult);
+
+    const selectedWhisky = await whiskyDetail(presetWisky[preferenceValue.whiskies[0]].id);
+    const selectedWhiskyFlavor = selectedWhisky.flavor;
+    setPreferenceValue((prev) => {
+      return { ...prev, flavor: { selectedWhiskyFlavor } };
+    });
+
     setTimeout(() => {
       navigate(`/recommend/result`);
     }, 7000);

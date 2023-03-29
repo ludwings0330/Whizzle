@@ -99,7 +99,7 @@ const AppDailyWhisky = () => {
         <SHr />
         {isLoading ? (
           <DailyLoading />
-        ) : dailyResult.length === 0 ? (
+        ) : dailyResult?.length === 0 ? (
           <DailyExplain />
         ) : (
           <WhiskyList whiskys={dailyResult} />
