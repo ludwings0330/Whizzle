@@ -3,7 +3,7 @@ WORKDIR /src
 
 COPY .. /src
 
-RUN ll
+RUN ls -l
 
 WORKDIR app
 
