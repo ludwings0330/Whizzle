@@ -1,5 +1,5 @@
 FROM python:3.9.16
-COPY .. /app
+COPY ../ /app
 WORKDIR /app
 RUN pwd
 RUN ls
