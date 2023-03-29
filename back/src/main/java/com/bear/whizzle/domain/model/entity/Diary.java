@@ -24,6 +24,7 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,7 +37,9 @@ import org.hibernate.annotations.ColumnDefault;
         uniqueConstraints = @UniqueConstraint(columnNames = { "member_id", "date" })
 )
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
+@Builder
 @ToString
 public class Diary {
 
@@ -67,6 +70,7 @@ public class Diary {
 
     @NotNull
     @ColumnDefault("0")
+    @Builder.Default
     private Boolean isDeleted = Boolean.FALSE;
 
     @OneToMany(
@@ -78,20 +82,11 @@ public class Diary {
     @ToString.Exclude
     private final List<Drink> drinks = new ArrayList<>();
 
-    @Builder
-    private Diary(Member member, LocalDate date, Emotion emotion, DrinkLevel drinkLevel, String content) {
-        super();
-        this.member = member;
-        this.date = date;
-        this.emotion = emotion;
-        this.drinkLevel = drinkLevel;
-        this.content = content;
-    }
-
     public void update(Diary diary) {
         this.emotion = diary.getEmotion();
         this.drinkLevel = diary.getDrinkLevel();
         this.content = diary.getContent();
+        this.isDeleted = Boolean.TRUE;
     }
 
     public void markDelete() {

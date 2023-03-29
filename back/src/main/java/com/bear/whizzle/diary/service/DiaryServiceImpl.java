@@ -10,7 +10,6 @@ import com.bear.whizzle.domain.model.entity.Diary;
 import com.bear.whizzle.domain.model.entity.Member;
 import com.bear.whizzle.drink.service.DrinkService;
 import com.bear.whizzle.member.repository.MemberRepository;
-import com.bear.whizzle.whisky.repository.WhiskyRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
@@ -24,7 +23,6 @@ public class DiaryServiceImpl implements DiaryService {
 
     private final DrinkService drinkService;
     private final MemberRepository memberRepository;
-    private final WhiskyRepository whiskyRepository;
     private final DiaryRepository diaryRepository;
     private final DiaryCustomRepository diaryCustomRepository;
 
@@ -43,7 +41,13 @@ public class DiaryServiceImpl implements DiaryService {
     public void writeDiary(Long memberId, DiaryRequestSaveDto diaryRequestSaveDto) {
         Member member = memberRepository.getReferenceById(memberId);
         Diary diary = DiaryMapper.toDiary(member, diaryRequestSaveDto);
-        diaryRepository.save(diary);
+
+        diaryRepository.findByMemberIdAndDate(memberId, diary.getDate())
+                       .ifPresentOrElse(
+                               found -> found.update(diary),
+                               () -> diaryRepository.save(diary)
+                       );
+
         drinkService.writeDrinks(diary, diaryRequestSaveDto.getWhiskyIds());
     }
 
