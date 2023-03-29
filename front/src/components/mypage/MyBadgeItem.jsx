@@ -5,7 +5,6 @@ const SWrap = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  margin: 25px 25px 25px 25px;
 `;
 
 const SCard = styled.div`
@@ -13,8 +12,8 @@ const SCard = styled.div`
   cursor: pointer;
   justify-content: center;
   align-items: center;
-  width: 110px;
-  height: 110px;
+  width: 121px;
+  height: 121px;
   background: #d9d9d9;
   border-radius: 999px;
   transition: 0.5s;
@@ -37,13 +36,13 @@ const SBalloon = styled.div`
   z-index: 1;
   justify-content: center;
   align-items: center;
-  min-width: 270px;
-  padding: 20px 20px;
-  top: 130px;
+  min-width: 240px;
+  padding: 6px 20px;
+  top: 135px;
   left: 50%;
   transform: translateX(-50%);
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.8);
   box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.25);
   display: ${({ isHover }) => (isHover ? "flex" : "none")};
   &::before {

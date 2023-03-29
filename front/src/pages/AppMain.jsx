@@ -1,6 +1,5 @@
 import React from "react";
 import { useRef } from "react";
-import { motion } from "framer-motion";
 import { useRecoilValue } from "recoil";
 import { userState } from "../store/userStore";
 

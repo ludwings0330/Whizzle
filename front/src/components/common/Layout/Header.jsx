@@ -140,6 +140,18 @@ const Header = () => {
     setIsdrop(false);
   };
 
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (userRef.current && !userRef.current.contains(event.target)) {
+        setIsdrop(false);
+      }
+    }
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
   // 유저 닉네임 길이에 따라 드랍다운 메뉴의 크기를 동적으로 변견
   const userRef = useRef(null);
   const [userWidth, setUserWidth] = useState();
@@ -212,14 +224,14 @@ const Header = () => {
                   style={({ isActive }) => (isActive ? activeStyle : nonActiveStyle)}
                   to="/mypage"
                 >
-                  <SP style={{ marginBottom: "5px" }} className="text">
+                  <SP style={{ marginBottom: "5px" }} className="dropdown">
                     마이페이지
                   </SP>
                 </NavLink>
               </NavDiv>
               <NavDiv style={{ marginRight: "0px", height: "40px" }}>
                 <NavLink style={({ isActive }) => (isActive ? activeStyle : nonActiveStyle)} to="/">
-                  <SP className="text" onClick={signout}>
+                  <SP className="dropdown" onClick={signout}>
                     로그아웃
                   </SP>
                 </NavLink>

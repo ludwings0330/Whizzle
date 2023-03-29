@@ -4,6 +4,7 @@ import styled from "styled-components";
 import favoriteBorder from "../../assets/img/favorite_border.png";
 import favoriteFilled from "../../assets/img/favorite_filled.png";
 import ReactStars from "react-stars";
+import { keepApi } from "../../apis/whisky";
 
 const SCard = styled.div`
   position: relative;
@@ -66,7 +67,7 @@ const SRight = styled.div`
 `;
 
 const SLikeImg = styled.img`
-  height: 30px;
+  height: 32px;
   transition: 0.5s;
   z-index: 2;
   &:hover {
@@ -102,40 +103,43 @@ const SName = styled.div`
 
 const WhiskyListItem = (props) => {
   const navigate = useNavigate();
-  const [isLiked, setIsLiked] = useState(false);
+  const [isKeep, setIsKeep] = useState(props.whisky.isKept);
 
   const goDetail = () => {
     navigate(`/whisky/${props.whisky.id}`);
   };
 
-  const keepHandler = (event) => {
+  const keepHandler = async (event) => {
     event.stopPropagation();
-    setIsLiked((prev) => !prev);
+    const result = await keepApi(props.whisky.id);
+    if (result === true) {
+      setIsKeep((prev) => !prev);
+    }
   };
 
   return (
     <SCard onClick={goDetail}>
       <STop>
         <SContainer>
-          <SImg src={require(`../../assets/img/whisky_preset/${props.index + 1}.png`)} />
+          <SImg src={props.whisky.imageUrl} />
         </SContainer>
         <SRight>
-          {isLiked ? (
+          {isKeep ? (
             <SLikeImg onClick={keepHandler} src={favoriteFilled} alt="like.png" />
           ) : (
             <SLikeImg onClick={keepHandler} src={favoriteBorder} alt="like.png" />
           )}
           <SRating>
-            <SAvg>{props.whisky.avg_rating}</SAvg>
+            <SAvg>{props.whisky.avgRating}</SAvg>
             <ReactStars
               count={5}
-              value={Math.round(props.whisky.avg_rating * 2) / 2}
+              value={Math.round(props.whisky.avgRating * 2) / 2}
               edit={false}
               size={20}
               color1={"rgba(128, 128, 128, 0.2)"}
               color2={"#F84F5A"}
             />
-            <p style={{ margin: 0 }}>{props.whisky.total_rating} rating(s)</p>
+            <p style={{ margin: 0 }}>{props.whisky.reviewCount} rating(s)</p>
           </SRating>
         </SRight>
       </STop>

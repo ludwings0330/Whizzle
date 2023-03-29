@@ -8,6 +8,7 @@ import lombok.Data;
 public class ReviewMyPageResponseDto {
 
     private String whiskyName;
+    private Long whiskyId;
     private Float rating;
     private String content;
     private Integer likeCount;
@@ -16,6 +17,7 @@ public class ReviewMyPageResponseDto {
 
     public ReviewMyPageResponseDto(Review review) {
         this.whiskyName = review.getWhisky().getName();
+        this.whiskyId = review.getWhisky().getId();
         this.rating = review.getRating();
         this.content = review.getContent();
         this.likeCount = review.getLikeCount();

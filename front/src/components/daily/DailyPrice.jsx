@@ -15,7 +15,7 @@ const STitle = styled.p`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-top: 70px;
+  padding-top: 60px;
   font-size: 24px;
   font-weight: bold;
   color: #666666;

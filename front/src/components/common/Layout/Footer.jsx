@@ -28,7 +28,7 @@ const SContent = styled.p`
 //푸터
 const Footer = () => {
   return (
-    <SDiv>
+    <SDiv id="footer">
       <div>
         <SImg src={footerLogo} alt="footer_logo.png" />
         <SContent>(주) drunkenbear | 대표: 내맘대로 이예진</SContent>

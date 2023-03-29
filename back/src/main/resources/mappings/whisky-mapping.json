@@ -1,0 +1,14 @@
+{
+  "properties": {
+    "name": {
+      "type": "text",
+      "analyzer": "ngram_analyzer",
+      "search_analyzer": "standard",
+      "fields": {
+        "suggest": {
+          "type": "completion"
+        }
+      }
+    }
+  }
+}
