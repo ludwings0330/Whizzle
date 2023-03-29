@@ -89,4 +89,21 @@ node {
         -d whizzle/front
     '''
   }
+
+  stage('Build FastAPI Container') {
+    echo "Dockerfile를 이용하여 FastAPI 이미지 생성"
+    sh '''
+      docker build -t whizzle/rec ./rec-fastapi/deploy
+    '''
+  }
+
+  stage('Run FastAPI Container') {
+    echo "FastAPI 컨테이너 실행"
+    sh '''
+      docker run -it --rm \
+        --name whizzle-rec \
+        -p 8000:8000 \
+        -d whizzle/rec
+    '''
+  }
 }
