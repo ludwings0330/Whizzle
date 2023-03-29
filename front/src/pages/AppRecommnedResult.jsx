@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { recommendResult, preference } from "../store/indexStore";
+import { useRecoilValue } from "recoil";
 
 //import components
 import Graph from "../components/common/Graph";
@@ -124,6 +126,10 @@ const SDailyBtn = styled.button`
 
 //추천 결과 페이지
 const AppRecommnedResult = () => {
+  const recommend = useRecoilValue(recommendResult);
+  const userPreference = useRecoilValue(preference);
+  console.log(userPreference);
+
   const navigate = useNavigate();
   const onClickHandler = (e) => {
     if (e.target.innerText === "취향 정보 다시 입력하기") {
@@ -153,8 +159,14 @@ const AppRecommnedResult = () => {
         </SGraphP>
         <Graph />
       </SGraphDiv>
-      <ResultMainWhisky SGraphP={SGraphP} SColorSpan={SColorSpan} SSpan={SSpan} STitleP={STitleP} />
-      <ResultWhiskyList />
+      <ResultMainWhisky
+        whiskys={recommend.slice(0, 3)}
+        SGraphP={SGraphP}
+        SColorSpan={SColorSpan}
+        SSpan={SSpan}
+        STitleP={STitleP}
+      />
+      <ResultWhiskyList whiskys={recommend.slice(3)} />
       <SBtnDiv>
         <SQuestionBtn onClick={onClickHandler}>
           <SColorSpan style={{ fontSize: "20px", fontWeight: "600" }}>

@@ -144,7 +144,7 @@ const ResultMainWhiskyItem = (props) => {
       <SBoldColorP className={`no-${index}`}>no.{props.index}</SBoldColorP>
       <SCardDiv className={`no-${index}`}>
         <SImgDiv>
-          <SImg src={require(`../../../assets/img/whisky_preset/${index}.png`)} alt="X" />
+          <SImg src={whisky.imageUrl} alt="X" />
         </SImgDiv>
         <div>
           <STitleDiv>
@@ -181,17 +181,17 @@ const ResultMainWhiskyItem = (props) => {
               marginTop: "5px",
             }}
           >
-            {whisky.avg_rating}
+            {whisky.avgRating}
           </p>
           <ReactStars
             count={5}
-            value={Math.round(whisky.avg_rating * 2) / 2}
+            value={Math.round(whisky.avgRating * 2) / 2}
             edit={false}
             size={30}
             color1={"rgba(128, 128, 128, 0.2)"}
             color2={"#F84F5A"}
           />
-          <p>{whisky.total_rating} rating(s)</p>
+          <p>{whisky.reviewCount} rating(s)</p>
         </SRatingDiv>
       </SCardDiv>
     </SDiv>
