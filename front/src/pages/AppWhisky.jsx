@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import colorLogo from "../assets/img/colorLogo.png";
-import logo from "../assets/img/logo.png";
 import favoriteFilled from "../assets/img/favorite_white_filled.png";
 import favoriteBorder from "../assets/img/favorite_white_border.png";
 import create from "../assets/img/create.png";
@@ -9,6 +7,7 @@ import styled from "styled-components";
 import { whiskyDetail, getKeep, keepToggle } from "../apis/whiskyDetail";
 import { userState } from "../store/userStore";
 import { useRecoilValue } from "recoil";
+import { changeHeader, rollbackHeader } from "../hooks/changeHeader";
 
 //import components
 import WhiskyDetailInfo from "../components/whisky/WhiskyDetailInfo";
@@ -61,18 +60,9 @@ const SContainer = styled.div`
 const AppWhisky = () => {
   // 페이지 mount시 네비게이션 바 이미지와 글씨 색 변경
   useEffect(() => {
-    const navLogo = document.getElementById("logo");
-    navLogo.src = colorLogo;
-    const navTexts = document.getElementsByClassName("text");
-    for (let i = 0; i < navTexts.length; i++) {
-      navTexts[i].style.color = "#000000";
-    }
-    // 페이지 unmount시 원래대로 복구
+    changeHeader();
     return () => {
-      navLogo.src = logo;
-      for (let i = 0; i < navTexts.length; i++) {
-        navTexts[i].style.color = "#ffffff";
-      }
+      rollbackHeader();
     };
   }, []);
 
