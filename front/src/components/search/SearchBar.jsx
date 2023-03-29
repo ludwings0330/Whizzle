@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
 import searchIcon from "../../assets/img/searchIcon.png";
+import recentIcon from "../../assets/img/recentIcon.png";
 import { getAutocomplete } from "../../apis/search";
 
 const SInputDiv = styled.div`
@@ -56,7 +57,7 @@ const SDiv = styled.div`
   justify-content: space-between;
   padding: 0 20px 0 50px;
   width: 490px;
-  height: 50px;
+  height: 45px;
   background-color: white;
 
   :hover {
@@ -85,7 +86,7 @@ const SButton = styled.button`
 `;
 
 const SWordDiv = styled.div`
-  margin-top: 50px;
+  margin-top: 45px;
   width: 560px;
 `;
 
@@ -94,12 +95,12 @@ const SAutocompleteDiv = styled.div`
   top: 0;
   left: 0;
   width: 560px;
-  border: 2px solid transparent;
-  border-color: rgba(248, 79, 90, 0.4);
+  border: 1px solid #c1c1c1;
+  // border-color: rgba(248, 79, 90, 0.4);
   border-radius: 16px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   height: auto;
-  min-height: 50px;
+  min-height: 45px;
   z-index: 3;
 `;
 
@@ -179,6 +180,9 @@ const SearchBar = () => {
     function handleClickOutside(event) {
       if (autocompleteRef.current && !autocompleteRef.current.contains(event.target)) {
         setAutocompleteVisible(false);
+      } else if (autocompleteRef.current.contains(event.target)) {
+        const search = document.getElementById("mySearch");
+        autoword(search.value);
       }
     }
     document.addEventListener("click", handleClickOutside);
@@ -204,15 +208,19 @@ const SearchBar = () => {
         <SAutocompleteDiv>
           <SWordDiv>
             {recentSearch.map((word, index) => (
-              <SDiv onClick={() => setRecentSearchData(word)}>
-                <SP key={index}>{word.length > 30 ? `${word.slice(0, 30)}...` : word}</SP>
+              <SDiv
+                style={{ backgroundImage: `url(${recentIcon})` }}
+                key={index}
+                onClick={() => setRecentSearchData(word)}
+              >
+                <SP>{word.length > 30 ? `${word.slice(0, 30)}...` : word}</SP>
                 <SButton onClick={(event) => deleteRecentSearchWord(event, word)}>X</SButton>
               </SDiv>
             ))}
             {autocompleteWords &&
               autocompleteWords.map((word, index) => (
-                <SDiv onClick={() => setRecentSearchData(word)}>
-                  <SP key={index}>{word.length > 30 ? `${word.slice(0, 30)}...` : word}</SP>
+                <SDiv key={index + 4} onClick={() => setRecentSearchData(word)}>
+                  <SP>{word.length > 30 ? `${word.slice(0, 30)}...` : word}</SP>
                 </SDiv>
               ))}
           </SWordDiv>

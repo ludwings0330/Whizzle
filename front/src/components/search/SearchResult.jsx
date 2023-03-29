@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { useRecoilState } from "recoil";
@@ -71,6 +71,7 @@ const SearchResult = () => {
 
   // 검색시 필요한 변수, 검색 함수
   const { word } = useParams();
+  const observerRef = useRef(null);
   const [result, setResult] = useRecoilState(searchData);
   const [last, setLast] = useState(false);
   const [offset, setOffset] = useState(0);
@@ -85,7 +86,6 @@ const SearchResult = () => {
       if (whiskys.length) {
         setResult((prev) => [...prev, ...whiskys]);
       }
-      console.log(res);
     } catch {
       console.log("검색 결과 저장 실패");
     }
@@ -93,12 +93,13 @@ const SearchResult = () => {
   // 결과 호출 과정
   useEffect(() => {
     setResult([]);
+    setOffset(0);
+    setLast(false);
     const data = {
       word: word,
       offset: 0,
-      size: 6,
+      size: 9,
     };
-    console.log(word);
     getsearchResult(data);
   }, [word]);
 
@@ -107,11 +108,36 @@ const SearchResult = () => {
       const data = {
         word: word,
         offset: offset,
-        size: 6,
+        size: 9,
       };
       getsearchResult(data);
     }
   };
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          if (offset) {
+            getMore();
+          }
+        }
+      },
+      {
+        rootMargin: "0px",
+        threshold: 1.0,
+      }
+    );
+
+    if (observerRef.current && !last) {
+      observer.observe(observerRef.current);
+    }
+
+    return () => {
+      if (observerRef.current) {
+        observer.unobserve(observerRef.current);
+      }
+    };
+  }, [observerRef, offset]);
 
   return (
     <Wrapper>
@@ -126,7 +152,7 @@ const SearchResult = () => {
       ) : (
         <p style={{ marginTop: "100px" }}>검색 결과가 없습니다</p>
       )}
-      {last ? null : <SBtn onClick={getMore}>더 보기</SBtn>}
+      <div ref={observerRef}></div>
     </Wrapper>
   );
 };
