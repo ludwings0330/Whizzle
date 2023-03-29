@@ -70,7 +70,7 @@ const ResultWhiskyList = (props) => {
   return (
     <Wrapper>
       <SDiv>
-        {whiskys &&
+        {whiskys.length &&
           seeMore &&
           whiskys.map((whisky, index) => {
             return (
