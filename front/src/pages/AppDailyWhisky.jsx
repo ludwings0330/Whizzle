@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { dailyRecommend } from "../apis/recommend";
+import { loginedRecommend } from "../apis/recommend";
 
 import DailyFlavor from "../components/daily/DailyFlavor";
 import DailyPrice from "../components/daily/DailyPrice";
 import DailyLoading from "../components/daily/DailyLoading";
+import DailyExplain from "../components/daily/DailyExplain";
 import WhiskyList from "../components/common/WhiskyList";
 
 const SHeaderDiv = styled.div`
   max-width: 100vw;
-  height: 300px;
+  height: 230px;
+  padding-top: 20px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -19,7 +21,7 @@ const SHeaderDiv = styled.div`
 `;
 
 const SP = styled.p`
-  font-size: 20px;
+  font-size: 18px;
   color: white;
 `;
 
@@ -32,7 +34,9 @@ const SMainDiv = styled.div`
 `;
 
 const SHr = styled.hr`
-  border: 0.1px solid #d8d8d8;
+  border: 0;
+  height: 1px;
+  background: #ccc;
   min-width: 900px;
 `;
 
@@ -54,66 +58,10 @@ const AppDailyWhisky = () => {
     floral: 0,
   });
 
-  const [priceData, setPriceData] = useState("1");
+  const [priceData, setPriceData] = useState("0");
 
   const [isLoading, setIsLoading] = useState(false);
-
-  const whiskys = [
-    {
-      name: "Glenfiddich 12 Year",
-      category: "Single Malt",
-      location: "Speyside, Scotland",
-      abv: "40",
-      priceTier: 2,
-      avg_rating: 3.36,
-      total_rating: 5952,
-    },
-    {
-      name: "Glenlivet 12 Year Double Oak",
-      category: "Single Malt",
-      location: "Speyside, Scotland",
-      abv: "40",
-      priceTier: 2,
-      avg_rating: 3.41,
-      total_rating: 5811,
-    },
-    {
-      name: "Macallan 12 Year Sherry Oak Cask",
-      category: "Single Malt",
-      location: "Highlands, Scotland",
-      abv: "43",
-      priceTier: 3,
-      avg_rating: 3.82,
-      total_rating: 5442,
-    },
-    {
-      name: "Glenfiddich 12 Year",
-      category: "Single Malt",
-      location: "Speyside, Scotland",
-      abv: "40",
-      priceTier: 2,
-      avg_rating: 3.36,
-      total_rating: 5952,
-    },
-    {
-      name: "Glenlivet 12 Year Double Oak",
-      category: "Single Malt",
-      location: "Speyside, Scotland",
-      abv: "40",
-      priceTier: 2,
-      avg_rating: 3.41,
-      total_rating: 5811,
-    },
-    {
-      name: "Macallan 12 Year Sherry Oak Cask",
-      category: "Single Malt",
-      location: "Highlands, Scotland",
-      abv: "43",
-      priceTier: 3,
-      avg_rating: 3.82,
-      total_rating: 5442,
-    },
-  ];
+  const [dailyResult, setDailyResult] = useState([]);
 
   const dailyRecommendApi = async () => {
     setIsLoading(true);
@@ -123,8 +71,10 @@ const AppDailyWhisky = () => {
       flavor: flavorData,
     };
 
-    const dailyResult = await dailyRecommend(body);
+    const result = await loginedRecommend(body);
+    setDailyResult(result);
     setIsLoading(false);
+    // console.log(dailyResult);
   };
 
   useEffect(() => {
@@ -147,8 +97,13 @@ const AppDailyWhisky = () => {
         <DailyPrice priceData={priceData} setPriceData={setPriceData} />
         <DailyFlavor flavorData={flavorData} setFlavorData={setFlavorData} />
         <SHr />
-        <div style={{ height: "0px" }}></div>
-        {isLoading ? <DailyLoading /> : <WhiskyList whiskys={whiskys} />}
+        {isLoading ? (
+          <DailyLoading />
+        ) : dailyResult.length === 0 ? (
+          <DailyExplain />
+        ) : (
+          <WhiskyList whiskys={dailyResult} />
+        )}
       </SMainDiv>
     </>
   );

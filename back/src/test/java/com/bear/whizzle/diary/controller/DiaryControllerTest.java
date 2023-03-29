@@ -10,7 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.bear.whizzle.auth.service.PrincipalDetails;
 import com.bear.whizzle.common.util.JwtUtil;
-import com.bear.whizzle.diary.DiaryMapper;
+import com.bear.whizzle.diary.mapper.DiaryMapper;
 import com.bear.whizzle.diary.controller.dto.DiaryRequestSaveDto;
 import com.bear.whizzle.diary.controller.dto.DiaryRequestUpdateDto;
 import com.bear.whizzle.diary.controller.dto.DiaryResponseDto;
@@ -138,7 +138,7 @@ class DiaryControllerTest {
                         .header("Authorization", "Bearer " + testToken)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(updateDto))
-        ).andExpect(status().isCreated());
+        ).andExpect(status().isOk());
 
         // then
         assertThatCode(
@@ -173,7 +173,7 @@ class DiaryControllerTest {
         mockMvc.perform(
                 delete("/api/diaries/" + testDiaryId)
                         .header("Authorization", "Bearer " + testToken)
-        ).andExpect(status().isCreated());
+        ).andExpect(status().isOk());
 
         // then
         assertThatCode(

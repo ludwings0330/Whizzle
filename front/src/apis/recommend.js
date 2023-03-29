@@ -32,14 +32,3 @@ export const loginedRecommend = async (data) => {
     console.log(error);
   }
 };
-
-export const dailyRecommend = async (data) => {
-  try {
-    const res = await api.post(`/api/rec/daily`, data);
-    console.log("데일리 추천 결과 성공");
-    return true;
-  } catch (error) {
-    console.log("데일리 추천 결과 실패");
-    return false;
-  }
-};

@@ -1,4 +1,4 @@
-package com.bear.whizzle.diary;
+package com.bear.whizzle.diary.mapper;
 
 import com.bear.whizzle.diary.controller.dto.DrinkDto;
 import com.bear.whizzle.diary.controller.dto.WhiskyNameDto;

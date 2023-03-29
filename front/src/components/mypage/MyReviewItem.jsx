@@ -4,8 +4,11 @@ import ReactStars from "react-stars";
 import moment from "moment";
 
 const SDiv = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 const SBox = styled.div`
@@ -45,9 +48,9 @@ const SContent = styled.div`
 `;
 
 const SExtra = styled.div`
-  text-align: end;
+  margin-left: auto;
   margin-top: 20px;
-  margin-right: 10px;
+  margin-right: 45px;
   font-size: 16px;
   color: #787878;
 `;
