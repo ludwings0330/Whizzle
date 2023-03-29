@@ -5,7 +5,6 @@ import { userState } from "../store/userStore";
 import { useNavigate } from "react-router-dom";
 import { NON_LOGIN_NICKNAME } from "../constants/constants";
 import { recommendResult, preference } from "../store/indexStore";
-import { useRecoilValue } from "recoil";
 
 //import components
 import Graph from "../components/common/Graph";
@@ -183,7 +182,7 @@ const AppRecommnedResult = () => {
       <SGraphDiv>
         <STitleP>취향 분석 결과</STitleP>
         <SGraphP>
-          <SColorSpan>{user ? user.nickname : NON_LOGIN_NICKNAME}</SColorSpan>
+          <SColorSpan>{user.nickname ? user.nickname : NON_LOGIN_NICKNAME}</SColorSpan>
           <SSpan>님의 취향분석 결과입니다.</SSpan>
           <SBoldColorP>
             {maxValue[0]} & {maxValue[1]}
