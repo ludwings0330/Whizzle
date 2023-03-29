@@ -6,7 +6,7 @@ import WhiskyListItem from "./WhiskyListItem";
 const SWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
   gap: 50px 23px;
   margin-top: 70px;
@@ -18,8 +18,8 @@ const WhiskyList = (props) => {
   return (
     <>
       <SWrapper>
-        {props.whiskys?.map((whisky) => {
-          return <WhiskyListItem key={whisky.id} whisky={whisky} />;
+        {props.whiskys.map((whisky, index) => {
+          return <WhiskyListItem key={index} whisky={whisky} />;
         })}
       </SWrapper>
     </>
