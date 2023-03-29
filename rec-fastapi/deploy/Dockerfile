@@ -1,8 +1,8 @@
 FROM python:3.9.16
-WORKDIR /app
+WORKDIR /src
 
-COPY ../requirements.txt /app
+COPY .. /src
 RUN pip install -r requirements.txt
 
-COPY ../app/* /app
+WORKDIR /app
 ENTRYPOINT ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
