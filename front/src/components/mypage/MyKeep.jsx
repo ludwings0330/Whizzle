@@ -29,7 +29,7 @@ const SListDiv = styled.div`
 
 const SWarning = styled.div`
   width: 1000px;
-  height: 290px;
+  height: 260px;
   display: flex;
   flex-direction: column;
   justify-content: center;

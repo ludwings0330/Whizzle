@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { preference, recommendResult } from "../store/indexStore";
@@ -141,6 +141,16 @@ const AppRecommendQuestion = () => {
       navigate(`/recommend/result`);
     }, 7000);
   };
+
+  // footer 제거하는 로직
+  useEffect(() => {
+    const footer = document.getElementById("footer");
+    footer.style.display = "none";
+
+    return () => {
+      footer.style.display = "flex";
+    };
+  });
 
   const whiskySubmitHandler = async () => {
     setDirection("next");
