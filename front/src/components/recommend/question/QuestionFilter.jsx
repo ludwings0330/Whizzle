@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useRecoilState } from "recoil";
-import { preference } from "../../../store/preferenceStore";
+import { preference } from "../../../store/indexStore";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import checkImg from "../../../assets/img/check.png";
@@ -194,32 +194,32 @@ const QuestionFilter = (props) => {
           <SRadioInput
             id="20_btn"
             type="radio"
-            value="20"
-            checked={preferenceValue.age === "20"}
+            value="TWENTY"
+            checked={preferenceValue.age === "TWENTY"}
             onChange={ageSelectHandler}
           />
           <SAgeSelector htmlFor="20_btn">20대</SAgeSelector>
           <SRadioInput
             id="30_btn"
             type="radio"
-            value="30"
-            checked={preferenceValue.age === "30"}
+            value="THIRTY"
+            checked={preferenceValue.age === "THIRTY"}
             onChange={ageSelectHandler}
           />
           <SAgeSelector htmlFor="30_btn">30대</SAgeSelector>
           <SRadioInput
             id="40_btn"
             type="radio"
-            value="40"
-            checked={preferenceValue.age === "40"}
+            value="FORTY"
+            checked={preferenceValue.age === "FORTY"}
             onChange={ageSelectHandler}
           />
           <SAgeSelector htmlFor="40_btn">40대</SAgeSelector>
           <SRadioInput
             id="50_btn"
             type="radio"
-            value="50"
-            checked={preferenceValue.age === "50"}
+            value="FIFTY"
+            checked={preferenceValue.age === "FIFTY"}
             onChange={ageSelectHandler}
           />
           <SAgeSelector htmlFor="50_btn">50대 이상</SAgeSelector>

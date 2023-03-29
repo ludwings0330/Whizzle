@@ -6,7 +6,7 @@ import { userState } from "../../store/userStore";
 import styled, { keyframes } from "styled-components";
 import { motion } from "framer-motion";
 import mainRecommendImg from "../../assets/img/main_recommend.jpg";
-import whisky from "../../assets/img/whisky_preset/13.png";
+import { todayWhisky } from "../../hooks/todayWhisky";
 
 const SBackImg = styled.div`
   height: calc(var(--vh, 1vh) * 100);
@@ -85,13 +85,15 @@ const SUserName = styled.span`
 
 //메인화면에 띄워줄 추천부분(비로그인 사용자)
 const MainRecommend = () => {
+  const whisky = todayWhisky();
+
   const user = useRecoilValue(userState);
   const navigate = useNavigate();
 
   const userName = user.nickname;
   const userNameLen = userName.length;
 
-  const whiskyName = "와일드 터키";
+  const whiskyName = whisky.name;
   const whiskyNameLen = whiskyName.length;
 
   const textRef = useRef(null);
@@ -127,7 +129,7 @@ const MainRecommend = () => {
   };
 
   const goDetail = () => {
-    navigate(`/whisky/1`);
+    navigate(`/whisky/${whisky.id}`);
   };
 
   useEffect(() => {
@@ -144,7 +146,10 @@ const MainRecommend = () => {
             initial="hidden"
             animate="visible"
           >
-            <SWhiskyImg src={whisky} onClick={goDetail} />
+            <SWhiskyImg
+              src={require(`../../assets/img/whisky_preset/${whisky.posterNumber}.png`)}
+              onClick={goDetail}
+            />
           </motion.div>
           <SRight>
             <STextCon>

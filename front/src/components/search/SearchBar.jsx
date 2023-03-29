@@ -98,7 +98,7 @@ const SAutocompleteDiv = styled.div`
   border-radius: 16px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   height: auto;
-  min-height: 100px;
+  min-height: 50px;
   z-index: 3;
 `;
 
@@ -135,6 +135,8 @@ const SearchBar = () => {
   const searchHandler = (e) => {
     if (e.key === "Enter") {
       setRecentSearchData(searchWord);
+      const search = document.getElementById("mySearch");
+      search.blur();
       setSearchWord("");
     }
   };
@@ -176,6 +178,8 @@ const SearchBar = () => {
     <div style={{ position: "relative" }} ref={autocompleteRef}>
       <SInputDiv autocompleteVisible={autocompleteVisible}>
         <SInput
+          autoComplete="off"
+          id="mySearch"
           onFocus={() => setAutocompleteVisible(true)}
           onKeyDown={(e) => searchHandler(e)}
           placeholder="찾고자 하는 위스키 이름을 입력하세요."
@@ -187,8 +191,8 @@ const SearchBar = () => {
         <SAutocompleteDiv>
           <SWordDiv>
             {recentSearch.map((word, index) => (
-              <SDiv onClick={() => setRecentSearchData(word)}>
-                <SP key={index}>{word.length > 20 ? `${word.slice(0, 20)}...` : word}</SP>
+              <SDiv key={index} onClick={() => setRecentSearchData(word)}>
+                <SP>{word.length > 20 ? `${word.slice(0, 20)}...` : word}</SP>
                 <SButton onClick={(event) => deleteRecentSearchWord(event, word)}>X</SButton>
               </SDiv>
             ))}

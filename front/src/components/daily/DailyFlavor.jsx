@@ -22,7 +22,7 @@ const STitle = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 70px;
+  margin-top: 60px;
   margin-bottom: 20px;
   font-size: 24px;
   font-weight: bold;
@@ -64,25 +64,6 @@ const SBox = styled.div`
   padding: 30px 20px 20px 20px;
 `;
 
-const SButton = styled.button`
-  cursor: pointer;
-  display: block;
-  width: 464px;
-  height: 80px;
-  border: none;
-  border-radius: 999px;
-  background: white;
-`;
-
-const SButtonText = styled.span`
-  font-size: 18px;
-  font-family: "Pretendard Variable";
-  font-weight: bold;
-  background-image: linear-gradient(125.02deg, #f84f5a 28.12%, #f7875a 65.62%, #f7cb5a 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-`;
-
 const flavorPresetData = [
   "smoky",
   "peaty",
@@ -101,8 +82,6 @@ const flavorPresetData = [
 
 const DailyFlavor = (props) => {
   const [isHover, setIsHover] = useState(false);
-
-  const submitHandler = () => {};
 
   return (
     <SCentered>

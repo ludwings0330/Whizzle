@@ -2,7 +2,7 @@ package com.bear.whizzle.diary.controller;
 
 import com.bear.whizzle.auth.service.PrincipalDetails;
 import com.bear.whizzle.badge.service.BadgeService;
-import com.bear.whizzle.diary.DiaryMapper;
+import com.bear.whizzle.diary.mapper.DiaryMapper;
 import com.bear.whizzle.diary.controller.dto.DiaryRequestSaveDto;
 import com.bear.whizzle.diary.controller.dto.DiaryRequestUpdateDto;
 import com.bear.whizzle.diary.controller.dto.DiaryResponseDto;
@@ -44,7 +44,6 @@ public class DiaryController {
      * @return 다이어리 목록
      */
     @GetMapping
-    @ResponseStatus(HttpStatus.OK)
     public List<DiaryResponseDto> readDiaries(
             @AuthenticationPrincipal PrincipalDetails member,
             @RequestParam String month
@@ -71,12 +70,11 @@ public class DiaryController {
         }
 
         diaryService.writeDiary(member.getMemberId(), diaryRequestSaveDto);
-
         badgeService.awardBadgeOnDiaryCountReached(member.getMemberId());
     }
 
     /**
-     * 다이어리 수정 완료 시 상태 코드 201 반환
+     * 다이어리 수정 완료 시 상태 코드 200 반환
      *
      * @param member                현재 다이어리를 수정한 본인의 계정 정보
      * @param diaryId               수정하려는 다이어리의 ID
@@ -85,7 +83,6 @@ public class DiaryController {
      * @throws AccessDeniedException 다이어리 작성자와 현재 자신이 다른 경우에 발생
      */
     @PutMapping("/{diaryId}")
-    @ResponseStatus(HttpStatus.CREATED)
     public void rewriteDiary(
             @AuthenticationPrincipal PrincipalDetails member,
             @PathVariable Long diaryId,
@@ -96,7 +93,7 @@ public class DiaryController {
     }
 
     /**
-     * 다이어리 삭제 완료 시 상태 코드 201 반환
+     * 다이어리 삭제 완료 시 상태 코드 200 반환
      *
      * @param member  현재 다이어리를 수정한 본인의 계정 정보
      * @param diaryId 삭제하려는 다이어리의 ID
@@ -104,7 +101,6 @@ public class DiaryController {
      * @throws AccessDeniedException 다이어리 작성자와 현재 자신이 다른 경우에 발생
      */
     @DeleteMapping("/{diaryId}")
-    @ResponseStatus(HttpStatus.CREATED)
     public void eraseDiary(@AuthenticationPrincipal PrincipalDetails member, @PathVariable Long diaryId) {
         diaryService.eraseDiary(member.getMemberId(), diaryId);
     }
