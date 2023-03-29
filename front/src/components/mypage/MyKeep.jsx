@@ -77,7 +77,6 @@ const MyKeep = () => {
       lastOffset: lastId,
       size: 9,
     };
-    console.log(params);
     if (!isLoading && !isLast) {
       setIsLoading(true);
       const keepedData = await keepApi(params);
