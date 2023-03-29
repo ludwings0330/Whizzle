@@ -13,13 +13,13 @@ public class RecWhiskyMapper {
                                    .id(whisky.getId())
                                    .abv(whisky.getAbv())
                                    .avgRating(whisky.getAvgRating())
-                                   .url(whisky.getImage().getUrl())
+                                   .imageUrl(whisky.getImage().getUrl())
                                    .priceTier(whisky.getPriceTier())
                                    .name(whisky.getName())
                                    .reviewCount(whisky.getReviewCount())
                                    .category(whisky.getCategory())
                                    .location(whisky.getLocation())
-                                   .keep(keep)
+                                   .isKept(keep)
                                    .build();
     }
 
