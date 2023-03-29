@@ -11,6 +11,7 @@ import com.bear.whizzle.recommend.RecWhiskyMapper;
 import com.bear.whizzle.recommend.controller.dto.PreferenceDto;
 import com.bear.whizzle.recommend.controller.dto.RecWhiskyRequestDto;
 import com.bear.whizzle.recommend.controller.dto.RecWhiskyResponseDto;
+import com.bear.whizzle.recommend.controller.dto.SimilarWhiskyResponseDto;
 import com.bear.whizzle.whisky.repository.WhiskyCustomRepository;
 import com.bear.whizzle.whisky.repository.WhiskyRepository;
 import com.bear.whizzle.whisky.repository.projection.dto.FlavorSummary;
@@ -103,8 +104,26 @@ public class RecServiceImpl implements RecService {
         Map<Long, Whisky> whiskyMap = whiskyCustomRepository.findByIds(filteredWhiskies);
         Map<Long, Boolean> myKeeps = memberId != 0L ? keepCustomRepository.whetherKeep(filteredWhiskies, memberId) : new HashMap<>();
         List<RecWhiskyResponseDto> recWhiskyResponseDtos = new ArrayList<>();
-        filteredWhiskies.forEach(r -> recWhiskyResponseDtos.add(RecWhiskyMapper.toRecWhiskyResponseDto(whiskyMap.get(r), myKeeps.containsKey(r))));
+        filteredWhiskies.forEach(
+                r -> recWhiskyResponseDtos.add(RecWhiskyMapper.toRecWhiskyResponseDto(whiskyMap.get(r), myKeeps.containsKey(r))));
         return recWhiskyResponseDtos;
+    }
+
+    /**
+     * 유사한 위스키 정보 조회 with keep
+     *
+     * @param simWhiskies : 모델로부터 추천받은 위스키 중 원하는 가격대 맞는 9개 위스키 index
+     * @param memberId    : 접근중인 주체 memberId
+     * @return 추천 결과 페이지에 출력할 위스키 정보 DTO
+     */
+    @Override
+    public List<SimilarWhiskyResponseDto> findSimWhiskies(List<Long> simWhiskies, Long memberId) {
+        Map<Long, Whisky> whiskyMap = whiskyCustomRepository.findByIds(simWhiskies);
+        Map<Long, Boolean> myKeeps = memberId != 0L ? keepCustomRepository.whetherKeep(simWhiskies, memberId) : new HashMap<>();
+        List<SimilarWhiskyResponseDto> similarWhiskyResponseDtos = new ArrayList<>();
+        simWhiskies.forEach(
+                r -> similarWhiskyResponseDtos.add(RecWhiskyMapper.toSimilarWhiskyResponseDto(whiskyMap.get(r), myKeeps.containsKey(r))));
+        return similarWhiskyResponseDtos;
     }
 
 }
