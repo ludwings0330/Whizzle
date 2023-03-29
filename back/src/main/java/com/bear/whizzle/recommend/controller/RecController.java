@@ -1,6 +1,7 @@
 package com.bear.whizzle.recommend.controller;
 
 import com.bear.whizzle.auth.service.PrincipalDetails;
+import com.bear.whizzle.domain.exception.NotFoundException;
 import com.bear.whizzle.recommend.controller.dto.PreferenceDto;
 import com.bear.whizzle.recommend.controller.dto.RecWhiskyRequestDto;
 import com.bear.whizzle.recommend.controller.dto.RecWhiskyResponseDto;
@@ -37,7 +38,7 @@ public class RecController {
     @PostMapping("/api/rec/whisky/any")
     @ResponseStatus(HttpStatus.OK)
     public List<RecWhiskyResponseDto> recPersonalWhisky(
-            @RequestBody RecWhiskyRequestDto recWhiskyRequestDto) throws UnprocessableEntity {
+            @RequestBody RecWhiskyRequestDto recWhiskyRequestDto) throws UnprocessableEntity, NotFoundException {
         Long memberId = 0L;
         PreferenceDto preferenceDto = recService.extractPreference(memberId, recWhiskyRequestDto);
         List<Long> recWhiskies = recWebClientCall(preferenceDto);
@@ -57,13 +58,14 @@ public class RecController {
     @ResponseStatus(HttpStatus.OK)
     public List<RecWhiskyResponseDto> recPersonalWhisky(@AuthenticationPrincipal PrincipalDetails principalDetails,
                                                         @RequestBody(required = false) RecWhiskyRequestDto recWhiskyRequestDto)
-            throws UnprocessableEntity {
+            throws UnprocessableEntity, NotFoundException {
         Long memberId = principalDetails.getMemberId();
         PreferenceDto preferenceDto = recService.extractPreference(0L, recWhiskyRequestDto); // 학습 여부 판단 로직 필요
         List<Long> recWhiskies = recWebClientCall(preferenceDto);
         List<Long> filteredRecWhikies = recService.filterByPriceTier(recWhiskies, preferenceDto.getPriceTier());
         return recService.findRecWhiskies(filteredRecWhikies, memberId);
     }
+
 
     private List<Long> recWebClientCall(PreferenceDto preferenceDto) {
         return webClient.post()
