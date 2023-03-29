@@ -1,7 +1,7 @@
 FROM python:3.9.16
 WORKDIR /src
 
-COPY ./rec-fastapi/app /src
+COPY ./rec-fastapi/app/ /src
 
 RUN ls -l
 
