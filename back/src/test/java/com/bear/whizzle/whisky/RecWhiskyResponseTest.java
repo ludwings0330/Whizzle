@@ -2,7 +2,6 @@ package com.bear.whizzle.whisky;
 
 import com.bear.whizzle.domain.model.entity.Whisky;
 import com.bear.whizzle.keep.repository.KeepCustomRepository;
-import com.bear.whizzle.keep.repository.KeepRepository;
 import com.bear.whizzle.recommend.RecWhiskyMapper;
 import com.bear.whizzle.recommend.controller.dto.RecWhiskyResponseDto;
 import com.bear.whizzle.whisky.repository.WhiskyCustomRepository;
