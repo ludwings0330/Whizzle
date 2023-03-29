@@ -86,7 +86,7 @@ public class Diary {
         this.emotion = diary.getEmotion();
         this.drinkLevel = diary.getDrinkLevel();
         this.content = diary.getContent();
-        this.isDeleted = Boolean.TRUE;
+        this.isDeleted = Boolean.FALSE;
     }
 
     public void markDelete() {
