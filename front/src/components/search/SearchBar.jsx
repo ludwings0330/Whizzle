@@ -135,13 +135,14 @@ const SearchBar = () => {
       updatedRecentSearch.splice(existingIndex, 1);
     }
     updatedRecentSearch.unshift(value);
-    if (updatedRecentSearch.length > 5) {
+    if (updatedRecentSearch.length > 3) {
       updatedRecentSearch.pop();
     }
     localStorage.setItem("recentSearch", JSON.stringify(updatedRecentSearch));
     setRecentSearch(updatedRecentSearch);
     navigate(`/search/${value}`);
     setAutocompleteVisible(false);
+    setSearchWord(value);
   };
 
   const searchHandler = (e) => {
@@ -149,12 +150,12 @@ const SearchBar = () => {
       setRecentSearchData(searchWord);
       const search = document.getElementById("mySearch");
       search.blur();
-      setSearchWord("");
     }
   };
 
   const wordChange = (e) => {
     setSearchWord(e.target.value);
+    autoword(e.target.value);
   };
 
   // 검색어 삭제
@@ -196,6 +197,7 @@ const SearchBar = () => {
           placeholder="찾고자 하는 위스키 이름을 입력하세요."
           onChange={wordChange}
           value={searchWord}
+          autoComplete="off"
         />
       </SInputDiv>
       {autocompleteVisible && (
@@ -203,16 +205,16 @@ const SearchBar = () => {
           <SWordDiv>
             {recentSearch.map((word, index) => (
               <SDiv onClick={() => setRecentSearchData(word)}>
-                <SP key={index}>{word.length > 20 ? `${word.slice(0, 20)}...` : word}</SP>
+                <SP key={index}>{word.length > 30 ? `${word.slice(0, 30)}...` : word}</SP>
                 <SButton onClick={(event) => deleteRecentSearchWord(event, word)}>X</SButton>
               </SDiv>
             ))}
-            {recentSearch.map((word, index) => (
-              <SDiv onClick={() => setRecentSearchData(word)}>
-                <SP key={index}>{word.length > 20 ? `${word.slice(0, 20)}...` : word}</SP>
-                <SButton onClick={(event) => deleteRecentSearchWord(event, word)}>X</SButton>
-              </SDiv>
-            ))}
+            {autocompleteWords &&
+              autocompleteWords.map((word, index) => (
+                <SDiv onClick={() => setRecentSearchData(word)}>
+                  <SP key={index}>{word.length > 30 ? `${word.slice(0, 30)}...` : word}</SP>
+                </SDiv>
+              ))}
           </SWordDiv>
         </SAutocompleteDiv>
       )}
