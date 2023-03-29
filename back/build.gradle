@@ -74,9 +74,12 @@ tasks.named('test') {
 // QClass를 저장할 경로
 def generated = "$buildDir/generated/querydsl"
 
-// querydsl QClass 파일 생성 위치를 지정
 tasks.withType(JavaCompile).configureEach {
+    // querydsl QClass 파일 생성 위치를 지정
     options.getGeneratedSourceOutputDirectory().set(file(generated))
+
+    // JPA의 @Query에서 @Param을 생략할 수 있도록 Named Parameter 설정 추가
+    options.complierArgs << "-parameters"
 }
 
 // build 할 때 사용할 sourceSet에 QClass를 추가
