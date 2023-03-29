@@ -3,7 +3,7 @@ package com.bear.whizzle.diary.controller.dto;
 import com.bear.whizzle.domain.model.type.DrinkLevel;
 import com.bear.whizzle.domain.model.type.Emotion;
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import lombok.AccessLevel;
@@ -37,6 +37,6 @@ public class DiaryRequestSaveDto implements DiaryRequestDto {
 
     @NotNull
     @Size(min = 1)
-    private List<Long> whiskyIds;
+    private Set<Long> whiskyIds;
 
 }
