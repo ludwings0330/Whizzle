@@ -18,7 +18,7 @@ const WhiskyList = (props) => {
   return (
     <>
       <SWrapper>
-        {props.whiskys.map((whisky, index) => {
+        {props.whiskys?.map((whisky) => {
           return <WhiskyListItem key={whisky.id} whisky={whisky} />;
         })}
       </SWrapper>
