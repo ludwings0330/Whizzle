@@ -24,13 +24,7 @@ export const diaryDataState = atom({
         drinkOrder: null,
       },
     ],
-    background: "",
   },
-});
-
-export const calanderData = atom({
-  key: "calanderData",
-  default: [],
 });
 
 export const currentComponentState = atom({

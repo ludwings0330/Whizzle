@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   diaryState,
   diaryDataState,
   currentComponentState,
-  calanderData,
+  fetchDiaries,
 } from "../../../store/indexStore";
 import { useRecoilState, useRecoilValue } from "recoil";
-import fetchDiaries from "../../../store/indexStore";
+import { diaryRead } from "../../../apis/diary";
 
 //import css
 import styled from "styled-components";
+import DiaryEditor from "../input/DiaryEditor";
 
 const SDiv = styled.div`
   border: 2px solid #e1e1e1;
@@ -123,6 +124,7 @@ const STbody = styled.tbody`
 const DiaryCalander = ({ onDateClick }) => {
   const [date, setDate] = useState(new Date());
   const [currentComponent, setCurrentComponent] = useRecoilState(currentComponentState);
+  const tbodyRef = useRef(null);
 
   function prevMonth() {
     setDate((prevDate) => new Date(prevDate.getFullYear(), prevDate.getMonth() - 1, 1));
@@ -146,8 +148,42 @@ const DiaryCalander = ({ onDateClick }) => {
 
   const [clickedDay, setClickedDay] = useState(null);
 
-  const diaryList = useRecoilValue(diaryState);
+  const [diaryList, setDiaryList] = useRecoilState(diaryState);
   const [data, setData] = useRecoilState(diaryDataState);
+
+  useEffect(() => {
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    fetchDiaries(setDiaryList, setData, `${year}-${month}`);
+  }, [date]);
+
+  useEffect(() => {
+    const diaryArray = Array.isArray(diaryList) ? diaryList : [];
+
+    if (tbodyRef.current) {
+      const tbody = tbodyRef.current;
+
+      diaryArray.forEach((diary) => {
+        const diaryDate = new Date(diary.date);
+        if (
+          diaryDate.getFullYear() === date.getFullYear() &&
+          diaryDate.getMonth() === date.getMonth()
+        ) {
+          const dayElement = tbody.querySelector(`td[data-date="${diary.date}"]`);
+          if (dayElement) {
+            console.log(diaryDate);
+
+            dayElement.style.backgroundColor = "#f84f5a";
+            dayElement.style.color = "white";
+          }
+        }
+      });
+    }
+  }, [diaryList, tbodyRef]);
+
+  function hasDiaryEntry(dateString) {
+    return diaryList.some((entry) => entry.date === dateString);
+  }
 
   function findItem(arr, value) {
     for (let i = 0; i < arr.length; i++) {
@@ -203,6 +239,10 @@ const DiaryCalander = ({ onDateClick }) => {
 
     setCurrentComponent("diaryNewContent");
     setData(diaryItem);
+
+    //diaryItem 이 -1이면 Editor를 띄워주기
+    //아니라면 DiaryItem 자체를 보여주기
+
     onDateClick(clickedDateString);
   }
 
@@ -261,7 +301,7 @@ const DiaryCalander = ({ onDateClick }) => {
                 ))}
               </tr>
             </thead>
-            <STbody>{rows}</STbody>
+            <STbody ref={tbodyRef}>{rows}</STbody>
           </table>
         </SCalanderDiv>
       </SDiv>

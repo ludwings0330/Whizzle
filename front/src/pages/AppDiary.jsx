@@ -6,7 +6,6 @@ import styled from "styled-components";
 //import component
 import DiaryCalander from "../components/diary/calander/DiaryCalander";
 import DiaryEditor from "../components/diary/input/DiaryEditor";
-import DiaryItem from "../components/diary/input/DiaryItem";
 
 //import image
 import diary_header from "../assets/img/diary_header.png";
@@ -84,6 +83,7 @@ const AppDiary = () => {
       const year = selectedDate.getFullYear();
       const month = String(selectedDate.getMonth() + 1).padStart(2, "0");
       const day = String(selectedDate.getDate()).padStart(2, "0");
+      const today = `${year}-${month}-${day}`;
       const result = await fetchDiaries(setDiaryList, setData, `${year}-${month}-${day}`);
       if (result) {
         await setCurrentComponent("diaryItem");
@@ -106,12 +106,8 @@ const AppDiary = () => {
       <SHeaderDivider />
       <SMainDiv>
         <SMainDivider />
-        <DiaryCalander onDateClick={setSelectedDate} />
-        {data.id ? (
-          <DiaryItem selectedDate={selectedDate} diaryList={diaryList} />
-        ) : (
-          <DiaryEditor selectedDate={selectedDate} />
-        )}
+        <DiaryCalander onDateClick={setSelectedDate} selectedDate={selectedDate} />
+        <DiaryEditor selectedDate={selectedDate} />
       </SMainDiv>
     </>
   );

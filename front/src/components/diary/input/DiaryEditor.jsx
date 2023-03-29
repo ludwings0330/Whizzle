@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
-import { diaryDataState, diaryState } from "../../../store/indexStore";
+import { diaryDataState, diaryState, fetchDiaries } from "../../../store/indexStore";
 //import component
-import { diaryCreate, diaryRead } from "../../../apis/diary";
+import { diaryCreate, diaryDelete, diaryRead, diaryUpdate } from "../../../apis/diary";
 
 //import css
 import styled from "styled-components";
@@ -167,9 +167,23 @@ const SDiv = styled.div`
 
   background: #f84f5a;
 `;
+const SUpdateButton = styled.button`
+  border: 2px solid #f84f5a;
+  border-radius: 12px;
+  background: #f84f5a;
+  color: white;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 85px;
+  height: 35px;
+  margin-left: 8px;
+`;
 
 const DiaryEditor = ({ selectedDate }) => {
   console.log("DiaryEditor렌딩");
+  const [isEdit, setIsEdit] = useState(false);
+  const [isSave, setIsSave] = useState(true);
 
   const [data, setData] = useRecoilState(diaryDataState);
   const [diaryList, setDiaryList] = useRecoilState(diaryState);
@@ -187,14 +201,14 @@ const DiaryEditor = ({ selectedDate }) => {
   const [recentSearch, setRecentSearch] = useState([]);
 
   const [content, setContent] = useState("");
-
+  const [searchTerms, setSearchTerms] = useState([]);
   const contentChange = (e) => {
     setContent(e.target.value);
   };
 
   const setWhiskyName = (e) => {
     if (e.key === "Enter" && searchWhisky !== "") {
-      setRecentSearch([...recentSearch, searchWhisky]);
+      setSearchTerms([...searchTerms, searchWhisky]);
       setSearchWhisky("");
     }
   };
@@ -212,7 +226,70 @@ const DiaryEditor = ({ selectedDate }) => {
     }
   };
 
+  const deleteSearchWord = (word) => {
+    let updateSearchWord = [...searchTerms];
+    const existingIndex = updateSearchWord.indexOf(word);
+    if (existingIndex !== -1) {
+      updateSearchWord.splice(existingIndex, 1);
+      setSearchTerms(updateSearchWord);
+    }
+  };
   useEffect(() => {
+    setIsEdit(false);
+    setIsSave(data.id ? false : true);
+
+    if (data.id) {
+      insertData();
+    } else {
+      initData();
+    }
+  }, []);
+
+  const initDataSet = () => {
+    setData({
+      id: null,
+      date: "",
+      today: "",
+      emotion: "",
+      drinkLevel: "",
+      content: "",
+      drinks: [
+        {
+          whisky: {
+            id: null,
+            name: "",
+          },
+          drinkOrder: null,
+        },
+      ],
+    });
+  };
+
+  useEffect(() => {
+    setIsEdit(false);
+    setIsSave(data.id ? false : true);
+
+    if (data.id) {
+      insertData();
+    } else {
+      initData();
+    }
+  }, [selectedDate, data]);
+
+  const insertData = () => {
+    const newDrinkLevel = data.drinkLevel === "LIGHT" ? 0 : data.drinkLevel === "HEAVY" ? 100 : 50;
+    const newEmotion = data.emotion === "BAD" ? 0 : data.emotion === "GOOD" ? 100 : 50;
+    setSearchWhisky("");
+    setContent(data.content);
+    setDrinklevelValue(newDrinkLevel);
+    setEmotionValue(newEmotion);
+    setSearchTerms(data.drinks.map((drink) => drink.whisky.id));
+  };
+
+  const initData = () => {
+    setIsEdit(false);
+    setIsSave(data.id ? false : true);
+
     setSearchWhisky("");
     setRecentSearch([]);
     setEmotionValue(50);
@@ -224,7 +301,8 @@ const DiaryEditor = ({ selectedDate }) => {
     if (recentSearchData) {
       setRecentSearch(recentSearchData);
     }
-  }, []);
+    setSearchTerms([]);
+  };
 
   const handleEmotionChange = (e) => {
     const emotionValue = e.target.value;
@@ -265,7 +343,7 @@ const DiaryEditor = ({ selectedDate }) => {
   //위스키 이름, 주량, 기분, 한마디
   const onCreate = async () => {
     console.log(formattedDate);
-    const numberSearchTerms = recentSearch.map(Number);
+    const numberSearchTerms = searchTerms.map(Number);
     const changeEmotionApi = emotionValue === 0 ? "BAD" : emotionValue === 50 ? "NORMAL" : "GOOD";
     const changeDrinkLevelApi =
       drinklevelValue === 0 ? "LIGHT" : drinklevelValue === 50 ? "MODERATE" : "HEAVY";
@@ -279,19 +357,93 @@ const DiaryEditor = ({ selectedDate }) => {
     };
 
     console.log("create확인");
+    console.log(newItem);
     const createIsOk = await diaryCreate(newItem);
 
     if (createIsOk) {
       const updatedData = await diaryRead(formattedDate.slice(0, 7));
       setDiaryList(updatedData);
+      await fetchDiaries(setDiaryList, setData, formattedDate);
+      console.log("=============");
+      console.log(data);
+      console.log("=============");
     }
   };
 
   const handleSubmit = () => {
     onCreate();
     alert("등록 완료");
+    setIsSave(false);
+  };
+  // 추가된 함수
+  const handleQuitEdit = () => {
+    setIsEdit(false);
   };
 
+  const handleEdit = async () => {
+    if (window.confirm(`${formattedDate} 날의 일기를 수정하시겠습니까?`)) {
+      const changeEmotionApi = emotionValue == 0 ? "BAD" : emotionValue == 50 ? "NORMAL" : "GOOD";
+      const changeDrinkLevelApi =
+        drinklevelValue == 0 ? "LIGHT" : drinklevelValue == 50 ? "MODERATE" : "HEAVY";
+      console.log(drinklevelValue);
+      console.log(emotionValue);
+      console.log(changeDrinkLevelApi);
+      console.log(changeEmotionApi);
+      const deletedDrinkOrders = [];
+      const insertedWhiskyIds = [];
+
+      // data.drinks 기준으로 삭제된 drinkOrder 번호 찾기
+      data.drinks.forEach((drink) => {
+        if (!searchTerms.includes(drink.whisky.id)) {
+          deletedDrinkOrders.push(drink.drinkOrder);
+        }
+      });
+
+      // localSearchTerms 기준으로 추가된 whisky id 찾기
+      searchTerms.forEach((whiskyId) => {
+        const found = data.drinks.find((drink) => drink.whisky.id === whiskyId);
+        if (!found) {
+          insertedWhiskyIds.push(whiskyId);
+        }
+      });
+      console.log(insertedWhiskyIds);
+      console.log(deletedDrinkOrders);
+
+      const editItem = {
+        id: data.id,
+        emotion: changeEmotionApi,
+        drinkLevel: changeDrinkLevelApi,
+        content: content,
+        insertedWhiskyIds: insertedWhiskyIds.map(Number),
+        deletedDrinkOrders: deletedDrinkOrders.map(Number),
+      };
+      console.log(editItem);
+      await diaryUpdate(editItem.id, editItem);
+      await fetchDiaries(setDiaryList, setData, data.date);
+      toggleIsEdit();
+    }
+  };
+
+  const handleClickRemove = async () => {
+    if (window.confirm(`${formattedDate}날의 일기를 정말 삭제하시겠습니까?`)) {
+      toggleIsEdit();
+      const deletedDiaryId = data.id; // 삭제된 일기의 ID 저장
+
+      await diaryDelete(deletedDiaryId); // 일기 삭제 API 호출
+
+      // 일기 삭제 후, 해당 월의 일기 목록 다시 불러오기
+      const diaryList = await diaryRead(month);
+      setDiaryList(diaryList);
+      await fetchDiaries(setDiaryList, setData, formattedDate);
+      initData();
+      setIsSave(true);
+      return;
+    }
+  };
+
+  const toggleIsEdit = () => {
+    setIsEdit(!isEdit);
+  };
   return (
     <>
       <SBorderDiv>
@@ -307,27 +459,43 @@ const DiaryEditor = ({ selectedDate }) => {
           >
             {formattedDate}
           </SP>
-          <SButton sytle={{ flex: "1" }} onClick={handleSubmit}>
-            저장
-          </SButton>
+          {isSave ? (
+            <SButton style={{ flex: "1" }} onClick={handleSubmit}>
+              저장
+            </SButton>
+          ) : isEdit ? (
+            <>
+              <SUpdateButton onClick={handleQuitEdit}>수정취소</SUpdateButton>
+              <SUpdateButton onClick={handleEdit}>수정완료</SUpdateButton>
+            </>
+          ) : (
+            <>
+              <SButton onClick={toggleIsEdit}>수정</SButton>
+              <SButton onClick={handleClickRemove}>삭제</SButton>
+            </>
+          )}
         </SHeaderDiv>
         <SMainDiv>
           <div>
             <SP>오늘의 위스키</SP>
-            <SInput
-              value={searchWhisky}
-              onChange={wordChange}
-              name="whisky"
-              onKeyDown={(e) => setWhiskyName(e)}
-              placeholder="위스키 이름을 입력해주세요"
-              type="text"
-              autoComplete="off"
-            />
+            {(isSave || isEdit) && (
+              <SInput
+                value={searchWhisky}
+                onChange={wordChange}
+                name="whisky"
+                onKeyDown={(e) => setWhiskyName(e)}
+                placeholder="위스키 이름을 입력해주세요"
+                type="text"
+                autoComplete="off"
+              />
+            )}
             <div>
-              {recentSearch.map((word, index) => (
+              {searchTerms.map((word, index) => (
                 <SDiv key={index}>
                   <SP>{word.length > 6 ? `${word.slice(0, 6)}...` : word}</SP>
-                  <SButton onClick={() => deleteRecentSearchWord(word)}>X</SButton>
+                  {(isSave || isEdit) && (
+                    <SButton onClick={() => deleteSearchWord(word)}>X</SButton>
+                  )}
                 </SDiv>
               ))}
             </div>
@@ -345,7 +513,9 @@ const DiaryEditor = ({ selectedDate }) => {
                 min="0"
                 max="100"
                 step="50"
+                value={drinklevelValue}
                 onChange={handleDrinklevelChange}
+                disabled={!isEdit && !isSave}
               />
             </SRangeContainer>
           </div>
@@ -362,13 +532,21 @@ const DiaryEditor = ({ selectedDate }) => {
                 min="0"
                 max="100"
                 step="50"
+                value={emotionValue}
                 onChange={handleEmotionChange}
+                disabled={!isEdit && !isSave}
               />
             </SRangeContainer>
           </div>
           <div>
             <SP>오늘의 한마디</SP>
-            <STextarea onChange={contentChange} name="content" type="text" />
+            <STextarea
+              onChange={contentChange}
+              name="content"
+              type="text"
+              value={content}
+              disabled={!isEdit && !isSave}
+            />
           </div>
         </SMainDiv>
       </SBorderDiv>
