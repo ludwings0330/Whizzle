@@ -207,6 +207,12 @@ const SearchBar = () => {
                 <SButton onClick={(event) => deleteRecentSearchWord(event, word)}>X</SButton>
               </SDiv>
             ))}
+            {recentSearch.map((word, index) => (
+              <SDiv onClick={() => setRecentSearchData(word)}>
+                <SP key={index}>{word.length > 20 ? `${word.slice(0, 20)}...` : word}</SP>
+                <SButton onClick={(event) => deleteRecentSearchWord(event, word)}>X</SButton>
+              </SDiv>
+            ))}
           </SWordDiv>
         </SAutocompleteDiv>
       )}
