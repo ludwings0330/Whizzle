@@ -140,6 +140,18 @@ const Header = () => {
     setIsdrop(false);
   };
 
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (userRef.current && !userRef.current.contains(event.target)) {
+        setIsdrop(false);
+      }
+    }
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
   // 유저 닉네임 길이에 따라 드랍다운 메뉴의 크기를 동적으로 변견
   const userRef = useRef(null);
   const [userWidth, setUserWidth] = useState();
