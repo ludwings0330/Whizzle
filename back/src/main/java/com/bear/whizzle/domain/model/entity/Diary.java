@@ -24,6 +24,7 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,9 +37,41 @@ import org.hibernate.annotations.ColumnDefault;
         uniqueConstraints = @UniqueConstraint(columnNames = { "member_id", "date" })
 )
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
+@Builder
 @ToString
 public class Diary {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id", updatable = false)
+    @NotNull
+    @ToString.Exclude
+    private Member member;
+
+    @Column(columnDefinition = "DATE", updatable = false)
+    @NotNull
+    private LocalDate date;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private Emotion emotion;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private DrinkLevel drinkLevel;
+
+    @Size(max = 255)
+    private String content;
+
+    @NotNull
+    @ColumnDefault("0")
+    @Builder.Default
+    private Boolean isDeleted = Boolean.FALSE;
 
     @OneToMany(
             mappedBy = "diary",
@@ -48,49 +81,18 @@ public class Diary {
     @OrderBy("drinkOrder ASC")
     @ToString.Exclude
     private final List<Drink> drinks = new ArrayList<>();
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id", updatable = false)
-    @NotNull
-    @ToString.Exclude
-    private Member member;
-    @Column(columnDefinition = "DATE", updatable = false)
-    @NotNull
-    private LocalDate date;
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    private Emotion emotion;
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    private DrinkLevel drinkLevel;
-    @Size(max = 255)
-    private String content;
-    @NotNull
-    @ColumnDefault("0")
-    private Boolean isDeleted = Boolean.FALSE;
-
-    @Builder
-    private Diary(Member member, LocalDate date, Emotion emotion, DrinkLevel drinkLevel, String content) {
-        super();
-        this.member = member;
-        this.date = date;
-        this.emotion = emotion;
-        this.drinkLevel = drinkLevel;
-        this.content = content;
-    }
 
     public void update(Diary diary) {
         this.emotion = diary.getEmotion();
         this.drinkLevel = diary.getDrinkLevel();
         this.content = diary.getContent();
+        this.isDeleted = Boolean.FALSE;
     }
 
-    public void delete() {
+    public void markDelete() {
         this.isDeleted = Boolean.TRUE;
         for (Drink drink : drinks) {
-            drink.delete();
+            drink.toggleDelete();
         }
     }
 
@@ -100,7 +102,7 @@ public class Diary {
     }
 
     public void deleteDrink(Integer index) {
-        this.drinks.get(index).delete();
+        this.drinks.get(index).toggleDelete();
     }
 
     @Override
