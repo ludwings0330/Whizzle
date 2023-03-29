@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { useRecoilValue } from "recoil";
+import { userState } from "../store/userStore";
 import { useNavigate } from "react-router-dom";
+import { NON_LOGIN_NICKNAME } from "../constants/constants";
 import { recommendResult, preference } from "../store/indexStore";
 import { useRecoilValue } from "recoil";
 
@@ -139,6 +142,33 @@ const AppRecommnedResult = () => {
     }
   };
 
+  // 가장 큰 2개의 값을 찾음
+  const [maxValue, setMaxValue] = useState([]);
+  const flavor = {
+    smoky: 0,
+    peaty: 0,
+    spicy: 50,
+    herbal: 40,
+    oily: 10,
+    body: 70,
+    rich: 70,
+    sweet: 50,
+    salty: 0,
+    vanilla: 20,
+    tart: 40,
+    fruity: 60,
+    floral: 40,
+  };
+
+  useEffect(() => {
+    const flavorEntries = Object.entries(flavor);
+    flavorEntries.sort((a, b) => b[1] - a[1]);
+    const maxValues = flavorEntries.slice(0, 2).map(([key, value]) => key.toUpperCase());
+    setMaxValue(maxValues);
+  }, []);
+
+  const user = useRecoilValue(userState);
+
   return (
     <>
       <SHeader>
@@ -153,11 +183,13 @@ const AppRecommnedResult = () => {
       <SGraphDiv>
         <STitleP>취향 분석 결과</STitleP>
         <SGraphP>
-          <SColorSpan>drunkenbear</SColorSpan>
+          <SColorSpan>{user ? user.nickname : NON_LOGIN_NICKNAME}</SColorSpan>
           <SSpan>님의 취향분석 결과입니다.</SSpan>
-          <SBoldColorP>VANILLA & FRUITY</SBoldColorP>
+          <SBoldColorP>
+            {maxValue[0]} & {maxValue[1]}
+          </SBoldColorP>
         </SGraphP>
-        <Graph />
+        <Graph flavor={flavor} />
       </SGraphDiv>
       <ResultMainWhisky
         whiskys={recommend.slice(0, 3)}

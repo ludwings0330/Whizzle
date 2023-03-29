@@ -66,7 +66,7 @@ public class RecServiceImpl implements RecService {
             flavor = recWhiskyRequestDto.getFlavor();
         }
         FlavorSummary flavorSummary = whiskyQueryService.findFlavorMinMax();
-        return PreferenceMapper.toPreferenceDto(priceTier, flavor, flavorSummary);
+        return PreferenceMapper.toPreferenceDto(memberId, priceTier, flavor, flavorSummary);
     }
 
     /**

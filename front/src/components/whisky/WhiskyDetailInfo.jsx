@@ -15,6 +15,7 @@ const SDiv = styled.div`
 
 const SImg = styled.img`
   height: 365px;
+  margin-right: 50px;
 `;
 
 const STextDiv = styled.div`
@@ -31,6 +32,7 @@ const STitleP = styled.p`
   font-size: 36px;
   margin-top: 0px;
   margin-bottom: 35px;
+  max-width: 600px;
 `;
 
 const SP = styled.p`
@@ -58,7 +60,7 @@ const SStatDiv = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 30vw;
+  width: 500px;
   height: 104px;
 
   background: #ffffff;
@@ -86,7 +88,7 @@ const WhiskyDetailInfo = (props) => {
   return (
     <>
       <SDiv>
-        <SImg src={require(`../../${whisky.image.url}`)} alt={whisky.name} />
+        <SImg src={whisky.imageUrl} alt={whisky.name} />
         <div>
           <STitleP>{whisky.name}</STitleP>
           <STextDiv>
@@ -106,17 +108,19 @@ const WhiskyDetailInfo = (props) => {
             <SP>{whisky.priceTier}</SP>
           </STextDiv>
           <STextDiv style={{ marginTop: "30px" }}>
-            <SP style={{ fontSize: "40px", marginRight: "20px" }}>{whisky.avg_rating}</SP>
+            <SP style={{ fontSize: "40px", marginRight: "20px" }}>
+              {whisky.avg_rating ? whisky.avg_rating : "NR"}
+            </SP>
             <SRatingDiv>
               <ReactStars
                 count={5}
-                value={Math.round(whisky.avg_rating * 2) / 2}
+                value={Math.round(whisky.avgRating * 2) / 2}
                 edit={false}
                 size={21}
                 color1={"rgba(128, 128, 128, 0.2)"}
                 color2={"#F84F5A"}
               />
-              <SRatingP>{whisky.review_count} rating(s)</SRatingP>
+              <SRatingP>{whisky.reviewCount} rating(s)</SRatingP>
             </SRatingDiv>
           </STextDiv>
         </div>

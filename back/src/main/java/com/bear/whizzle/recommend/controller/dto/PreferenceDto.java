@@ -11,6 +11,9 @@ import lombok.Data;
 public class PreferenceDto {
 
     @NotNull
+    private Long memberId;
+
+    @NotNull
     @Min(1)
     @Max(5)
     private Integer priceTier;

@@ -25,20 +25,20 @@ def load_rec_model():
 
 def make_user_features(preference: Preference):
     # user_feature load
-    user_features = pd.read_csv(
-        settings.USER_FEATURES_PATH, index_col=0, encoding=settings.ENCODING
-    )
-    return csr_matrix(user_features)
-    # my_features = [preference.price_tier] + list(vars(preference.flavor).values())
-    # if preference.user_id == 0:
-    #     return csr_matrix(my_features)
-    # else:
-    #     user_features = pd.read_csv(
-    #         settings.USER_FEATURES_PATH, index_col=0, encoding=settings.ENCODING
-    #     )
-    #     user_id = settings.N_USERS + preference.user_id
-    #     user_features.iloc[user_id] = my_features
-    #     return csr_matrix(user_features)
+    # user_features = pd.read_csv(
+    #     settings.USER_FEATURES_PATH, index_col=0, encoding=settings.ENCODING
+    # )
+    # return csr_matrix(user_features)
+    my_features = preference.get_my_feature()
+    if preference.user_id == 0:
+        return csr_matrix(my_features)
+    else:
+        user_features = pd.read_csv(
+            settings.USER_FEATURES_PATH, index_col=0, encoding=settings.ENCODING
+        )
+        #     user_id = settings.N_USERS + preference.user_id
+        #     user_features.iloc[user_id] = my_features
+        return csr_matrix(user_features)
 
 
 def predict_personal_whisky(preference: Preference, item_features):
@@ -64,4 +64,4 @@ def predict_similar_whisky(whisky_id: int, item_features, k: int = 5):
     scores = cosine_sim[whisky_id]
 
     # sort by similarity
-    return np.argsort(-scores)[1 : k + 1].tolist()
+    return np.argsort(-scores)[1: k + 1].tolist()
