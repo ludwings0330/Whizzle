@@ -44,11 +44,17 @@ public class DiaryServiceImpl implements DiaryService {
 
         diaryRepository.findByMemberIdAndDate(memberId, diary.getDate())
                        .ifPresentOrElse(
-                               found -> found.update(diary),
-                               () -> diaryRepository.save(diary)
+                               found -> {
+                                   found.update(diary);
+                                   drinkService.writeDrinks(found, diaryRequestSaveDto.getWhiskyIds());
+                               },
+                               () -> {
+                                   diaryRepository.save(diary);
+                                   drinkService.writeDrinks(diary, diaryRequestSaveDto.getWhiskyIds());
+                               }
                        );
 
-        drinkService.writeDrinks(diary, diaryRequestSaveDto.getWhiskyIds());
+
     }
 
     @Override
@@ -64,7 +70,7 @@ public class DiaryServiceImpl implements DiaryService {
     @Transactional
     public void eraseDiary(Long memberId, Long diaryId) {
         Diary diary = authorizeWriter(memberId, diaryId);
-        diary.markDelete(); // drink를 update 하기 위해 쿼리가 개수만큼 나간다. bulk update하도록 변경하는 것을 고려해야 한다.
+        diary.markDeleted(); // drink를 update 하기 위해 쿼리가 개수만큼 나간다. bulk update하도록 변경하는 것을 고려해야 한다.
     }
 
     private Diary authorizeWriter(Long memberId, Long diaryId) {
