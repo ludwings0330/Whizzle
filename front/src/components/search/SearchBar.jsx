@@ -15,7 +15,7 @@ const SInputDiv = styled.div`
   width: 560px;
   height: 45px;
   border: 1px solid #c1c1c1;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.5);
   border-radius: 999px;
   padding: 0 0 0 50px;
   background-position: 10px center;
@@ -95,10 +95,10 @@ const SAutocompleteDiv = styled.div`
   top: 0;
   left: 0;
   width: 560px;
-  border: 1px solid #c1c1c1;
-  // border-color: rgba(248, 79, 90, 0.4);
+  border: 2px solid transparent;
+  border-color: rgba(248, 79, 90, 0.4);
   border-radius: 16px;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.5);
   height: auto;
   min-height: 45px;
   z-index: 3;
