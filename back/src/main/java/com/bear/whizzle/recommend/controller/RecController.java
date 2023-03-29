@@ -40,7 +40,6 @@ public class RecController {
             @RequestBody RecWhiskyRequestDto recWhiskyRequestDto) throws UnprocessableEntity {
         Long memberId = 0L;
         PreferenceDto preferenceDto = recService.extractPreference(memberId, recWhiskyRequestDto);
-        log.debug(preferenceDto.toString());
         List<Long> recWhiskies = recWebClientCall(preferenceDto);
         List<Long> filteredRecWhikies = recService.filterByPriceTier(recWhiskies, preferenceDto.getPriceTier());
         return recService.findRecWhiskies(filteredRecWhikies, memberId);
