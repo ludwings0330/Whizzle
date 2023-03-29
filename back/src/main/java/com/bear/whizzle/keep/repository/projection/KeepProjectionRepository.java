@@ -7,7 +7,9 @@ import com.bear.whizzle.keep.controller.dto.KeepSearchCondition;
 import com.bear.whizzle.whisky.repository.projection.dto.QWhiskySimpleResponseDto;
 import com.bear.whizzle.whisky.repository.projection.dto.WhiskySimpleResponseDto;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -32,20 +34,32 @@ public class KeepProjectionRepository {
                                                             .from(keep)
                                                             .join(keep.whisky, whisky)
                                                             .where(keep.member.id.eq(searchCondition.getMemberId()),
-                                                                   lessWhiskyId(searchCondition.getLastOffset()))
-                                                            .orderBy(keep.whisky.id.desc())
+                                                                   loeCreatedDateTime(searchCondition))
+                                                            .orderBy(keep.createdDateTime.desc(),
+                                                                     keep.whisky.id.desc())
                                                             .limit(pageable.getPageSize() + 1L)
                                                             .fetch();
 
         return checkLastPage(pageable, content);
     }
 
-    private BooleanExpression lessWhiskyId(Long lastOffset) {
-        if (lastOffset == null) {
+    private BooleanExpression loeCreatedDateTime(KeepSearchCondition searchCondition) {
+        if (searchCondition.getLastOffset() == null) {
             return null;
         }
 
-        return keep.whisky.id.lt(lastOffset);
+        return keep.createdDateTime.lt(queryCreatedDateTimeByMemberIdAndLastOffset(searchCondition))
+                                   .or(
+                                           keep.createdDateTime.eq(queryCreatedDateTimeByMemberIdAndLastOffset(searchCondition))
+                                                               .and(keep.whisky.id.lt(searchCondition.getLastOffset()))
+                                   );
+    }
+
+    private JPAQuery<LocalDateTime> queryCreatedDateTimeByMemberIdAndLastOffset(KeepSearchCondition searchCondition) {
+        return queryFactory.select(keep.createdDateTime)
+                           .from(keep)
+                           .where(keep.member.id.eq(searchCondition.getMemberId()),
+                                  keep.whisky.id.eq(searchCondition.getLastOffset()));
     }
 
     private SliceImpl<WhiskySimpleResponseDto> checkLastPage(Pageable pageable, List<WhiskySimpleResponseDto> content) {

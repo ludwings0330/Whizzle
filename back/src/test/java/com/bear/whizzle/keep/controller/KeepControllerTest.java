@@ -44,10 +44,10 @@ class KeepControllerTest {
     @DisplayName("특정 유저의 킵한 위스키 목록 조회_회원")
     void findKeptWhiskiesWithMyKeep() throws Exception {
         // given
-        final Long TEST_MY_ID = 5L;
+        final Long TEST_MY_ID = 1L;
         final String TEST_TOKEN = jwtUtil.generateAccessToken(PrincipalDetails.builder().memberId(TEST_MY_ID).build());
-        final Long TEST_MEMBER_ID = 1L;
-        final Long TEST_LAST_OFFSET = 2900L;
+        final Long TEST_MEMBER_ID = 5L;
+        final Long TEST_LAST_OFFSET = 3140L;
         final int TEST_SIZE = 5;
 
         // when
@@ -68,7 +68,7 @@ class KeepControllerTest {
         Slice<WhiskySimpleResponseDto> actuals = keepQueryService.findKeptWhiskiesWithMyKeep(TEST_MY_ID, pageable, searchCondition);
         assertThat(actuals.getSize()).isEqualTo(TEST_SIZE);
         assertThat(actuals.stream()
-                           .filter(WhiskySimpleResponseDto::isKept)
+                           .filter(WhiskySimpleResponseDto::getIsKept)
                            .count()
         ).isEqualTo(1);
     }
