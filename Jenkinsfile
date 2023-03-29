@@ -90,7 +90,7 @@ node {
     '''
   }
 
-  stage('Build FastAPI Container') {
+  stage('Build FastAPI Server Image') {
     echo "Dockerfile를 이용하여 FastAPI 이미지 생성"
     sh '''
       docker build -t whizzle/rec ./rec-fastapi/deploy
