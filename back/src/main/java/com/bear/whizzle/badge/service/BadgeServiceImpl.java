@@ -47,6 +47,7 @@ public class BadgeServiceImpl implements BadgeService {
     }
 
     @Override
+    @Transactional
     public void awardBadgeOnReviewCountReached(Long memberId) {
         final long reviewCount = reviewService.getReviewCountByMemberId(memberId);
         BadgeType badgeType = null;
@@ -65,6 +66,7 @@ public class BadgeServiceImpl implements BadgeService {
     }
 
     @Override
+    @Transactional
     public void awardBadgeOnDiaryCountReached(Long memberId) {
         final long diaryCount = diaryService.getDiaryCountByMemberId(memberId);
         BadgeType badgeType = null;
@@ -83,6 +85,7 @@ public class BadgeServiceImpl implements BadgeService {
     }
 
     @Override
+    @Transactional
     public void awardBadgeOnKeepCountReached(Long memberId) {
         final long keepCount = keepService.getKeepCountByMemberId(memberId);
         BadgeType badgeType = null;
@@ -99,6 +102,7 @@ public class BadgeServiceImpl implements BadgeService {
     }
 
     @Override
+    @Transactional
     public void awardBadgeOnLevelReached(Long memberId) {
         final Member member = memberRepository.findById(memberId)
                                               .orElseThrow();
