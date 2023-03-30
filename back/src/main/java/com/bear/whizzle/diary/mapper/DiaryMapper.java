@@ -10,6 +10,7 @@ import com.bear.whizzle.domain.model.entity.Drink;
 import com.bear.whizzle.domain.model.entity.Member;
 import com.bear.whizzle.domain.model.entity.Whisky;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -48,11 +49,11 @@ public final class DiaryMapper {
     }
 
     public static DiaryRequestSaveDto toDiaryRequestSaveDto(Diary diary) {
-        List<Long> whiskyIds = diary.getDrinks()
-                                    .stream()
-                                    .map(Drink::getWhisky)
-                                    .map(Whisky::getId)
-                                    .collect(Collectors.toList());
+        Set<Long> whiskyIds = diary.getDrinks()
+                                   .stream()
+                                   .map(Drink::getWhisky)
+                                   .map(Whisky::getId)
+                                   .collect(Collectors.toSet());
 
         return DiaryRequestSaveDto.builder()
                                   .whiskyIds(whiskyIds)

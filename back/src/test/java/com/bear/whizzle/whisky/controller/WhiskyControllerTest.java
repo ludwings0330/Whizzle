@@ -80,7 +80,7 @@ class WhiskyControllerTest {
         ).isEqualTo(5L);
 
         assertThat(actuals.stream()
-                          .filter(WhiskySimpleResponseDto::isKept)
+                          .filter(WhiskySimpleResponseDto::getIsKept)
                           .count()
         ).isEqualTo(1L);
 

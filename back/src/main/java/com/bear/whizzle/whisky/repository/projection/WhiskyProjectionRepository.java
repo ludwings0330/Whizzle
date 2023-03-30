@@ -21,7 +21,7 @@ public class WhiskyProjectionRepository {
 
     private final JPAQueryFactory queryFactory;
 
-    public Slice<WhiskySimpleResponseDto> findTopNByNameAndLastOffset(Pageable pageable, WhiskySearchCondition searchCondition) {
+    public Slice<WhiskySimpleResponseDto> findTopNByWordAndLastOffset(Pageable pageable, WhiskySearchCondition searchCondition) {
         List<WhiskySimpleResponseDto> content = queryFactory.select(new QWhiskySimpleResponseDto(
                                                                     whisky.id,
                                                                     whisky.name,

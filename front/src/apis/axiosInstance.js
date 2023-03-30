@@ -35,7 +35,7 @@ api.interceptors.response.use(
   },
   async function (error) {
     const { config, response } = error;
-    if (response.status === 401) {
+    if (response.status === 403) {
       const originRequest = config;
       await reissueAccessToken().then(() => {
         originRequest.headers.Authorization = `Bearer ${localStorage.getItem("accessToken")}`;

@@ -2,11 +2,12 @@ package com.bear.whizzle.whisky.controller;
 
 import com.bear.whizzle.auth.service.AuthService;
 import com.bear.whizzle.auth.service.PrincipalDetails;
+import com.bear.whizzle.domain.model.document.WhiskyDocument;
 import com.bear.whizzle.whisky.controller.dto.WhiskyDetailResponseDto;
 import com.bear.whizzle.whisky.controller.dto.WhiskySearchCondition;
-import com.bear.whizzle.whisky.repository.projection.dto.WhiskySimpleResponseDto;
 import com.bear.whizzle.whisky.mapper.WhiskyMapper;
 import com.bear.whizzle.whisky.repository.WhiskyElasticSearchRepository;
+import com.bear.whizzle.whisky.repository.projection.dto.WhiskySimpleResponseDto;
 import com.bear.whizzle.whisky.service.WhiskyService;
 import com.bear.whizzle.whisky.service.query.WhiskyQueryService;
 import java.util.List;
@@ -32,8 +33,7 @@ public class WhiskyController {
     private final AuthService authService;
 
     /**
-     * 위스키 이름을 이용하여 위스키 목록을 조회한다.
-     * 조회에 성공하면 위스키 목록, 현재 목록이 마지막인지 확인하는 값과 상태 코드 200으로 응답한다.
+     * 위스키 이름을 이용하여 위스키 목록을 조회한다. 조회에 성공하면 위스키 목록, 현재 목록이 마지막인지 확인하는 값과 상태 코드 200으로 응답한다.
      *
      * @param member          로그인한 유저인 경우 null이 아닌 값
      * @param pageable        페이징 처리를 위해 사용한다. page 변수는 사용하지 않고, size만 사용한다.
@@ -68,7 +68,7 @@ public class WhiskyController {
     }
 
     @GetMapping("/suggest/{whiskyName}/any")
-    public List<String> autocompleteWhiskyName(@PathVariable String whiskyName) {
+    public List<WhiskyDocument> autocompleteWhiskyName(@PathVariable String whiskyName) {
         return whiskySearchRepository.suggestByName(whiskyName);
     }
 

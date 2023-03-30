@@ -3,7 +3,7 @@ package com.bear.whizzle.diary.controller.dto;
 import com.bear.whizzle.domain.model.type.DrinkLevel;
 import com.bear.whizzle.domain.model.type.Emotion;
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 import javax.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -34,10 +34,10 @@ public class DiaryRequestUpdateDto implements DiaryRequestDto {
     private String content;
 
     @EqualsAndHashCode.Exclude
-    private List<Integer> deletedDrinkOrders;
+    private Set<Integer> deletedDrinkOrders;
 
     @EqualsAndHashCode.Exclude
-    private List<Long> insertedWhiskyIds;
+    private Set<Long> insertedWhiskyIds;
 
     public void setId(Long id) {
         this.id = id;

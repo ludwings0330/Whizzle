@@ -29,6 +29,7 @@ public class WhiskySimpleResponseDto {
 
     private Float avgRating;
 
+    @Builder.Default
     private Boolean isKept = Boolean.FALSE;
 
     @QueryProjection
@@ -40,7 +41,7 @@ public class WhiskySimpleResponseDto {
         this.avgRating = avgRating;
     }
 
-    public Boolean isKept() {
+    public Boolean getIsKept() {
         return Objects.requireNonNullElse(this.isKept, Boolean.FALSE);
     }
 
