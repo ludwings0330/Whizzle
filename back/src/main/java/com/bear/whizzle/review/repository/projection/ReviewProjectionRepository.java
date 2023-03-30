@@ -8,7 +8,6 @@ import com.bear.whizzle.common.annotation.Performance;
 import com.bear.whizzle.domain.model.entity.Review;
 import com.bear.whizzle.domain.model.type.ReviewOrder;
 import com.bear.whizzle.review.controller.dto.ReviewSearchCondition;
-import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPAExpressions;
@@ -42,9 +41,9 @@ public class ReviewProjectionRepository {
     private OrderSpecifier<?> getOrderBy(ReviewSearchCondition searchCondition) {
         switch (searchCondition.getReviewOrder()) {
             case LIKE:
-                return new OrderSpecifier<>(Order.DESC, review.likeCount);
+                return review.likeCount.desc();
             case RECENT:
-                return new OrderSpecifier<>(Order.DESC, review.createdDateTime);
+                return review.createdDateTime.desc();
             default:
                 return null;
         }
@@ -94,7 +93,7 @@ public class ReviewProjectionRepository {
                            .innerJoin(review.whisky, whisky).fetchJoin()
                            .where(review.member.id.eq(memberId),
                                   myPageCondition(searchCondition))
-                           .orderBy(new OrderSpecifier<>(Order.DESC, review.createdDateTime))
+                           .orderBy(review.createdDateTime.desc(), review.id.desc())
                            .limit(5)
                            .fetch();
     }
@@ -110,7 +109,7 @@ public class ReviewProjectionRepository {
                 .innerJoin(review.member, member).fetchJoin()
                 .where(review.whisky.id.eq(whiskyId),
                        review.member.id.eq(memberId))
-                .orderBy(new OrderSpecifier<>(Order.DESC, review.createdDateTime))
+                .orderBy(review.createdDateTime.desc(), review.id.desc())
                 .limit(3)
                 .fetch();
     }
