@@ -128,6 +128,16 @@ public final class RandomDataUtil {
         return RATINGS[(int) (RATINGS.length * Math.random())];
     }
 
+    public static Set<Long> getReviewIds(int size) {
+        Set<Long> reviewIds = new HashSet<>();
+
+        while (reviewIds.size() < size) {
+            reviewIds.add((long) (REVIEW_SIZE * Math.random()) + 1);
+        }
+
+        return reviewIds;
+    }
+
     public static String chooseRandomly(String target, int size) {
         StringBuilder chosen = new StringBuilder();
 
