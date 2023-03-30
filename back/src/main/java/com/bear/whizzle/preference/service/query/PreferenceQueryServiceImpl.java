@@ -1,6 +1,5 @@
 package com.bear.whizzle.preference.service.query;
 
-import com.bear.whizzle.domain.exception.NotFoundException;
 import com.bear.whizzle.domain.model.entity.Like;
 import com.bear.whizzle.domain.model.entity.Member;
 import com.bear.whizzle.domain.model.entity.Review;
@@ -39,11 +38,10 @@ public class PreferenceQueryServiceImpl implements PreferenceQueryService {
     }
 
     @Override
-    @SuppressWarnings("OptionalGetWithoutIsPresent")
     public PreferenceStatisticsDto estimateWhiskyTopPreference(Long whiskyId) {
         List<Review> reviews = reviewRepository.findAllByWhiskyIdAndRatingGreaterThanEqual(whiskyId, standardRating);
         if (reviews.isEmpty()) {
-            throw new NotFoundException("위스키에 작성된 리뷰가 없으면 선호도를 파악할 수 없습니다.");
+            return null;
         }
 
         Map<PreferenceStatisticsDto, Integer> scores = new HashMap<>();
@@ -54,7 +52,7 @@ public class PreferenceQueryServiceImpl implements PreferenceQueryService {
                      .stream()
                      .min(Entry.comparingByValue(Comparator.reverseOrder()))
                      .map(Entry::getKey)
-                     .get();
+                     .orElse(null);
     }
 
     private void calculateScoresFromReviews(Map<PreferenceStatisticsDto, Integer> scores, List<Review> reviews) {
