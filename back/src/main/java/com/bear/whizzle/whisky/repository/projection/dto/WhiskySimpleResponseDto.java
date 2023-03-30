@@ -29,6 +29,7 @@ public class WhiskySimpleResponseDto {
 
     private Float avgRating;
 
+    @Builder.Default
     private Boolean isKept = Boolean.FALSE;
 
     @QueryProjection

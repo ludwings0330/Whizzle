@@ -62,6 +62,7 @@ public class PreferenceQueryServiceImpl implements PreferenceQueryService {
                 scores,
                 reviews.stream()
                        .map(Review::getMember)
+                       .map(Member::getId)
                        .collect(Collectors.toList())
         );
     }
@@ -72,12 +73,13 @@ public class PreferenceQueryServiceImpl implements PreferenceQueryService {
                 likeRepository.findAllByReviewIn(reviews)
                               .stream()
                               .map(Like::getMember)
+                              .map(Member::getId)
                               .collect(Collectors.toList())
         );
     }
 
-    private void calculateScores(Map<PreferenceStatisticsDto, Integer> scores, List<Member> members) {
-        preferenceProjectionRepository.findAllByMemberIn(members)
+    private void calculateScores(Map<PreferenceStatisticsDto, Integer> scores, List<Long> memberIds) {
+        preferenceProjectionRepository.findAllByMemberIn(memberIds)
                                       .forEach(dto -> {
                                           int score = scores.getOrDefault(dto, 0) + 100;
                                           scores.put(dto, score);
