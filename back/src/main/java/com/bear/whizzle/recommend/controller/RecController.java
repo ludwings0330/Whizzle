@@ -63,41 +63,24 @@ public class RecController {
     }
 
     /**
-     * 로그인 위스키 추천 조회
-     *
-     * @param principalDetails    접근 주체
-     * @param recWhiskyRequestDto 사용자 선호 정보
-     * @return topK개 추천 위스키 정보 조회
-     * @throws io.lettuce.core.cluster.UnknownPartitionException : fastAPI로 올바르지 않은 데이터 전달 시 발생
-     */
-    @PostMapping("/api/rec/whisky")
-    @ResponseStatus(HttpStatus.OK)
-    public List<RecWhiskyResponseDto> recPersonalWhisky(@AuthenticationPrincipal PrincipalDetails principalDetails,
-                                                        @RequestBody(required = false) RecWhiskyRequestDto recWhiskyRequestDto)
-            throws UnprocessableEntity, NotFoundException {
-        Long memberId = principalDetails.getMemberId();
-        PreferenceDto preferenceDto = recService.extractPreference(0L, recWhiskyRequestDto); // 학습 여부 판단 로직 필요
-        List<Long> recWhiskies = recWebClientCall(preferenceDto);
-        List<Long> filteredRecWhikies = recService.filterByPriceTier(recWhiskies, preferenceDto.getPriceTier());
-        return recService.findRecWhiskies(filteredRecWhikies, memberId);
-    }
-
-    /**
-     * 유사한 위스키 조회 - categorical variable and numeric variable 이용한 탐색
+     * 유사한 위스키 조회 - categorical variable and numeric variable 이용한 탐색 로그인 비로그인 구분 X
      *
      * @param member   접근중인 주체
      * @param whiskyId 위스키 id
      * @return 입력받은 위스키와 유사한 위스키 5개
-     * @throws
+     * @throws NotFoundException : 위스키 존재하지 않은 경우 발생
+     * @throws UnprocessableEntity : fastAPI로 전달한 parameter 오류
      */
     @GetMapping("/api/similar-whisky/{whiskyId}/any")
     @ResponseStatus(HttpStatus.OK)
     public List<SimilarWhiskyResponseDto> similarWhisky(
             @AuthenticationPrincipal PrincipalDetails member,
-            @PathVariable @Min(1) Long whiskyId) {
+            @PathVariable @Min(1) Long whiskyId
+    ) throws NotFoundException, UnprocessableEntity {
+        // 위스키 존재 여부 파악
         whiskyQueryService.exsistByIdCached(whiskyId);
-        List<Long> simWhiskies = simWebClientCall(whiskyId);
-        return recService.findSimWhiskies(simWhiskies, member == null ? 0L : member.getMemberId());
+        return recService.findRecommendWhiskies(simWebClientCall(whiskyId), member == null ? 0L : member.getMemberId(),
+                                                SimilarWhiskyResponseDto.class);
     }
 
     /**
@@ -119,7 +102,14 @@ public class RecController {
                         .toStream().collect(Collectors.toList());
     }
 
-    private List<Long> simWebClientCall(Long whiskyId) {
+    /**
+     * 유사 위스키 조회 RestAPI - fastAPI
+     *
+     * @param whiskyId
+     * @return List<Long> : 유사도 순위로 정렬된 위스키 index
+     * @throws UnprocessableEntity : fastAPI로 전달한 parameter 오류
+     */
+    private List<Long> simWebClientCall(Long whiskyId) throws UnprocessableEntity {
         return webClient.get()
                         .uri("/rec/similar-whisky/{whiskyId}", whiskyId)
                         .accept(MediaType.APPLICATION_JSON)
