@@ -2,8 +2,11 @@ package com.bear.whizzle.review.controller;
 
 import com.bear.whizzle.auth.service.AuthService;
 import com.bear.whizzle.auth.service.PrincipalDetails;
+import com.bear.whizzle.badge.service.BadgeService;
 import com.bear.whizzle.domain.model.entity.Review;
+import com.bear.whizzle.domain.model.type.Action;
 import com.bear.whizzle.like.service.LikeService;
+import com.bear.whizzle.memberlevellog.service.MemberLevelLogService;
 import com.bear.whizzle.review.controller.dto.ReviewListResponseDto;
 import com.bear.whizzle.review.controller.dto.ReviewMyPageResponseDto;
 import com.bear.whizzle.review.controller.dto.ReviewSearchCondition;
@@ -42,6 +45,8 @@ public class ReviewController {
     private final ReviewService reviewService;
     private final ReviewQueryService reviewQueryService;
     private final AuthService authService;
+    private final MemberLevelLogService levelLogService;
+    private final BadgeService badgeService;
 
     @GetMapping("/whiskies/{whiskyId}/my")
     public List<ReviewListResponseDto> getMemberReviewsOnWhisky(@AuthenticationPrincipal PrincipalDetails member,
@@ -91,6 +96,8 @@ public class ReviewController {
         }
 
         reviewService.writeReview(member.getMemberId(), reviewWriteRequestDto);
+        levelLogService.increaseLevelByActivity(member.getMemberId(), Action.REVIEW);
+        badgeService.awardBadgeOnReviewCountReached(member.getMemberId());
     }
 
     @PutMapping("/{reviewId}")

@@ -7,6 +7,7 @@ import com.bear.whizzle.keep.repository.KeepCustomRepository;
 import com.bear.whizzle.keep.repository.KeepRepository;
 import com.bear.whizzle.member.repository.MemberRepository;
 import com.bear.whizzle.whisky.repository.WhiskyRepository;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,18 +29,20 @@ public class KeepServiceImpl implements KeepService {
 
     @Override
     @Transactional
-    public void toggleKeepForWhisky(Long memberId, Long whiskyId) {
+    public boolean toggleKeepForWhisky(Long memberId, Long whiskyId) {
         Member member = memberRepository.getReferenceById(memberId);
         Whisky whisky = whiskyRepository.getReferenceById(whiskyId);
 
-        keepRepository.findByMemberIdAndWhiskyId(memberId, whiskyId)
-                      .ifPresentOrElse(
-                              keepRepository::delete,
-                              () -> keepRepository.save(Keep.builder()
-                                                            .member(member)
-                                                            .whisky(whisky)
-                                                            .build())
-                      );
+        final Optional<Keep> keepOptional = keepRepository.findByMemberIdAndWhiskyId(memberId, whiskyId);
+        if (keepOptional.isPresent()) {
+            keepRepository.delete(keepOptional.get());
+            return false;
+        } else {
+            keepRepository.save(Keep.builder()
+                                    .member(member)
+                                    .whisky(whisky).build());
+            return true;
+        }
     }
 
     @Override

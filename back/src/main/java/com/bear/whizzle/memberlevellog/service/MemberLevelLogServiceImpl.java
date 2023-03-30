@@ -1,5 +1,6 @@
 package com.bear.whizzle.memberlevellog.service;
 
+import com.bear.whizzle.badge.service.BadgeService;
 import com.bear.whizzle.domain.exception.NotFoundException;
 import com.bear.whizzle.domain.model.entity.Member;
 import com.bear.whizzle.domain.model.entity.MemberLevelLog;
@@ -20,6 +21,7 @@ public class MemberLevelLogServiceImpl implements MemberLevelLogService {
 
     private final MemberRepository memberRepository;
     private final MemberLevelLogRepository memberLevelLogRepository;
+    private final BadgeService badgeService;
     private final MemberLevelLogRedisRepository memberLevelLogRedisRepository;
 
     @Override
@@ -38,6 +40,7 @@ public class MemberLevelLogServiceImpl implements MemberLevelLogService {
 
         if (!isDailyLevelLimitReached(memberId, action)) {
             member.levelUp(action);
+            badgeService.awardBadgeOnLevelReached(memberId);
         }
     }
 
