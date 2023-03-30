@@ -26,8 +26,8 @@ const SP = styled.p`
 `;
 
 const SImg = styled.img`
-  height: 70px;
-  width: 70px;
+  height: 10px;
+  width: 10px;
   margin-bottom: 10px;
 `;
 
@@ -38,9 +38,7 @@ const SImgDiv = styled.div`
   transform: translate(-50%, -50%);
 `;
 
-const ImageUploader = () => {
-  const [images, setImages] = useState([]);
-
+const ImageUploader = ({ images, setImages }) => {
   const onDrop = useCallback(
     (acceptedFiles) => {
       if (acceptedFiles.length > 5) {
@@ -73,6 +71,7 @@ const ImageUploader = () => {
         };
       }
     },
+
     [images]
   );
 
@@ -94,7 +93,9 @@ const ImageUploader = () => {
             <p>지원 확장자 : jpg, jpeg, png</p>
           </SImgDiv>
         )}
-        {images && <img src={images} alt="Uploaded image" />}
+        {images.map((image, index) => (
+          <img key={index} src={image} alt={`Uploaded image ${index + 1}`} />
+        ))}
       </SDiv>
     </>
   );
