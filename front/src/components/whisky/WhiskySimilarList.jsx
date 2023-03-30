@@ -57,7 +57,7 @@ const WhiskySimilarList = (props) => {
       }
     }
   };
-  const delay = 30;
+  const delay = 10;
   const onThrottleDragMove = throttle(onDragMove, delay);
 
   return (
