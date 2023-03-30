@@ -4,12 +4,16 @@ import { useSetRecoilState } from "recoil";
 import { userState } from "../store/userStore";
 import jwtDecode from "jwt-decode";
 import { userInfo } from "./userinfo";
+import { preference } from "../store/indexStore";
+import { useRecoilValue } from "recoil";
+import { preferenceSave } from "../apis/recommend";
 
 const Callback = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const queryParams = new URLSearchParams(location.search);
   const setUser = useSetRecoilState(userState);
+  const preferenceValue = useRecoilValue(preference);
 
   const accessToken = queryParams.get("accessToken");
   const refreshToken = queryParams.get("refreshToken");
@@ -46,11 +50,29 @@ const Callback = () => {
     }
   }
 
+  async function savePrefInfo() {
+    const saveData = {
+      gender: preferenceValue.gender,
+      age: preferenceValue.age,
+      priceTier: Number(preferenceValue.price),
+      flavor: preferenceValue.flavor,
+    };
+    try {
+      await preferenceSave(saveData);
+      console.log("신규유저 취향저장 성공");
+    } catch {
+      console.log("신규유저 취향저장 실패");
+    }
+  }
+
   useEffect(() => {
     setToken();
     getUserInfo();
 
     if (isNew) {
+      if (preferenceValue.age) {
+        savePrefInfo();
+      }
       navigate("/recommend/question");
     } else {
       navigate("/");

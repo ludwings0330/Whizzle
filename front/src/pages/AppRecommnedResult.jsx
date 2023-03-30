@@ -130,6 +130,8 @@ const SDailyBtn = styled.button`
 const AppRecommnedResult = () => {
   const recommend = useRecoilValue(recommendResult);
   const userPreference = useRecoilValue(preference);
+  const user = useRecoilValue(userState);
+  const isLogin = Boolean(user.id);
   console.log(userPreference);
   console.log(recommend);
 
@@ -142,6 +144,17 @@ const AppRecommnedResult = () => {
     }
   };
 
+  // 비로그인 유저의 경우 회원가입 유도 모달을 띄움
+  useEffect(() => {
+    if (!isLogin) {
+      setTimeout(() => {
+        if (window.confirm("회원 가입을 통해 취향을 저장해보세요!")) {
+          navigate("/signin");
+        }
+      }, 5000);
+    }
+  }, []);
+
   // 가장 큰 2개의 값을 찾음
   const [maxValue, setMaxValue] = useState([]);
   const flavor = userPreference.flavor;
@@ -152,8 +165,6 @@ const AppRecommnedResult = () => {
     const maxValues = flavorEntries.slice(0, 2).map(([key, value]) => key.toUpperCase());
     setMaxValue(maxValues);
   }, []);
-
-  const user = useRecoilValue(userState);
 
   return (
     <>
