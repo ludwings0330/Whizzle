@@ -4,12 +4,20 @@ import com.bear.whizzle.domain.model.entity.Whisky;
 import com.bear.whizzle.recommend.controller.dto.RecWhiskyResponseDto;
 import com.bear.whizzle.recommend.controller.dto.SimilarWhiskyResponseDto;
 
-public class RecWhiskyMapper {
+public class RecommendWhiskyMapper {
 
-    private RecWhiskyMapper() {
+    private RecommendWhiskyMapper() {
     }
 
-    public static RecWhiskyResponseDto toRecWhiskyResponseDto(Whisky whisky, Boolean keep) {
+    public static <T> T toWhiskyResponseDto(Whisky whisky, Boolean kept, Class<T> returnType) {
+        if (returnType.equals(RecWhiskyResponseDto.class)) {
+            return returnType.cast(toRecWhiskyResponseDto(whisky, kept));
+        } else if (returnType.equals(SimilarWhiskyResponseDto.class)) {
+            return returnType.cast(toSimilarWhiskyResponseDto(whisky, kept));
+        }
+        return null;
+    }
+    private static RecWhiskyResponseDto toRecWhiskyResponseDto(Whisky   whisky, Boolean kept) {
         return RecWhiskyResponseDto.builder()
                                    .id(whisky.getId())
                                    .abv(whisky.getAbv())
@@ -20,17 +28,17 @@ public class RecWhiskyMapper {
                                    .reviewCount(whisky.getReviewCount())
                                    .category(whisky.getCategory())
                                    .location(whisky.getLocation())
-                                   .isKept(keep)
+                                   .isKept(kept)
                                    .build();
     }
 
-    public static SimilarWhiskyResponseDto toSimilarWhiskyResponseDto(Whisky whisky, Boolean keep) {
+    private static SimilarWhiskyResponseDto toSimilarWhiskyResponseDto(Whisky whisky, Boolean kept) {
         return SimilarWhiskyResponseDto.builder()
                                        .id(whisky.getId())
                                        .name(whisky.getName())
                                        .avgRating(whisky.getAvgRating())
                                        .imageUrl(whisky.getImage().getUrl())
-                                       .isKept(keep)
+                                       .isKept(kept)
                                        .reviewCount(whisky.getReviewCount())
                                        .build();
     }
