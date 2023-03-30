@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import favoriteBorder from "../../../assets/img/favorite_border.png";
+import favoriteFilled from "../../../assets/img/favorite_filled.png";
 import ReactStars from "react-stars";
+import { userState } from "../../../store/userStore";
+import { useRecoilValue } from "recoil";
+import { getKeep, keepToggle } from "../../../apis/whiskyDetail";
 
 const SDiv = styled.div`
   margin-top: 10px;
@@ -136,14 +140,40 @@ const SBoldColorP = styled.p`
 const ResultMainWhiskyItem = (props) => {
   const whisky = props.whisky;
   const index = String(props.index);
-  const onKeepHandler = () => {
-    console.log(`${whisky.name} 킵 버튼`);
+  const onKeepHandler = (e) => {
+    e.stopPropagation();
+    if (isLogin) {
+      setIsKeep(!isKeep);
+      keepToggle(whisky.id);
+    } else if (window.confirm("로그인이 필요한 기능입니다.\n로그인 페이지로 이동하시겠습니까?")) {
+      navigate("/signin");
+    }
   };
 
   const navigate = useNavigate();
   const onClickHandler = () => {
     navigate(`/whisky/${whisky.id}`);
   };
+
+  const [isKeep, setIsKeep] = useState(false);
+  const user = useRecoilValue(userState);
+  const isLogin = Boolean(user.id);
+
+  async function getKeepInfo(param) {
+    try {
+      const keepInfo = await getKeep(param);
+      console.log(keepInfo);
+      setIsKeep(keepInfo);
+    } catch (error) {
+      console.log("킵 정보 조회 실패");
+    }
+  }
+
+  useEffect(() => {
+    if (isLogin) {
+      getKeepInfo(whisky.id);
+    }
+  }, []);
 
   return (
     <SDiv onClick={onClickHandler} className={`no-${index}`}>
@@ -156,7 +186,7 @@ const ResultMainWhiskyItem = (props) => {
           <STitleDiv>
             <STitleP>{whisky.name}</STitleP>
             <SKeepBtn onClick={onKeepHandler}>
-              <img src={favoriteBorder} alt="x" />
+              <img src={isKeep ? favoriteFilled : favoriteBorder} alt="x" />
             </SKeepBtn>
           </STitleDiv>
           <div>
