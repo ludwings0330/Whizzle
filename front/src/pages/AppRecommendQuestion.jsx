@@ -178,9 +178,11 @@ const AppRecommendQuestion = () => {
 
     const selectedWhisky = await whiskyDetail(presetWisky[preferenceValue.whiskies[0]].id);
     const selectedWhiskyFlavor = selectedWhisky.flavor;
+    console.log(selectedWhiskyFlavor);
     setPreferenceValue((prev) => {
-      return { ...prev, flavor: { selectedWhiskyFlavor } };
+      return { ...prev, flavor: selectedWhiskyFlavor };
     });
+    console.log(preferenceValue);
 
     setTimeout(() => {
       navigate(`/recommend/result`);
