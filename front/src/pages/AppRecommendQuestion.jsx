@@ -3,7 +3,7 @@ import { useNavigate } from "react-router";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { preference, recommendResult } from "../store/indexStore";
 import { userState } from "../store/userStore";
-import { preferenceSave, unloginedRecommend, loginedRecommend } from "../apis/recommend";
+import { preferenceSave, recommend } from "../apis/recommend";
 import presetWisky from "../constants/presetWhisky";
 import { whiskyDetail } from "../apis/whiskyDetail";
 import { motion, AnimatePresence } from "framer-motion";
@@ -131,10 +131,9 @@ const AppRecommendQuestion = () => {
     let recommendedResult;
     if (isLogin) {
       await preferenceSave(saveData);
-      recommendedResult = await loginedRecommend(recommendData);
-    } else {
-      recommendedResult = await unloginedRecommend(recommendData);
     }
+    recommendedResult = await recommend(recommendData);
+    console.log(recommendedResult);
 
     setResultValue(recommendedResult);
     setTimeout(() => {
@@ -161,10 +160,9 @@ const AppRecommendQuestion = () => {
     let recommendedResult;
     if (isLogin) {
       await preferenceSave(saveData);
-      recommendedResult = await loginedRecommend(recommendData).data;
-    } else {
-      recommendedResult = await unloginedRecommend(recommendData).data;
     }
+    recommendedResult = await recommend(recommendData);
+    console.log(recommendedResult);
 
     setResultValue(recommendedResult);
 

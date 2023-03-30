@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { loginedRecommend } from "../apis/recommend";
+import { recommend } from "../apis/recommend";
 import { useRecoilState } from "recoil";
 import { dailyPreference } from "../store/indexStore";
 
@@ -77,7 +77,7 @@ const AppDailyWhisky = () => {
     console.log(preference);
     // setPreference({ price: priceData, flavor: flavorData });
 
-    const result = await loginedRecommend(body);
+    const result = await recommend(body);
     setDailyResult(result);
     setIsLoading(false);
     // console.log(dailyResult);
