@@ -41,7 +41,7 @@ public class WhiskySimpleResponseDto {
         this.avgRating = avgRating;
     }
 
-    public Boolean isKept() {
+    public Boolean getIsKept() {
         return Objects.requireNonNullElse(this.isKept, Boolean.FALSE);
     }
 

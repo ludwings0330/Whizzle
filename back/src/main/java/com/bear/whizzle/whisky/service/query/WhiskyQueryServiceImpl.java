@@ -1,5 +1,6 @@
 package com.bear.whizzle.whisky.service.query;
 
+import com.bear.whizzle.domain.exception.NotFoundException;
 import com.bear.whizzle.domain.model.entity.Whisky;
 import com.bear.whizzle.domain.model.type.CacheType;
 import com.bear.whizzle.keep.repository.KeepRepository;
@@ -38,7 +39,7 @@ public class WhiskyQueryServiceImpl implements WhiskyQueryService {
 
     @Override
     public Slice<WhiskySimpleResponseDto> findWhiskiesWithKeep(Long memberId, Pageable pageable, WhiskySearchCondition searchCondition) {
-        Slice<WhiskySimpleResponseDto> whiskyDtos = whiskyProjectionRepository.findTopNByNameAndLastOffset(pageable, searchCondition);
+        Slice<WhiskySimpleResponseDto> whiskyDtos = whiskyProjectionRepository.findTopNByWordAndLastOffset(pageable, searchCondition);
 
         Set<Long> keptWhiskyIds = keepRepository.findAllByMemberId(memberId);
         whiskyDtos.forEach(dto -> {
@@ -52,7 +53,7 @@ public class WhiskyQueryServiceImpl implements WhiskyQueryService {
 
     @Override
     public Slice<WhiskySimpleResponseDto> findWhiskiesWithoutKeep(Pageable pageable, WhiskySearchCondition searchCondition) {
-        return whiskyProjectionRepository.findTopNByNameAndLastOffset(pageable, searchCondition);
+        return whiskyProjectionRepository.findTopNByWordAndLastOffset(pageable, searchCondition);
     }
 
     @Override
@@ -77,6 +78,15 @@ public class WhiskyQueryServiceImpl implements WhiskyQueryService {
             priceCache.put(priceKey, priceTierMap);
         }
         return priceTierMap;
+    }
+
+    @Override
+    public Boolean exsistByIdCached(Long whiskyId) throws NotFoundException {
+        Map<Long, Integer> whiskyPriceTier = findWhiskyPriceTier();
+        if (!whiskyPriceTier.containsKey(whiskyId)) {
+            throw new NotFoundException("존재하지 않는 위스키입니다.");
+        }
+        return Boolean.TRUE;
     }
 
 }

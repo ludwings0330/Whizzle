@@ -3,13 +3,14 @@ package com.bear.whizzle.whisky.controller;
 import com.bear.whizzle.auth.service.AuthService;
 import com.bear.whizzle.auth.service.PrincipalDetails;
 import com.bear.whizzle.domain.exception.NotFoundException;
+import com.bear.whizzle.domain.model.document.WhiskyDocument;
 import com.bear.whizzle.preference.repository.projection.dto.PreferenceStatisticsDto;
 import com.bear.whizzle.preference.service.query.PreferenceQueryService;
 import com.bear.whizzle.whisky.controller.dto.WhiskyDetailResponseDto;
 import com.bear.whizzle.whisky.controller.dto.WhiskySearchCondition;
-import com.bear.whizzle.whisky.repository.projection.dto.WhiskySimpleResponseDto;
 import com.bear.whizzle.whisky.mapper.WhiskyMapper;
 import com.bear.whizzle.whisky.repository.WhiskyElasticSearchRepository;
+import com.bear.whizzle.whisky.repository.projection.dto.WhiskySimpleResponseDto;
 import com.bear.whizzle.whisky.service.WhiskyService;
 import com.bear.whizzle.whisky.service.query.WhiskyQueryService;
 import java.util.List;
@@ -84,7 +85,7 @@ public class WhiskyController {
     }
 
     @GetMapping("/suggest/{whiskyName}/any")
-    public List<String> autocompleteWhiskyName(@PathVariable String whiskyName) {
+    public List<WhiskyDocument> autocompleteWhiskyName(@PathVariable String whiskyName) {
         return whiskySearchRepository.suggestByName(whiskyName);
     }
 

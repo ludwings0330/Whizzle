@@ -30,3 +30,8 @@ export const recommendResult = atom({
   key: "recommendResult",
   default: [],
 });
+
+export const searchData = atom({
+  key: "searchData",
+  default: [],
+});

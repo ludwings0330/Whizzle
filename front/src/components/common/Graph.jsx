@@ -15,64 +15,12 @@ const SContainer = styled.div`
   align-items: center;
 `;
 
-const Graph = () => {
+const Graph = (props) => {
+  const flavorData = Object.entries(props.flavor).map(([x, y]) => ({ x, y }));
   const data = [
     {
       id: "drunkenbear",
-      data: [
-        {
-          x: "smoky",
-          y: 20,
-        },
-        {
-          x: "peaty",
-          y: 10,
-        },
-        {
-          x: "spicy",
-          y: 40,
-        },
-        {
-          x: "herbal",
-          y: 30,
-        },
-        {
-          x: "oily",
-          y: 30,
-        },
-        {
-          x: "bodied",
-          y: 60,
-        },
-        {
-          x: "rich",
-          y: 60,
-        },
-        {
-          x: "sweet",
-          y: 60,
-        },
-        {
-          x: "salty",
-          y: 20,
-        },
-        {
-          x: "vanilla",
-          y: 70,
-        },
-        {
-          x: "tart",
-          y: 50,
-        },
-        {
-          x: "fruity",
-          y: 70,
-        },
-        {
-          x: "floral",
-          y: 50,
-        },
-      ],
+      data: flavorData,
     },
   ];
   return (
@@ -88,7 +36,7 @@ const Graph = () => {
             fontSize: "20px",
           }}
           margin={{ top: 30, right: 30, bottom: 40, left: 35 }}
-          lineWidth={"5px"}
+          lineWidth={5}
           xScale={{ type: "point" }}
           yScale={{
             type: "linear",

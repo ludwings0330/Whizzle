@@ -89,10 +89,10 @@ public class Diary {
         this.isDeleted = Boolean.FALSE;
     }
 
-    public void markDelete() {
+    public void markDeleted() {
         this.isDeleted = Boolean.TRUE;
         for (Drink drink : drinks) {
-            drink.toggleDelete();
+            drink.markDeleted();
         }
     }
 
@@ -102,7 +102,7 @@ public class Diary {
     }
 
     public void deleteDrink(Integer index) {
-        this.drinks.get(index).toggleDelete();
+        this.drinks.get(index).markDeleted();
     }
 
     @Override
