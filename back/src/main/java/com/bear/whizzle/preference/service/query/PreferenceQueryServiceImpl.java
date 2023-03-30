@@ -1,5 +1,6 @@
 package com.bear.whizzle.preference.service.query;
 
+import com.bear.whizzle.common.annotation.Performance;
 import com.bear.whizzle.domain.model.entity.Like;
 import com.bear.whizzle.domain.model.entity.Member;
 import com.bear.whizzle.domain.model.entity.Review;
@@ -38,6 +39,7 @@ public class PreferenceQueryServiceImpl implements PreferenceQueryService {
     }
 
     @Override
+    @Performance
     public PreferenceStatisticsDto estimateWhiskyTopPreference(Long whiskyId) {
         List<Review> reviews = reviewRepository.findAllByWhiskyIdAndRatingGreaterThanEqual(whiskyId, standardRating);
         if (reviews.isEmpty()) {
@@ -56,8 +58,8 @@ public class PreferenceQueryServiceImpl implements PreferenceQueryService {
     }
 
     private void calculateScoresFromReviews(Map<PreferenceStatisticsDto, Integer> scores, List<Review> reviews) {
-        calculateScores(
-                scores,
+        plusScores(
+                scores, 100,
                 reviews.stream()
                        .map(Review::getMember)
                        .map(Member::getId)
@@ -66,8 +68,8 @@ public class PreferenceQueryServiceImpl implements PreferenceQueryService {
     }
 
     private void calculateScoresFromLikes(Map<PreferenceStatisticsDto, Integer> scores, List<Review> reviews) {
-        calculateScores(
-                scores,
+        plusScores(
+                scores, 25,
                 likeRepository.findAllByReviewIn(reviews)
                               .stream()
                               .map(Like::getMember)
@@ -76,12 +78,9 @@ public class PreferenceQueryServiceImpl implements PreferenceQueryService {
         );
     }
 
-    private void calculateScores(Map<PreferenceStatisticsDto, Integer> scores, List<Long> memberIds) {
+    private void plusScores(Map<PreferenceStatisticsDto, Integer> scores, int value, List<Long> memberIds) {
         preferenceProjectionRepository.findAllByMemberIn(memberIds)
-                                      .forEach(dto -> {
-                                          int score = scores.getOrDefault(dto, 0) + 100;
-                                          scores.put(dto, score);
-                                      });
+                                      .forEach(dto -> scores.merge(dto, value, Integer::sum));
     }
 
 }

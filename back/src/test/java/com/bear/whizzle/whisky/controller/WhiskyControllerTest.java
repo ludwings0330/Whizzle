@@ -9,6 +9,7 @@ import com.bear.whizzle.auth.service.PrincipalDetails;
 import com.bear.whizzle.common.util.JwtUtil;
 import com.bear.whizzle.domain.model.entity.Whisky;
 import com.bear.whizzle.keep.service.KeepService;
+import com.bear.whizzle.preference.repository.projection.dto.PreferenceStatisticsDto;
 import com.bear.whizzle.whisky.controller.dto.WhiskyDetailResponseDto;
 import com.bear.whizzle.whisky.controller.dto.WhiskySearchCondition;
 import com.bear.whizzle.whisky.mapper.WhiskyMapper;
@@ -16,6 +17,7 @@ import com.bear.whizzle.whisky.repository.WhiskyRepository;
 import com.bear.whizzle.whisky.repository.projection.dto.WhiskySimpleResponseDto;
 import com.bear.whizzle.whisky.service.query.WhiskyQueryService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -135,6 +137,24 @@ class WhiskyControllerTest {
                     assertThat(actual).isEqualTo(WhiskyMapper.toWhiskyDetailResponseDto(expected));
                 }
         ).doesNotThrowAnyException();
+    }
+
+    @Test
+    @DisplayName("특정 위스키 선호 통계 추정")
+    void estimateWhiskyTopPreference() throws Exception {
+        // given
+        final long TEST_WHISKY_ID = 1L;
+
+        // when
+        String content = mockMvc.perform(
+                                        get("/api/whiskies/" + TEST_WHISKY_ID + "/statistics/any")
+                                ).andExpect(status().isOk())
+                                .andReturn()
+                                .getResponse()
+                                .getContentAsString();
+
+        // then
+        Assertions.assertThat(objectMapper.readValue(content, PreferenceStatisticsDto.class)).isNotNull();
     }
 
 }
