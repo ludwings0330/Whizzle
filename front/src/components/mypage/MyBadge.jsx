@@ -1,5 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { useRecoilValue } from "recoil";
+import { userState } from "../../store/userStore";
+import { badgeApi } from "../../apis/mypage";
+
 import MyBadgeItem from "./MyBadgeItem";
 
 const SBox = styled.div`
@@ -21,40 +25,42 @@ const SBox = styled.div`
   padding-right: 50px;
 `;
 
-const exampleBadges = [
-  {
-    url: "assets/img/badge1.png",
-    description: "1번째 다이어리 작성을 축하합니다. 앞으로 달아오를 달력이 기대되네요!",
-    achieveDate: "2023-03-17T06:13:48",
-  },
-  {
-    url: "assets/img/badge2.png",
-    description: "1번째 다이어리 작성을 축하합니다. 앞으로 달아오를 달력이 기대되네요!",
-    achieveDate: "2023-03-17T06:13:48",
-  },
-  {
-    url: "assets/img/badge3.png",
-    description: "1번째 다이어리 작성을 축하합니다. 앞으로 달아오를 달력이 기대되네요!",
-    achieveDate: "2023-03-17T06:13:48",
-  },
-  {
-    url: "assets/img/badge4.png",
-    description: "1번째 다이어리 작성을 축하합니다. 앞으로 달아오를 달력이 기대되네요!",
-    achieveDate: "2023-03-17T06:13:48",
-  },
-  {
-    url: "assets/img/badge5.png",
-    description: "1번째 다이어리 작성을 축하합니다. 앞으로 달아오를 달력이 기대되네요!",
-    achieveDate: "2023-03-17T06:13:48",
-  },
-];
-
 //마이페이지 뱃지
 const MyBadge = () => {
+  const user = useRecoilValue(userState);
+  const id = user.id;
+
+  const [badges, setBadges] = useState([]);
+
+  const getBadge = async () => {
+    const defaultBadge = {
+      url: "badge",
+      description: "",
+      achieveDate: "",
+    };
+
+    try {
+      const myBadges = await badgeApi(id);
+      setBadges(myBadges);
+      if (myBadges.length % 5 !== 0) {
+        const count = 5 - (myBadges.length % 5);
+        Array.from({ length: count }).forEach(() => {
+          setBadges((prev) => [...prev, defaultBadge]);
+        });
+      }
+    } catch {
+      console.log("뱃지 불러오기 실패");
+    }
+  };
+
+  useEffect(() => {
+    getBadge();
+  }, []);
+
   return (
     <>
       <SBox>
-        {exampleBadges.map((badge, index) => (
+        {badges.map((badge, index) => (
           <MyBadgeItem key={index} badge={badge} />
         ))}
       </SBox>

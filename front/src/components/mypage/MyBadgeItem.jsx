@@ -9,12 +9,11 @@ const SWrap = styled.div`
 
 const SCard = styled.div`
   position: relative;
-  cursor: pointer;
   justify-content: center;
   align-items: center;
   width: 121px;
   height: 121px;
-  background: #d9d9d9;
+  background: #ebebeb;
   border-radius: 999px;
   transition: 0.5s;
   ${({ shadowLevel }) => `box-shadow: 0px 0px 25px rgba(248, 79, 90, ${shadowLevel});`}
@@ -42,7 +41,7 @@ const SBalloon = styled.div`
   left: 50%;
   transform: translateX(-50%);
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.9);
   box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.25);
   display: ${({ isHover }) => (isHover ? "flex" : "none")};
   &::before {
@@ -74,11 +73,15 @@ const MyBadgeItem = (props) => {
             onMouseLeave={() => setIsHover(false)}
             hasValue={description}
           >
-            <SBalloon isHover={isHover}>
-              <SBalloonText>{badge.description}</SBalloonText>
-            </SBalloon>
+            {badge.description !== "" ? (
+              <SBalloon isHover={isHover}>
+                <SBalloonText>{badge.description}</SBalloonText>
+              </SBalloon>
+            ) : (
+              ""
+            )}
             <SImg
-              src={require(`../../${badge.url}`)}
+              src={badge.url}
               alt={badge.description}
               onMouseEnter={() => setIsHover(true)}
               onMouseLeave={() => setIsHover(false)}

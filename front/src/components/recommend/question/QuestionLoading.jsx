@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import { motion } from "framer-motion";
 import "./QuestionLoading.css";
 
@@ -15,8 +15,8 @@ const STitle = styled.span`
   margin-top: 0;
   text-align: center;
   color: white;
-  font-size: 24px;
-  font-weight: bold;
+  font-size: 20px;
+  // font-weight: bold;
 `;
 
 //추천 후 로딩
