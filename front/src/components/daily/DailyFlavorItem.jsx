@@ -111,10 +111,13 @@ const DailyFlavorItem = (props) => {
 
   const preferFlavor = props.flavor;
   const onClickHandler = () => {
-    props.setFlavorData((prev) => {
+    props.setPreference((prev) => {
       return {
         ...prev,
-        [preferFlavor]: prev[preferFlavor] + 25 > 100 ? 0 : prev[preferFlavor] + 25,
+        flavor: {
+          ...prev.flavor,
+          [preferFlavor]: prev.flavor[preferFlavor] + 25 > 100 ? 0 : prev.flavor[preferFlavor] + 25,
+        },
       };
     });
   };
@@ -123,7 +126,7 @@ const DailyFlavorItem = (props) => {
     <SWrap>
       <SCard
         onClick={onClickHandler}
-        shadowLevel={props.flavorData[props.flavor] * 0.01}
+        shadowLevel={props.preference.flavor[props.flavor] * 0.01}
         onMouseEnter={() => setIsHover(true)}
         onMouseLeave={() => setIsHover(false)}
       >
@@ -136,9 +139,9 @@ const DailyFlavorItem = (props) => {
           onMouseEnter={() => setIsHover(true)}
           onMouseLeave={() => setIsHover(false)}
         />
-        {props.flavorData[props.flavor] !== 0 ? (
+        {props.preference.flavor[props.flavor] !== 0 ? (
           <SFront onMouseEnter={() => setIsHover(true)} onMouseLeave={() => setIsHover(false)}>
-            {props.flavorData[props.flavor]}%
+            {props.preference.flavor[props.flavor]}%
           </SFront>
         ) : (
           ""

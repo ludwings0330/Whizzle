@@ -32,7 +32,7 @@ async def rec_personal_whisky(
     return predict_personal_whisky(preference, item_features.data)
 
 
-@rec.get("/similary-whisky/{whisky_id}", status_code=200)
+@rec.get("/similar-whisky/{whisky_id}", status_code=200)
 async def rec_similar_whisky(
     whisky_id: int = Path(..., ge=1),
     item_features: ItemFeatures = Depends(ItemFeatures),

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { loginedRecommend } from "../apis/recommend";
+import { recommend } from "../apis/recommend";
+import { useRecoilState } from "recoil";
+import { dailyPreference } from "../store/indexStore";
 
 import DailyFlavor from "../components/daily/DailyFlavor";
 import DailyPrice from "../components/daily/DailyPrice";
@@ -42,23 +44,25 @@ const SHr = styled.hr`
 
 //데일리추천페이지
 const AppDailyWhisky = () => {
-  const [flavorData, setFlavorData] = useState({
-    smoky: 0,
-    peaty: 0,
-    spicy: 0,
-    herbal: 0,
-    oily: 0,
-    body: 0,
-    rich: 0,
-    sweet: 0,
-    salty: 0,
-    vanilla: 0,
-    tart: 0,
-    fruity: 0,
-    floral: 0,
-  });
+  const [preference, setPreference] = useRecoilState(dailyPreference);
 
-  const [priceData, setPriceData] = useState("0");
+  // const [flavorData, setFlavorData] = useState({
+  //   smoky: 0,
+  //   peaty: 0,
+  //   spicy: 0,
+  //   herbal: 0,
+  //   oily: 0,
+  //   body: 0,
+  //   rich: 0,
+  //   sweet: 0,
+  //   salty: 0,
+  //   vanilla: 0,
+  //   tart: 0,
+  //   fruity: 0,
+  //   floral: 0,
+  // });
+
+  // const [priceData, setPriceData] = useState("0");
 
   const [isLoading, setIsLoading] = useState(false);
   const [dailyResult, setDailyResult] = useState([]);
@@ -67,11 +71,13 @@ const AppDailyWhisky = () => {
     setIsLoading(true);
 
     const body = {
-      priceTier: priceData,
-      flavor: flavorData,
+      priceTier: preference.price,
+      flavor: preference.flavor,
     };
+    console.log(preference);
+    // setPreference({ price: priceData, flavor: flavorData });
 
-    const result = await loginedRecommend(body);
+    const result = await recommend(body);
     setDailyResult(result);
     setIsLoading(false);
     // console.log(dailyResult);
@@ -79,7 +85,7 @@ const AppDailyWhisky = () => {
 
   useEffect(() => {
     dailyRecommendApi();
-  }, [flavorData, priceData]);
+  }, [preference]);
 
   return (
     <>
@@ -94,12 +100,12 @@ const AppDailyWhisky = () => {
         </SP>
       </SHeaderDiv>
       <SMainDiv>
-        <DailyPrice priceData={priceData} setPriceData={setPriceData} />
-        <DailyFlavor flavorData={flavorData} setFlavorData={setFlavorData} />
+        <DailyPrice preference={preference} setPreference={setPreference} />
+        <DailyFlavor preference={preference} setPreference={setPreference} />
         <SHr />
         {isLoading ? (
           <DailyLoading />
-        ) : dailyResult.length === 0 ? (
+        ) : dailyResult?.length === 0 ? (
           <DailyExplain />
         ) : (
           <WhiskyList whiskys={dailyResult} />

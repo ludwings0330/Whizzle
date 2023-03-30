@@ -87,6 +87,28 @@ export const recommendResult = atom({
   default: [],
 });
 
+export const dailyPreference = atom({
+  key: "dailyPreference",
+  default: {
+    price: "",
+    flavor: {
+      smoky: 0,
+      peaty: 0,
+      spicy: 0,
+      herbal: 0,
+      oily: 0,
+      body: 0,
+      rich: 0,
+      sweet: 0,
+      salty: 0,
+      vanilla: 0,
+      tart: 0,
+      fruity: 0,
+      floral: 0,
+    },
+  },
+});
+
 export const searchData = atom({
   key: "searchData",
   default: [],

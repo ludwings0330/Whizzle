@@ -11,14 +11,14 @@ const SWrapper = styled.div`
   gap: 50px 23px;
   margin-top: 70px;
   margin-bottom: 150px;
-  width: 1000px;
+  width: 830px;
 `;
 
 const WhiskyList = (props) => {
   return (
     <>
       <SWrapper>
-        {props.whiskys.map((whisky, index) => {
+        {props.whiskys?.map((whisky, index) => {
           return <WhiskyListItem key={index} whisky={whisky} />;
         })}
       </SWrapper>

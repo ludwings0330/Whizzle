@@ -90,20 +90,38 @@ node {
     '''
   }
 
+  stage('Remove Existing FastAPI Container And Image') {
+    sh '''
+      echo "FastAPI 컨테이너 종료"
+      if docker ps -a --format "{{.Names}}" | grep -q whizzle-rec; then
+        echo "Stopping container: whizzle-front"
+        docker stop $(docker ps -a --format "{{.Names}}" | grep whizzle-rec)
+      else
+        echo "Container whizzle-rec does not exist"
+      fi
+
+      echo "사용하지 않는 컨테이너 삭제"
+      docker container prune -f
+
+      echo "사용하지 않는 이미지 삭제"
+      docker image prune -a -f
+    '''
+  }
+
   stage('Build FastAPI Server Image') {
     echo "Dockerfile를 이용하여 FastAPI 이미지 생성"
     sh '''
-      cd rec-fastapi
-      docker build -t whizzle/rec -f ./deploy/Dockerfile .
+      docker build -t whizzle/rec -f ./rec-fastapi/deploy/Dockerfile .
     '''
   }
 
   stage('Run FastAPI Container') {
     echo "FastAPI 컨테이너 실행"
     sh '''
-      docker run -it --rm \
+      docker run -i --rm \
         --name whizzle-rec \
         -p 8000:8000 \
+        -v /app/data/fast-api/config:/src/config \
         -d whizzle/rec
     '''
   }

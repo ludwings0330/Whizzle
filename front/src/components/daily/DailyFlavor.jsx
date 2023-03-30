@@ -104,8 +104,8 @@ const DailyFlavor = (props) => {
           <DailyFlavorItem
             key={index}
             flavor={flavor}
-            flavorData={props.flavorData}
-            setFlavorData={props.setFlavorData}
+            preference={props.preference}
+            setPreference={props.setPreference}
           />
         ))}
       </SBox>

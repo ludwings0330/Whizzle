@@ -8,6 +8,7 @@ import com.bear.whizzle.common.handler.CustomAuthenticationSuccessHandler;
 import com.bear.whizzle.common.handler.JwtAccessDeniedHandler;
 import com.bear.whizzle.common.handler.JwtAuthenticationEntryPoint;
 import com.bear.whizzle.common.util.JwtUtil;
+import com.bear.whizzle.memberlevellog.service.MemberLevelLogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -27,6 +28,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 public class SecurityConfig {
 
     private final JwtUtil jwtUtil;
+    private final MemberLevelLogService levelLogService;
     private final CustomAuthorizationRequestRepository customAuthorizationRequestRepository;
     private final CustomOAuth2UserService customOAuth2UserService;
     private final CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
@@ -42,7 +44,7 @@ public class SecurityConfig {
         // Disable CSRF protection
         http.csrf().disable();
 
-        http.addFilterAfter(new JwtAuthenticationFilter(jwtUtil), LogoutFilter.class);
+        http.addFilterAfter(new JwtAuthenticationFilter(jwtUtil, levelLogService), LogoutFilter.class);
 
         http.exceptionHandling(handle ->
                                        handle
@@ -64,6 +66,7 @@ public class SecurityConfig {
         http.authorizeRequests(request ->
                                        request
                                                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll() // 추가
+                                               .antMatchers("/api/auth/**").permitAll()
                                                .antMatchers("/login/**").permitAll()
                                                .antMatchers("/api/**/any").permitAll()
                                                .anyRequest().authenticated());
