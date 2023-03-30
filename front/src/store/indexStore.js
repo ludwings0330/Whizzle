@@ -143,3 +143,8 @@ export const recommendResult = atom({
     },
   ],
 });
+
+export const searchData = atom({
+  key: "searchData",
+  default: [],
+});

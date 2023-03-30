@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
 import searchIcon from "../../assets/img/searchIcon.png";
+import recentIcon from "../../assets/img/recentIcon.png";
+import { getAutocomplete } from "../../apis/search";
 
 const SInputDiv = styled.div`
   box-sizing: border-box;
@@ -13,7 +15,7 @@ const SInputDiv = styled.div`
   width: 560px;
   height: 45px;
   border: 1px solid #c1c1c1;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.5);
   border-radius: 999px;
   padding: 0 0 0 50px;
   background-position: 10px center;
@@ -55,7 +57,7 @@ const SDiv = styled.div`
   justify-content: space-between;
   padding: 0 20px 0 50px;
   width: 490px;
-  height: 50px;
+  height: 45px;
   background-color: white;
 
   :hover {
@@ -84,7 +86,7 @@ const SButton = styled.button`
 `;
 
 const SWordDiv = styled.div`
-  margin-top: 50px;
+  margin-top: 45px;
   width: 560px;
 `;
 
@@ -96,9 +98,9 @@ const SAutocompleteDiv = styled.div`
   border: 2px solid transparent;
   border-color: rgba(248, 79, 90, 0.4);
   border-radius: 16px;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.5);
   height: auto;
-  min-height: 50px;
+  min-height: 45px;
   z-index: 3;
 `;
 
@@ -107,6 +109,19 @@ const SearchBar = () => {
   const navigate = useNavigate();
   const [searchWord, setSearchWord] = useState("");
   const [recentSearch, setRecentSearch] = useState([]);
+  const [autocompleteWords, setAutocompleteWords] = useState([]);
+
+  // 검색어 자동완성
+  async function autoword(word) {
+    try {
+      const autoWord = await getAutocomplete(word);
+      const onlyWord = autoWord.map((item) => item.name);
+      console.log(onlyWord);
+      setAutocompleteWords(onlyWord);
+    } catch (error) {
+      console.log("검색어 자동 완성 실패");
+    }
+  }
 
   useEffect(() => {
     const recentSearchData = JSON.parse(localStorage.getItem("recentSearch"));
@@ -115,8 +130,8 @@ const SearchBar = () => {
     }
   }, []);
 
+  // 검색어를 로컬 스토리지에 최신순으로 저장
   const setRecentSearchData = (value) => {
-    // 검색어를 로컬 스토리지에 최신순으로 저장
     let updatedRecentSearch = [...recentSearch];
     const existingIndex = updatedRecentSearch.indexOf(value);
     if (existingIndex !== -1) {
@@ -130,6 +145,7 @@ const SearchBar = () => {
     setRecentSearch(updatedRecentSearch);
     navigate(`/search/${value}`);
     setAutocompleteVisible(false);
+    setSearchWord(value);
   };
 
   const searchHandler = (e) => {
@@ -137,12 +153,16 @@ const SearchBar = () => {
       setRecentSearchData(searchWord);
       const search = document.getElementById("mySearch");
       search.blur();
-      setSearchWord("");
     }
   };
 
   const wordChange = (e) => {
     setSearchWord(e.target.value);
+    if (e.target.value) {
+      autoword(e.target.value);
+    } else {
+      setAutocompleteWords([]);
+    }
   };
 
   // 검색어 삭제
@@ -166,6 +186,11 @@ const SearchBar = () => {
     function handleClickOutside(event) {
       if (autocompleteRef.current && !autocompleteRef.current.contains(event.target)) {
         setAutocompleteVisible(false);
+      } else if (autocompleteRef.current.contains(event.target)) {
+        const search = document.getElementById("mySearch");
+        if (search.value) {
+          autoword(search.value);
+        }
       }
     }
     document.addEventListener("click", handleClickOutside);
@@ -190,12 +215,23 @@ const SearchBar = () => {
       {autocompleteVisible && (
         <SAutocompleteDiv>
           <SWordDiv>
-            {recentSearch.map((word, index) => (
-              <SDiv key={index} onClick={() => setRecentSearchData(word)}>
-                <SP>{word.length > 20 ? `${word.slice(0, 20)}...` : word}</SP>
-                <SButton onClick={(event) => deleteRecentSearchWord(event, word)}>X</SButton>
-              </SDiv>
-            ))}
+            {!searchWord &&
+              recentSearch.map((word, index) => (
+                <SDiv
+                  style={{ backgroundImage: `url(${recentIcon})` }}
+                  key={index}
+                  onClick={() => setRecentSearchData(word)}
+                >
+                  <SP>{word.length > 30 ? `${word.slice(0, 30)}...` : word}</SP>
+                  <SButton onClick={(event) => deleteRecentSearchWord(event, word)}>X</SButton>
+                </SDiv>
+              ))}
+            {autocompleteWords &&
+              autocompleteWords.map((word, index) => (
+                <SDiv key={index + 4} onClick={() => setRecentSearchData(word)}>
+                  <SP>{word.length > 30 ? `${word.slice(0, 30)}...` : word}</SP>
+                </SDiv>
+              ))}
           </SWordDiv>
         </SAutocompleteDiv>
       )}
