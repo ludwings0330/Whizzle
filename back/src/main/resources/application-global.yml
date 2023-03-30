@@ -24,7 +24,8 @@ logging:
     org.hibernate.type: off # 바인딩 할 값을 찍는 로그
 
 webclient:
-  baseurl: http://localhost
+#  baseurl: http://localhost
+  baseurl: https://j8a805.p.ssafy.io
   port: 8000
 
 spring:
