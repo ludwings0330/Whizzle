@@ -11,7 +11,7 @@ const SWrapper = styled.div`
   gap: 50px 23px;
   margin-top: 70px;
   margin-bottom: 150px;
-  width: 1000px;
+  width: 830px;
 `;
 
 const WhiskyList = (props) => {
