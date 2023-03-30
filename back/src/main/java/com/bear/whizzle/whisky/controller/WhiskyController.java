@@ -2,6 +2,9 @@ package com.bear.whizzle.whisky.controller;
 
 import com.bear.whizzle.auth.service.AuthService;
 import com.bear.whizzle.auth.service.PrincipalDetails;
+import com.bear.whizzle.domain.exception.NotFoundException;
+import com.bear.whizzle.preference.repository.projection.dto.PreferenceStatisticsDto;
+import com.bear.whizzle.preference.service.query.PreferenceQueryService;
 import com.bear.whizzle.whisky.controller.dto.WhiskyDetailResponseDto;
 import com.bear.whizzle.whisky.controller.dto.WhiskySearchCondition;
 import com.bear.whizzle.whisky.repository.projection.dto.WhiskySimpleResponseDto;
@@ -26,10 +29,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class WhiskyController {
 
+    private final AuthService authService;
     private final WhiskyService whiskyService;
     private final WhiskyElasticSearchRepository whiskySearchRepository;
     private final WhiskyQueryService whiskyQueryService;
-    private final AuthService authService;
+    private final PreferenceQueryService preferenceQueryService;
 
     /**
      * 위스키 이름을 이용하여 위스키 목록을 조회한다.
@@ -65,6 +69,18 @@ public class WhiskyController {
         return WhiskyMapper.toWhiskyDetailResponseDto(
                 whiskyService.findWhisky(whiskyId)
         );
+    }
+
+    /**
+     * 특정 위스키의 선호 통계와 상태 코드 200을 응답
+     *
+     * @param whiskyId 선호 통계를 조사하려는 위스키 ID
+     * @return 선호 {나이대, 성별}에 대한 정보
+     * @throws NotFoundException 위스키에 작성된 리뷰가 없는 경우 발생하는 예외
+     */
+    @GetMapping("/{whiskyId}/statistics/any")
+    public PreferenceStatisticsDto estimateWhiskyTopPreference(@PathVariable Long whiskyId) throws NotFoundException {
+        return preferenceQueryService.estimateWhiskyTopPreference(whiskyId);
     }
 
     @GetMapping("/suggest/{whiskyName}/any")
