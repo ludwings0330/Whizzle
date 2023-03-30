@@ -52,3 +52,8 @@ export const dailyPreference = atom({
     },
   },
 });
+
+export const searchData = atom({
+  key: "searchData",
+  default: [],
+});

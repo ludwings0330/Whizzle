@@ -55,7 +55,7 @@ const SearchMain = () => {
         <SP>이름을 통해 원하는 위스키를 검색하세요!</SP>
       </SHeaderDiv>
       <SMainDiv>
-        <SImg src={colorLogo} alt="#" />
+        <SImg src={colorLogo} alt="로고" />
         <SearchBar />
       </SMainDiv>
     </Wrapper>
