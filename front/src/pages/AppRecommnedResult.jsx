@@ -131,6 +131,7 @@ const AppRecommnedResult = () => {
   const recommend = useRecoilValue(recommendResult);
   const userPreference = useRecoilValue(preference);
   console.log(userPreference);
+  console.log(recommend);
 
   const navigate = useNavigate();
   const onClickHandler = (e) => {
@@ -143,21 +144,7 @@ const AppRecommnedResult = () => {
 
   // 가장 큰 2개의 값을 찾음
   const [maxValue, setMaxValue] = useState([]);
-  const flavor = {
-    smoky: 0,
-    peaty: 0,
-    spicy: 50,
-    herbal: 40,
-    oily: 10,
-    body: 70,
-    rich: 70,
-    sweet: 50,
-    salty: 0,
-    vanilla: 20,
-    tart: 40,
-    fruity: 60,
-    floral: 40,
-  };
+  const flavor = userPreference.flavor;
 
   useEffect(() => {
     const flavorEntries = Object.entries(flavor);
@@ -197,7 +184,7 @@ const AppRecommnedResult = () => {
         SSpan={SSpan}
         STitleP={STitleP}
       />
-      <ResultWhiskyList whiskys={recommend.slice(3)} />
+      {recommend.length ? <ResultWhiskyList whiskys={recommend.slice(3)} /> : null}
       <SBtnDiv>
         <SQuestionBtn onClick={onClickHandler}>
           <SColorSpan style={{ fontSize: "20px", fontWeight: "600" }}>

@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 import favoriteBorder from "../../../assets/img/favorite_border.png";
 import ReactStars from "react-stars";
 
@@ -139,8 +140,13 @@ const ResultMainWhiskyItem = (props) => {
     console.log(`${whisky.name} 킵 버튼`);
   };
 
+  const navigate = useNavigate();
+  const onClickHandler = () => {
+    navigate(`/whisky/${whisky.id}`);
+  };
+
   return (
-    <SDiv className={`no-${index}`}>
+    <SDiv onClick={onClickHandler} className={`no-${index}`}>
       <SBoldColorP className={`no-${index}`}>no.{props.index}</SBoldColorP>
       <SCardDiv className={`no-${index}`}>
         <SImgDiv>
