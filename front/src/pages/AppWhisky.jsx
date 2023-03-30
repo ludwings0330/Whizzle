@@ -4,7 +4,14 @@ import favoriteFilled from "../assets/img/favorite_white_filled.png";
 import favoriteBorder from "../assets/img/favorite_white_border.png";
 import create from "../assets/img/create.png";
 import styled from "styled-components";
-import { whiskyDetail, getKeep, keepToggle, getStatistics, getSimilar } from "../apis/whiskyDetail";
+import {
+  whiskyDetail,
+  getKeep,
+  keepToggle,
+  getStatistics,
+  getSimilar,
+  getReview,
+} from "../apis/whiskyDetail";
 import { userState } from "../store/userStore";
 import { useRecoilValue } from "recoil";
 import { changeHeader, rollbackHeader } from "../hooks/changeHeader";
@@ -67,6 +74,8 @@ const AppWhisky = () => {
   }, []);
 
   const { id } = useParams();
+
+  // 위스키 정보 조회
   const [whisky, setWhisky] = useState(null);
   async function getWhiskyInfo(param) {
     try {
@@ -77,18 +86,18 @@ const AppWhisky = () => {
     }
   }
 
+  // 킵 여부 조회
   async function getKeepInfo(param) {
     try {
       const keepInfo = await getKeep(param);
-      console.log(keepInfo);
       setIsKeep(keepInfo);
     } catch (error) {
       console.log("킵 정보 조회 실패");
     }
   }
 
+  // 선호 통계 조회
   const [stat, setStat] = useState(null);
-
   async function getStatisticsInfo(param) {
     try {
       const statInfo = await getStatistics(param);
@@ -105,22 +114,37 @@ const AppWhisky = () => {
             : "60";
         statInfo.gender = statInfo.gender === "MALE" ? "남성" : "여성";
       }
-      console.log(statInfo);
       setStat(statInfo);
     } catch (error) {
       console.log("선호 통계 조회 실패");
     }
   }
 
-  const [similarWhiskys, SetSimilarWhiskys] = useState([]);
-
+  // 유사 위스키 조회
+  const [similarWhiskys, setSimilarWhiskys] = useState([]);
   async function getSimilarInfo(param) {
     try {
       const similarInfo = await getSimilar(param);
-      console.log(similarInfo);
-      SetSimilarWhiskys(similarInfo);
+      setSimilarWhiskys(similarInfo);
     } catch (error) {
       console.log("유사 위스키 정보 조회 실패");
+    }
+  }
+
+  // 리뷰 조회
+  const [reviews, setReviews] = useState([]);
+  async function getReviewInfo(id, baseId, reviewOrder) {
+    const data = {
+      id,
+      baseId,
+      reviewOrder,
+    };
+    try {
+      const reviewInfo = await getReview(data);
+      console.log(reviewInfo);
+      setReviews((prev) => [...prev, ...reviewInfo]);
+    } catch (error) {
+      console.log("리뷰 정보 조회 실패");
     }
   }
 
@@ -136,76 +160,13 @@ const AppWhisky = () => {
     // 통계 정보 요청
     getStatisticsInfo(id);
     // 리뷰 목록 요청
-
+    getReviewInfo(id, 0, "LIKE");
     // 킵 여부 조회 요청
     if (isLogin) {
       getKeepInfo(id);
     }
     window.scrollTo(0, 0);
   }, [id]);
-
-  const whiskys = [
-    {
-      name: "Glenfiddich 12 Year",
-      category: "Single Malt",
-      location: "Speyside, Scotland",
-      abv: "40",
-      priceTier: 2,
-      avg_rating: 3.36,
-      total_rating: 5952,
-      id: 1,
-    },
-    {
-      name: "Glenlivet 12 Year Double Oak",
-      category: "Single Malt",
-      location: "Speyside, Scotland",
-      abv: "40",
-      priceTier: 2,
-      avg_rating: 3.41,
-      total_rating: 5811,
-      id: 2,
-    },
-    {
-      name: "Macallan 12 Year Sherry Oak Cask",
-      category: "Single Malt",
-      location: "Highlands, Scotland",
-      abv: "43",
-      priceTier: 3,
-      avg_rating: 3.82,
-      total_rating: 5442,
-      id: 3,
-    },
-    {
-      name: "Glenfiddich 12 Year",
-      category: "Single Malt",
-      location: "Speyside, Scotland",
-      abv: "40",
-      priceTier: 2,
-      avg_rating: 3.36,
-      total_rating: 5952,
-      id: 4,
-    },
-    {
-      name: "Glenlivet 12 Year Double Oak",
-      category: "Single Malt",
-      location: "Speyside, Scotland",
-      abv: "40",
-      priceTier: 2,
-      avg_rating: 3.41,
-      total_rating: 5811,
-      id: 5,
-    },
-    {
-      name: "Macallan 12 Year Sherry Oak Cask",
-      category: "Single Malt",
-      location: "Highlands, Scotland",
-      abv: "43",
-      priceTier: 3,
-      avg_rating: 3.82,
-      total_rating: 5442,
-      id: 6,
-    },
-  ];
 
   const favorite = () => {
     if (isLogin) {
@@ -229,7 +190,7 @@ const AppWhisky = () => {
         <div style={{ width: "990px", marginBottom: "0px", marginTop: "90px" }}>
           <SP>이런 위스키는 어떠세요?</SP>
         </div>
-        <WhiskySimilarList whiskys={whiskys} />
+        {similarWhiskys.length ? <WhiskySimilarList whiskys={similarWhiskys} /> : null}
         <WhiskyDetailReview whisky={whisky} stat={stat} />
         <SButtonDiv>
           <SButton onClick={favorite} style={{ marginBottom: "10px" }}>
