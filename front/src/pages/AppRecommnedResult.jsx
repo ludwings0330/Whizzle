@@ -177,14 +177,16 @@ const AppRecommnedResult = () => {
         </SGraphP>
         <Graph flavor={flavor} />
       </SGraphDiv>
-      <ResultMainWhisky
-        whiskys={recommend.slice(0, 3)}
-        SGraphP={SGraphP}
-        SColorSpan={SColorSpan}
-        SSpan={SSpan}
-        STitleP={STitleP}
-      />
-      {recommend.length ? <ResultWhiskyList whiskys={recommend.slice(3)} /> : null}
+      {recommend && recommend.length && (
+        <ResultMainWhisky
+          whiskys={recommend.slice(0, 3)}
+          SGraphP={SGraphP}
+          SColorSpan={SColorSpan}
+          SSpan={SSpan}
+          STitleP={STitleP}
+        />
+      )}
+      {recommend && recommend.length && <ResultWhiskyList whiskys={recommend.slice(3)} />}
       <SBtnDiv>
         <SQuestionBtn onClick={onClickHandler}>
           <SColorSpan style={{ fontSize: "20px", fontWeight: "600" }}>
