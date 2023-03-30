@@ -81,6 +81,7 @@ const MyKeep = () => {
       setIsLoading(true);
       const keepedData = await keepApi(params);
       const keepedWhiskys = keepedData.content;
+      // console.log(keepedWhiskys);
       setWhiskys((prev) => {
         return [...prev, ...keepedWhiskys];
       });
@@ -93,17 +94,19 @@ const MyKeep = () => {
   };
 
   return (
-    <SListDiv>
-      {whiskys.length > 0 ? (
-        <WhiskyList whiskys={whiskys} />
-      ) : (
-        <SWarning>
-          <span>현재 킵한 위스키가 없습니다</span>
-          <span>내게 맞는 위스키 추천 받아보세요!</span>
-        </SWarning>
-      )}
+    <>
+      <SListDiv>
+        {whiskys.length > 0 ? (
+          <WhiskyList whiskys={whiskys} />
+        ) : (
+          <SWarning>
+            <span>현재 킵한 위스키가 없습니다</span>
+            <span>내게 맞는 위스키 추천 받아보세요!</span>
+          </SWarning>
+        )}
+      </SListDiv>
       <div ref={observerRef}></div>
-    </SListDiv>
+    </>
   );
 };
 

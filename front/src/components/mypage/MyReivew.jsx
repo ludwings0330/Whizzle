@@ -48,7 +48,8 @@ const MyReivew = () => {
   const user = useRecoilValue(userState);
   const id = user.id;
   const [reviews, setReviews] = useState([]);
-  const [lastId, setLastId] = useState(0);
+  const [lastId, setLastId] = useState(null);
+  const [isLast, setIsLast] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const observerRef = useRef(null);
 
@@ -65,7 +66,7 @@ const MyReivew = () => {
       }
     );
 
-    if (observerRef.current) {
+    if (observerRef.current && !isLast) {
       observer.observe(observerRef.current);
     }
 
@@ -77,20 +78,22 @@ const MyReivew = () => {
   }, [observerRef, lastId]);
 
   const myReviewApi = async () => {
-    if (!isLoading) {
+    if (!isLoading && !isLast) {
       setIsLoading(true);
-      console.log(lastId);
+      // console.log(lastId);
       const params = {
         baseId: lastId,
         reviewOrder: "RECENT",
       };
-
       const myReviews = await reviewApi(id, params);
-      setLastId(myReviews[myReviews.length - 1].reviewId);
-      console.log(myReviews);
-      setReviews((prev) => {
-        return [...prev, ...myReviews];
-      });
+      if (myReviews.length > 0) {
+        setReviews((prev) => {
+          return [...prev, ...myReviews];
+        });
+        setLastId(myReviews[myReviews.length - 1].reviewId);
+      } else {
+        setIsLast(true);
+      }
       setIsLoading(false);
     }
   };
@@ -108,8 +111,8 @@ const MyReivew = () => {
             <span>좋아하는 위스키에 대한 리뷰를 작성해보세요!</span>
           </SWarning>
         )}
-        <div ref={observerRef}></div>
       </SListDiv>
+      <div ref={observerRef}></div>
     </>
   );
 };
