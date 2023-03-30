@@ -1,26 +1,144 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import favoriteBorder from "../../assets/img/favorite_border.png";
+import favoriteFilled from "../../assets/img/favorite_filled.png";
+import ReactStars from "react-stars";
 
-const SContainer = styled.div`
-  width: 304px;
-  height: 387px;
-
-  background: #ffffff;
+const SCard = styled.div`
+  position: relative;
+  cursor: pointer;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 261px;
+  height: 312px;
   border: 1px solid #d8d8d8;
   border-radius: 16px;
-  margin-bottom: 30px;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
+  padding-top: 28px;
+  padding-bottom: 10px;
+  margin-top: 40px;
 `;
 
-const WhiskySimilarListItem = () => {
+const STop = styled.div`
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  padding-right: 18px;
+  gap: 25px;
+  width: 220px;
+`;
+
+const SContainer = styled.div`
+  left: 23px;
+  width: 90px;
+  height: 225px;
+  text-align: center;
+  position: absolute;
+`;
+
+const SImg = styled.img`
+  max-width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: 0.5s;
+  transform-origin: bottom;
+  ${SCard}:hover & {
+    transform: scale(1.05);
+    transition: 0.5s;
+  }
+`;
+
+const SRight = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  align-items: end;
+  gap: 30px;
+  padding-right: 0px;
+  min-width: 105px;
+`;
+
+const SLikeImg = styled.img`
+  height: 30px;
+  transition: 0.5s;
+  z-index: 2;
+  &:hover {
+    transform: scale(1.2);
+    transition: 0.5s;
+  }
+`;
+
+const SRating = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const SAvg = styled.p`
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0;
+`;
+
+const SName = styled.div`
+  min-height: 80px;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 19px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  padding-left: 25px;
+  padding-right: 25px;
+`;
+
+const WhiskySimilarListItem = (props) => {
+  const navigate = useNavigate();
+  const [isLiked, setIsLiked] = useState(false);
+
+  const goDetail = () => {
+    if (props.notScroll) {
+      navigate(`/whisky/${props.whisky.id}`);
+    }
+  };
+
+  const keepHandler = (event) => {
+    event.stopPropagation();
+    setIsLiked((prev) => !prev);
+  };
+
   return (
-    <SContainer>
-      <p>유사한 위스키</p>
-    </SContainer>
+    <SCard onClick={goDetail}>
+      <STop>
+        <SContainer>
+          <SImg src={require(`../../assets/img/whisky_preset/${props.index + 1}.png`)} />
+        </SContainer>
+        <SRight>
+          {isLiked ? (
+            <SLikeImg onClick={keepHandler} src={favoriteFilled} alt="like.png" />
+          ) : (
+            <SLikeImg onClick={keepHandler} src={favoriteBorder} alt="like.png" />
+          )}
+          <SRating>
+            <SAvg>{props.whisky.avg_rating}</SAvg>
+            <ReactStars
+              count={5}
+              value={Math.round(props.whisky.avg_rating * 2) / 2}
+              edit={false}
+              size={20}
+              color1={"rgba(128, 128, 128, 0.2)"}
+              color2={"#F84F5A"}
+            />
+            <p style={{ margin: 0 }}>{props.whisky.total_rating} rating(s)</p>
+          </SRating>
+        </SRight>
+      </STop>
+      <SName>{props.whisky.name}</SName>
+    </SCard>
   );
 };
 
