@@ -20,7 +20,7 @@ export const reissueAccessToken = async () => {
     .get("/api/auth/refresh")
     .then((response) => {
       console.log(response);
-      localStorage.setItem("accessToken", response.data["refreshToken"]);
+      localStorage.setItem("accessToken", response.data);
     })
     .catch((error) => {
       console.log(error);
