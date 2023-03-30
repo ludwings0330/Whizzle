@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import { keepApi } from "../../apis/mypage";
 import { useRecoilValue } from "recoil";
@@ -41,22 +41,56 @@ const SWarning = styled.div`
 const MyKeep = () => {
   const user = useRecoilValue(userState);
   const id = user.id;
-  const [whiskys, setwhiskys] = useState([]);
+  const [whiskys, setWhiskys] = useState([]);
+  const [lastId, setLastId] = useState(null);
+  const [isLast, setIsLast] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const observerRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          myKeepApi();
+        }
+      },
+      {
+        rootMargin: "0px",
+        threshold: 1.0,
+      }
+    );
+
+    if (observerRef.current && !isLast) {
+      observer.observe(observerRef.current);
+    }
+
+    return () => {
+      if (observerRef.current) {
+        observer.unobserve(observerRef.current);
+      }
+    };
+  }, [observerRef, lastId]);
 
   const myKeepApi = async () => {
     const params = {
       memberId: id,
-      lastOffset: whiskys.length === 0 ? null : whiskys[whiskys.length - 1].id,
-      size: 6,
+      lastOffset: lastId,
+      size: 9,
     };
-
-    const keepedWhiskys = await keepApi(params);
-    setwhiskys((prev) => [...prev, keepedWhiskys]);
+    if (!isLoading && !isLast) {
+      setIsLoading(true);
+      const keepedData = await keepApi(params);
+      const keepedWhiskys = keepedData.content;
+      setWhiskys((prev) => {
+        return [...prev, ...keepedWhiskys];
+      });
+      if (keepedData.last === true) {
+        setIsLast(true);
+      }
+      setLastId(keepedWhiskys[keepedWhiskys.length - 1].id);
+      setIsLoading(false);
+    }
   };
-
-  useEffect(() => {
-    // myKeepApi();
-  }, []);
 
   return (
     <SListDiv>
@@ -68,6 +102,7 @@ const MyKeep = () => {
           <span>내게 맞는 위스키 추천 받아보세요!</span>
         </SWarning>
       )}
+      <div ref={observerRef}></div>
     </SListDiv>
   );
 };

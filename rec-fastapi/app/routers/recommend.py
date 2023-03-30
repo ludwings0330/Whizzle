@@ -24,7 +24,7 @@ async def retrain_model():
         return "one"
 
 
-@rec.get("/personal-whisky", status_code=200)
+@rec.post("/personal-whisky", status_code=200)
 async def rec_personal_whisky(
     preference: Preference = Body(...),
     item_features: ItemFeatures = Depends(ItemFeatures),
@@ -34,7 +34,7 @@ async def rec_personal_whisky(
 
 @rec.get("/similary-whisky/{whisky_id}", status_code=200)
 async def rec_similar_whisky(
-    whisky_id: int = Path(..., ge=0, le=3534),
+    whisky_id: int = Path(..., ge=1),
     item_features: ItemFeatures = Depends(ItemFeatures),
 ):
     return predict_similar_whisky(whisky_id, item_features.data)

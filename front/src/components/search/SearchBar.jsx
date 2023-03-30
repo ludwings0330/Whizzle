@@ -195,6 +195,7 @@ const SearchBar = () => {
     <div style={{ position: "relative" }} ref={autocompleteRef}>
       <SInputDiv autocompleteVisible={autocompleteVisible}>
         <SInput
+          autoComplete="off"
           id="mySearch"
           onFocus={() => setAutocompleteVisible(true)}
           onKeyDown={(e) => searchHandler(e)}

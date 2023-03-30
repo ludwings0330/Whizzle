@@ -25,13 +25,13 @@ function App() {
       <Routes>
         <Route path="/" element={<AppMain />} />
         <Route path="/diary/*" element={<AppDiary />} />
-        <Route path="/login" element={<AppLogin />} />
+        <Route path="/signin" element={<AppLogin />} />
         <Route path="/mypage/*" element={<AppMyPage />} />
         <Route path="/search/*" element={<AppSearch />} />
-        <Route path="/whisky/*" element={<AppWhisky />} />
+        <Route path="/whisky/:id" element={<AppWhisky />} />
         <Route path="/recommend/question/*" element={<AppRecommendQuestion />} />
         <Route path="/recommend/result/*" element={<AppRecommnedResult />} />
-        <Route path="/review/*" element={<AppReview />} />
+        <Route path="/review/:id" element={<AppReview />} />
         <Route path="/daily/*" element={<AppDailyWhisky />} />
         <Route path="/callback" element={<Callback />} />
         <Route path="/*" element={<AppError />} />

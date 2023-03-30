@@ -130,7 +130,7 @@ const WhiskyListItem = (props) => {
             <SLikeImg onClick={keepHandler} src={favoriteBorder} alt="like.png" />
           )}
           <SRating>
-            <SAvg>{props.whisky.avgRating}</SAvg>
+            <SAvg>{props.whisky.reviewCount === 0 ? "NR" : props.whisky.avgRating}</SAvg>
             <ReactStars
               count={5}
               value={Math.round(props.whisky.avgRating * 2) / 2}
