@@ -2,8 +2,7 @@ package com.bear.whizzle.whisky;
 
 import com.bear.whizzle.domain.model.entity.Whisky;
 import com.bear.whizzle.keep.repository.KeepCustomRepository;
-import com.bear.whizzle.keep.repository.KeepRepository;
-import com.bear.whizzle.recommend.RecWhiskyMapper;
+import com.bear.whizzle.recommend.RecommendWhiskyMapper;
 import com.bear.whizzle.recommend.controller.dto.RecWhiskyResponseDto;
 import com.bear.whizzle.whisky.repository.WhiskyCustomRepository;
 import java.util.ArrayList;
@@ -36,7 +35,7 @@ class RecWhiskyResponseTest {
         Map<Long, Whisky> whiskies = whiskyCustomRepository.findByIds(recWhiskies);
         Map<Long, Boolean> myKeeps = keepCustomRepository.whetherKeep(recWhiskies, memberId);
         List<RecWhiskyResponseDto> recWhiskyResponseDtos = new ArrayList<>();
-        recWhiskies.forEach(r -> recWhiskyResponseDtos.add(RecWhiskyMapper.toRecWhiskyResponseDto(whiskies.get(r), myKeeps.containsKey(r))));
+        recWhiskies.forEach(r -> recWhiskyResponseDtos.add(RecommendWhiskyMapper.toWhiskyResponseDto(whiskies.get(r), myKeeps.containsKey(r), RecWhiskyResponseDto.class)));
         // then
         Assertions.assertThat(recWhiskyResponseDtos).hasSameSizeAs(recWhiskies);
     }

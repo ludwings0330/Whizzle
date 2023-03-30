@@ -11,20 +11,9 @@ export const preferenceSave = async (data) => {
   }
 };
 
-export const unloginedRecommend = async (data) => {
+export const recommend = async (data) => {
   try {
     const res = await api.post(`/api/rec/whisky/any`, data);
-    console.log("추천 결과 성공");
-    return res.data;
-  } catch (error) {
-    console.log("추천 결과 실패");
-    console.log(error);
-  }
-};
-
-export const loginedRecommend = async (data) => {
-  try {
-    const res = await api.post(`/api/rec/whisky`, data);
     console.log("추천 결과 성공");
     return res.data;
   } catch (error) {

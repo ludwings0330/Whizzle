@@ -8,9 +8,8 @@ import MyProfile from "../components/mypage/MyProfile";
 import MypageTab from "../components/mypage/MypageTab";
 
 const SContainer = styled.div`
-  margin-top: 70px;
+  margin-top: 100px;
   max-width: 100%;
-  // width: 100vw;
   display: flex;
   justify-content: center;
   flex-direction: column;
