@@ -4,7 +4,7 @@ import favoriteFilled from "../assets/img/favorite_white_filled.png";
 import favoriteBorder from "../assets/img/favorite_white_border.png";
 import create from "../assets/img/create.png";
 import styled from "styled-components";
-import { whiskyDetail, getKeep, keepToggle } from "../apis/whiskyDetail";
+import { whiskyDetail, getKeep, keepToggle, getStatistics, getSimilar } from "../apis/whiskyDetail";
 import { userState } from "../store/userStore";
 import { useRecoilValue } from "recoil";
 import { changeHeader, rollbackHeader } from "../hooks/changeHeader";
@@ -87,6 +87,43 @@ const AppWhisky = () => {
     }
   }
 
+  const [stat, setStat] = useState(null);
+
+  async function getStatisticsInfo(param) {
+    try {
+      const statInfo = await getStatistics(param);
+      if (statInfo) {
+        statInfo.age =
+          statInfo.age === "TWENTY"
+            ? "20"
+            : statInfo.age === "THIRTY"
+            ? "30"
+            : statInfo.age === "FORTY"
+            ? "40"
+            : statInfo.age === "FIFTY"
+            ? "50"
+            : "60";
+        statInfo.gender = statInfo.gender === "MALE" ? "남성" : "여성";
+      }
+      console.log(statInfo);
+      setStat(statInfo);
+    } catch (error) {
+      console.log("선호 통계 조회 실패");
+    }
+  }
+
+  const [similarWhiskys, SetSimilarWhiskys] = useState([]);
+
+  async function getSimilarInfo(param) {
+    try {
+      const similarInfo = await getSimilar(param);
+      console.log(similarInfo);
+      SetSimilarWhiskys(similarInfo);
+    } catch (error) {
+      console.log("유사 위스키 정보 조회 실패");
+    }
+  }
+
   const user = useRecoilValue(userState);
   const isLogin = Boolean(user.id);
   const [isKeep, setIsKeep] = useState(false);
@@ -95,7 +132,9 @@ const AppWhisky = () => {
     // 위스키 상세 조회 요청
     getWhiskyInfo(id);
     // 유사 위스키 목록 요청
-
+    getSimilarInfo(id);
+    // 통계 정보 요청
+    getStatisticsInfo(id);
     // 리뷰 목록 요청
 
     // 킵 여부 조회 요청
@@ -104,11 +143,6 @@ const AppWhisky = () => {
     }
     window.scrollTo(0, 0);
   }, [id]);
-
-  const whiskystatistics = {
-    age: 20,
-    gender: "남성",
-  };
 
   const whiskys = [
     {
@@ -187,7 +221,7 @@ const AppWhisky = () => {
   return (
     <>
       <SContainer>
-        {whisky && <WhiskyDetailInfo whisky={whisky} stat={whiskystatistics} />}
+        {whisky && <WhiskyDetailInfo whisky={whisky} stat={stat} />}
         <div style={{ width: "990px", marginBottom: "0px", marginTop: "30px" }}>
           <SP>이 위스키는 이런 맛을 가지고 있어요!</SP>
         </div>
@@ -196,7 +230,7 @@ const AppWhisky = () => {
           <SP>이런 위스키는 어떠세요?</SP>
         </div>
         <WhiskySimilarList whiskys={whiskys} />
-        <WhiskyDetailReview whisky={whisky} stat={whiskystatistics} />
+        <WhiskyDetailReview whisky={whisky} stat={stat} />
         <SButtonDiv>
           <SButton onClick={favorite} style={{ marginBottom: "10px" }}>
             <SImg src={isKeep ? favoriteFilled : favoriteBorder} alt="keep" />

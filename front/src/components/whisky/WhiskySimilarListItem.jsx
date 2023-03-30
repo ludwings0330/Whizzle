@@ -97,25 +97,26 @@ const SName = styled.div`
 `;
 
 const WhiskySimilarListItem = (props) => {
+  const whisky = props.whisky;
   const navigate = useNavigate();
   const [isLiked, setIsLiked] = useState(false);
 
   const goDetail = () => {
     if (props.notScroll) {
-      navigate(`/whisky/${props.whisky.id}`);
+      navigate(`/whisky/${whisky.id}`);
     }
   };
 
   const keepHandler = (event) => {
     event.stopPropagation();
-    setIsLiked((prev) => !prev);
+    setIsLiked(!isLiked);
   };
 
   return (
     <SCard onClick={goDetail}>
       <STop>
         <SContainer>
-          <SImg src={require(`../../assets/img/whisky_preset/${props.index + 1}.png`)} />
+          <SImg src={whisky.imageUrl} alt="#" />
         </SContainer>
         <SRight>
           {isLiked ? (
@@ -124,20 +125,20 @@ const WhiskySimilarListItem = (props) => {
             <SLikeImg onClick={keepHandler} src={favoriteBorder} alt="like.png" />
           )}
           <SRating>
-            <SAvg>{props.whisky.avg_rating}</SAvg>
+            <SAvg>{whisky.avgRating}</SAvg>
             <ReactStars
               count={5}
-              value={Math.round(props.whisky.avg_rating * 2) / 2}
+              value={Math.round(whisky.avgRating * 2) / 2}
               edit={false}
               size={20}
               color1={"rgba(128, 128, 128, 0.2)"}
               color2={"#F84F5A"}
             />
-            <p style={{ margin: 0 }}>{props.whisky.total_rating} rating(s)</p>
+            <p style={{ margin: 0 }}>{whisky.reviewCount} rating(s)</p>
           </SRating>
         </SRight>
       </STop>
-      <SName>{props.whisky.name}</SName>
+      <SName>{whisky.name}</SName>
     </SCard>
   );
 };
