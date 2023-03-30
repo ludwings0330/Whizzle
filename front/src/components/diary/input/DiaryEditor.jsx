@@ -180,10 +180,30 @@ const SUpdateButton = styled.button`
   margin-left: 8px;
 `;
 
+const SAutoDiv = styled.div`
+  border: none;
+  margin-left: 20px;
+  margin-top: 5px;
+  width: 320px;
+  height: 35px;
+  line-height: 35px;
+`;
+
 const DiaryEditor = ({ selectedDate }) => {
   console.log("DiaryEditor렌딩");
   const [isEdit, setIsEdit] = useState(false);
   const [isSave, setIsSave] = useState(true);
+
+  const [auto, setAuto] = useState([
+    {
+      id: 1,
+      name: "whiskyzz",
+    },
+    {
+      id: 2,
+      name: "aaaaa",
+    },
+  ]);
 
   const [data, setData] = useRecoilState(diaryDataState);
   const [diaryList, setDiaryList] = useRecoilState(diaryState);
@@ -489,6 +509,12 @@ const DiaryEditor = ({ selectedDate }) => {
                 autoComplete="off"
               />
             )}
+            {auto.length
+              ? auto.map((item, index) => {
+                  console.log(item);
+                  return <SAutoDiv>{item.name}</SAutoDiv>;
+                })
+              : null}
             <div>
               {searchTerms.map((word, index) => (
                 <SDiv key={index}>
