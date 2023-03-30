@@ -1,9 +1,12 @@
 import React from "react";
 import styled from "styled-components";
+import Lottie from "react-lottie";
 import footerLogo from "../../../assets/img/footer_logo.png";
+import animationData from "../../../assets/img/lotties/drinking-bear.json";
 
 const SDiv = styled.div`
   display: flex;
+  position: relative;
   justify-content: space-between;
   align-items: start;
   background-color: #f9f9f9;
@@ -27,8 +30,23 @@ const SContent = styled.p`
 
 //푸터
 const Footer = () => {
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
+
   return (
     <SDiv id="footer">
+      <Lottie
+        options={defaultOptions}
+        height={200}
+        width={200}
+        style={{ position: "absolute", zIndex: 1, top: -130, right: 0 }}
+      />
       <div>
         <SImg src={footerLogo} alt="footer_logo.png" />
         <SContent>(주) drunkenbear | 대표: 내맘대로 이예진</SContent>
