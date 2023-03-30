@@ -3,7 +3,7 @@ import { diaryRead } from "../apis/diary";
 
 export const diaryState = atom({
   key: "diaryState",
-  default: {},
+  default: [],
 });
 
 export const diaryDataState = atom({

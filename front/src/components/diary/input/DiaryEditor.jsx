@@ -535,7 +535,11 @@ const DiaryEditor = ({ selectedDate }) => {
             )}
             {auto && auto.length
               ? auto.map((item, index) => {
-                  return <SAutoDiv onClick={autoClick}>{item.name}</SAutoDiv>;
+                  return (
+                    <SAutoDiv onClick={autoClick} key={item.id}>
+                      {item.name}
+                    </SAutoDiv>
+                  );
                 })
               : null}
             <div>

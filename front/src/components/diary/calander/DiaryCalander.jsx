@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import {
   diaryState,
   diaryDataState,
@@ -64,13 +64,6 @@ const SCalanderDiv = styled.div`
     font-weight: bold;
   }
 
-  td {
-    &:hover {
-      background: #f84f5a;
-      color: white;
-    }
-  }
-
   th {
     text-align: inherit;
     background-color: #f8f9fa;
@@ -81,6 +74,11 @@ const SCalanderDiv = styled.div`
   td {
     border-bottom: 1px solid #dee2e6;
     padding: 25px;
+
+    &:hover {
+      background: #f84f5a;
+      color: white;
+    }
   }
 `;
 
@@ -124,7 +122,6 @@ const STbody = styled.tbody`
 const DiaryCalander = ({ onDateClick }) => {
   const [date, setDate] = useState(new Date());
   const [currentComponent, setCurrentComponent] = useRecoilState(currentComponentState);
-  const tbodyRef = useRef(null);
 
   function prevMonth() {
     setDate((prevDate) => new Date(prevDate.getFullYear(), prevDate.getMonth() - 1, 1));
@@ -147,7 +144,6 @@ const DiaryCalander = ({ onDateClick }) => {
   }
 
   const [clickedDay, setClickedDay] = useState(null);
-
   const [diaryList, setDiaryList] = useRecoilState(diaryState);
   const [data, setData] = useRecoilState(diaryDataState);
 
@@ -156,34 +152,6 @@ const DiaryCalander = ({ onDateClick }) => {
     const month = date.getMonth() + 1;
     fetchDiaries(setDiaryList, setData, `${year}-${month}`);
   }, [date]);
-
-  useEffect(() => {
-    const diaryArray = Array.isArray(diaryList) ? diaryList : [];
-
-    if (tbodyRef.current) {
-      const tbody = tbodyRef.current;
-
-      diaryArray.forEach((diary) => {
-        const diaryDate = new Date(diary.date);
-        if (
-          diaryDate.getFullYear() === date.getFullYear() &&
-          diaryDate.getMonth() === date.getMonth()
-        ) {
-          const dayElement = tbody.querySelector(`td[data-date="${diary.date}"]`);
-          if (dayElement) {
-            console.log(diaryDate);
-
-            dayElement.style.backgroundColor = "#f84f5a";
-            dayElement.style.color = "white";
-          }
-        }
-      });
-    }
-  }, [diaryList, tbodyRef]);
-
-  function hasDiaryEntry(dateString) {
-    return diaryList.some((entry) => entry.date === dateString);
-  }
 
   function findItem(arr, value) {
     for (let i = 0; i < arr.length; i++) {
@@ -236,13 +204,8 @@ const DiaryCalander = ({ onDateClick }) => {
       });
       return;
     }
-
     setCurrentComponent("diaryNewContent");
     setData(diaryItem);
-
-    //diaryItem 이 -1이면 Editor를 띄워주기
-    //아니라면 DiaryItem 자체를 보여주기
-
     onDateClick(clickedDateString);
   }
 
@@ -255,19 +218,15 @@ const DiaryCalander = ({ onDateClick }) => {
   const days = [];
 
   for (let i = 0; i < firstDayOfMonth; i++) {
-    days.push(<td key={`prev-${i}`}></td>);
+    days.push(`prev-${i}`);
   }
 
   for (let i = 1; i <= daysInMonth; i++) {
-    days.push(
-      <td key={`${date.getFullYear()}-${date.getMonth()}-${i}`} onClick={handleDateClick}>
-        {i}
-      </td>
-    );
+    days.push(`${date.getFullYear()}-${date.getMonth() + 1}-${i}`);
   }
 
   for (let i = 0; i < 6 - lastDayOfMonth; i++) {
-    days.push(<td key={`next-${i}`}></td>);
+    days.push(`next-${i}`);
   }
 
   const rows = [];
@@ -277,12 +236,27 @@ const DiaryCalander = ({ onDateClick }) => {
     if (index % 7 !== 0 || index === 0) {
       cells.push(day);
     } else {
-      rows.push(<tr key={index}>{cells}</tr>);
+      rows.push({ cells });
       cells = [day];
     }
   });
 
-  rows.push(<tr key={days.length}>{cells}</tr>);
+  rows.push({ cells });
+
+  useEffect(() => {
+    const activeDays = document.querySelectorAll(".active-day[data-key]");
+
+    activeDays.forEach((activeDay) => {
+      const dataKey = activeDay.getAttribute("data-key");
+      const [rowIndex, dayIndex] = dataKey.split("-");
+
+      const dateStr = rows[rowIndex].cells[dayIndex];
+      const diary = diaryList.find((diary) => diary.date === dateStr);
+      if (diary) {
+        activeDay.style.backgroundColor = "black";
+      }
+    });
+  }, [diaryList, data, rows]);
 
   return (
     <>
@@ -301,7 +275,35 @@ const DiaryCalander = ({ onDateClick }) => {
                 ))}
               </tr>
             </thead>
-            <STbody ref={tbodyRef}>{rows}</STbody>
+            <STbody onClick={handleDateClick}>
+              {rows.map((row, rowIndex) => {
+                return (
+                  <tr key={rowIndex}>
+                    {row.cells.map((day, dayIndex) => {
+                      let content;
+                      let className = "";
+                      if (day.includes("prev")) {
+                        content = "";
+                      } else if (day.includes("next")) {
+                        content = "";
+                      } else {
+                        content = new Date(day).getDate();
+                        className = "active-day";
+                      }
+                      return (
+                        <td
+                          key={`${rowIndex}-${dayIndex}`}
+                          data-key={`${rowIndex}-${dayIndex}`}
+                          className={className}
+                        >
+                          {content}
+                        </td>
+                      );
+                    })}
+                  </tr>
+                );
+              })}
+            </STbody>
           </table>
         </SCalanderDiv>
       </SDiv>
