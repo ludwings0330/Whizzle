@@ -192,20 +192,10 @@ const SAutoDiv = styled.div`
 `;
 
 const DiaryEditor = ({ selectedDate }) => {
-  console.log("DiaryEditor렌딩");
   const [isEdit, setIsEdit] = useState(false);
   const [isSave, setIsSave] = useState(true);
 
-  const [auto, setAuto] = useState([
-    {
-      id: 1,
-      name: "whiskyzz",
-    },
-    {
-      id: 2,
-      name: "aaaaa",
-    },
-  ]);
+  const [auto, setAuto] = useState([]);
 
   // 검색어 자동완성
   async function autoword(word) {
@@ -218,13 +208,21 @@ const DiaryEditor = ({ selectedDate }) => {
     }
   }
 
-  const autoClick = () => {
+  const autoClick = (e) => {
     //id 값 받아오기
+    console.log(e.target.id);
+    const id = e.target.id;
     //위스키 이름 아래에 띄우기
+    console.log(e.target.textContent);
+    const name = e.target.textContent;
     //wordChange초기화
+    setSearchWhisky('');
     //위스키 데이터 id값으로 넘기기
+    console.log({id, name})
+    setSearchTerms([...searchTerms, {id, name}]);
     //위스키 데이터 없다면 막기
     //백엔드 등록 성공 알림 왔을 때만 등록 처리하기
+
   };
 
   const [data, setData] = useRecoilState(diaryDataState);
@@ -233,11 +231,11 @@ const DiaryEditor = ({ selectedDate }) => {
   const [emotionImage, setEmotionImage] = useState(soso);
   const [drinkImage, setDrinkImage] = useState(normaldrink);
 
-  const [drinklevelValue, setDrinklevelValue] = useState(50);
+  const [drinkLevelValue, setDrinkLevelValue] = useState(50);
   const [emotionValue, setEmotionValue] = useState(50);
 
   const [emotion, setEmotion] = useState("그냥그래요");
-  const [drinklevel, setDrinklevel] = useState("적당히");
+  const [drinkLevel, setDrinkLevel] = useState("적당히");
 
   const [searchWhisky, setSearchWhisky] = useState("");
   const [recentSearch, setRecentSearch] = useState([]);
@@ -288,6 +286,17 @@ const DiaryEditor = ({ selectedDate }) => {
     }
   }, []);
 
+  useEffect(() => {
+    setIsEdit(false);
+    setIsSave(data.id ? false : true);
+
+    if (data.id) {
+      insertData();
+    } else {
+      initData();
+    }
+  }, [selectedDate, data]);
+
   const initDataSet = () => {
     setData({
       id: null,
@@ -308,23 +317,14 @@ const DiaryEditor = ({ selectedDate }) => {
     });
   };
 
-  useEffect(() => {
-    setIsEdit(false);
-    setIsSave(data.id ? false : true);
 
-    if (data.id) {
-      insertData();
-    } else {
-      initData();
-    }
-  }, [selectedDate, data]);
 
   const insertData = () => {
     const newDrinkLevel = data.drinkLevel === "LIGHT" ? 0 : data.drinkLevel === "HEAVY" ? 100 : 50;
     const newEmotion = data.emotion === "BAD" ? 0 : data.emotion === "GOOD" ? 100 : 50;
     setSearchWhisky("");
     setContent(data.content);
-    setDrinklevelValue(newDrinkLevel);
+    setDrinkLevelValue(newDrinkLevel);
     setEmotionValue(newEmotion);
     setSearchTerms(data.drinks.map((drink) => drink.whisky.id));
   };
@@ -336,9 +336,9 @@ const DiaryEditor = ({ selectedDate }) => {
     setSearchWhisky("");
     setRecentSearch([]);
     setEmotionValue(50);
-    setDrinklevelValue(50);
+    setDrinkLevelValue(50);
     setEmotion("그냥그래요");
-    setDrinklevel("적당히");
+    setDrinkLevel("적당히");
     setContent("");
     const recentSearchData = JSON.parse(sessionStorage.getItem("recentSearch"));
     if (recentSearchData) {
@@ -364,15 +364,15 @@ const DiaryEditor = ({ selectedDate }) => {
 
   const handleDrinklevelChange = (e) => {
     const drinklevelValue = e.target.value;
-    setDrinklevelValue(drinklevelValue);
+    setDrinkLevelValue(drinklevelValue);
     if (drinklevelValue <= 33) {
-      setDrinklevel("소량");
+      setDrinkLevel("소량");
       setDrinkImage(littledrink);
     } else if (drinklevelValue <= 66) {
-      setDrinklevel("적당히");
+      setDrinkLevel("적당히");
       setDrinkImage(normaldrink);
     } else {
-      setDrinklevel("만취");
+      setDrinkLevel("만취");
       setDrinkImage(largedrink);
     }
   };
@@ -386,10 +386,10 @@ const DiaryEditor = ({ selectedDate }) => {
   //위스키 이름, 주량, 기분, 한마디
   const onCreate = async () => {
     console.log(formattedDate);
-    const numberSearchTerms = searchTerms.map(Number);
+    const numberSearchTerms = searchTerms.map(whisky => Number(whisky.id));
     const changeEmotionApi = emotionValue === 0 ? "BAD" : emotionValue === 50 ? "NORMAL" : "GOOD";
     const changeDrinkLevelApi =
-      drinklevelValue === 0 ? "LIGHT" : drinklevelValue === 50 ? "MODERATE" : "HEAVY";
+      drinkLevelValue === 0 ? "LIGHT" : drinkLevelValue === 50 ? "MODERATE" : "HEAVY";
 
     const newItem = {
       date: formattedDate.replaceAll(".", "-"),
@@ -406,10 +406,7 @@ const DiaryEditor = ({ selectedDate }) => {
     if (createIsOk) {
       const updatedData = await diaryRead(formattedDate.slice(0, 7));
       setDiaryList(updatedData);
-      await fetchDiaries(setDiaryList, setData, formattedDate);
-      console.log("=============");
-      console.log(data);
-      console.log("=============");
+      await fetchDiaries(setDiaryList, setData, selectedDate);
     }
   };
 
@@ -428,8 +425,8 @@ const DiaryEditor = ({ selectedDate }) => {
     if (window.confirm(`${formattedDate} 날의 일기를 수정하시겠습니까?`)) {
       const changeEmotionApi = emotionValue == 0 ? "BAD" : emotionValue == 50 ? "NORMAL" : "GOOD";
       const changeDrinkLevelApi =
-        drinklevelValue == 0 ? "LIGHT" : drinklevelValue == 50 ? "MODERATE" : "HEAVY";
-      console.log(drinklevelValue);
+        drinkLevelValue == 0 ? "LIGHT" : drinkLevelValue == 50 ? "MODERATE" : "HEAVY";
+      console.log(drinkLevelValue);
       console.log(emotionValue);
       console.log(changeDrinkLevelApi);
       console.log(changeEmotionApi);
@@ -461,9 +458,8 @@ const DiaryEditor = ({ selectedDate }) => {
         insertedWhiskyIds: insertedWhiskyIds.map(Number),
         deletedDrinkOrders: deletedDrinkOrders.map(Number),
       };
-      console.log(editItem);
       await diaryUpdate(editItem.id, editItem);
-      await fetchDiaries(setDiaryList, setData, data.date);
+      await fetchDiaries(setDiaryList, setData, selectedDate);
       toggleIsEdit();
     }
   };
@@ -478,16 +474,16 @@ const DiaryEditor = ({ selectedDate }) => {
       // 일기 삭제 후, 해당 월의 일기 목록 다시 불러오기
       const diaryList = await diaryRead(month);
       setDiaryList(diaryList);
-      await fetchDiaries(setDiaryList, setData, formattedDate);
+      await fetchDiaries(setDiaryList, setData, selectedDate);
       initData();
       setIsSave(true);
-      return;
     }
   };
 
   const toggleIsEdit = () => {
     setIsEdit(!isEdit);
   };
+
   return (
     <>
       <SBorderDiv>
@@ -536,18 +532,18 @@ const DiaryEditor = ({ selectedDate }) => {
             {auto && auto.length
               ? auto.map((item, index) => {
                   return (
-                    <SAutoDiv onClick={autoClick} key={item.id}>
+                    <SAutoDiv onClick={autoClick} key={item.id} id={item.id}>
                       {item.name}
                     </SAutoDiv>
                   );
                 })
               : null}
             <div>
-              {searchTerms.map((word, index) => (
+              {searchTerms.map((whisky, index) => (
                 <SDiv key={index}>
-                  <SP>{word.length > 6 ? `${word.slice(0, 6)}...` : word}</SP>
+                  <SP>{whisky.name.length > 6 ? `${whisky.name.slice(0, 6)}...` : whisky.name}</SP>
                   {(isSave || isEdit) && (
-                    <SButton onClick={() => deleteSearchWord(word)}>X</SButton>
+                    <SButton onClick={() => deleteSearchWord(whisky)}>X</SButton>
                   )}
                 </SDiv>
               ))}
@@ -557,7 +553,7 @@ const DiaryEditor = ({ selectedDate }) => {
             <SP>오늘의 주량</SP>
             <SRangeContainer>
               <SRangeDiv>
-                <STextP>{drinklevel}</STextP>
+                <STextP>{drinkLevel}</STextP>
                 <SImg src={drinkImage} alt={""} />
               </SRangeDiv>
               <SRangeInput
@@ -566,7 +562,7 @@ const DiaryEditor = ({ selectedDate }) => {
                 min="0"
                 max="100"
                 step="50"
-                value={drinklevelValue}
+                value={drinkLevelValue}
                 onChange={handleDrinklevelChange}
                 disabled={!isEdit && !isSave}
               />

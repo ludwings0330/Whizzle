@@ -34,9 +34,10 @@ export const currentComponentState = atom({
 
 export const fetchDiaries = async (setDiaryList, setData, selectDate) => {
   try {
-    selectDate = selectDate.replaceAll(".", "-");
-    const currentYearMonthDate = selectDate.substring(0, 7);
+    const currentYearMonthDate = `${selectDate.getFullYear()}-${selectDate.getMonth() < 10 ? "0" : ""}${selectDate.getMonth()+1}`
+
     const diaries = await diaryRead(currentYearMonthDate);
+
     setDiaryList(diaries);
     console.log(diaries);
 

@@ -119,16 +119,14 @@ const STbody = styled.tbody`
 `;
 
 //다이어리 캘린더
-const DiaryCalander = ({ onDateClick }) => {
-  const [date, setDate] = useState(new Date());
-  const [currentComponent, setCurrentComponent] = useRecoilState(currentComponentState);
+const DiaryCalander = ({ setSelectedDate, selectedDate }) => {
 
   function prevMonth() {
-    setDate((prevDate) => new Date(prevDate.getFullYear(), prevDate.getMonth() - 1, 1));
+    setSelectedDate((prevDate) => new Date(prevDate.getFullYear(), prevDate.getMonth() - 1, 1));
   }
 
   function nextMonth() {
-    setDate((prevDate) => new Date(prevDate.getFullYear(), prevDate.getMonth() + 1, 1));
+    setSelectedDate((prevDate) => new Date(prevDate.getFullYear(), prevDate.getMonth() + 1, 1));
   }
 
   function getDaysInMonth(year, month) {
@@ -144,29 +142,29 @@ const DiaryCalander = ({ onDateClick }) => {
   }
 
   const [clickedDay, setClickedDay] = useState(null);
-  const [diaryList, setDiaryList] = useRecoilState(diaryState);
-  const [data, setData] = useRecoilState(diaryDataState);
+  const [diaryList, setDiaryList] = useRecoilState(diaryState); // 달 리스트
+  const [data, setData] = useRecoilState(diaryDataState); // 하나
 
   useEffect(() => {
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-    fetchDiaries(setDiaryList, setData, `${year}-${month}`);
-  }, [date]);
+    fetchDiaries(setDiaryList, setData, selectedDate);
+  }, [selectedDate]);
 
-  function findItem(arr, value) {
-    for (let i = 0; i < arr.length; i++) {
-      if (arr[i].date === value) {
-        return arr[i];
+  const findItem = (arr, value) => {
+    for (const element of arr) {
+      if (element.date === value) {
+        return element;
       }
     }
     return -1;
   }
 
-  function handleDateClick(event) {
-    const clickedDate = new Date(date.getFullYear(), date.getMonth(), event.target.textContent);
+  const handleDateClick = (event) => {
+    const clickedDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), event.target.textContent);
+
     const year = clickedDate.getFullYear();
     const month = clickedDate.getMonth() + 1;
     const day = clickedDate.getDate();
+
     const clickedDateString = `${year}-${month < 10 ? "0" : ""}${month}-${
       day < 10 ? "0" : ""
     }${day}`;
@@ -176,44 +174,25 @@ const DiaryCalander = ({ onDateClick }) => {
       alert("오늘 이후의 날짜는 선택할 수 없습니다!");
       return;
     }
+
     if (clickedDay) {
       clickedDay.classList.remove("selected-day");
     }
+
     event.target.classList.add("selected-day");
     setClickedDay(event.target);
 
     const diaryItem = findItem(diaryList, clickedDateString);
-    if (diaryItem === -1) {
-      onDateClick(clickedDateString);
-      setCurrentComponent("diaryEditor");
-      setData({
-        id: 0,
-        date: "",
-        emotion: "",
-        drinkLevel: "",
-        content: "",
-        drinks: [
-          {
-            whisky: {
-              id: 0,
-              name: "",
-            },
-            drinkOrder: 0,
-          },
-        ],
-      });
-      return;
-    }
-    setCurrentComponent("diaryNewContent");
+
     setData(diaryItem);
-    onDateClick(clickedDateString);
+    setSelectedDate(clickedDate);
   }
 
   const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-  const daysInMonth = getDaysInMonth(date.getFullYear(), date.getMonth());
-  const firstDayOfMonth = getFirstDayOfMonth(date);
-  const lastDayOfMonth = getLastDayOfMonth(date);
+  const daysInMonth = getDaysInMonth(selectedDate.getFullYear(), selectedDate.getMonth());
+  const firstDayOfMonth = getFirstDayOfMonth(selectedDate);
+  const lastDayOfMonth = getLastDayOfMonth(selectedDate);
 
   const days = [];
 
@@ -222,7 +201,7 @@ const DiaryCalander = ({ onDateClick }) => {
   }
 
   for (let i = 1; i <= daysInMonth; i++) {
-    days.push(`${date.getFullYear()}-${date.getMonth() + 1}-${i}`);
+    days.push(`${selectedDate.getFullYear()}-${selectedDate.getMonth() + 1}-${i}`);
   }
 
   for (let i = 0; i < 6 - lastDayOfMonth; i++) {
@@ -244,16 +223,22 @@ const DiaryCalander = ({ onDateClick }) => {
   rows.push({ cells });
 
   useEffect(() => {
-    const activeDays = document.querySelectorAll(".active-day[data-key]");
+    const activeDays = document.querySelectorAll(".active-day");
 
     activeDays.forEach((activeDay) => {
       const dataKey = activeDay.getAttribute("data-key");
       const [rowIndex, dayIndex] = dataKey.split("-");
 
-      const dateStr = rows[rowIndex].cells[dayIndex];
-      const diary = diaryList.find((diary) => diary.date === dateStr);
-      if (diary) {
-        activeDay.style.backgroundColor = "black";
+      let dateStr = rows[rowIndex].cells[dayIndex]; // 2023-3-18 vs 2023-03-18
+      dateStr = dateStr.split('-');
+
+      dateStr = `${dateStr[0]}-${Number(dateStr[1]) < 10 ? "0" : ""}${Number(dateStr[1])}-${Number(dateStr[2]) < 10 ? "0":""}${Number(dateStr[2])}`
+
+      const result = diaryList.find((diary) => diary.date === dateStr);
+
+
+      if (result) {
+        activeDay.style.backgroundColor = "yellow";
       }
     });
   }, [diaryList, data, rows]);
@@ -263,10 +248,10 @@ const DiaryCalander = ({ onDateClick }) => {
       <SDiv>
         <SHeaderDiv>
           <SPrevButton onClick={prevMonth}></SPrevButton>
-          <SDateP>{date.toLocaleString("en-US", { month: "long", year: "numeric" })}</SDateP>
+          <SDateP>{selectedDate.toLocaleString("en-US", { month: "long", year: "numeric" })}</SDateP>
           <SNextButton onClick={nextMonth}></SNextButton>
         </SHeaderDiv>
-        <SCalanderDiv>
+        <SCalanderDiv key={diaryList}>
           <table>
             <thead>
               <tr>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import {useRecoilState, useRecoilValue, useSetRecoilState} from "recoil";
 import { currentComponentState } from "../store/indexStore";
 import styled from "styled-components";
 
@@ -12,6 +12,8 @@ import diary_header from "../assets/img/diary_header.png";
 
 //import recoil
 import { diaryState, diaryDataState, fetchDiaries } from "../store/indexStore";
+import {userState} from "../store/userStore";
+import {useNavigate} from "react-router-dom";
 
 const SHeaderDiv = styled.div`
   width: 100vw;
@@ -66,34 +68,21 @@ const SP = styled.p`
 `;
 
 const AppDiary = () => {
-  console.log("AppDiary렌딩");
-
-  const [diaryList, setDiaryList] = useRecoilState(diaryState);
-  const [data, setData] = useRecoilState(diaryDataState);
-
   let [selectedDate, setSelectedDate] = useState(new Date());
-  const setCurrentComponent = useSetRecoilState(currentComponentState);
-
-  if (!(selectedDate instanceof Date)) {
-    setSelectedDate(new Date(selectedDate));
-  }
+  const navigate = useNavigate();
+  const user = useRecoilValue(userState);
 
   useEffect(() => {
-    const fetch = async () => {
-      const year = selectedDate.getFullYear();
-      const month = String(selectedDate.getMonth() + 1).padStart(2, "0");
-      const day = String(selectedDate.getDate()).padStart(2, "0");
-      const today = `${year}-${month}-${day}`;
-      const result = await fetchDiaries(setDiaryList, setData, `${year}-${month}-${day}`);
-      if (result) {
-        await setCurrentComponent("diaryItem");
-      }
-    };
-    fetch();
-  }, [selectedDate]);
+    if(!user.id) {
+      alert("로그인하고오세요")
+      navigate("/signin");
+    }
+  })
 
   return (
     <>
+      {(user.id) ?
+          <>
       <SHeaderDiv>
         <SP
           style={{ fontSize: "40px", marginTop: "50px", marginBottom: "15px", fontWeight: "bold" }}
@@ -106,9 +95,12 @@ const AppDiary = () => {
       <SHeaderDivider />
       <SMainDiv>
         <SMainDivider />
-        <DiaryCalander onDateClick={setSelectedDate} selectedDate={selectedDate} />
+        <DiaryCalander setSelectedDate={setSelectedDate} selectedDate={selectedDate} />
         <DiaryEditor selectedDate={selectedDate} />
       </SMainDiv>
+          </>
+          : <></>
+      }
     </>
   );
 };
