@@ -9,6 +9,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.client.HttpClientErrorException.UnprocessableEntity;
 
 @RestControllerAdvice
 public class ControllerExceptionHandler {
@@ -40,6 +41,12 @@ public class ControllerExceptionHandler {
     @ExceptionHandler(DataIntegrityViolationException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public String handleConflict(Exception e) {
+        return e.getMessage();
+    }
+
+    @ExceptionHandler(UnprocessableEntity.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public String handleRestAPICall(Exception e) {
         return e.getMessage();
     }
 

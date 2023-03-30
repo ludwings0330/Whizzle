@@ -1,5 +1,6 @@
 package com.bear.whizzle.whisky.service.query;
 
+import com.bear.whizzle.domain.exception.NotFoundException;
 import com.bear.whizzle.whisky.controller.dto.WhiskySearchCondition;
 import com.bear.whizzle.whisky.repository.projection.dto.WhiskySimpleResponseDto;
 import com.bear.whizzle.whisky.repository.projection.dto.FlavorSummary;
@@ -16,5 +17,7 @@ public interface WhiskyQueryService {
     FlavorSummary findFlavorMinMax();
 
     Map<Long, Integer> findWhiskyPriceTier();
+
+    Boolean exsistByIdCached(Long whiskyId) throws NotFoundException;
 
 }
