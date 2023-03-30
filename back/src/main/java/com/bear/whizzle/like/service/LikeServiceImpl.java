@@ -3,8 +3,10 @@ package com.bear.whizzle.like.service;
 import com.bear.whizzle.domain.model.entity.Like;
 import com.bear.whizzle.domain.model.entity.Member;
 import com.bear.whizzle.domain.model.entity.Review;
+import com.bear.whizzle.domain.model.type.Action;
 import com.bear.whizzle.like.repository.LikeRepository;
 import com.bear.whizzle.member.service.MemberService;
+import com.bear.whizzle.memberlevellog.service.MemberLevelLogService;
 import com.bear.whizzle.review.service.ReviewService;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +24,7 @@ public class LikeServiceImpl implements LikeService {
     private final LikeRepository likeRepository;
     private final MemberService memberService;
     private final ReviewService reviewService;
+    private final MemberLevelLogService levelLogService;
 
     @Override
     @Transactional
@@ -76,6 +79,7 @@ public class LikeServiceImpl implements LikeService {
 
     private void likeSaveProcess(Long memberId, Long reviewId) {
         likeRepository.save(createLike(memberId, reviewId));
+        levelLogService.increaseLevelByActivity(memberId, Action.LIKE);
     }
 
 }

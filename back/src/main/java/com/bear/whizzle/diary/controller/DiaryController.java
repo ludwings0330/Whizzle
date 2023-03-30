@@ -2,12 +2,14 @@ package com.bear.whizzle.diary.controller;
 
 import com.bear.whizzle.auth.service.PrincipalDetails;
 import com.bear.whizzle.badge.service.BadgeService;
-import com.bear.whizzle.diary.mapper.DiaryMapper;
 import com.bear.whizzle.diary.controller.dto.DiaryRequestSaveDto;
 import com.bear.whizzle.diary.controller.dto.DiaryRequestUpdateDto;
 import com.bear.whizzle.diary.controller.dto.DiaryResponseDto;
+import com.bear.whizzle.diary.mapper.DiaryMapper;
 import com.bear.whizzle.diary.service.DiaryService;
 import com.bear.whizzle.domain.exception.NotFoundException;
+import com.bear.whizzle.domain.model.type.Action;
+import com.bear.whizzle.memberlevellog.service.MemberLevelLogService;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,6 +37,7 @@ public class DiaryController {
 
     private final DiaryService diaryService;
     private final BadgeService badgeService;
+    private final MemberLevelLogService levelLogService;
 
     /**
      * 몇 월의 다이어리 목록과 상태 코드 200 반환
@@ -70,6 +73,7 @@ public class DiaryController {
         }
 
         diaryService.writeDiary(member.getMemberId(), diaryRequestSaveDto);
+        levelLogService.increaseLevelByActivity(member.getMemberId(), Action.DIARY);
         badgeService.awardBadgeOnDiaryCountReached(member.getMemberId());
     }
 
