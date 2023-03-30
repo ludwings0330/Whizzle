@@ -2,7 +2,6 @@ package com.bear.whizzle.whisky.controller;
 
 import com.bear.whizzle.auth.service.AuthService;
 import com.bear.whizzle.auth.service.PrincipalDetails;
-import com.bear.whizzle.domain.exception.NotFoundException;
 import com.bear.whizzle.domain.model.document.WhiskyDocument;
 import com.bear.whizzle.preference.repository.projection.dto.PreferenceStatisticsDto;
 import com.bear.whizzle.preference.service.query.PreferenceQueryService;
@@ -76,11 +75,10 @@ public class WhiskyController {
      * 특정 위스키의 선호 통계와 상태 코드 200을 응답
      *
      * @param whiskyId 선호 통계를 조사하려는 위스키 ID
-     * @return 선호 {나이대, 성별}에 대한 정보
-     * @throws NotFoundException 위스키에 작성된 리뷰가 없는 경우 발생하는 예외
+     * @return 선호 {나이대, 성별}에 대한 정보, 선호 정보가 없을 경우 null을 반환
      */
     @GetMapping("/{whiskyId}/statistics/any")
-    public PreferenceStatisticsDto estimateWhiskyTopPreference(@PathVariable Long whiskyId) throws NotFoundException {
+    public PreferenceStatisticsDto estimateWhiskyTopPreference(@PathVariable Long whiskyId) {
         return preferenceQueryService.estimateWhiskyTopPreference(whiskyId);
     }
 
