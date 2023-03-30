@@ -1,6 +1,7 @@
 package com.bear.whizzle.like.repository;
 
 import com.bear.whizzle.domain.model.entity.Like;
+import com.bear.whizzle.domain.model.entity.Review;
 import com.bear.whizzle.domain.model.type.id.LikeId;
 import java.util.List;
 import java.util.Optional;
@@ -14,5 +15,7 @@ public interface LikeRepository extends JpaRepository<Like, LikeId> {
     Optional<Like> findByReviewIdAndMemberId(@Param("reviewId") long reviewId, @Param("memberId") long memberId);
 
     List<Like> findByMemberIdAndReviewIdIn(@Param("memberId") long memberId, @Param("reviewIds") List<Long> reviewIds);
+
+    List<Like> findAllByReviewIn(List<Review> reviews);
 
 }
