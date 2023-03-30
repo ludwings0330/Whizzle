@@ -3,6 +3,7 @@ import { useRecoilState } from "recoil";
 import { diaryDataState, diaryState, fetchDiaries } from "../../../store/indexStore";
 //import component
 import { diaryCreate, diaryDelete, diaryRead, diaryUpdate } from "../../../apis/diary";
+import { getAutocomplete } from "../../../apis/search";
 
 //import css
 import styled from "styled-components";
@@ -25,6 +26,7 @@ const SBorderDiv = styled.div`
   text-align: left;
   padding: 40px 60px 40px 40px;
   box-shadow: 5px 5px 5px #e1e1e1;
+  overflow: auto;
 `;
 
 const SP = styled.p`
@@ -205,6 +207,26 @@ const DiaryEditor = ({ selectedDate }) => {
     },
   ]);
 
+  // 검색어 자동완성
+  async function autoword(word) {
+    try {
+      const autoWord = await getAutocomplete(word);
+      console.log(autoWord);
+      setAuto(autoWord);
+    } catch (error) {
+      console.log("검색어 자동 완성 실패");
+    }
+  }
+
+  const autoClick = () => {
+    //id 값 받아오기
+    //위스키 이름 아래에 띄우기
+    //wordChange초기화
+    //위스키 데이터 id값으로 넘기기
+    //위스키 데이터 없다면 막기
+    //백엔드 등록 성공 알림 왔을 때만 등록 처리하기
+  };
+
   const [data, setData] = useRecoilState(diaryDataState);
   const [diaryList, setDiaryList] = useRecoilState(diaryState);
 
@@ -235,6 +257,7 @@ const DiaryEditor = ({ selectedDate }) => {
 
   const wordChange = (e) => {
     setSearchWhisky(e.target.value);
+    autoword(e.target.value);
   };
 
   const deleteRecentSearchWord = (word) => {
@@ -397,6 +420,7 @@ const DiaryEditor = ({ selectedDate }) => {
   };
   // 추가된 함수
   const handleQuitEdit = () => {
+    insertData();
     setIsEdit(false);
   };
 
@@ -509,10 +533,9 @@ const DiaryEditor = ({ selectedDate }) => {
                 autoComplete="off"
               />
             )}
-            {auto.length
+            {auto && auto.length
               ? auto.map((item, index) => {
-                  console.log(item);
-                  return <SAutoDiv>{item.name}</SAutoDiv>;
+                  return <SAutoDiv onClick={autoClick}>{item.name}</SAutoDiv>;
                 })
               : null}
             <div>
