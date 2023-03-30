@@ -7,11 +7,9 @@ import com.bear.whizzle.domain.model.type.Flavor;
 import com.bear.whizzle.keep.repository.KeepCustomRepository;
 import com.bear.whizzle.preference.repository.PreferenceRepository;
 import com.bear.whizzle.recommend.PreferenceMapper;
-import com.bear.whizzle.recommend.RecWhiskyMapper;
+import com.bear.whizzle.recommend.RecommendWhiskyMapper;
 import com.bear.whizzle.recommend.controller.dto.PreferenceDto;
 import com.bear.whizzle.recommend.controller.dto.RecWhiskyRequestDto;
-import com.bear.whizzle.recommend.controller.dto.RecWhiskyResponseDto;
-import com.bear.whizzle.recommend.controller.dto.SimilarWhiskyResponseDto;
 import com.bear.whizzle.whisky.repository.WhiskyCustomRepository;
 import com.bear.whizzle.whisky.repository.WhiskyRepository;
 import com.bear.whizzle.whisky.repository.projection.dto.FlavorSummary;
@@ -93,37 +91,22 @@ public class RecServiceImpl implements RecService {
     }
 
     /**
-     * 추천 결과 위스키 정보 조회 with Keep
+     * 조회할 위스키 정보 조회 with keep
      *
-     * @param filteredWhiskies : 모델로부터 추천받은 위스키 중 원하는 가격대 맞는 9개 위스키 index
-     * @param memberId         : 접근중인 주체 memberId
-     * @return 추천 결과 페이지에 출력할 위스키 정보 DTO
+     * @param whiskies   : 조회할 위스키 index 리스트
+     * @param memberId   : 사용자 id [ 로그인 시 memberId | 비로그인 시 0L ]
+     * @param returnType : 반환 타입
+     * @return List<returnType> : 전달받은 returnType 리스트로 반환
      */
     @Override
-    public List<RecWhiskyResponseDto> findRecWhiskies(List<Long> filteredWhiskies, Long memberId) {
-        Map<Long, Whisky> whiskyMap = whiskyCustomRepository.findByIds(filteredWhiskies);
-        Map<Long, Boolean> myKeeps = memberId != 0L ? keepCustomRepository.whetherKeep(filteredWhiskies, memberId) : new HashMap<>();
-        List<RecWhiskyResponseDto> recWhiskyResponseDtos = new ArrayList<>();
-        filteredWhiskies.forEach(
-                r -> recWhiskyResponseDtos.add(RecWhiskyMapper.toRecWhiskyResponseDto(whiskyMap.get(r), myKeeps.containsKey(r))));
-        return recWhiskyResponseDtos;
-    }
-
-    /**
-     * 유사한 위스키 정보 조회 with keep
-     *
-     * @param simWhiskies : 모델로부터 추천받은 위스키 중 원하는 가격대 맞는 9개 위스키 index
-     * @param memberId    : 접근중인 주체 memberId
-     * @return 추천 결과 페이지에 출력할 위스키 정보 DTO
-     */
-    @Override
-    public List<SimilarWhiskyResponseDto> findSimWhiskies(List<Long> simWhiskies, Long memberId) {
-        Map<Long, Whisky> whiskyMap = whiskyCustomRepository.findByIds(simWhiskies);
-        Map<Long, Boolean> myKeeps = memberId != 0L ? keepCustomRepository.whetherKeep(simWhiskies, memberId) : new HashMap<>();
-        List<SimilarWhiskyResponseDto> similarWhiskyResponseDtos = new ArrayList<>();
-        simWhiskies.forEach(
-                r -> similarWhiskyResponseDtos.add(RecWhiskyMapper.toSimilarWhiskyResponseDto(whiskyMap.get(r), myKeeps.containsKey(r))));
-        return similarWhiskyResponseDtos;
+    public <T> List<T> findRecommendWhiskies(List<Long> whiskies, Long memberId, Class<T> returnType) {
+        Map<Long, Whisky> whiskyMap = whiskyCustomRepository.findByIds(whiskies);
+        Map<Long, Boolean> myKeeps = memberId != 0L ? keepCustomRepository.whetherKeep(whiskies, memberId) : new HashMap<>();
+        List<T> whiskiesResponseDto = new ArrayList<>();
+        whiskies.forEach(
+                r -> whiskiesResponseDto.add(
+                        returnType.cast(RecommendWhiskyMapper.toWhiskyResponseDto(whiskyMap.get(r), myKeeps.containsKey(r), returnType))));
+        return whiskiesResponseDto;
     }
 
 }

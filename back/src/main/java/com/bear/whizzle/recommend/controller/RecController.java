@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javax.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -23,11 +22,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException.UnprocessableEntity;
+import org.springframework.web.client.HttpServerErrorException.InternalServerError;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @RestController
 @RequiredArgsConstructor
-@Slf4j
 public class RecController {
 
     private final WebClient webClient;
@@ -35,21 +34,32 @@ public class RecController {
     private final WhiskyQueryService whiskyQueryService;
 
     /**
-     * 비로그인 위스키 추천 조회
+     * 위스키 추천 조회 로그인, 비로그인 구분 X
      *
+     * @param member              접근중인 주체
      * @param recWhiskyRequestDto : 사용자 선호 정보
      * @return topK 개 추천 위스키 정보 조회
-     * @throws io.lettuce.core.cluster.UnknownPartitionException : fastAPI로 올바르지 않은 데이터 전달 시 발생
+     * @throws UnprocessableEntity : fastAPI로 전달한 parameter 오류
+     * @throws InternalServerError : 학습된 모델에 포함되지 않은 기존 사용자 추천 로직 수행
      */
     @PostMapping("/api/rec/whisky/any")
     @ResponseStatus(HttpStatus.OK)
     public List<RecWhiskyResponseDto> recPersonalWhisky(
-            @RequestBody RecWhiskyRequestDto recWhiskyRequestDto) throws UnprocessableEntity, NotFoundException {
-        Long memberId = 0L;
+            @AuthenticationPrincipal PrincipalDetails member,
+            @RequestBody RecWhiskyRequestDto recWhiskyRequestDto
+    ) throws UnprocessableEntity, NotFoundException, InternalServerError {
+        Long memberId = member == null ? 0L : member.getMemberId();
+
         PreferenceDto preferenceDto = recService.extractPreference(memberId, recWhiskyRequestDto);
-        List<Long> recWhiskies = recWebClientCall(preferenceDto);
-        List<Long> filteredRecWhikies = recService.filterByPriceTier(recWhiskies, preferenceDto.getPriceTier());
-        return recService.findRecWhiskies(filteredRecWhikies, memberId);
+        // member가 학습에 포함된 사용자인지 아닌지 판단 로직 필요
+
+        return recService.findRecommendWhiskies(
+                recService.filterByPriceTier(
+                        recWebClientCall(preferenceDto), preferenceDto.getPriceTier()
+                ),
+                memberId,
+                RecWhiskyResponseDto.class
+        );
     }
 
     /**
@@ -90,7 +100,15 @@ public class RecController {
         return recService.findSimWhiskies(simWhiskies, member == null ? 0L : member.getMemberId());
     }
 
-    private List<Long> recWebClientCall(PreferenceDto preferenceDto) {
+    /**
+     * 위스키 추천 RestAPI - fastAPI
+     *
+     * @param preferenceDto
+     * @return List<Long> : 추천 순위로 정렬된 위스키 index
+     * @throws UnprocessableEntity : fastAPI로 전달한 parameter 오류
+     * @throws InternalServerError : 학습된 모델에 포함되지 않은 기존 사용자 추천 로직 수행
+     */
+    private List<Long> recWebClientCall(PreferenceDto preferenceDto) throws UnprocessableEntity, InternalServerError {
         return webClient.post()
                         .uri("/rec/personal-whisky")
                         .contentType(MediaType.APPLICATION_JSON)
