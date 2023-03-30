@@ -33,25 +33,6 @@ const SSpan = styled.span`
   color: #f84f5a;
 `;
 
-const SBtn = styled.button`
-  width: 257px;
-  height: 64px;
-  margin-bottom: 100px;
-  font-family: "Pretendard Variable";
-  border: 1px solid #a2a2a2;
-  border-radius: 10px;
-  color: #9b9b9b;
-  font-size: 20px;
-  background-color: transparent;
-  cursor: pointer;
-  margin-top: 50px;
-
-  :hover {
-    background-color: rgba(155, 155, 155, 0.2);
-    color: rgba(0, 0, 0, 0.8);
-  }
-`;
-
 const SearchResult = () => {
   useEffect(() => {
     changeHeader();

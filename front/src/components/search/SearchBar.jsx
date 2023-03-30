@@ -111,11 +111,13 @@ const SearchBar = () => {
   const [recentSearch, setRecentSearch] = useState([]);
   const [autocompleteWords, setAutocompleteWords] = useState([]);
 
+  // 검색어 자동완성
   async function autoword(word) {
     try {
       const autoWord = await getAutocomplete(word);
-      console.log(autoWord);
-      setAutocompleteWords(autoWord);
+      const onlyWord = autoWord.map((item) => item.name);
+      console.log(onlyWord);
+      setAutocompleteWords(onlyWord);
     } catch (error) {
       console.log("검색어 자동 완성 실패");
     }
@@ -128,15 +130,15 @@ const SearchBar = () => {
     }
   }, []);
 
+  // 검색어를 로컬 스토리지에 최신순으로 저장
   const setRecentSearchData = (value) => {
-    // 검색어를 로컬 스토리지에 최신순으로 저장
     let updatedRecentSearch = [...recentSearch];
     const existingIndex = updatedRecentSearch.indexOf(value);
     if (existingIndex !== -1) {
       updatedRecentSearch.splice(existingIndex, 1);
     }
     updatedRecentSearch.unshift(value);
-    if (updatedRecentSearch.length > 3) {
+    if (updatedRecentSearch.length > 5) {
       updatedRecentSearch.pop();
     }
     localStorage.setItem("recentSearch", JSON.stringify(updatedRecentSearch));
@@ -156,7 +158,11 @@ const SearchBar = () => {
 
   const wordChange = (e) => {
     setSearchWord(e.target.value);
-    autoword(e.target.value);
+    if (e.target.value) {
+      autoword(e.target.value);
+    } else {
+      setAutocompleteWords([]);
+    }
   };
 
   // 검색어 삭제
@@ -182,7 +188,9 @@ const SearchBar = () => {
         setAutocompleteVisible(false);
       } else if (autocompleteRef.current.contains(event.target)) {
         const search = document.getElementById("mySearch");
-        autoword(search.value);
+        if (search.value) {
+          autoword(search.value);
+        }
       }
     }
     document.addEventListener("click", handleClickOutside);
@@ -202,22 +210,22 @@ const SearchBar = () => {
           placeholder="찾고자 하는 위스키 이름을 입력하세요."
           onChange={wordChange}
           value={searchWord}
-          autoComplete="off"
         />
       </SInputDiv>
       {autocompleteVisible && (
         <SAutocompleteDiv>
           <SWordDiv>
-            {recentSearch.map((word, index) => (
-              <SDiv
-                style={{ backgroundImage: `url(${recentIcon})` }}
-                key={index}
-                onClick={() => setRecentSearchData(word)}
-              >
-                <SP>{word.length > 30 ? `${word.slice(0, 30)}...` : word}</SP>
-                <SButton onClick={(event) => deleteRecentSearchWord(event, word)}>X</SButton>
-              </SDiv>
-            ))}
+            {!searchWord &&
+              recentSearch.map((word, index) => (
+                <SDiv
+                  style={{ backgroundImage: `url(${recentIcon})` }}
+                  key={index}
+                  onClick={() => setRecentSearchData(word)}
+                >
+                  <SP>{word.length > 30 ? `${word.slice(0, 30)}...` : word}</SP>
+                  <SButton onClick={(event) => deleteRecentSearchWord(event, word)}>X</SButton>
+                </SDiv>
+              ))}
             {autocompleteWords &&
               autocompleteWords.map((word, index) => (
                 <SDiv key={index + 4} onClick={() => setRecentSearchData(word)}>
