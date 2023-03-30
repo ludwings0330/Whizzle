@@ -20,6 +20,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,9 +36,45 @@ import org.hibernate.annotations.ColumnDefault;
         }
 )
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
+@Builder
 @ToString(callSuper = true)
 public class Review extends BaseTimeEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    @NotNull
+    @ToString.Exclude
+    private Member member;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "whisky_id")
+    @NotNull
+    @ToString.Exclude
+    private Whisky whisky;
+
+    @NotNull
+    @Min(0)
+    @Max(5)
+    private Float rating;
+
+    @Lob
+    private String content;
+
+    @NotNull
+    @ColumnDefault("0")
+    @Builder.Default
+    private Integer likeCount = 0;
+
+    @NotNull
+    @ColumnDefault("0")
+    @Builder.Default
+    private Boolean isDeleted = Boolean.FALSE;
 
     @OneToMany(
             mappedBy = "review",
@@ -45,43 +82,8 @@ public class Review extends BaseTimeEntity {
             orphanRemoval = true,
             fetch = FetchType.LAZY
     )
-//    @Size(max = 5) // 삭제한 이미지들을 유지하기때문에 5개 이상이 가능하다.
     @ToString.Exclude
     private final List<ReviewImage> images = new ArrayList<>();
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    @NotNull
-    @ToString.Exclude
-    private Member member;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "whisky_id")
-    @NotNull
-    @ToString.Exclude
-    private Whisky whisky;
-    @NotNull
-    @Min(0)
-    @Max(5)
-    private Float rating;
-    @Lob
-    private String content;
-    @NotNull
-    @ColumnDefault("0")
-    private Integer likeCount;
-    @NotNull
-    @ColumnDefault("0")
-    private Boolean isDeleted;
-
-    @Builder
-    public Review(Member member, Whisky whisky, Float rating, String content) {
-        super();
-        this.member = member;
-        this.whisky = whisky;
-        this.rating = rating;
-        this.content = content;
-    }
 
     @PrePersist
     private void prePersist() {
