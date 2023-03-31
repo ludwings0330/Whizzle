@@ -42,7 +42,7 @@ public class DiaryServiceImpl implements DiaryService {
         Member member = memberRepository.getReferenceById(memberId);
         Diary diary = DiaryMapper.toDiary(member, diaryRequestSaveDto);
 
-        return diaryRepository.findByMemberIdAndDate(memberId, diaryRequestSaveDto.getDate())
+        return diaryRepository.findWithDrinksByMemberIdAndDate(memberId, diaryRequestSaveDto.getDate())
                               .map(found -> {
                                   found.update(diary);
                                   return drinkService.writeDrinks(found, diaryRequestSaveDto.getWhiskyIds());
