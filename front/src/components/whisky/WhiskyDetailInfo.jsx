@@ -109,7 +109,7 @@ const WhiskyDetailInfo = (props) => {
           </STextDiv>
           <STextDiv style={{ marginTop: "30px" }}>
             <SP style={{ fontSize: "40px", marginRight: "20px" }}>
-              {whisky.avg_rating ? whisky.avg_rating : "NR"}
+              {whisky.avgRating ? whisky.avgRating : "NR"}
             </SP>
             <SRatingDiv>
               <ReactStars

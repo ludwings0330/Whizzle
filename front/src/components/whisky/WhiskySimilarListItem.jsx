@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { userState } from "../../store/userStore";
+import { useRecoilValue } from "recoil";
+import { keepToggle, getKeep } from "../../apis/whiskyDetail";
 import favoriteBorder from "../../assets/img/favorite_border.png";
 import favoriteFilled from "../../assets/img/favorite_filled.png";
 import ReactStars from "react-stars";
@@ -97,47 +100,72 @@ const SName = styled.div`
 `;
 
 const WhiskySimilarListItem = (props) => {
+  const whisky = props.whisky;
   const navigate = useNavigate();
-  const [isLiked, setIsLiked] = useState(false);
+  const [isKeep, setIsKeep] = useState(false);
 
   const goDetail = () => {
     if (props.notScroll) {
-      navigate(`/whisky/${props.whisky.id}`);
+      navigate(`/whisky/${whisky.id}`);
     }
   };
 
-  const keepHandler = (event) => {
-    event.stopPropagation();
-    setIsLiked((prev) => !prev);
+  // keep 관련
+  const user = useRecoilValue(userState);
+  const isLogin = Boolean(user.id);
+
+  async function getKeepInfo(param) {
+    try {
+      const keepInfo = await getKeep(param);
+      setIsKeep(keepInfo);
+    } catch (error) {
+      console.log("킵 정보 조회 실패");
+    }
+  }
+
+  useEffect(() => {
+    if (isLogin) {
+      getKeepInfo(whisky.id);
+    }
+  }, []);
+
+  const keepHandler = (e) => {
+    e.stopPropagation();
+    if (isLogin) {
+      setIsKeep(!isKeep);
+      keepToggle(whisky.id);
+    } else if (window.confirm("로그인이 필요한 기능입니다.\n로그인 페이지로 이동하시겠습니까?")) {
+      navigate("/signin");
+    }
   };
 
   return (
     <SCard onClick={goDetail}>
       <STop>
         <SContainer>
-          <SImg src={require(`../../assets/img/whisky_preset/${props.index + 1}.png`)} />
+          <SImg src={whisky.imageUrl} alt="#" />
         </SContainer>
         <SRight>
-          {isLiked ? (
-            <SLikeImg onClick={keepHandler} src={favoriteFilled} alt="like.png" />
-          ) : (
-            <SLikeImg onClick={keepHandler} src={favoriteBorder} alt="like.png" />
-          )}
+          <SLikeImg
+            onClick={keepHandler}
+            src={isKeep ? favoriteFilled : favoriteBorder}
+            alt="like.png"
+          />
           <SRating>
-            <SAvg>{props.whisky.avg_rating}</SAvg>
+            <SAvg>{whisky.avgRating}</SAvg>
             <ReactStars
               count={5}
-              value={Math.round(props.whisky.avg_rating * 2) / 2}
+              value={Math.round(whisky.avgRating * 2) / 2}
               edit={false}
               size={20}
               color1={"rgba(128, 128, 128, 0.2)"}
               color2={"#F84F5A"}
             />
-            <p style={{ margin: 0 }}>{props.whisky.total_rating} rating(s)</p>
+            <p style={{ margin: 0 }}>{whisky.reviewCount} rating(s)</p>
           </SRating>
         </SRight>
       </STop>
-      <SName>{props.whisky.name}</SName>
+      <SName>{whisky.name}</SName>
     </SCard>
   );
 };
