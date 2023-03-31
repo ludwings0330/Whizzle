@@ -4,6 +4,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { preference, recommendResult } from "../store/indexStore";
 import { userState } from "../store/userStore";
 import { preferenceSave, recommend } from "../apis/recommend";
+import { getPreference } from "../apis/userinfo";
 import presetWisky from "../constants/presetWhisky";
 import { whiskyDetail } from "../apis/whiskyDetail";
 import { motion, AnimatePresence } from "framer-motion";
@@ -112,11 +113,43 @@ const AppRecommendQuestion = () => {
   const [direction, setDirection] = useState("next");
   const [barWidth, setBarWidth] = useState(0);
 
+  const goResult = async () => {
+    if (isLogin) {
+      try {
+        const userPreference = await getPreference(user.id);
+        if (userPreference.status === 200) {
+          setPreferenceValue((prev) => {
+            return { ...prev, flavor: userPreference.data.flavor };
+          });
+          // console.log(userPreference.data);
+          const recommendData = {
+            priceTier: preferenceValue.priceTier,
+            flavor: preferenceValue.flavor,
+          };
+          // console.log(recommendData);
+          try {
+            let recommendedResult;
+            recommendedResult = await recommend(recommendData);
+            // console.log(recommendedResult);
+            if (recommendedResult !== undefined) {
+              setResultValue(recommendedResult);
+              navigate("/recommend/result");
+            }
+          } catch {
+            console.log("위스키 추천 실패");
+          }
+        }
+      } catch {
+        console.log("사용자 선호 정보 요청 실패");
+      }
+    }
+  };
+
   const flavorSubmitHandler = async () => {
     setDirection("next");
     setActivePage(6);
 
-    // axios 요청
+    // 백에 취향정보 저장
     const saveData = {
       gender: preferenceValue.gender,
       age: preferenceValue.age,
@@ -128,10 +161,11 @@ const AppRecommendQuestion = () => {
       try {
         await preferenceSave(saveData);
       } catch {
-        console.log("취향 정보 저장 실페");
+        console.log("취향 정보 저장 실패");
       }
     }
 
+    // 위스키 추천 요청
     const recommendData = {
       priceTier: Number(preferenceValue.price),
       flavor: preferenceValue.flavor,
@@ -154,22 +188,7 @@ const AppRecommendQuestion = () => {
     setDirection("next");
     setActivePage(6);
 
-    // axios 요청
-    const saveData = {
-      gender: preferenceValue.gender,
-      age: preferenceValue.age,
-      priceTier: Number(preferenceValue.price),
-      whiskies: preferenceValue.whiskies,
-    };
-
-    if (isLogin) {
-      try {
-        await preferenceSave(saveData);
-      } catch {
-        console.log("취향 정보 저장 실패");
-      }
-    }
-
+    // 위스키 추천 요청
     const recommendData = {
       priceTier: Number(preferenceValue.price),
       whiskies: [preferenceValue.whiskies[0]],
@@ -183,6 +202,7 @@ const AppRecommendQuestion = () => {
       console.log("위스키 추천 실패");
     }
 
+    // 선택된 위스키로 flavor 가져와서 저장
     try {
       const selectedWhisky = await whiskyDetail(presetWisky[preferenceValue.whiskies[0]].id);
       const selectedWhiskyFlavor = selectedWhisky.flavor;
@@ -193,12 +213,31 @@ const AppRecommendQuestion = () => {
       console.log("위스키 취향 정보 불러오기 실패");
     }
 
+    // 백에 취향정보 저장
+    const saveData = {
+      gender: preferenceValue.gender,
+      age: preferenceValue.age,
+      priceTier: Number(preferenceValue.price),
+      flavor: preferenceValue.selectedWhiskyFlavor,
+    };
+
+    if (isLogin) {
+      try {
+        await preferenceSave(saveData);
+      } catch {
+        console.log("취향 정보 저장 실패");
+      }
+    }
+
     setTimeout(() => {
       navigate(`/recommend/result`);
     }, 2000);
   };
 
-  // footer 제거하는 로직
+  useEffect(() => {
+    goResult();
+  }, []);
+
   useEffect(() => {
     const footer = document.getElementById("footer");
     footer.style.display = "none";
@@ -219,6 +258,26 @@ const AppRecommendQuestion = () => {
       setDirection("next");
       setActivePage(4);
     } else if (activePage === 3 && preferenceValue.isExperience === "false") {
+      setPreferenceValue((prev) => {
+        return {
+          ...prev,
+          flavor: {
+            smoky: 0,
+            peaty: 0,
+            spicy: 0,
+            herbal: 0,
+            oily: 0,
+            body: 0,
+            rich: 0,
+            sweet: 0,
+            salty: 0,
+            vanilla: 0,
+            tart: 0,
+            fruity: 0,
+            floral: 0,
+          },
+        };
+      });
       setDirection("next");
       setActivePage(5);
     } else if (activePage === 4 && !preferenceValue.whiskies) {
