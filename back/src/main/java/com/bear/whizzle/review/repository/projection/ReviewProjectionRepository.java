@@ -33,7 +33,7 @@ public class ReviewProjectionRepository {
                 .innerJoin(review.member, member).fetchJoin()
                 .where(review.whisky.id.eq(whiskyId),
                        pagingCondition(searchCondition),
-                       review.isDeleted.eq(Boolean.FALSE))
+                       review.isDeleted.isFalse())
                 .orderBy(getOrderBy(searchCondition))
                 .limit(5)
                 .fetch();
@@ -94,7 +94,7 @@ public class ReviewProjectionRepository {
                            .innerJoin(review.whisky, whisky).fetchJoin()
                            .where(review.member.id.eq(memberId),
                                   myPageCondition(searchCondition),
-                                  review.isDeleted.eq(Boolean.FALSE))
+                                  review.isDeleted.isFalse())
                            .orderBy(review.createdDateTime.desc(), review.id.desc())
                            .limit(5)
                            .fetch();
@@ -111,7 +111,7 @@ public class ReviewProjectionRepository {
                 .innerJoin(review.member, member).fetchJoin()
                 .where(review.whisky.id.eq(whiskyId),
                        review.member.id.eq(memberId),
-                       review.isDeleted.eq(Boolean.FALSE))
+                       review.isDeleted.isFalse())
                 .orderBy(review.createdDateTime.desc(), review.id.desc())
                 .limit(3)
                 .fetch();
