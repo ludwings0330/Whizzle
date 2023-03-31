@@ -123,33 +123,32 @@ const AppRecommendQuestion = () => {
       priceTier: Number(preferenceValue.price),
       flavor: preferenceValue.flavor,
     };
+
+    if (isLogin) {
+      try {
+        await preferenceSave(saveData);
+      } catch {
+        console.log("취향 정보 저장 실페");
+      }
+    }
+
     const recommendData = {
       priceTier: Number(preferenceValue.price),
       flavor: preferenceValue.flavor,
     };
 
-    let recommendedResult;
-    if (isLogin) {
-      await preferenceSave(saveData);
+    try {
+      let recommendedResult;
+      recommendedResult = await recommend(recommendData);
+      setResultValue(recommendedResult);
+    } catch {
+      console.log("위스키 추천 실패");
     }
-    recommendedResult = await recommend(recommendData);
-    console.log(recommendedResult);
 
-    setResultValue(recommendedResult);
     setTimeout(() => {
       navigate(`/recommend/result`);
-    }, 7000);
+    }, 2000);
   };
-
-  // footer 제거하는 로직
-  useEffect(() => {
-    const footer = document.getElementById("footer");
-    footer.style.display = "none";
-
-    return () => {
-      footer.style.display = "flex";
-    };
-  });
 
   const whiskySubmitHandler = async () => {
     setDirection("next");
@@ -162,32 +161,52 @@ const AppRecommendQuestion = () => {
       priceTier: Number(preferenceValue.price),
       whiskies: preferenceValue.whiskies,
     };
+
+    if (isLogin) {
+      try {
+        await preferenceSave(saveData);
+      } catch {
+        console.log("취향 정보 저장 실패");
+      }
+    }
+
     const recommendData = {
       priceTier: Number(preferenceValue.price),
       whiskies: [preferenceValue.whiskies[0]],
     };
 
-    let recommendedResult;
-    if (isLogin) {
-      await preferenceSave(saveData);
+    try {
+      let recommendedResult;
+      recommendedResult = await recommend(recommendData);
+      setResultValue(recommendedResult);
+    } catch {
+      console.log("위스키 추천 실패");
     }
-    recommendedResult = await recommend(recommendData);
-    console.log(recommendedResult);
 
-    setResultValue(recommendedResult);
-
-    const selectedWhisky = await whiskyDetail(presetWisky[preferenceValue.whiskies[0]].id);
-    const selectedWhiskyFlavor = selectedWhisky.flavor;
-    console.log(selectedWhiskyFlavor);
-    setPreferenceValue((prev) => {
-      return { ...prev, flavor: selectedWhiskyFlavor };
-    });
-    console.log(preferenceValue);
+    try {
+      const selectedWhisky = await whiskyDetail(presetWisky[preferenceValue.whiskies[0]].id);
+      const selectedWhiskyFlavor = selectedWhisky.flavor;
+      setPreferenceValue((prev) => {
+        return { ...prev, flavor: selectedWhiskyFlavor };
+      });
+    } catch {
+      console.log("위스키 취향 정보 불러오기 실패");
+    }
 
     setTimeout(() => {
       navigate(`/recommend/result`);
-    }, 7000);
+    }, 2000);
   };
+
+  // footer 제거하는 로직
+  useEffect(() => {
+    const footer = document.getElementById("footer");
+    footer.style.display = "none";
+
+    return () => {
+      footer.style.display = "flex";
+    };
+  });
 
   const goNextPage = () => {
     if (activePage === 1 && !(preferenceValue.age && preferenceValue.gender)) {

@@ -79,16 +79,20 @@ const MyKeep = () => {
     };
     if (!isLoading && !isLast) {
       setIsLoading(true);
-      const keepedData = await keepApi(params);
-      const keepedWhiskys = keepedData.content;
-      // console.log(keepedWhiskys);
-      setWhiskys((prev) => {
-        return [...prev, ...keepedWhiskys];
-      });
-      if (keepedData.last === true) {
-        setIsLast(true);
+      try {
+        const keepedData = await keepApi(params);
+        const keepedWhiskys = keepedData.content;
+        // console.log(keepedWhiskys);
+        setWhiskys((prev) => {
+          return [...prev, ...keepedWhiskys];
+        });
+        if (keepedData.last === true) {
+          setIsLast(true);
+        }
+        setLastId(keepedWhiskys[keepedWhiskys.length - 1].id);
+      } catch {
+        console.log("나의 킵 목록 불러오기 실패");
       }
-      setLastId(keepedWhiskys[keepedWhiskys.length - 1].id);
       setIsLoading(false);
     }
   };

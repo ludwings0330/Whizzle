@@ -19,3 +19,13 @@ export const reviewApi = async (id, params) => {
     console.log(error);
   }
 };
+
+export const badgeApi = async (id, params) => {
+  try {
+    const res = await api.get(`/api/members/${id}/badges/any`);
+    // console.log(res.data);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};

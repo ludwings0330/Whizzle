@@ -80,19 +80,23 @@ const MyReivew = () => {
   const myReviewApi = async () => {
     if (!isLoading && !isLast) {
       setIsLoading(true);
-      // console.log(lastId);
-      const params = {
-        baseId: lastId,
-        reviewOrder: "RECENT",
-      };
-      const myReviews = await reviewApi(id, params);
-      if (myReviews.length > 0) {
-        setReviews((prev) => {
-          return [...prev, ...myReviews];
-        });
-        setLastId(myReviews[myReviews.length - 1].reviewId);
-      } else {
-        setIsLast(true);
+
+      try {
+        const params = {
+          baseId: lastId,
+          reviewOrder: "RECENT",
+        };
+        const myReviews = await reviewApi(id, params);
+        if (myReviews.length > 0) {
+          setReviews((prev) => {
+            return [...prev, ...myReviews];
+          });
+          setLastId(myReviews[myReviews.length - 1].reviewId);
+        } else {
+          setIsLast(true);
+        }
+      } catch {
+        console.log("내 리뷰 목록 불러오기 실패");
       }
       setIsLoading(false);
     }
@@ -111,8 +115,8 @@ const MyReivew = () => {
             <span>좋아하는 위스키에 대한 리뷰를 작성해보세요!</span>
           </SWarning>
         )}
+        <div ref={observerRef}></div>
       </SListDiv>
-      <div ref={observerRef}></div>
     </>
   );
 };

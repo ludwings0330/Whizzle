@@ -46,24 +46,6 @@ const SHr = styled.hr`
 const AppDailyWhisky = () => {
   const [preference, setPreference] = useRecoilState(dailyPreference);
 
-  // const [flavorData, setFlavorData] = useState({
-  //   smoky: 0,
-  //   peaty: 0,
-  //   spicy: 0,
-  //   herbal: 0,
-  //   oily: 0,
-  //   body: 0,
-  //   rich: 0,
-  //   sweet: 0,
-  //   salty: 0,
-  //   vanilla: 0,
-  //   tart: 0,
-  //   fruity: 0,
-  //   floral: 0,
-  // });
-
-  // const [priceData, setPriceData] = useState("0");
-
   const [isLoading, setIsLoading] = useState(false);
   const [dailyResult, setDailyResult] = useState([]);
 
@@ -74,17 +56,21 @@ const AppDailyWhisky = () => {
       priceTier: preference.price,
       flavor: preference.flavor,
     };
-    console.log(preference);
-    // setPreference({ price: priceData, flavor: flavorData });
 
-    const result = await recommend(body);
-    setDailyResult(result);
-    setIsLoading(false);
-    // console.log(dailyResult);
+    try {
+      const result = await recommend(body);
+      setDailyResult(result);
+      setIsLoading(false);
+      // console.log(dailyResult);
+    } catch {
+      console.log("데일리 위스키 추천 실패");
+    }
   };
 
   useEffect(() => {
-    dailyRecommendApi();
+    if (preference.price !== "") {
+      dailyRecommendApi();
+    }
   }, [preference]);
 
   return (
