@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
-import { diaryDataState, diaryState, fetchDiaries } from "../../../store/indexStore";
+import { diaryDataState, diaryState, fetchDiaries, searchTerm } from "../../../store/indexStore";
 //import component
 import { diaryCreate, diaryDelete, diaryRead, diaryUpdate } from "../../../apis/diary";
 import { getAutocomplete } from "../../../apis/search";
@@ -197,36 +197,9 @@ const DiaryEditor = ({ selectedDate }) => {
 
   const [auto, setAuto] = useState([]);
 
-  // 검색어 자동완성
-  async function autoword(word) {
-    try {
-      const autoWord = await getAutocomplete(word);
-      console.log(autoWord);
-      setAuto(autoWord);
-    } catch (error) {
-      console.log("검색어 자동 완성 실패");
-    }
-  }
-
-  const autoClick = (e) => {
-    //id 값 받아오기
-    console.log(e.target.id);
-    const id = e.target.id;
-    //위스키 이름 아래에 띄우기
-    console.log(e.target.textContent);
-    const name = e.target.textContent;
-    //wordChange초기화
-    setSearchWhisky('');
-    //위스키 데이터 id값으로 넘기기
-    console.log({id, name})
-    setSearchTerms([...searchTerms, {id, name}]);
-    //위스키 데이터 없다면 막기
-    //백엔드 등록 성공 알림 왔을 때만 등록 처리하기
-
-  };
-
   const [data, setData] = useRecoilState(diaryDataState);
   const [diaryList, setDiaryList] = useRecoilState(diaryState);
+  const [searchTerms, setSearchTerms] = useRecoilState(searchTerm);
 
   const [emotionImage, setEmotionImage] = useState(soso);
   const [drinkImage, setDrinkImage] = useState(normaldrink);
@@ -241,7 +214,41 @@ const DiaryEditor = ({ selectedDate }) => {
   const [recentSearch, setRecentSearch] = useState([]);
 
   const [content, setContent] = useState("");
-  const [searchTerms, setSearchTerms] = useState([]);
+
+  // 검색어 자동완성
+  async function autoword(word) {
+    if (word.length >= 3) {
+      try {
+        const autoWord = await getAutocomplete(word);
+        console.log(autoWord);
+        setAuto(autoWord);
+      } catch (error) {
+        console.log("검색어 자동 완성 실패");
+      }
+    }
+  }
+
+  const autoClick = (e) => {
+    console.log(isSave + "ZZ");
+    console.log(isEdit + "5465431");
+    //id 값 받아오기
+    console.log(e.target.id);
+    const id = e.target.id;
+    //위스키 이름 아래에 띄우기
+    console.log(e.target.textContent);
+    const name = e.target.textContent;
+    //wordChange초기화
+    setSearchWhisky("");
+    setAuto([]);
+    //위스키 데이터 id값으로 넘기기
+    setSearchTerms([...searchTerms, { id, name }]);
+
+    //위스키 데이터 없다면 막기
+    //백엔드 등록 성공 알림 왔을 때만 등록 처리하기
+    console.log(isSave + "ZZ");
+    console.log(isEdit + "5465431");
+  };
+
   const contentChange = (e) => {
     setContent(e.target.value);
   };
@@ -249,6 +256,7 @@ const DiaryEditor = ({ selectedDate }) => {
   const setWhiskyName = (e) => {
     if (e.key === "Enter" && searchWhisky !== "") {
       setSearchTerms([...searchTerms, searchWhisky]);
+
       setSearchWhisky("");
     }
   };
@@ -256,15 +264,6 @@ const DiaryEditor = ({ selectedDate }) => {
   const wordChange = (e) => {
     setSearchWhisky(e.target.value);
     autoword(e.target.value);
-  };
-
-  const deleteRecentSearchWord = (word) => {
-    let updatedRecentSearch = [...recentSearch];
-    const existingIndex = updatedRecentSearch.indexOf(word);
-    if (existingIndex !== -1) {
-      updatedRecentSearch.splice(existingIndex, 1);
-      setRecentSearch(updatedRecentSearch);
-    }
   };
 
   const deleteSearchWord = (word) => {
@@ -278,24 +277,14 @@ const DiaryEditor = ({ selectedDate }) => {
   useEffect(() => {
     setIsEdit(false);
     setIsSave(data.id ? false : true);
-
-    if (data.id) {
-      insertData();
-    } else {
-      initData();
-    }
-  }, []);
-
-  useEffect(() => {
-    setIsEdit(false);
-    setIsSave(data.id ? false : true);
-
     if (data.id) {
       insertData();
     } else {
       initData();
     }
   }, [selectedDate, data]);
+
+  // useEffect(() => {}, [searchTerms]);
 
   const initDataSet = () => {
     setData({
@@ -317,8 +306,6 @@ const DiaryEditor = ({ selectedDate }) => {
     });
   };
 
-
-
   const insertData = () => {
     const newDrinkLevel = data.drinkLevel === "LIGHT" ? 0 : data.drinkLevel === "HEAVY" ? 100 : 50;
     const newEmotion = data.emotion === "BAD" ? 0 : data.emotion === "GOOD" ? 100 : 50;
@@ -326,7 +313,9 @@ const DiaryEditor = ({ selectedDate }) => {
     setContent(data.content);
     setDrinkLevelValue(newDrinkLevel);
     setEmotionValue(newEmotion);
-    setSearchTerms(data.drinks.map((drink) => drink.whisky.id));
+    const drinks = data.drinks;
+    const drinkList = drinks.map((drink) => drink.whisky);
+    setSearchTerms(drinkList);
   };
 
   const initData = () => {
@@ -386,10 +375,11 @@ const DiaryEditor = ({ selectedDate }) => {
   //위스키 이름, 주량, 기분, 한마디
   const onCreate = async () => {
     console.log(formattedDate);
-    const numberSearchTerms = searchTerms.map(whisky => Number(whisky.id));
-    const changeEmotionApi = emotionValue === 0 ? "BAD" : emotionValue === 50 ? "NORMAL" : "GOOD";
+    console.log(searchTerms);
+    const numberSearchTerms = searchTerms.map((whisky) => Number(whisky.id));
+    const changeEmotionApi = emotionValue < 33 ? "BAD" : emotionValue < 66 ? "NORMAL" : "GOOD";
     const changeDrinkLevelApi =
-      drinkLevelValue === 0 ? "LIGHT" : drinkLevelValue === 50 ? "MODERATE" : "HEAVY";
+      drinkLevelValue < 33 ? "LIGHT" : drinkLevelValue < 66 ? "MODERATE" : "HEAVY";
 
     const newItem = {
       date: formattedDate.replaceAll(".", "-"),
@@ -423,9 +413,9 @@ const DiaryEditor = ({ selectedDate }) => {
 
   const handleEdit = async () => {
     if (window.confirm(`${formattedDate} 날의 일기를 수정하시겠습니까?`)) {
-      const changeEmotionApi = emotionValue == 0 ? "BAD" : emotionValue == 50 ? "NORMAL" : "GOOD";
+      const changeEmotionApi = emotionValue < 33 ? "BAD" : emotionValue < 66 ? "NORMAL" : "GOOD";
       const changeDrinkLevelApi =
-        drinkLevelValue == 0 ? "LIGHT" : drinkLevelValue == 50 ? "MODERATE" : "HEAVY";
+        drinkLevelValue < 33 ? "LIGHT" : drinkLevelValue < 66 ? "MODERATE" : "HEAVY";
       console.log(drinkLevelValue);
       console.log(emotionValue);
       console.log(changeDrinkLevelApi);
@@ -435,20 +425,21 @@ const DiaryEditor = ({ selectedDate }) => {
 
       // data.drinks 기준으로 삭제된 drinkOrder 번호 찾기
       data.drinks.forEach((drink) => {
-        if (!searchTerms.includes(drink.whisky.id)) {
+        if (!searchTerms.includes(drink.whisky)) {
+          console.log("drink whisky->", drink.whisky);
           deletedDrinkOrders.push(drink.drinkOrder);
         }
       });
 
       // localSearchTerms 기준으로 추가된 whisky id 찾기
-      searchTerms.forEach((whiskyId) => {
-        const found = data.drinks.find((drink) => drink.whisky.id === whiskyId);
+      searchTerms.forEach((whisky) => {
+        const found = data.drinks.find((drink) => drink.whisky.id === whisky.id);
         if (!found) {
-          insertedWhiskyIds.push(whiskyId);
+          insertedWhiskyIds.push(whisky.id);
         }
       });
-      console.log(insertedWhiskyIds);
-      console.log(deletedDrinkOrders);
+      console.log("insert ->", insertedWhiskyIds);
+      console.log("delete -> ", deletedDrinkOrders);
 
       const editItem = {
         id: data.id,
@@ -539,14 +530,17 @@ const DiaryEditor = ({ selectedDate }) => {
                 })
               : null}
             <div>
-              {searchTerms.map((whisky, index) => (
-                <SDiv key={index}>
-                  <SP>{whisky.name.length > 6 ? `${whisky.name.slice(0, 6)}...` : whisky.name}</SP>
-                  {(isSave || isEdit) && (
-                    <SButton onClick={() => deleteSearchWord(whisky)}>X</SButton>
-                  )}
-                </SDiv>
-              ))}
+              {searchTerms.length > 0 &&
+                searchTerms.map((whisky, index) => (
+                  <SDiv key={index}>
+                    <SP>
+                      {whisky.name.length > 6 ? `${whisky.name.slice(0, 6)}...` : whisky.name}
+                    </SP>
+                    {(isSave || isEdit) && (
+                      <SButton onClick={() => deleteSearchWord(whisky)}>X</SButton>
+                    )}
+                  </SDiv>
+                ))}
             </div>
           </div>
           <div>
