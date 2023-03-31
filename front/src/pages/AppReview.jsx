@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { changeHeader, rollbackHeader } from "../hooks/changeHeader";
 
@@ -85,6 +85,10 @@ const SContentDiv = styled.div`
 
 //리뷰작성 페이지
 const AppReview = () => {
+  const [images, setImages] = useState([]);
+  const [content, setContent] = useState("");
+  const [rating, setRating] = useState(0);
+
   // 페이지 mount시 네비게이션 바 이미지와 글씨 색 변경
   useEffect(() => {
     changeHeader();
@@ -92,6 +96,12 @@ const AppReview = () => {
       rollbackHeader();
     };
   }, []);
+
+  useEffect(() => {
+    console.log(images);
+    console.log(content);
+    console.log(rating);
+  }, [images, rating, content]);
 
   const exampleWhisky = {
     id: 1,
@@ -135,15 +145,15 @@ const AppReview = () => {
         <SContentDiv>
           <SContentP>사진 등록(최대 5장)</SContentP>
         </SContentDiv>
-        <ImageUploader />
+        <ImageUploader images={images} setImages={setImages} />
         <SContentDiv>
           <SContentP>리뷰 내용</SContentP>
         </SContentDiv>
-        <ReviewContent />
+        <ReviewContent content={content} setContent={setContent} />
         <SContentDiv>
           <SContentP>평점 등록</SContentP>
         </SContentDiv>
-        <ReviewRating whisky={exampleWhisky} />
+        <ReviewRating rating={rating} setRating={setRating} />
         <SButton>작성완료</SButton>
       </SContainer>
     </>

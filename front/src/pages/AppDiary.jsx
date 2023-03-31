@@ -1,12 +1,19 @@
-import React, { useState } from "react";
-
-//import css
+import React, { useEffect, useState } from "react";
+import {useRecoilState, useRecoilValue, useSetRecoilState} from "recoil";
+import { currentComponentState } from "../store/indexStore";
 import styled from "styled-components";
 
 //import component
 import DiaryCalander from "../components/diary/calander/DiaryCalander";
-import DiaryInput from "../components/diary/input/DiaryInput";
+import DiaryEditor from "../components/diary/input/DiaryEditor";
+
+//import image
 import diary_header from "../assets/img/diary_header.png";
+
+//import recoil
+import { diaryState, diaryDataState, fetchDiaries } from "../store/indexStore";
+import {userState} from "../store/userStore";
+import {useNavigate} from "react-router-dom";
 
 const SHeaderDiv = styled.div`
   width: 100vw;
@@ -25,7 +32,7 @@ const SMainDiv = styled.div`
   justify-content: center;
   align-items: start;
   min-height: calc(100vh - 300px);
-  margin: 30px 0 0 0;
+  margin: 30px 0 50px 0;
 
   @media only screen and (max-height: 768px) and (-webkit-min-device-pixel-ratio: 1.25),
     only screen and (max-height: 768px) and (min-resolution: 120dpi),
@@ -61,12 +68,21 @@ const SP = styled.p`
 `;
 
 const AppDiary = () => {
-  const [selectedDate, setSelectedDate] = useState(
-    new Date().toISOString().slice(0, 10).replaceAll("-", ".")
-  );
+  let [selectedDate, setSelectedDate] = useState(new Date());
+  const navigate = useNavigate();
+  const user = useRecoilValue(userState);
+
+  useEffect(() => {
+    if(!user.id) {
+      alert("로그인하고오세요")
+      navigate("/signin");
+    }
+  })
 
   return (
     <>
+      {(user.id) ?
+          <>
       <SHeaderDiv>
         <SP
           style={{ fontSize: "40px", marginTop: "50px", marginBottom: "15px", fontWeight: "bold" }}
@@ -79,9 +95,12 @@ const AppDiary = () => {
       <SHeaderDivider />
       <SMainDiv>
         <SMainDivider />
-        <DiaryCalander onDateClick={setSelectedDate} />
-        <DiaryInput selectedDate={selectedDate} />
+        <DiaryCalander setSelectedDate={setSelectedDate} selectedDate={selectedDate} />
+        <DiaryEditor selectedDate={selectedDate} />
       </SMainDiv>
+          </>
+          : <></>
+      }
     </>
   );
 };

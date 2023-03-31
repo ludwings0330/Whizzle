@@ -15,11 +15,15 @@ const STextarea = styled.textarea`
   width: 930px;
 `;
 
-const ReviewContent = () => {
+const ReviewContent = ({ content, setContent }) => {
+  const contentChange = (e) => {
+    setContent(e.target.value);
+  };
+
   return (
     <>
       <SDiv>
-        <STextarea />
+        <STextarea onChange={contentChange} name="content" type="text" value={content} />
       </SDiv>
     </>
   );
