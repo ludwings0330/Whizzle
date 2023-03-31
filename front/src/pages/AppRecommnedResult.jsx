@@ -4,6 +4,7 @@ import { useRecoilValue } from "recoil";
 import { userState } from "../store/userStore";
 import { useNavigate } from "react-router-dom";
 import { NON_LOGIN_NICKNAME } from "../constants/constants";
+import { recommendResult, preference } from "../store/indexStore";
 
 //import components
 import Graph from "../components/common/Graph";
@@ -127,6 +128,13 @@ const SDailyBtn = styled.button`
 
 //추천 결과 페이지
 const AppRecommnedResult = () => {
+  const recommend = useRecoilValue(recommendResult);
+  const userPreference = useRecoilValue(preference);
+  const user = useRecoilValue(userState);
+  const isLogin = Boolean(user.id);
+  console.log(userPreference);
+  console.log(recommend);
+
   const navigate = useNavigate();
   const onClickHandler = (e) => {
     if (e.target.innerText === "취향 정보 다시 입력하기") {
@@ -136,23 +144,20 @@ const AppRecommnedResult = () => {
     }
   };
 
+  // 비로그인 유저의 경우 회원가입 유도 모달을 띄움
+  useEffect(() => {
+    if (!isLogin) {
+      setTimeout(() => {
+        if (window.confirm("회원 가입을 통해 취향을 저장해보세요!")) {
+          navigate("/signin");
+        }
+      }, 5000);
+    }
+  }, []);
+
   // 가장 큰 2개의 값을 찾음
   const [maxValue, setMaxValue] = useState([]);
-  const flavor = {
-    smoky: 0,
-    peaty: 0,
-    spicy: 50,
-    herbal: 40,
-    oily: 10,
-    body: 70,
-    rich: 70,
-    sweet: 50,
-    salty: 0,
-    vanilla: 20,
-    tart: 40,
-    fruity: 60,
-    floral: 40,
-  };
+  const flavor = userPreference.flavor;
 
   useEffect(() => {
     const flavorEntries = Object.entries(flavor);
@@ -160,8 +165,6 @@ const AppRecommnedResult = () => {
     const maxValues = flavorEntries.slice(0, 2).map(([key, value]) => key.toUpperCase());
     setMaxValue(maxValues);
   }, []);
-
-  const user = useRecoilValue(userState);
 
   return (
     <>
@@ -177,7 +180,7 @@ const AppRecommnedResult = () => {
       <SGraphDiv>
         <STitleP>취향 분석 결과</STitleP>
         <SGraphP>
-          <SColorSpan>{user ? user.nickname : NON_LOGIN_NICKNAME}</SColorSpan>
+          <SColorSpan>{user.nickname ? user.nickname : NON_LOGIN_NICKNAME}</SColorSpan>
           <SSpan>님의 취향분석 결과입니다.</SSpan>
           <SBoldColorP>
             {maxValue[0]} & {maxValue[1]}
@@ -185,8 +188,16 @@ const AppRecommnedResult = () => {
         </SGraphP>
         <Graph flavor={flavor} />
       </SGraphDiv>
-      <ResultMainWhisky SGraphP={SGraphP} SColorSpan={SColorSpan} SSpan={SSpan} STitleP={STitleP} />
-      <ResultWhiskyList />
+      {recommend && recommend.length && (
+        <ResultMainWhisky
+          whiskys={recommend.slice(0, 3)}
+          SGraphP={SGraphP}
+          SColorSpan={SColorSpan}
+          SSpan={SSpan}
+          STitleP={STitleP}
+        />
+      )}
+      {recommend && recommend.length && <ResultWhiskyList whiskys={recommend.slice(3)} />}
       <SBtnDiv>
         <SQuestionBtn onClick={onClickHandler}>
           <SColorSpan style={{ fontSize: "20px", fontWeight: "600" }}>

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import WhiskySimilarListItem from "../../whisky/WhiskySimilarListItem";
+import WhiskyListItem from "../../common/WhiskyListItem";
 import styled from "styled-components";
 
 const Wrapper = styled.div`
@@ -59,8 +60,8 @@ const SBtn = styled.button`
 `;
 
 //추천 위스키 리스트 목록
-const ResultWhiskyList = () => {
-  const sample = [4, 5, 6, 7, 8, 9];
+const ResultWhiskyList = (props) => {
+  const whiskys = props.whiskys;
   const [seeMore, setSeemore] = useState(false);
   const onClickHandler = () => {
     setSeemore(!seeMore);
@@ -69,21 +70,17 @@ const ResultWhiskyList = () => {
   return (
     <Wrapper>
       <SDiv>
-        {sample &&
+        {whiskys.length &&
           seeMore &&
-          sample.map((item, index) => {
+          whiskys.map((whisky, index) => {
             return (
-              <SSimilarDiv>
-                <SSimilarP>no.{item}</SSimilarP>
-                <WhiskySimilarListItem />
+              <SSimilarDiv key={index}>
+                <SSimilarP>no.{index + 4}</SSimilarP>
+                <WhiskyListItem whisky={whisky} />
               </SSimilarDiv>
             );
           })}
-        {!seeMore ? (
-          <SBtn onClick={onClickHandler}>더 보기</SBtn>
-        ) : (
-          <SBtn onClick={onClickHandler}>접기</SBtn>
-        )}
+        {!seeMore ? <SBtn onClick={onClickHandler}>더 보기</SBtn> : null}
       </SDiv>
     </Wrapper>
   );
