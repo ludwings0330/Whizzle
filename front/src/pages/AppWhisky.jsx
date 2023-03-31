@@ -11,6 +11,7 @@ import {
   getStatistics,
   getSimilar,
   getReview,
+  getMyReview,
 } from "../apis/whiskyDetail";
 import { userState } from "../store/userStore";
 import { useRecoilValue } from "recoil";
@@ -65,6 +66,9 @@ const SContainer = styled.div`
 `;
 
 const AppWhisky = () => {
+  const navigate = useNavigate();
+  const { id } = useParams();
+
   // 페이지 mount시 네비게이션 바 이미지와 글씨 색 변경
   useEffect(() => {
     changeHeader();
@@ -72,8 +76,6 @@ const AppWhisky = () => {
       rollbackHeader();
     };
   }, []);
-
-  const { id } = useParams();
 
   // 위스키 정보 조회
   const [whisky, setWhisky] = useState(null);
@@ -134,17 +136,35 @@ const AppWhisky = () => {
   // 리뷰 조회
   const [reviews, setReviews] = useState([]);
   async function getReviewInfo(id, baseId, reviewOrder) {
-    const data = {
-      id,
-      baseId,
-      reviewOrder,
-    };
+    let data;
+    if (baseId) {
+      data = {
+        baseId,
+        reviewOrder,
+      };
+    } else {
+      data = {
+        reviewOrder,
+      };
+    }
     try {
-      const reviewInfo = await getReview(data);
+      const reviewInfo = await getReview(id, data);
       console.log(reviewInfo);
       setReviews((prev) => [...prev, ...reviewInfo]);
     } catch (error) {
       console.log("리뷰 정보 조회 실패");
+    }
+  }
+
+  // 나의 리뷰 조회
+  const [myReview, setMyReview] = useState([]);
+  async function getMyReviewInfo(param) {
+    try {
+      const myReviewInfo = await getMyReview(param);
+      console.log(myReviewInfo);
+      setMyReview(myReviewInfo);
+    } catch (error) {
+      console.log("나의 리뷰 조회 실패");
     }
   }
 
@@ -161,9 +181,11 @@ const AppWhisky = () => {
     getStatisticsInfo(id);
     // 리뷰 목록 요청
     getReviewInfo(id, 0, "LIKE");
-    // 킵 여부 조회 요청
     if (isLogin) {
+      // 킵 여부 조회 요청
       getKeepInfo(id);
+      // 나의 리뷰 목록 요청
+      getMyReviewInfo(id);
     }
     window.scrollTo(0, 0);
   }, [id]);
@@ -177,8 +199,6 @@ const AppWhisky = () => {
     }
   };
 
-  const navigate = useNavigate();
-
   return (
     <>
       <SContainer>
@@ -191,7 +211,7 @@ const AppWhisky = () => {
           <SP>이런 위스키는 어떠세요?</SP>
         </div>
         {similarWhiskys.length ? <WhiskySimilarList whiskys={similarWhiskys} /> : null}
-        <WhiskyDetailReview whisky={whisky} stat={stat} />
+        <WhiskyDetailReview id={id} whisky={whisky} reviews={reviews} myReview={myReview} />
         <SButtonDiv>
           <SButton onClick={favorite} style={{ marginBottom: "10px" }}>
             <SImg src={isKeep ? favoriteFilled : favoriteBorder} alt="keep" />

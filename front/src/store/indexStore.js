@@ -34,7 +34,9 @@ export const currentComponentState = atom({
 
 export const fetchDiaries = async (setDiaryList, setData, selectDate) => {
   try {
-    const currentYearMonthDate = `${selectDate.getFullYear()}-${selectDate.getMonth() < 10 ? "0" : ""}${selectDate.getMonth()+1}`
+    const currentYearMonthDate = `${selectDate.getFullYear()}-${
+      selectDate.getMonth() < 10 ? "0" : ""
+    }${selectDate.getMonth() + 1}`;
 
     const diaries = await diaryRead(currentYearMonthDate);
 
@@ -113,4 +115,9 @@ export const dailyPreference = atom({
 export const searchData = atom({
   key: "searchData",
   default: [],
+});
+
+export const reviewState = atom({
+  key: "reviewState",
+  default: {},
 });

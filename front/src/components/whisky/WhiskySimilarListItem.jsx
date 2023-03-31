@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { userState } from "../../store/userStore";
 import { useRecoilValue } from "recoil";
-import { keepToggle, getKeep } from "../../apis/whiskyDetail";
+import { keepToggle } from "../../apis/whiskyDetail";
 import favoriteBorder from "../../assets/img/favorite_border.png";
 import favoriteFilled from "../../assets/img/favorite_filled.png";
 import ReactStars from "react-stars";
@@ -102,7 +102,7 @@ const SName = styled.div`
 const WhiskySimilarListItem = (props) => {
   const whisky = props.whisky;
   const navigate = useNavigate();
-  const [isKeep, setIsKeep] = useState(false);
+  const [isKeep, setIsKeep] = useState(whisky.isKept);
 
   const goDetail = () => {
     if (props.notScroll) {
@@ -113,21 +113,6 @@ const WhiskySimilarListItem = (props) => {
   // keep 관련
   const user = useRecoilValue(userState);
   const isLogin = Boolean(user.id);
-
-  async function getKeepInfo(param) {
-    try {
-      const keepInfo = await getKeep(param);
-      setIsKeep(keepInfo);
-    } catch (error) {
-      console.log("킵 정보 조회 실패");
-    }
-  }
-
-  useEffect(() => {
-    if (isLogin) {
-      getKeepInfo(whisky.id);
-    }
-  }, []);
 
   const keepHandler = (e) => {
     e.stopPropagation();
