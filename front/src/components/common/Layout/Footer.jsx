@@ -43,7 +43,7 @@ const Footer = () => {
     <SDiv id="footer">
       <Lottie
         animationData={animationData}
-        style={{ position: "absolute", height: "150px", zIndex: 1, top: -100, right: 50 }}
+        style={{ position: "absolute", height: "150px", zIndex: 1, top: -99, right: 50 }}
       />
       <div>
         <SImg src={footerLogo} alt="footer_logo.png" />
