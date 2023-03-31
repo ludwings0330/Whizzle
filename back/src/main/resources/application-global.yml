@@ -14,6 +14,16 @@ spring:
         dialect: org.hibernate.dialect.MySQL8Dialect
         default_batch_fetch_size: 500
 
+management:
+  endpoints:
+    web:
+      base-path: /api
+      path-mapping:
+        health: health
+  endpoint:
+    health:
+      show-details: never
+
 --- #dev
 server:
   port: 8080
