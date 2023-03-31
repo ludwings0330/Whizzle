@@ -227,7 +227,7 @@ class DiaryControllerTest {
                         .content(objectMapper.writeValueAsString(saveDto))
         ).andExpect(status().isCreated());
 
-        Diary diary = diaryRepository.findByMemberIdAndDate(TEST_MEMBER_ID, LocalDate.now())
+        Diary diary = diaryRepository.findWithDrinksByMemberIdAndDate(TEST_MEMBER_ID, LocalDate.now())
                                      .orElseThrow(() -> new NotFoundException("다이어리 작성 실패"));
 
         mockMvc.perform(
