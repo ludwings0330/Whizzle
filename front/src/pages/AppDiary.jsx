@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {useRecoilState, useRecoilValue, useSetRecoilState} from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { currentComponentState } from "../store/indexStore";
 import styled from "styled-components";
 
@@ -12,8 +12,8 @@ import diary_header from "../assets/img/diary_header.png";
 
 //import recoil
 import { diaryState, diaryDataState, fetchDiaries } from "../store/indexStore";
-import {userState} from "../store/userStore";
-import {useNavigate} from "react-router-dom";
+import { userState } from "../store/userStore";
+import { useNavigate } from "react-router-dom";
 
 const SHeaderDiv = styled.div`
   width: 100vw;
@@ -73,34 +73,40 @@ const AppDiary = () => {
   const user = useRecoilValue(userState);
 
   useEffect(() => {
-    if(!user.id) {
-      alert("로그인하고오세요")
+    if (!user.id) {
+      alert("로그인하고오세요");
       navigate("/signin");
     }
-  })
+  });
 
   return (
     <>
-      {(user.id) ?
-          <>
-      <SHeaderDiv>
-        <SP
-          style={{ fontSize: "40px", marginTop: "50px", marginBottom: "15px", fontWeight: "bold" }}
-        >
-          기억을 기록하다, 위스키 다이어리
-        </SP>
-        <SP>매일을 특별하게 남기고 싶은 당신을 위해,</SP>
-        <SP>오늘의 위스키에 감정을 담아보세요!</SP>
-      </SHeaderDiv>
-      <SHeaderDivider />
-      <SMainDiv>
-        <SMainDivider />
-        <DiaryCalander setSelectedDate={setSelectedDate} selectedDate={selectedDate} />
-        <DiaryEditor selectedDate={selectedDate} />
-      </SMainDiv>
-          </>
-          : <></>
-      }
+      {user.id ? (
+        <>
+          <SHeaderDiv>
+            <SP
+              style={{
+                fontSize: "40px",
+                marginTop: "50px",
+                marginBottom: "15px",
+                fontWeight: "bold",
+              }}
+            >
+              기억을 기록하다, 위스키 다이어리
+            </SP>
+            <SP>매일을 특별하게 남기고 싶은 당신을 위해,</SP>
+            <SP>오늘의 위스키에 감정을 담아보세요!</SP>
+          </SHeaderDiv>
+          <SHeaderDivider />
+          <SMainDiv>
+            <SMainDivider />
+            <DiaryCalander setSelectedDate={setSelectedDate} selectedDate={selectedDate} />
+            <DiaryEditor selectedDate={selectedDate} />
+          </SMainDiv>
+        </>
+      ) : (
+        <></>
+      )}
     </>
   );
 };

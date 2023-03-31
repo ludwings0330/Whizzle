@@ -1,4 +1,4 @@
-import { atom } from "recoil";
+import { atom, useRecoilState } from "recoil";
 import { diaryRead } from "../apis/diary";
 
 export const diaryState = atom({
@@ -15,16 +15,13 @@ export const diaryDataState = atom({
     emotion: "",
     drinkLevel: "",
     content: "",
-    drinks: [
-      {
-        whisky: {
-          id: null,
-          name: "",
-        },
-        drinkOrder: null,
-      },
-    ],
+    drinks: [],
   },
+});
+
+export const searchTerm = atom({
+  key: "searchTerm",
+  default: [],
 });
 
 export const currentComponentState = atom({
@@ -34,22 +31,44 @@ export const currentComponentState = atom({
 
 export const fetchDiaries = async (setDiaryList, setData, selectDate) => {
   try {
-    const currentYearMonthDate = `${selectDate.getFullYear()}-${selectDate.getMonth() < 10 ? "0" : ""}${selectDate.getMonth()+1}`
+    const currentYearMonthDate = `${selectDate.getFullYear()}-${
+      selectDate.getMonth() < 10 ? "0" : ""
+    }${selectDate.getMonth() + 1}`;
 
     const diaries = await diaryRead(currentYearMonthDate);
 
     setDiaryList(diaries);
     console.log(diaries);
 
+    const year = selectDate.getFullYear();
+    const month = selectDate.getMonth() + 1;
+    const day = selectDate.getDate();
+
+    const clickedDate = `${year}-${month < 10 ? "0" : ""}${month}-${day < 10 ? "0" : ""}${day}`;
+
     let found = false;
-    diaries.forEach((diary) => {
+
+    for (let i = 0; i < diaries.length; i++) {
+      const diary = diaries[i];
       const diaryDate = diary.date;
-      if (diaryDate === selectDate) {
-        setData(diary);
+      if (diaryDate === clickedDate) {
+        setData((prev) => {
+          return { ...prev, ...diary };
+        });
         found = true;
       }
-    });
+    }
 
+    // diaries.forEach((diary) => {
+    //   console.log("diary", diary);
+    //   const diaryDate = diary.date;
+    //   if (diaryDate === clickedDate) {
+    //     setData((prev) => {
+    //       return { ...prev, ...diary };
+    //     });
+    //     found = true;
+    //   }
+    // });
     return found;
   } catch (error) {
     console.log(error);
