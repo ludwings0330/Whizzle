@@ -38,7 +38,6 @@ export const fetchDiaries = async (setDiaryList, setData, selectDate) => {
     const diaries = await diaryRead(currentYearMonthDate);
 
     setDiaryList(diaries);
-    console.log(diaries);
 
     const year = selectDate.getFullYear();
     const month = selectDate.getMonth() + 1;
@@ -49,7 +48,6 @@ export const fetchDiaries = async (setDiaryList, setData, selectDate) => {
     let found = false;
 
     diaries.forEach((diary) => {
-      console.log("diary", diary);
       const diaryDate = diary.date;
       if (diaryDate === clickedDate) {
         setData((prev) => {

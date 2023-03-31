@@ -220,33 +220,17 @@ const DiaryEditor = ({ selectedDate }) => {
     if (word.length >= 3) {
       try {
         const autoWord = await getAutocomplete(word);
-        console.log(autoWord);
         setAuto(autoWord);
-      } catch (error) {
-        console.log("검색어 자동 완성 실패");
-      }
+      } catch (error) {}
     }
   }
 
   const autoClick = (e) => {
-    console.log(isSave + "ZZ");
-    console.log(isEdit + "5465431");
-    //id 값 받아오기
-    console.log(e.target.id);
     const id = e.target.id;
-    //위스키 이름 아래에 띄우기
-    console.log(e.target.textContent);
     const name = e.target.textContent;
-    //wordChange초기화
     setSearchWhisky("");
     setAuto([]);
-    //위스키 데이터 id값으로 넘기기
     setSearchTerms([...searchTerms, { id, name }]);
-
-    //위스키 데이터 없다면 막기
-    //백엔드 등록 성공 알림 왔을 때만 등록 처리하기
-    console.log(isSave + "ZZ");
-    console.log(isEdit + "5465431");
   };
 
   const contentChange = (e) => {
@@ -374,8 +358,6 @@ const DiaryEditor = ({ selectedDate }) => {
 
   //위스키 이름, 주량, 기분, 한마디
   const onCreate = async () => {
-    console.log(formattedDate);
-    console.log(searchTerms);
     const numberSearchTerms = searchTerms.map((whisky) => Number(whisky.id));
     const changeEmotionApi = emotionValue < 33 ? "BAD" : emotionValue < 66 ? "NORMAL" : "GOOD";
     const changeDrinkLevelApi =
@@ -389,8 +371,6 @@ const DiaryEditor = ({ selectedDate }) => {
       whiskyIds: numberSearchTerms,
     };
 
-    console.log("create확인");
-    console.log(newItem);
     const createIsOk = await diaryCreate(newItem);
 
     if (createIsOk) {
@@ -416,17 +396,12 @@ const DiaryEditor = ({ selectedDate }) => {
       const changeEmotionApi = emotionValue < 33 ? "BAD" : emotionValue < 66 ? "NORMAL" : "GOOD";
       const changeDrinkLevelApi =
         drinkLevelValue < 33 ? "LIGHT" : drinkLevelValue < 66 ? "MODERATE" : "HEAVY";
-      console.log(drinkLevelValue);
-      console.log(emotionValue);
-      console.log(changeDrinkLevelApi);
-      console.log(changeEmotionApi);
       const deletedDrinkOrders = [];
       const insertedWhiskyIds = [];
 
       // data.drinks 기준으로 삭제된 drinkOrder 번호 찾기
       data.drinks.forEach((drink) => {
         if (!searchTerms.includes(drink.whisky)) {
-          console.log("drink whisky->", drink.whisky);
           deletedDrinkOrders.push(drink.drinkOrder);
         }
       });
@@ -438,8 +413,6 @@ const DiaryEditor = ({ selectedDate }) => {
           insertedWhiskyIds.push(whisky.id);
         }
       });
-      console.log("insert ->", insertedWhiskyIds);
-      console.log("delete -> ", deletedDrinkOrders);
 
       const editItem = {
         id: data.id,
