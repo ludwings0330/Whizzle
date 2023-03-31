@@ -113,8 +113,4 @@ public class Review extends BaseTimeEntity {
         this.likeCount--;
     }
 
-    public boolean isDeleted() {
-        return Boolean.TRUE.equals(this.isDeleted);
-    }
-
 }

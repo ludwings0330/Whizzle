@@ -125,8 +125,4 @@ public class Diary {
         return Objects.hash(this.getDate(), this.getMember().getId());
     }
 
-    public boolean isDeleted() {
-        return Boolean.TRUE.equals(this.isDeleted);
-    }
-
 }

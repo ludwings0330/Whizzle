@@ -38,30 +38,28 @@ public class DiaryServiceImpl implements DiaryService {
 
     @Override
     @Transactional
-    public void writeDiary(Long memberId, DiaryRequestSaveDto diaryRequestSaveDto) {
+    public Diary writeDiary(Long memberId, DiaryRequestSaveDto diaryRequestSaveDto) {
         Member member = memberRepository.getReferenceById(memberId);
         Diary diary = DiaryMapper.toDiary(member, diaryRequestSaveDto);
 
-        diaryRepository.findByMemberIdAndDate(memberId, diary.getDate())
-                       .ifPresentOrElse(
-                               found -> {
-                                   found.update(diary);
-                                   drinkService.writeDrinks(found, diaryRequestSaveDto.getWhiskyIds());
-                               },
-                               () -> {
-                                   diaryRepository.save(diary);
-                                   drinkService.writeDrinks(diary, diaryRequestSaveDto.getWhiskyIds());
-                               }
-                       );
+        return diaryRepository.findByMemberIdAndDate(memberId, diaryRequestSaveDto.getDate())
+                              .map(found -> {
+                                  found.update(diary);
+                                  return drinkService.writeDrinks(found, diaryRequestSaveDto.getWhiskyIds());
+                              })
+                              .orElseGet(() -> {
+                                  diaryRepository.save(diary);
+                                  return drinkService.writeDrinks(diary, diaryRequestSaveDto.getWhiskyIds());
+                              });
     }
 
     @Override
     @Transactional
-    public void rewriteDiary(Long memberId, DiaryRequestUpdateDto diaryRequestUpdateDto) {
+    public Diary rewriteDiary(Long memberId, DiaryRequestUpdateDto diaryRequestUpdateDto) {
         Diary diary = authorizeWriter(memberId, diaryRequestUpdateDto.getId());
         diary.update(DiaryMapper.toDiary(diaryRequestUpdateDto));
         drinkService.eraseDrinks(diary, diaryRequestUpdateDto.getDeletedDrinkOrders());
-        drinkService.writeDrinks(diary, diaryRequestUpdateDto.getInsertedWhiskyIds());
+        return drinkService.writeDrinks(diary, diaryRequestUpdateDto.getInsertedWhiskyIds());
     }
 
     @Override

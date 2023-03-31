@@ -15,7 +15,7 @@ public class DrinkServiceImpl implements DrinkService {
     private final WhiskyRepository whiskyRepository;
 
     @Override
-    public void writeDrinks(Diary diary, Set<Long> whiskyIds) {
+    public Diary writeDrinks(Diary diary, Set<Long> whiskyIds) {
         rewriteDrinks(diary, whiskyIds);
 
         for (Long whiskyId : whiskyIds) {
@@ -26,6 +26,8 @@ public class DrinkServiceImpl implements DrinkService {
 
             diary.addDrink(drink);
         }
+
+        return diary;
     }
 
     @Override

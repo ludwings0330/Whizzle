@@ -5,7 +5,7 @@ import java.util.Set;
 
 public interface DrinkService {
 
-    void writeDrinks(Diary diary, Set<Long> whiskyIds);
+    Diary writeDrinks(Diary diary, Set<Long> whiskyIds);
 
     void eraseDrinks(Diary diary, Set<Integer> deletedDrinkOrders);
 
