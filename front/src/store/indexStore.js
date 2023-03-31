@@ -48,8 +48,8 @@ export const fetchDiaries = async (setDiaryList, setData, selectDate) => {
 
     let found = false;
 
-    for (let i = 0; i < diaries.length; i++) {
-      const diary = diaries[i];
+    diaries.forEach((diary) => {
+      console.log("diary", diary);
       const diaryDate = diary.date;
       if (diaryDate === clickedDate) {
         setData((prev) => {
@@ -57,18 +57,7 @@ export const fetchDiaries = async (setDiaryList, setData, selectDate) => {
         });
         found = true;
       }
-    }
-
-    // diaries.forEach((diary) => {
-    //   console.log("diary", diary);
-    //   const diaryDate = diary.date;
-    //   if (diaryDate === clickedDate) {
-    //     setData((prev) => {
-    //       return { ...prev, ...diary };
-    //     });
-    //     found = true;
-    //   }
-    // });
+    });
     return found;
   } catch (error) {
     console.log(error);
