@@ -80,6 +80,7 @@ public class SecurityConfig {
 
         corsConfiguration.addAllowedOrigin("http://localhost:3000");
         corsConfiguration.addAllowedOrigin("https://j8a805.p.ssafy.io");
+        corsConfiguration.addAllowedOrigin("https://whizzle.o-r.kr");
 
         corsConfiguration.addAllowedHeader("*");
         corsConfiguration.addAllowedMethod("*");
