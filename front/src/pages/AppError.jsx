@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import Lottie from "react-lottie";
+import Lottie from "lottie-react";
 import animationData from "../assets/img/lotties/error-bear.json";
 // import animationData from "../assets/img/lotties/drinking-bear.json";
 import { changeHeader, rollbackHeader } from "../hooks/changeHeader";
@@ -35,21 +35,12 @@ const AppError = () => {
     };
   }, []);
 
-  const defaultOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: animationData,
-    rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice",
-    },
-  };
-
   return (
     <SDiv>
       <STitle>404</STitle>
       <SText>존재하지 않는 페이지입니다.</SText>
-      <SText style={{ marginBottom: "15px" }}>오신 김에 귀여운 곰돌이 한마리 보고 가세요.</SText>
-      <Lottie options={defaultOptions} height={600} width={600} />
+      <SText style={{ marginBottom: "15px" }}>주소를 다시 한번 확인해주세요 :)</SText>
+      <Lottie animationData={animationData} style={{ height: "600px" }} />
     </SDiv>
   );
 };

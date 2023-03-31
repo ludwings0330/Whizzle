@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import Lottie from "react-lottie";
+import Lottie from "lottie-react";
 import footerLogo from "../../../assets/img/footer_logo.png";
 import animationData from "../../../assets/img/lotties/drinking-bear.json";
 
@@ -42,10 +42,8 @@ const Footer = () => {
   return (
     <SDiv id="footer">
       <Lottie
-        options={defaultOptions}
-        height={200}
-        width={200}
-        style={{ position: "absolute", zIndex: 1, top: -130, right: 0 }}
+        animationData={animationData}
+        style={{ position: "absolute", height: "150px", zIndex: 1, top: -100, right: 50 }}
       />
       <div>
         <SImg src={footerLogo} alt="footer_logo.png" />
