@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { changeHeader, rollbackHeader } from "../hooks/changeHeader";
 import { whiskyDetail } from "../apis/whiskyDetail";
 import { reviewCreate } from "../apis/review";
+import "./AppReview.css";
 
 //import images
 import ImageUploader from "../components/review/create/ImageUploader";
@@ -14,7 +15,7 @@ import ReviewRating from "../components/review/create/ReviewRating";
 import { useNavigate, useParams } from "react-router";
 
 const SContainer = styled.div`
-  margin-top: 130px;
+  margin-top: 160px;
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -41,32 +42,24 @@ const SP = styled.p`
   color: #181818;
 `;
 
-const SButton = styled.button`
-  background-image: linear-gradient(90deg, #f84f5a 11.68%, #f2a660 86.99%);
-  width: 394px;
-  height: 74px;
-  border-radius: 999px;
-  margin-top: 90px;
-  margin-bottom: 130px;
-  font-size: 18px;
-  font-family: Pretendard Variable;
-  color: white;
-  cursor: pointer;
-  transition: all 0.3s ease-in-out;
-  border: none;
-`;
-
 const SContentP = styled.p`
   font-size: 20px;
   color: #181818;
   font-weight: bold;
-  margin-top: 70px;
+  margin-top: 90px;
 `;
 
 const SContentDiv = styled.div`
   width: 830px;
   display: flex;
   align-items: left;
+`;
+
+const SButtonText = styled.span`
+  font-size: 18px;
+  font-family: "Pretendard Variable";
+  color: white;
+  z-index: 2;
 `;
 
 //리뷰작성 페이지
@@ -163,9 +156,16 @@ const AppReview = () => {
             <SContentP>평점 등록</SContentP>
           </SContentDiv>
           <ReviewRating rating={rating} setRating={setRating} />
-          <SButton type="submit" onClick={reviewSave}>
-            작성 완료
-          </SButton>
+          <div
+            type="submit"
+            className="container container-two"
+            onClick={reviewSave}
+          >
+            <button className="selected-button">
+              <SButtonText>작성 완료</SButtonText>
+              <div className="fill-two"></div>
+            </button>
+          </div>
         </SContainer>
       </form>
     </>

@@ -4,7 +4,7 @@ import ReactStars from "react-stars";
 
 const SDiv = styled.div`
   display: flex;
-  margin-top: 60px;
+  margin-top: 90px;
   justify-content: center;
   align-items: flex-end;
 `;
@@ -112,7 +112,8 @@ const ReviewDetailInfo = (props) => {
               <SP>{whisky.abv}%</SP>
             </STextDiv>
             <STextDiv>
-              <SP className="title">가격</SP> {/*가격의 자세한 표현법에 대해 추가 논의 필요*/}
+              <SP className="title">가격</SP>{" "}
+              {/*가격의 자세한 표현법에 대해 추가 논의 필요*/}
               <SP>{whisky.priceTier}</SP>
             </STextDiv>
           </SDetailDiv>
