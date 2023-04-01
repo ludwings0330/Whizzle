@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {useRecoilState, useRecoilValue, useSetRecoilState} from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { currentComponentState } from "../store/indexStore";
 import styled from "styled-components";
 
@@ -12,18 +12,16 @@ import diary_header from "../assets/img/diary_header.png";
 
 //import recoil
 import { diaryState, diaryDataState, fetchDiaries } from "../store/indexStore";
-import {userState} from "../store/userStore";
-import {useNavigate} from "react-router-dom";
+import { userState } from "../store/userStore";
+import { useNavigate } from "react-router-dom";
 
 const SHeaderDiv = styled.div`
-  width: 100vw;
-  height: 300px;
+  height: 250px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-image: url(${diary_header});
-  background-repeat: no-repeat;
+  background: url(${diary_header}) center center / cover no-repeat;
 `;
 
 const SMainDiv = styled.div`
@@ -32,7 +30,7 @@ const SMainDiv = styled.div`
   justify-content: center;
   align-items: start;
   min-height: calc(100vh - 300px);
-  margin: 30px 0 50px 0;
+  margin: 23px 0 100px 0;
 
   @media only screen and (max-height: 768px) and (-webkit-min-device-pixel-ratio: 1.25),
     only screen and (max-height: 768px) and (min-resolution: 120dpi),
@@ -42,7 +40,7 @@ const SMainDiv = styled.div`
 `;
 
 const SHeaderDivider = styled.div`
-  height: 30px;
+  height: 3px;
 
   @media only screen and (max-height: 768px) and (-webkit-min-device-pixel-ratio: 1.25),
     only screen and (max-height: 768px) and (min-resolution: 120dpi),
@@ -62,9 +60,9 @@ const SMainDivider = styled.div`
 `;
 
 const SP = styled.p`
-  font-size: 22px;
+  font-size: 18px;
   color: white;
-  margin: 5px;
+  margin: 0px;
 `;
 
 const AppDiary = () => {
@@ -73,34 +71,43 @@ const AppDiary = () => {
   const user = useRecoilValue(userState);
 
   useEffect(() => {
-    if(!user.id) {
-      alert("로그인하고오세요")
+    if (!user.id) {
+      alert("로그인하고오세요");
       navigate("/signin");
     }
-  })
+  });
 
   return (
     <>
-      {(user.id) ?
-          <>
-      <SHeaderDiv>
-        <SP
-          style={{ fontSize: "40px", marginTop: "50px", marginBottom: "15px", fontWeight: "bold" }}
-        >
-          기억을 기록하다, 위스키 다이어리
-        </SP>
-        <SP>매일을 특별하게 남기고 싶은 당신을 위해,</SP>
-        <SP>오늘의 위스키에 감정을 담아보세요!</SP>
-      </SHeaderDiv>
-      <SHeaderDivider />
-      <SMainDiv>
-        <SMainDivider />
-        <DiaryCalander setSelectedDate={setSelectedDate} selectedDate={selectedDate} />
-        <DiaryEditor selectedDate={selectedDate} />
-      </SMainDiv>
-          </>
-          : <></>
-      }
+      {user.id ? (
+        <>
+          <SHeaderDiv>
+            <SP
+              style={{
+                fontSize: "32px",
+                paddingTop: "40px",
+                marginBottom: "18px",
+                fontWeight: "bold",
+              }}
+            >
+              기억을 기록하다, 위스키 다이어리
+            </SP>
+            <SP>매일을 특별하게 남기고 싶은 당신을 위해,</SP>
+            <SP>오늘의 위스키에 감정을 담아보세요!</SP>
+          </SHeaderDiv>
+          <SHeaderDivider />
+          <SMainDiv>
+            <SMainDivider />
+            <DiaryCalander
+              setSelectedDate={setSelectedDate}
+              selectedDate={selectedDate}
+            />
+            <DiaryEditor selectedDate={selectedDate} />
+          </SMainDiv>
+        </>
+      ) : (
+        <></>
+      )}
     </>
   );
 };

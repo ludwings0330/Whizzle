@@ -1,8 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
-import { diaryDataState, diaryState, fetchDiaries } from "../../../store/indexStore";
+import {
+  diaryDataState,
+  diaryState,
+  fetchDiaries,
+} from "../../../store/indexStore";
 //import component
-import { diaryCreate, diaryDelete, diaryRead, diaryUpdate } from "../../../apis/diary";
+import {
+  diaryCreate,
+  diaryDelete,
+  diaryRead,
+  diaryUpdate,
+} from "../../../apis/diary";
 import { getAutocomplete } from "../../../apis/search";
 
 //import css
@@ -17,21 +26,23 @@ import normaldrink from "../../../assets/img/normaldrink.png";
 import largedrink from "../../../assets/img/largedrink.png";
 
 const SBorderDiv = styled.div`
-  border: 2px solid #e1e1e1;
-  border-radius: 8px;
   display: inline-block;
-  width: 460px;
-  height: 650px;
+  // width: 460px;
+  // height: 650px;
   margin: 0 10px;
   text-align: left;
-  padding: 40px 60px 40px 40px;
-  box-shadow: 5px 5px 5px #e1e1e1;
+  padding: 40px;
   overflow: auto;
+  border: 1px solid #e1e1e1;
+  box-shadow: 15px 15px 25px rgba(162, 162, 162, 0.1);
+  border-radius: 8px;
 `;
 
 const SP = styled.p`
-  font-size: 23px;
+  font-size: 20px;
   font-weight: bold;
+  margin-top: 20px;
+  margin-bottom: 15px;
 `;
 
 const SButton = styled.button`
@@ -40,18 +51,25 @@ const SButton = styled.button`
   background: #f84f5a;
   color: white;
   font-size: 15px;
-  font-weight: bold;
+  // font-weight: bold;
   cursor: pointer;
-  width: 65px;
-  height: 35px;
+  width: 60px;
+  height: 31px;
+  font-family: Pretendard Variable;
 `;
 
 const SInput = styled.input`
   border: none;
-  border-bottom: 2px solid #949494;
-  margin-left: 20px;
-  width: 320px;
+  border-bottom: 1px solid #949494;
+  // margin-left: 15px;
+  width: 100%;
   height: 35px;
+  font-family: Pretendard Variable;
+  font-size: 15px;
+  &:focus {
+    outline: 0;
+    background: none;
+  }
 `;
 
 const SHeaderDiv = styled.div`
@@ -62,19 +80,24 @@ const SHeaderDiv = styled.div`
 `;
 
 const SMainDiv = styled.div`
-  padding: 0px 25px;
+  padding: 0px 15px;
 `;
 
 const STextarea = styled.textarea`
-  border: 2px solid #adadad;
-  background: #fcfcfc;
+  border: 1px solid #adadad;
   border-radius: 8px;
-  margin-left: 20px;
-  padding: 20px;
+  // margin-left: 18px;
+  padding: 15px 20px;
   width: 350px;
-  font-size: 16px;
+  font-size: 15px;
   line-height: 1.5;
   resize: none;
+  font-family: Pretendard Variable;
+  background: #fcfcfc;
+  &:focus {
+    outline: 0;
+    background: none;
+  }
 `;
 
 const SRangeInput = styled.input`
@@ -216,13 +239,12 @@ const DiaryEditor = ({ selectedDate }) => {
     console.log(e.target.textContent);
     const name = e.target.textContent;
     //wordChange초기화
-    setSearchWhisky('');
+    setSearchWhisky("");
     //위스키 데이터 id값으로 넘기기
-    console.log({id, name})
-    setSearchTerms([...searchTerms, {id, name}]);
+    console.log({ id, name });
+    setSearchTerms([...searchTerms, { id, name }]);
     //위스키 데이터 없다면 막기
     //백엔드 등록 성공 알림 왔을 때만 등록 처리하기
-
   };
 
   const [data, setData] = useRecoilState(diaryDataState);
@@ -317,11 +339,11 @@ const DiaryEditor = ({ selectedDate }) => {
     });
   };
 
-
-
   const insertData = () => {
-    const newDrinkLevel = data.drinkLevel === "LIGHT" ? 0 : data.drinkLevel === "HEAVY" ? 100 : 50;
-    const newEmotion = data.emotion === "BAD" ? 0 : data.emotion === "GOOD" ? 100 : 50;
+    const newDrinkLevel =
+      data.drinkLevel === "LIGHT" ? 0 : data.drinkLevel === "HEAVY" ? 100 : 50;
+    const newEmotion =
+      data.emotion === "BAD" ? 0 : data.emotion === "GOOD" ? 100 : 50;
     setSearchWhisky("");
     setContent(data.content);
     setDrinkLevelValue(newDrinkLevel);
@@ -381,15 +403,23 @@ const DiaryEditor = ({ selectedDate }) => {
   const year = today.getFullYear().toString().padStart(4, "0");
   const month = (today.getMonth() + 1).toString().padStart(2, "0");
   const day = today.getDate().toString().padStart(2, "0");
-  const formattedDate = `${year}.${month.padStart(2, "0")}.${day.padStart(2, "0")}`;
+  const formattedDate = `${year}.${month.padStart(2, "0")}.${day.padStart(
+    2,
+    "0"
+  )}`;
 
   //위스키 이름, 주량, 기분, 한마디
   const onCreate = async () => {
     console.log(formattedDate);
-    const numberSearchTerms = searchTerms.map(whisky => Number(whisky.id));
-    const changeEmotionApi = emotionValue === 0 ? "BAD" : emotionValue === 50 ? "NORMAL" : "GOOD";
+    const numberSearchTerms = searchTerms.map((whisky) => Number(whisky.id));
+    const changeEmotionApi =
+      emotionValue === 0 ? "BAD" : emotionValue === 50 ? "NORMAL" : "GOOD";
     const changeDrinkLevelApi =
-      drinkLevelValue === 0 ? "LIGHT" : drinkLevelValue === 50 ? "MODERATE" : "HEAVY";
+      drinkLevelValue === 0
+        ? "LIGHT"
+        : drinkLevelValue === 50
+        ? "MODERATE"
+        : "HEAVY";
 
     const newItem = {
       date: formattedDate.replaceAll(".", "-"),
@@ -423,9 +453,14 @@ const DiaryEditor = ({ selectedDate }) => {
 
   const handleEdit = async () => {
     if (window.confirm(`${formattedDate} 날의 일기를 수정하시겠습니까?`)) {
-      const changeEmotionApi = emotionValue == 0 ? "BAD" : emotionValue == 50 ? "NORMAL" : "GOOD";
+      const changeEmotionApi =
+        emotionValue == 0 ? "BAD" : emotionValue == 50 ? "NORMAL" : "GOOD";
       const changeDrinkLevelApi =
-        drinkLevelValue == 0 ? "LIGHT" : drinkLevelValue == 50 ? "MODERATE" : "HEAVY";
+        drinkLevelValue == 0
+          ? "LIGHT"
+          : drinkLevelValue == 50
+          ? "MODERATE"
+          : "HEAVY";
       console.log(drinkLevelValue);
       console.log(emotionValue);
       console.log(changeDrinkLevelApi);
@@ -490,7 +525,7 @@ const DiaryEditor = ({ selectedDate }) => {
         <SHeaderDiv>
           <SP
             style={{
-              fontSize: "30px",
+              fontSize: "24px",
               marginTop: "0px",
               marginBottom: "0px",
               color: "#F84F5A",
@@ -500,9 +535,7 @@ const DiaryEditor = ({ selectedDate }) => {
             {formattedDate}
           </SP>
           {isSave ? (
-            <SButton style={{ flex: "1" }} onClick={handleSubmit}>
-              저장
-            </SButton>
+            <SButton onClick={handleSubmit}>저장</SButton>
           ) : isEdit ? (
             <>
               <SUpdateButton onClick={handleQuitEdit}>수정취소</SUpdateButton>
@@ -541,9 +574,15 @@ const DiaryEditor = ({ selectedDate }) => {
             <div>
               {searchTerms.map((whisky, index) => (
                 <SDiv key={index}>
-                  <SP>{whisky.name.length > 6 ? `${whisky.name.slice(0, 6)}...` : whisky.name}</SP>
+                  <SP>
+                    {whisky.name.length > 6
+                      ? `${whisky.name.slice(0, 6)}...`
+                      : whisky.name}
+                  </SP>
                   {(isSave || isEdit) && (
-                    <SButton onClick={() => deleteSearchWord(whisky)}>X</SButton>
+                    <SButton onClick={() => deleteSearchWord(whisky)}>
+                      X
+                    </SButton>
                   )}
                 </SDiv>
               ))}

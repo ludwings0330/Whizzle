@@ -13,21 +13,25 @@ import styled from "styled-components";
 import DiaryEditor from "../input/DiaryEditor";
 
 const SDiv = styled.div`
-  border: 2px solid #e1e1e1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  // width: 720px;
+  // height: 550px;
+  padding: 32px 35px;
+  border: 1px solid #e1e1e1;
+  box-shadow: 15px 15px 25px rgba(162, 162, 162, 0.1);
   border-radius: 8px;
-  display: inline-block;
-  width: 770px;
-  height: 580px;
-  margin: 0 10px;
-  padding: 40px 60px 40px 40px;
-  box-shadow: 5px 5px 5px #e1e1e1;
 `;
 
 const SHeaderDiv = styled.div`
+  width: 660px;
   display: flex;
   justify-content: space-between;
-  align-items: stretch;
+  align-items: center;
   text-align: center;
+  margin-bottom: 30px;
 `;
 
 const SDateP = styled.p`
@@ -37,9 +41,9 @@ const SDateP = styled.p`
   background-clip: text;
   color: transparent;
   font-weight: bold;
-  font-size: 50px;
+  font-size: 32px;
   margin-top: 0;
-  margin-bottom: 30px;
+  margin-bottom: 0px;
 `;
 
 const SCalanderDiv = styled.div`
@@ -47,37 +51,34 @@ const SCalanderDiv = styled.div`
     border-collapse: collapse;
     width: 100%;
     max-width: 100%;
-    margin-bottom: 1rem;
+    // margin-bottom: 30px;
     background-color: transparent;
     color: #212529;
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.5;
-    text-align: left;
-    font-weight: bold;
+    font-size: 20px;
+    text-align: center;
   }
 
   th,
   td {
     vertical-align: top;
-    border-top: 2px solid #dee2e6;
-    font-weight: bold;
   }
 
   th {
     text-align: inherit;
-    background-color: #f8f9fa;
-    border-bottom: 2px solid #dee2e6;
-    padding: 25px;
+    font-size: 24px;
+    font-weight: bold;
+    padding-top: 3px;
+    padding-bottom: 18px;
   }
 
   td {
-    border-bottom: 1px solid #dee2e6;
-    padding: 25px;
+    cursor: pointer;
+    padding: 22px 10px;
+    width: 80px;
 
     &:hover {
-      background: #f84f5a;
-      color: white;
+      background: rgba(248, 79, 90, 0.1);
+      border-radius: 4px;
     }
   }
 `;
@@ -85,7 +86,7 @@ const SCalanderDiv = styled.div`
 const SPrevButton = styled.button`
   border: none;
   background: none;
-  font-size: 60px;
+  font-size: 50px;
   line-height: 1;
   padding: 10;
   cursor: pointer;
@@ -99,10 +100,10 @@ const SPrevButton = styled.button`
 const SNextButton = styled.button`
   border: none;
   background: none;
-  font-size: 60px;
+  font-size: 50px;
   line-height: 1;
   padding: 10;
-  margin-bottom: 10px;
+  // margin-bottom: 10px;
   cursor: pointer;
 
   &::before {
@@ -113,20 +114,24 @@ const SNextButton = styled.button`
 
 const STbody = styled.tbody`
   .selected-day {
-    background-color: #f84f5a;
-    color: white;
+    background: rgba(248, 79, 90, 0.1);
+    border-radius: 4px;
+    // border: 3px solid #f84f5a;
   }
 `;
 
 //다이어리 캘린더
 const DiaryCalander = ({ setSelectedDate, selectedDate }) => {
-
   function prevMonth() {
-    setSelectedDate((prevDate) => new Date(prevDate.getFullYear(), prevDate.getMonth() - 1, 1));
+    setSelectedDate(
+      (prevDate) => new Date(prevDate.getFullYear(), prevDate.getMonth() - 1, 1)
+    );
   }
 
   function nextMonth() {
-    setSelectedDate((prevDate) => new Date(prevDate.getFullYear(), prevDate.getMonth() + 1, 1));
+    setSelectedDate(
+      (prevDate) => new Date(prevDate.getFullYear(), prevDate.getMonth() + 1, 1)
+    );
   }
 
   function getDaysInMonth(year, month) {
@@ -156,10 +161,14 @@ const DiaryCalander = ({ setSelectedDate, selectedDate }) => {
       }
     }
     return -1;
-  }
+  };
 
   const handleDateClick = (event) => {
-    const clickedDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), event.target.textContent);
+    const clickedDate = new Date(
+      selectedDate.getFullYear(),
+      selectedDate.getMonth(),
+      event.target.textContent
+    );
 
     const year = clickedDate.getFullYear();
     const month = clickedDate.getMonth() + 1;
@@ -186,11 +195,14 @@ const DiaryCalander = ({ setSelectedDate, selectedDate }) => {
 
     setData(diaryItem);
     setSelectedDate(clickedDate);
-  }
+  };
 
-  const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const weekdays = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 
-  const daysInMonth = getDaysInMonth(selectedDate.getFullYear(), selectedDate.getMonth());
+  const daysInMonth = getDaysInMonth(
+    selectedDate.getFullYear(),
+    selectedDate.getMonth()
+  );
   const firstDayOfMonth = getFirstDayOfMonth(selectedDate);
   const lastDayOfMonth = getLastDayOfMonth(selectedDate);
 
@@ -201,7 +213,9 @@ const DiaryCalander = ({ setSelectedDate, selectedDate }) => {
   }
 
   for (let i = 1; i <= daysInMonth; i++) {
-    days.push(`${selectedDate.getFullYear()}-${selectedDate.getMonth() + 1}-${i}`);
+    days.push(
+      `${selectedDate.getFullYear()}-${selectedDate.getMonth() + 1}-${i}`
+    );
   }
 
   for (let i = 0; i < 6 - lastDayOfMonth; i++) {
@@ -230,12 +244,13 @@ const DiaryCalander = ({ setSelectedDate, selectedDate }) => {
       const [rowIndex, dayIndex] = dataKey.split("-");
 
       let dateStr = rows[rowIndex].cells[dayIndex]; // 2023-3-18 vs 2023-03-18
-      dateStr = dateStr.split('-');
+      dateStr = dateStr.split("-");
 
-      dateStr = `${dateStr[0]}-${Number(dateStr[1]) < 10 ? "0" : ""}${Number(dateStr[1])}-${Number(dateStr[2]) < 10 ? "0":""}${Number(dateStr[2])}`
+      dateStr = `${dateStr[0]}-${Number(dateStr[1]) < 10 ? "0" : ""}${Number(
+        dateStr[1]
+      )}-${Number(dateStr[2]) < 10 ? "0" : ""}${Number(dateStr[2])}`;
 
       const result = diaryList.find((diary) => diary.date === dateStr);
-
 
       if (result) {
         activeDay.style.backgroundColor = "yellow";
@@ -248,7 +263,12 @@ const DiaryCalander = ({ setSelectedDate, selectedDate }) => {
       <SDiv>
         <SHeaderDiv>
           <SPrevButton onClick={prevMonth}></SPrevButton>
-          <SDateP>{selectedDate.toLocaleString("en-US", { month: "long", year: "numeric" })}</SDateP>
+          <SDateP>
+            {selectedDate.toLocaleString("en-US", {
+              month: "long",
+              year: "numeric",
+            })}
+          </SDateP>
           <SNextButton onClick={nextMonth}></SNextButton>
         </SHeaderDiv>
         <SCalanderDiv key={diaryList}>
