@@ -15,6 +15,7 @@ import sad from "../../../assets/img/sad.png";
 import littledrink from "../../../assets/img/littledrink.png";
 import normaldrink from "../../../assets/img/normaldrink.png";
 import largedrink from "../../../assets/img/largedrink.png";
+import {success} from "../../notify/notify";
 
 const SBorderDiv = styled.div`
   border: 2px solid #e1e1e1;
@@ -382,7 +383,7 @@ const DiaryEditor = ({ selectedDate }) => {
 
   const handleSubmit = () => {
     onCreate();
-    alert("등록 완료");
+    success("다이어리 저장 성공!");
     setIsSave(false);
   };
   // 추가된 함수

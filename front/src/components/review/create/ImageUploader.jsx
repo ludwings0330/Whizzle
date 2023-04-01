@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useDropzone } from "react-dropzone";
 
 import imgupload from "../../../assets/img/imgupload.png";
+import {warning} from "../../notify/notify";
 
 const SDiv = styled.div`
   border: 2px dashed #ccc;
@@ -42,7 +43,7 @@ const ImageUploader = ({ images, setImages }) => {
   const onDrop = useCallback(
     (acceptedFiles) => {
       if (acceptedFiles.length > 5) {
-        alert("최대 5장의 사진까지 업로드 가능합니다.");
+        warning("최대 5장의 사진까지 업로드 가능합니다.");
         return;
       }
 

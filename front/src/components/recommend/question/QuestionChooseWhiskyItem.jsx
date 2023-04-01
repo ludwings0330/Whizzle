@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { preference } from "../../../store/indexStore";
 import styled from "styled-components";
+import { warning } from "../../notify/notify";
 
 const SWrap = styled.div`
   cursor: pointer;
@@ -20,8 +21,11 @@ const SCard = styled.div`
   border: 1px solid rgba(255, 255, 255, 0.6);
   border-radius: 16px;
   transition: 0.5s;
-  background: ${(props) => (props.isClicked ? "white" : "rgba(255, 255, 255, 0.2)")};
-  box-shadow: ${(props) => (props.isClicked ? "0px 4px 50px rgba(255, 255, 255, 0.5)" : "")};
+  background: ${(props) =>
+    props.isClicked ? "white" : "rgba(255, 255, 255, 0.2)"};
+  box-shadow: ${(props) =>
+    props.isClicked ? "0px 4px 50px rgba(255, 255, 255, 0.5)" : ""};
+
   ${SWrap}:hover & {
     background: white;
     transition: 0.5s;
@@ -34,6 +38,7 @@ const SImg = styled.img`
   transition: 0.5s;
   transform-origin: bottom;
   transform: ${(props) => (props.isClicked ? "scale(1.1)" : "")};
+
   ${SWrap}:hover & {
     transform: scale(1.1);
     transition: 0.5s;
@@ -46,6 +51,7 @@ const SName = styled.p`
   padding-bottom: 50px;
   color: ${(props) => (props.isClicked ? "#181818" : "white")};
   font-weight: ${(props) => (props.isClicked ? "bold" : "")};
+
   ${SWrap}:hover & {
     color: #181818;
     font-weight: bold;
@@ -62,7 +68,7 @@ const QuestionChooseWhiskyItem = (props) => {
 
     if (selectedIndex === -1) {
       if (preferenceValue.whiskies.length > 2) {
-        alert("3개를 모두 선택하셨습니다!");
+        warning("3개를 모두 선택하셨습니다!");
       } else {
         setPreferenceValue((prev) => ({
           ...prev,
