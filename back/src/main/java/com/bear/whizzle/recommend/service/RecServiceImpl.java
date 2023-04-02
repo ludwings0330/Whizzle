@@ -1,25 +1,31 @@
 package com.bear.whizzle.recommend.service;
 
 import com.bear.whizzle.domain.exception.NotFoundException;
+import com.bear.whizzle.domain.model.entity.Member;
 import com.bear.whizzle.domain.model.entity.Preference;
+import com.bear.whizzle.domain.model.entity.SavedModel;
 import com.bear.whizzle.domain.model.entity.Whisky;
 import com.bear.whizzle.domain.model.type.Flavor;
 import com.bear.whizzle.keep.repository.KeepCustomRepository;
+import com.bear.whizzle.member.repository.MemberRepository;
 import com.bear.whizzle.preference.repository.PreferenceRepository;
 import com.bear.whizzle.recommend.PreferenceMapper;
 import com.bear.whizzle.recommend.RecommendWhiskyMapper;
 import com.bear.whizzle.recommend.controller.dto.PreferenceDto;
 import com.bear.whizzle.recommend.controller.dto.RecWhiskyRequestDto;
+import com.bear.whizzle.savedmodel.repository.SavedModelRepository;
 import com.bear.whizzle.whisky.repository.WhiskyCustomRepository;
 import com.bear.whizzle.whisky.repository.WhiskyRepository;
 import com.bear.whizzle.whisky.repository.projection.dto.FlavorSummary;
 import com.bear.whizzle.whisky.service.query.WhiskyQueryService;
+import com.sun.jdi.InternalException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+@Slf4j
 public class RecServiceImpl implements RecService {
 
     private final WhiskyRepository whiskyRepository;
@@ -34,6 +41,8 @@ public class RecServiceImpl implements RecService {
     private final PreferenceRepository preferenceRepository;
     private final KeepCustomRepository keepCustomRepository;
     private final WhiskyQueryService whiskyQueryService;
+    private final SavedModelRepository savedModelRepository;
+    private final MemberRepository memberRepository;
 
     @Value("${app.rec.topK}")
     private Integer topK;
@@ -107,6 +116,23 @@ public class RecServiceImpl implements RecService {
                 r -> whiskiesResponseDto.add(
                         returnType.cast(RecommendWhiskyMapper.toWhiskyResponseDto(whiskyMap.get(r), myKeeps.containsKey(r), returnType))));
         return whiskiesResponseDto;
+    }
+
+    /**
+     * 이미 학습된 사용자인지 판단하는 함수
+     *
+     * @param memberId 접근중인 주체
+     * @return 학습된 사용자라면 memberId, 신규 사용자라면 0L
+     * @throws InternalException : 학습된 모델이 존재하지 않는 경우 발생합니다.
+     */
+    @Override
+    public Long isLearnedMember(Long memberId) {
+        SavedModel savedModel = savedModelRepository.findTopByOrderByIdDesc()
+                                                    .orElseThrow(() -> new InternalException("서버 에러입니다."));
+        log.debug("savedModel : ", savedModel);
+        return memberRepository.findByIdAndCreatedDateTimeBefore(memberId, savedModel.getSavedDateTime())
+                               .map(Member::getId)
+                               .orElse(0L);
     }
 
 }
