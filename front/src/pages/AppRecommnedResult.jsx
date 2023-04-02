@@ -4,12 +4,13 @@ import { useRecoilValue } from "recoil";
 import { userState } from "../store/userStore";
 import { useNavigate } from "react-router-dom";
 import { NON_LOGIN_NICKNAME } from "../constants/constants";
-import { recommendResult, preference } from "../store/indexStore";
+import { preference, recommendResult } from "../store/indexStore";
 
 //import components
 import Graph from "../components/common/Graph";
 import ResultMainWhisky from "../components/recommend/result/ResultMainWhisky";
 import ResultWhiskyList from "../components/recommend/result/ResultWhiskyList";
+import { info } from "../components/notify/notify";
 
 const SHeader = styled.div`
   width: 100vw;
@@ -30,6 +31,7 @@ const SP = styled.p`
   flex-direction: column;
   align-items: center;
   text-align: center;
+
   & span {
     width: 100%;
     box-sizing: border-box;
@@ -148,9 +150,10 @@ const AppRecommnedResult = () => {
   useEffect(() => {
     if (!isLogin) {
       setTimeout(() => {
-        if (window.confirm("회원 가입을 통해 취향을 저장해보세요!")) {
-          navigate("/signin");
-        }
+        // if (window.confirm("회원 가입을 통해 취향을 저장해보세요!")) {
+        //   navigate("/signin");
+        // }
+        info("회원 가입을 통해 취향을 저장해보세요!");
       }, 5000);
     }
   }, []);
@@ -162,14 +165,22 @@ const AppRecommnedResult = () => {
   useEffect(() => {
     const flavorEntries = Object.entries(flavor);
     flavorEntries.sort((a, b) => b[1] - a[1]);
-    const maxValues = flavorEntries.slice(0, 2).map(([key, value]) => key.toUpperCase());
+    const maxValues = flavorEntries
+      .slice(0, 2)
+      .map(([key, value]) => key.toUpperCase());
     setMaxValue(maxValues);
   }, []);
 
   return (
     <>
       <SHeader>
-        <SP style={{ fontSize: "32px", marginBottom: "0px", fontWeight: "bold" }}>
+        <SP
+          style={{
+            fontSize: "32px",
+            marginBottom: "0px",
+            fontWeight: "bold",
+          }}
+        >
           나만의 취향 찾기, 위스키 추천
         </SP>
         <SP>
@@ -180,7 +191,9 @@ const AppRecommnedResult = () => {
       <SGraphDiv>
         <STitleP>취향 분석 결과</STitleP>
         <SGraphP>
-          <SColorSpan>{user.nickname ? user.nickname : NON_LOGIN_NICKNAME}</SColorSpan>
+          <SColorSpan>
+            {user.nickname ? user.nickname : NON_LOGIN_NICKNAME}
+          </SColorSpan>
           <SSpan>님의 취향분석 결과입니다.</SSpan>
           <SBoldColorP>
             {maxValue[0]} & {maxValue[1]}
@@ -197,7 +210,9 @@ const AppRecommnedResult = () => {
           STitleP={STitleP}
         />
       )}
-      {recommend && recommend.length && <ResultWhiskyList whiskys={recommend.slice(3)} />}
+      {recommend && recommend.length && (
+        <ResultWhiskyList whiskys={recommend.slice(3)} />
+      )}
       <SBtnDiv>
         <SQuestionBtn onClick={onClickHandler}>
           <SColorSpan style={{ fontSize: "20px", fontWeight: "600" }}>

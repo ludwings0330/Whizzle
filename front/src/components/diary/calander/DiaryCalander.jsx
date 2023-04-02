@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from "react";
 import {
-  diaryState,
   diaryDataState,
-  currentComponentState,
+  diaryState,
   fetchDiaries,
   searchTerm,
 } from "../../../store/indexStore";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { diaryRead } from "../../../apis/diary";
+import { useRecoilState } from "recoil";
 
 //import css
 import styled from "styled-components";
-import DiaryEditor from "../input/DiaryEditor";
+import { error } from "../../notify/notify";
 
 const SDiv = styled.div`
   border: 2px solid #e1e1e1;
@@ -122,11 +120,15 @@ const STbody = styled.tbody`
 //다이어리 캘린더
 const DiaryCalander = ({ setSelectedDate, selectedDate }) => {
   function prevMonth() {
-    setSelectedDate((prevDate) => new Date(prevDate.getFullYear(), prevDate.getMonth() - 1, 1));
+    setSelectedDate(
+      (prevDate) => new Date(prevDate.getFullYear(), prevDate.getMonth() - 1, 1)
+    );
   }
 
   function nextMonth() {
-    setSelectedDate((prevDate) => new Date(prevDate.getFullYear(), prevDate.getMonth() + 1, 1));
+    setSelectedDate(
+      (prevDate) => new Date(prevDate.getFullYear(), prevDate.getMonth() + 1, 1)
+    );
   }
 
   function getDaysInMonth(year, month) {
@@ -197,7 +199,7 @@ const DiaryCalander = ({ setSelectedDate, selectedDate }) => {
 
     const now = new Date();
     if (clickedDate > now) {
-      alert("오늘 이후의 날짜는 선택할 수 없습니다!");
+      error("오늘 이후의 날짜는 선택할 수 없습니다!");
       return;
     }
 
@@ -219,7 +221,10 @@ const DiaryCalander = ({ setSelectedDate, selectedDate }) => {
 
   const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-  const daysInMonth = getDaysInMonth(selectedDate.getFullYear(), selectedDate.getMonth());
+  const daysInMonth = getDaysInMonth(
+    selectedDate.getFullYear(),
+    selectedDate.getMonth()
+  );
   const firstDayOfMonth = getFirstDayOfMonth(selectedDate);
   const lastDayOfMonth = getLastDayOfMonth(selectedDate);
 
@@ -230,7 +235,9 @@ const DiaryCalander = ({ setSelectedDate, selectedDate }) => {
   }
 
   for (let i = 1; i <= daysInMonth; i++) {
-    days.push(`${selectedDate.getFullYear()}-${selectedDate.getMonth() + 1}-${i}`);
+    days.push(
+      `${selectedDate.getFullYear()}-${selectedDate.getMonth() + 1}-${i}`
+    );
   }
 
   for (let i = 0; i < 6 - lastDayOfMonth; i++) {
@@ -261,9 +268,9 @@ const DiaryCalander = ({ setSelectedDate, selectedDate }) => {
       let dateStr = rows[rowIndex].cells[dayIndex]; // 2023-3-18 vs 2023-03-18
       dateStr = dateStr.split("-");
 
-      dateStr = `${dateStr[0]}-${Number(dateStr[1]) < 10 ? "0" : ""}${Number(dateStr[1])}-${
-        Number(dateStr[2]) < 10 ? "0" : ""
-      }${Number(dateStr[2])}`;
+      dateStr = `${dateStr[0]}-${Number(dateStr[1]) < 10 ? "0" : ""}${Number(
+        dateStr[1]
+      )}-${Number(dateStr[2]) < 10 ? "0" : ""}${Number(dateStr[2])}`;
 
       const result = diaryList.find((diary) => diary.date === dateStr);
 
@@ -279,7 +286,10 @@ const DiaryCalander = ({ setSelectedDate, selectedDate }) => {
         <SHeaderDiv>
           <SPrevButton onClick={prevMonth}></SPrevButton>
           <SDateP>
-            {selectedDate.toLocaleString("en-US", { month: "long", year: "numeric" })}
+            {selectedDate.toLocaleString("en-US", {
+              month: "long",
+              year: "numeric",
+            })}
           </SDateP>
           <SNextButton onClick={nextMonth}></SNextButton>
         </SHeaderDiv>
