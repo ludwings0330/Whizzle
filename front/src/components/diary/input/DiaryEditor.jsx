@@ -185,19 +185,19 @@ const SRadioLabel = styled.label`
 
 const SCircle = styled.div`
   box-sizing: border-box;
-  // z-index: 300;
+  z-index: 1;
   width: 20px;
   height: 20px;
   border-radius: 999px;
   margin-bottom: 18px;
-  background: rgba(248, 79, 90, 0.2);
+  background: #fdced1;
   border: 2px solid rgba(248, 79, 90, 0.5);
   transform: matrix(1, 0, 0, -1, 0, 0);
 `;
 
 const SLine = styled.div`
   position: absolute;
-  // z-index: 100;
+  z-index: 0;
   width: 318px;
   margin-bottom: 37px;
   border: 1px solid rgba(248, 79, 90, 0.5);
