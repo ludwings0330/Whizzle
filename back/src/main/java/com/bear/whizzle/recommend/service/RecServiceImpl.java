@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,7 +32,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-@Slf4j
 public class RecServiceImpl implements RecService {
 
     private final WhiskyRepository whiskyRepository;
@@ -129,7 +127,6 @@ public class RecServiceImpl implements RecService {
     public Long isLearnedMember(Long memberId) {
         SavedModel savedModel = savedModelRepository.findTopByOrderByIdDesc()
                                                     .orElseThrow(() -> new InternalException("서버 에러입니다."));
-        log.debug("savedModel : ", savedModel);
         return memberRepository.findByIdAndCreatedDateTimeBefore(memberId, savedModel.getSavedDateTime())
                                .map(Member::getId)
                                .orElse(0L);
