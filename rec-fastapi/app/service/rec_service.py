@@ -1,18 +1,21 @@
-import pickle
+import dill as pickle
 import pandas as pd
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 from scipy.sparse import csr_matrix
 
-import lightfm as LightFM
-
+from lightfm import LightFM
+from lightfm.data import Dataset
 from models.dto.data_class import Preference
 from common.config import settings
 
 
 def load_rec_model():
-    model = pickle.load(open(settings.MODEL_PATH, "rb"))
-    return model
+    return pickle.load(open(settings.MODEL_PATH, "rb"))
+
+
+def load_dataset():
+    return pickle.load(open(settings.DATASET_PATH, "rb"))
 
 
 # memory에 띄워서 관리
@@ -23,45 +26,50 @@ def load_rec_model():
 #     return csr_matrix(item_features)
 
 
-def make_user_features(preference: Preference):
-    # user_feature load
-    # user_features = pd.read_csv(
-    #     settings.USER_FEATURES_PATH, index_col=0, encoding=settings.ENCODING
-    # )
-    # return csr_matrix(user_features)
-    my_features = preference.get_my_feature()
-    if preference.user_id == 0:
-        return csr_matrix(my_features)
-    else:
-        user_features = pd.read_csv(
-            settings.USER_FEATURES_PATH, index_col=0, encoding=settings.ENCODING
-        )
-        #     user_id = settings.N_USERS + preference.user_id
-        #     user_features.iloc[user_id] = my_features
-        return csr_matrix(user_features)
+def make_source(data):
+    source = []
+    for row in data.itertuples(index=False):
+        meta = {feat: value for feat, value in zip(data.columns[1:], row[1:])}
+        source.append((row[0], meta))
+    return source
+
+
+def make_features(preference: Preference, item_features):
+    dataset = load_dataset()
+    preference = preference.get_preference()
+    preference_source = make_source(preference)
+    preference_meta = dataset.build_user_features(preference_source, normalize=False)
+    item_features = item_features[
+        ["whisky_id", "price_tier"] + item_features.columns.tolist()[4:]
+    ]
+    item_source = make_source(item_features)
+    item_meta = dataset.build_item_features(item_source, normalize=False)
+    return preference_meta, item_meta
 
 
 def predict_personal_whisky(preference: Preference, item_features):
     model = load_rec_model()
-    user_features = make_user_features(preference)
+    user_meta, item_meta = make_features(preference, item_features)
     item_ids = np.arange(item_features.shape[0])
     scores = model.predict(
         user_ids=preference.user_id
         if preference.user_id == 0
         else settings.N_USERS + preference.user_id,
         item_ids=item_ids,
-        item_features=item_features,
-        user_features=user_features,
+        user_features=user_meta,
+        item_features=item_meta,
     )
     return np.argsort(-scores).tolist()
 
 
 def predict_similar_whisky(whisky_id: int, item_features, k: int = 5):
+    # make csr matrix
+    item_matrix = csr_matrix(item_features)
     # get Cosine Similarity
-    cosine_sim = cosine_similarity(item_features, item_features)
+    cosine_sim = cosine_similarity(item_matrix, item_matrix)
 
     # get similarity scores
     scores = cosine_sim[whisky_id]
 
     # sort by similarity
-    return np.argsort(-scores)[1: k + 1].tolist()
+    return np.argsort(-scores)[1 : k + 1].tolist()

@@ -1,5 +1,6 @@
 from fastapi import Body
 from pydantic import BaseModel
+import pandas as pd
 
 
 class Preference(BaseModel):
@@ -18,21 +19,44 @@ class Preference(BaseModel):
     tart: float = Body(..., ge=0, le=1)
     fruity: float = Body(..., ge=0, le=1)
     floral: float = Body(..., ge=0, le=1)
+    cols: list = [
+        "user_id",
+        "price_tier",
+        "smoky",
+        "peaty",
+        "spicy",
+        "herbal",
+        "oily",
+        "body",
+        "rich",
+        "sweet",
+        "salty",
+        "vanilla",
+        "tart",
+        "fruity",
+        "floral",
+    ]
 
-    def get_my_feature(self):
-        return [
-            self.price_tier,
-            self.smoky,
-            self.peaty,
-            self.spicy,
-            self.herbal,
-            self.oily,
-            self.body,
-            self.rich,
-            self.sweet,
-            self.salty,
-            self.vanilla,
-            self.tart,
-            self.fruity,
-            self.floral,
-        ]
+    def get_preference(self):
+        return pd.DataFrame(
+            [
+                [
+                    self.user_id,
+                    self.price_tier,
+                    self.smoky,
+                    self.peaty,
+                    self.spicy,
+                    self.herbal,
+                    self.oily,
+                    self.body,
+                    self.rich,
+                    self.sweet,
+                    self.salty,
+                    self.vanilla,
+                    self.tart,
+                    self.fruity,
+                    self.floral,
+                ]
+            ],
+            columns=self.cols,
+        )

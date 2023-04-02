@@ -10,6 +10,7 @@ class Settings(BaseSettings):
     PROJECT_NAME: str
     BACKEND_CORS_ORIGINS: List[AnyHttpUrl] = []
     MODEL_PATH: str
+    DATASET_PATH: str
     ITEM_FEATURES_PATH: str
     USER_FEATURES_PATH: str
     ENCODING: str
