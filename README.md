@@ -41,6 +41,13 @@
   * Data 전처리
   * Model 학습
   * Model 최적화
+* 2023.03.20(월) ~ 2023.03.24(금)
+  * 백엔드 구현
+  * 프론트엔드 구현
+* 2023.03.27(월) ~ 2023.03.29(금)
+  * E2E 테스트 작성
+  * 백엔드 구현
+  * 프론트엔드 구현
 
 ## Whizzle - 배경
 
@@ -79,11 +86,12 @@
 * Java 11, Spring Boot 2.7.9,
 * Spring Security 2.7.5 (인증 인가 관리 프레임워크)
 * OAuth2 Client 2.7.9 (소셜 로그인 프레임워크)
-* JWT
+* JWT (사용자 인증)
 * Spring Data JPA 2.7.9 (Hibernate 구현체)
 * QueryDSL 5.0.0 (JPA 쿼리를 코드로 작성하기 위한 프레임워크)
 * Redis 2.7.9 (인메모리 데이터 구조 저장소)
 * MySQL 8.0 (RDBMS)
+* elasticsearch 7.17.9 (검색어 자동 완성)
 
 ### Data
 * Python 3.9
@@ -203,13 +211,13 @@
 * 프로토타입 [링크](./output/5_프로토타입/Whizzle_prototype.pdf)
 * 기능명세서 & WBS [링크](./output/6_기능명세서_WBS/Whizzle_기능명세서&WBS.xlsx)
 * ERD [링크](output/7_ERD/whizzle_erd.png)
-* API 명세서
-* 시퀀스 다이어그램
-* 시스템 아키텍처
-* E2E 테스트 케이스
+* API 명세서 - 작성중
+* 시퀀스 다이어그램 - 작성중
+* 시스템 아키텍처 - 작성중
+* E2E 테스트 케이스 - 작성중
 * 발표 자료
   * [230317 Whizzle 중간발표.pdf ](./output/presentation/23.03.17_위즐_중간발표.pdf)
-
+  * 최종 발표 자료
 ## 트러블 슈팅
 
 ---
