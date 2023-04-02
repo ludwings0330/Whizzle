@@ -1,17 +1,9 @@
-<<<<<<< HEAD
-import React, { useState } from "react";
-=======
 import React, { useEffect, useState } from "react";
->>>>>>> 4e32e73355450aec637aaa8b577966b86cf59437
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { userState } from "../../store/userStore";
 import { useRecoilValue } from "recoil";
-<<<<<<< HEAD
-import { keepToggle } from "../../apis/whiskyDetail";
-=======
 import { getKeep, keepToggle } from "../../apis/whiskyDetail";
->>>>>>> 4e32e73355450aec637aaa8b577966b86cf59437
 import favoriteBorder from "../../assets/img/favorite_border.png";
 import favoriteFilled from "../../assets/img/favorite_filled.png";
 import ReactStars from "react-stars";

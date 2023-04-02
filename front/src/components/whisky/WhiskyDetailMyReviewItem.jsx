@@ -134,6 +134,7 @@ const WhiskyDetailMyReviewItem = ({ review, whiskyId }) => {
       try {
         const res = await deleteReview(review.reviewInfo.reviewId);
         if (res) {
+          window.alert("리뷰가 삭제되었습니다.");
           console.log("리뷰 삭제 성공");
         }
       } catch {

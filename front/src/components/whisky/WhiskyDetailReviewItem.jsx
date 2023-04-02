@@ -3,6 +3,7 @@ import styled from "styled-components";
 import ReactStars from "react-stars";
 import favoriteBorder from "../../assets/img/review_favorite_border.png";
 import favoriteFilled from "../../assets/img/review_favorite_filled.png";
+import { likeReview } from "../../apis/review";
 
 const Wrapper = styled.div`
   display: flex;
@@ -92,11 +93,29 @@ const STextDiv = styled.div`
 `;
 
 const WhiskyDetailReviewItem = ({ review }) => {
+  const [likeCount, setLikeCount] = useState(review.reviewInfo.likeCount);
+
   // 리뷰 좋아요
+  async function likeToggle(id) {
+    try {
+      const res = await likeReview(id);
+      if (res) {
+        console.log("리뷰 좋아요(or 취소) 성공");
+      }
+    } catch {
+      console.log("리뷰 좋아요(or 취소) 실패");
+    }
+  }
+
   const [isLike, setISLike] = useState(review.reviewInfo.liked);
-  const likeReview = () => {
-    console.log(review);
+  const onLikeHandler = () => {
+    if (isLike) {
+      setLikeCount(likeCount - 1);
+    } else {
+      setLikeCount(likeCount + 1);
+    }
     setISLike(!isLike);
+    likeToggle(review.reviewInfo.reviewId);
   };
 
   const [seeMore, setSeeMore] = useState(false);
@@ -131,11 +150,11 @@ const WhiskyDetailReviewItem = ({ review }) => {
         <SLikeDiv>
           <SLikeImg
             style={{ cursor: "pointer" }}
-            onClick={likeReview}
+            onClick={onLikeHandler}
             src={isLike ? favoriteFilled : favoriteBorder}
             alt="#"
           />
-          <p style={{ color: "#F84F5A" }}>{review.reviewInfo.likeCount}</p>
+          <p style={{ color: "#F84F5A" }}>{likeCount}</p>
         </SLikeDiv>
       </SReviewInfoDiv>
       {review.reviewInfo.reviewImages.length ? (
