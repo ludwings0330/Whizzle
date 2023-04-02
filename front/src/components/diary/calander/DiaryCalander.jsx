@@ -123,15 +123,11 @@ const STbody = styled.tbody`
 //다이어리 캘린더
 const DiaryCalander = ({ setSelectedDate, selectedDate }) => {
   function prevMonth() {
-    setSelectedDate(
-      (prevDate) => new Date(prevDate.getFullYear(), prevDate.getMonth() - 1, 1)
-    );
+    setSelectedDate((prevDate) => new Date(prevDate.getFullYear(), prevDate.getMonth() - 1, 1));
   }
 
   function nextMonth() {
-    setSelectedDate(
-      (prevDate) => new Date(prevDate.getFullYear(), prevDate.getMonth() + 1, 1)
-    );
+    setSelectedDate((prevDate) => new Date(prevDate.getFullYear(), prevDate.getMonth() + 1, 1));
   }
 
   function getDaysInMonth(year, month) {
@@ -199,10 +195,7 @@ const DiaryCalander = ({ setSelectedDate, selectedDate }) => {
 
   const weekdays = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 
-  const daysInMonth = getDaysInMonth(
-    selectedDate.getFullYear(),
-    selectedDate.getMonth()
-  );
+  const daysInMonth = getDaysInMonth(selectedDate.getFullYear(), selectedDate.getMonth());
   const firstDayOfMonth = getFirstDayOfMonth(selectedDate);
   const lastDayOfMonth = getLastDayOfMonth(selectedDate);
 
@@ -213,9 +206,7 @@ const DiaryCalander = ({ setSelectedDate, selectedDate }) => {
   }
 
   for (let i = 1; i <= daysInMonth; i++) {
-    days.push(
-      `${selectedDate.getFullYear()}-${selectedDate.getMonth() + 1}-${i}`
-    );
+    days.push(`${selectedDate.getFullYear()}-${selectedDate.getMonth() + 1}-${i}`);
   }
 
   for (let i = 0; i < 6 - lastDayOfMonth; i++) {
@@ -246,14 +237,15 @@ const DiaryCalander = ({ setSelectedDate, selectedDate }) => {
       let dateStr = rows[rowIndex].cells[dayIndex]; // 2023-3-18 vs 2023-03-18
       dateStr = dateStr.split("-");
 
-      dateStr = `${dateStr[0]}-${Number(dateStr[1]) < 10 ? "0" : ""}${Number(
-        dateStr[1]
-      )}-${Number(dateStr[2]) < 10 ? "0" : ""}${Number(dateStr[2])}`;
+      dateStr = `${dateStr[0]}-${Number(dateStr[1]) < 10 ? "0" : ""}${Number(dateStr[1])}-${
+        Number(dateStr[2]) < 10 ? "0" : ""
+      }${Number(dateStr[2])}`;
 
       const result = diaryList.find((diary) => diary.date === dateStr);
 
       if (result) {
-        activeDay.style.backgroundColor = "yellow";
+        activeDay.style.backgroundColor = "#F84F5A";
+        activeDay.style.color = "#fff";
       }
     });
   }, [diaryList, data, rows]);

@@ -1,17 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
-import {
-  diaryDataState,
-  diaryState,
-  fetchDiaries,
-} from "../../../store/indexStore";
+import { diaryDataState, diaryState, fetchDiaries } from "../../../store/indexStore";
+import { motion } from "framer-motion";
+
 //import component
-import {
-  diaryCreate,
-  diaryDelete,
-  diaryRead,
-  diaryUpdate,
-} from "../../../apis/diary";
+import { diaryCreate, diaryDelete, diaryRead, diaryUpdate } from "../../../apis/diary";
 import { getAutocomplete } from "../../../apis/search";
 
 //import css
@@ -36,6 +29,7 @@ const SBorderDiv = styled.div`
   border: 1px solid #e1e1e1;
   box-shadow: 15px 15px 25px rgba(162, 162, 162, 0.1);
   border-radius: 8px;
+  flex-wrap: wrap;
 `;
 
 const SP = styled.p`
@@ -43,6 +37,11 @@ const SP = styled.p`
   font-weight: bold;
   margin-top: 20px;
   margin-bottom: 15px;
+`;
+
+const SName = styled.p`
+  color: white;
+  font-size: 14px;
 `;
 
 const SButton = styled.button`
@@ -61,8 +60,8 @@ const SButton = styled.button`
 const SInput = styled.input`
   border: none;
   border-bottom: 1px solid #949494;
-  // margin-left: 15px;
-  width: 100%;
+  margin-left: 19px;
+  width: 89%;
   height: 35px;
   font-family: Pretendard Variable;
   font-size: 15px;
@@ -86,9 +85,9 @@ const SMainDiv = styled.div`
 const STextarea = styled.textarea`
   border: 1px solid #adadad;
   border-radius: 8px;
-  // margin-left: 18px;
+  margin-left: 18px;
   padding: 15px 20px;
-  width: 350px;
+  width: 300px;
   font-size: 15px;
   line-height: 1.5;
   resize: none;
@@ -100,118 +99,114 @@ const STextarea = styled.textarea`
   }
 `;
 
-const SRangeInput = styled.input`
-  margin-left: 20px;
-  -webkit-appearance: none;
-  border: 1px solid #f84f5a;
-  background: linear-gradient(to right, #f84f5a, #f84f5a) no-repeat;
-  background-size: ${(props) => (props.value / props.max) * 100}% 100%;
-  height: 1px;
-  width: 100%;
-
-  &::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    cursor: pointer;
-    width: 25px;
-    height: 25px;
-    background-color: #ffffff;
-    border: 2px solid #f84f5a;
-    border-radius: 50%;
-    box-shadow: 0 0 0 8px rgba(248, 79, 90, 0.2);
-    transition: box-shadow 0.2s ease-in-out;
-  }
-
-  &::-webkit-slider-runnable-track {
-    background-color: transparent;
-  }
-
-  &:hover::-webkit-slider-thumb {
-    box-shadow: 0 0 0 8px rgba(248, 79, 90, 0.2);
-  }
-
-  &:hover::-webkit-slider-runnable-track {
-    background: rgba(248, 79, 90, 0.2);
-  }
-
-  position: relative;
-
-  &::before {
-    position: absolute;
-    bottom: 120%;
-    left: ${(props) => (props.value / props.max) * 100}%;
-    transform: translateX(-50%);
-    font-size: 12px;
-    color: #000;
-    background-color: #fff;
-    border-radius: 3px;
-    padding: 3px 6px;
-    white-space: nowrap;
-    display: none;
-  }
-
-  &:hover::before {
-    display: block;
-  }
-`;
-
-const SRangeDiv = styled.div`
-  font-size: 16px;
-  margin-left: 20px;
-  margin-top: 20px;
-  margin-bottom: 0;
-  position: absolute;
-  display: flex;
-  top: -80px;
-  left: ${(props) => (props.value / props.max) * 100}%;
-`;
-
-const SRangeContainer = styled.div`
-  position: relative;
-  margin-top: 80px;
-`;
-
-const STextP = styled.p`
-  font-size: 16px;
-  font-weight: bold;
-`;
-
-const SImg = styled.img`
-  width: 40px;
-  height: 40px;
-`;
-
 const SDiv = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
-  padding: 5px 16px;
-  gap: 4px;
-  margin-right: 10px;
-  height: 20px;
-
+  padding-right: 20px;
+  padding-left: 20px;
+  margin-left: 25px;
+  margin-top: 10px;
   background: #f84f5a;
+  width: fit-content;
+  max-width: 300px;
+  gap: 5px;
 `;
+
 const SUpdateButton = styled.button`
-  border: 2px solid #f84f5a;
+  border: 1px solid #f84f5a;
   border-radius: 12px;
-  background: #f84f5a;
-  color: white;
+  background: #fff;
+  color: #f84f5a;
   font-size: 15px;
   font-weight: bold;
   cursor: pointer;
-  width: 85px;
-  height: 35px;
-  margin-left: 8px;
+  padding-left: 10px;
+  padding-right: 10px;
+  height: 31px;
+  margin-left: 5px;
+  font-family: Pretendard Variable;
 `;
 
 const SAutoDiv = styled.div`
+  cursor: pointer;
   border: none;
   margin-left: 20px;
-  margin-top: 5px;
-  width: 320px;
-  height: 35px;
-  line-height: 35px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 334px;
+  // height: 40px;
+`;
+
+const SCentered = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 80px;
+  justify-content: center;
+  align-items: center;
+  // padding-top: 5px;
+`;
+
+const STitle = styled.p`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 60px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #666666;
+`;
+
+const SRadioInput = styled.input.attrs({ type: "radio" })`
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  &:checked + label {
+    color: rgba(248, 79, 90, 0.9);
+  }
+`;
+
+const SRadioLabel = styled.label`
+  display: flex;
+  position: relative;
+  // z-index: 100;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  width: 70px;
+  height: 80px;
+  border-radius: 10px;
+  color: #888888;
+  font-size: 16px;
+  // font-weight: bold;
+  transition: 0.2s;
+`;
+
+const SCircle = styled.div`
+  box-sizing: border-box;
+  // z-index: 300;
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  margin-bottom: 18px;
+  background: rgba(248, 79, 90, 0.2);
+  border: 2px solid rgba(248, 79, 90, 0.5);
+  transform: matrix(1, 0, 0, -1, 0, 0);
+`;
+
+const SLine = styled.div`
+  position: absolute;
+  // z-index: 100;
+  width: 318px;
+  margin-bottom: 37px;
+  border: 1px solid rgba(248, 79, 90, 0.5);
+`;
+
+const ResponsiveSLine = styled(SLine)`
+  @media (max-width: 760px) {
+    display: none;
+  }
 `;
 
 const DiaryEditor = ({ selectedDate }) => {
@@ -245,6 +240,7 @@ const DiaryEditor = ({ selectedDate }) => {
     setSearchTerms([...searchTerms, { id, name }]);
     //위스키 데이터 없다면 막기
     //백엔드 등록 성공 알림 왔을 때만 등록 처리하기
+    setAuto([]);
   };
 
   const [data, setData] = useRecoilState(diaryDataState);
@@ -253,8 +249,8 @@ const DiaryEditor = ({ selectedDate }) => {
   const [emotionImage, setEmotionImage] = useState(soso);
   const [drinkImage, setDrinkImage] = useState(normaldrink);
 
-  const [drinkLevelValue, setDrinkLevelValue] = useState(50);
-  const [emotionValue, setEmotionValue] = useState(50);
+  const [drinkLevelValue, setDrinkLevelValue] = useState("0");
+  const [emotionValue, setEmotionValue] = useState("100");
 
   const [emotion, setEmotion] = useState("그냥그래요");
   const [drinkLevel, setDrinkLevel] = useState("적당히");
@@ -340,10 +336,8 @@ const DiaryEditor = ({ selectedDate }) => {
   };
 
   const insertData = () => {
-    const newDrinkLevel =
-      data.drinkLevel === "LIGHT" ? 0 : data.drinkLevel === "HEAVY" ? 100 : 50;
-    const newEmotion =
-      data.emotion === "BAD" ? 0 : data.emotion === "GOOD" ? 100 : 50;
+    const newDrinkLevel = data.drinkLevel === "LIGHT" ? 0 : data.drinkLevel === "HEAVY" ? 100 : 50;
+    const newEmotion = data.emotion === "BAD" ? 0 : data.emotion === "GOOD" ? 100 : 50;
     setSearchWhisky("");
     setContent(data.content);
     setDrinkLevelValue(newDrinkLevel);
@@ -372,54 +366,26 @@ const DiaryEditor = ({ selectedDate }) => {
   const handleEmotionChange = (e) => {
     const emotionValue = e.target.value;
     setEmotionValue(emotionValue);
-    if (emotionValue <= 33) {
-      setEmotion("별로예요");
-      setEmotionImage(sad);
-    } else if (emotionValue <= 66) {
-      setEmotion("그냥그래요");
-      setEmotionImage(soso);
-    } else {
-      setEmotion("최고예요");
-      setEmotionImage(good);
-    }
   };
 
   const handleDrinklevelChange = (e) => {
     const drinklevelValue = e.target.value;
     setDrinkLevelValue(drinklevelValue);
-    if (drinklevelValue <= 33) {
-      setDrinkLevel("소량");
-      setDrinkImage(littledrink);
-    } else if (drinklevelValue <= 66) {
-      setDrinkLevel("적당히");
-      setDrinkImage(normaldrink);
-    } else {
-      setDrinkLevel("만취");
-      setDrinkImage(largedrink);
-    }
   };
 
   const today = new Date(selectedDate);
   const year = today.getFullYear().toString().padStart(4, "0");
   const month = (today.getMonth() + 1).toString().padStart(2, "0");
   const day = today.getDate().toString().padStart(2, "0");
-  const formattedDate = `${year}.${month.padStart(2, "0")}.${day.padStart(
-    2,
-    "0"
-  )}`;
+  const formattedDate = `${year}.${month.padStart(2, "0")}.${day.padStart(2, "0")}`;
 
   //위스키 이름, 주량, 기분, 한마디
   const onCreate = async () => {
     console.log(formattedDate);
     const numberSearchTerms = searchTerms.map((whisky) => Number(whisky.id));
-    const changeEmotionApi =
-      emotionValue === 0 ? "BAD" : emotionValue === 50 ? "NORMAL" : "GOOD";
+    const changeEmotionApi = emotionValue === 0 ? "BAD" : emotionValue === 50 ? "NORMAL" : "GOOD";
     const changeDrinkLevelApi =
-      drinkLevelValue === 0
-        ? "LIGHT"
-        : drinkLevelValue === 50
-        ? "MODERATE"
-        : "HEAVY";
+      drinkLevelValue === 0 ? "LIGHT" : drinkLevelValue === 50 ? "MODERATE" : "HEAVY";
 
     const newItem = {
       date: formattedDate.replaceAll(".", "-"),
@@ -453,14 +419,9 @@ const DiaryEditor = ({ selectedDate }) => {
 
   const handleEdit = async () => {
     if (window.confirm(`${formattedDate} 날의 일기를 수정하시겠습니까?`)) {
-      const changeEmotionApi =
-        emotionValue == 0 ? "BAD" : emotionValue == 50 ? "NORMAL" : "GOOD";
+      const changeEmotionApi = emotionValue == 0 ? "BAD" : emotionValue == 50 ? "NORMAL" : "GOOD";
       const changeDrinkLevelApi =
-        drinkLevelValue == 0
-          ? "LIGHT"
-          : drinkLevelValue == 50
-          ? "MODERATE"
-          : "HEAVY";
+        drinkLevelValue == 0 ? "LIGHT" : drinkLevelValue == 50 ? "MODERATE" : "HEAVY";
       console.log(drinkLevelValue);
       console.log(emotionValue);
       console.log(changeDrinkLevelApi);
@@ -543,13 +504,13 @@ const DiaryEditor = ({ selectedDate }) => {
             </>
           ) : (
             <>
-              <SButton onClick={toggleIsEdit}>수정</SButton>
-              <SButton onClick={handleClickRemove}>삭제</SButton>
+              <SUpdateButton onClick={toggleIsEdit}>수정</SUpdateButton>
+              <SUpdateButton onClick={handleClickRemove}>삭제</SUpdateButton>
             </>
           )}
         </SHeaderDiv>
         <SMainDiv>
-          <div>
+          <div style={{ position: "relative" }}>
             <SP>오늘의 위스키</SP>
             {(isSave || isEdit) && (
               <SInput
@@ -562,27 +523,37 @@ const DiaryEditor = ({ selectedDate }) => {
                 autoComplete="off"
               />
             )}
-            {auto && auto.length
-              ? auto.map((item, index) => {
-                  return (
-                    <SAutoDiv onClick={autoClick} key={item.id} id={item.id}>
-                      {item.name}
-                    </SAutoDiv>
-                  );
-                })
-              : null}
+            <div style={{ position: "absolute", zIndex: "2", backgroundColor: "white" }}>
+              {auto && auto.length
+                ? auto.map((item, index) => {
+                    return (
+                      <SAutoDiv onClick={autoClick} key={item.id} id={item.id}>
+                        {item.name}
+                        <hr style={{ pointerEvents: "none" }} />
+                      </SAutoDiv>
+                    );
+                  })
+                : null}
+            </div>
             <div>
               {searchTerms.map((whisky, index) => (
                 <SDiv key={index}>
-                  <SP>
-                    {whisky.name.length > 6
-                      ? `${whisky.name.slice(0, 6)}...`
-                      : whisky.name}
-                  </SP>
+                  <SName>
+                    {whisky.name?.length > 37 ? `${whisky.name?.slice(0, 37)}...` : whisky.name}
+                  </SName>
                   {(isSave || isEdit) && (
-                    <SButton onClick={() => deleteSearchWord(whisky)}>
+                    <button
+                      style={{
+                        color: "white",
+                        border: "none",
+                        background: "none",
+                        cursor: "pointer",
+                        fontFamily: "Pretendard Variable",
+                      }}
+                      onClick={() => deleteSearchWord(whisky)}
+                    >
                       X
-                    </SButton>
+                    </button>
                   )}
                 </SDiv>
               ))}
@@ -590,41 +561,141 @@ const DiaryEditor = ({ selectedDate }) => {
           </div>
           <div>
             <SP>오늘의 주량</SP>
-            <SRangeContainer>
-              <SRangeDiv>
-                <STextP>{drinkLevel}</STextP>
-                <SImg src={drinkImage} alt={""} />
-              </SRangeDiv>
-              <SRangeInput
-                type="range"
-                name="drinklevel"
-                min="0"
-                max="100"
-                step="50"
-                value={drinkLevelValue}
+            <SCentered>
+              <SRadioInput
+                id="one"
+                type="radio"
+                value="0"
+                checked={drinkLevelValue === "0"}
                 onChange={handleDrinklevelChange}
                 disabled={!isEdit && !isSave}
               />
-            </SRangeContainer>
+              <SRadioLabel htmlFor="one">
+                <SCircle />
+                <span>소량</span>
+                {drinkLevelValue === "0" ? (
+                  <motion.img
+                    src={littledrink}
+                    layoutId="drinkSelectedBox"
+                    style={{ position: "absolute", width: "30px", top: "7px", zIndex: "1" }}
+                  />
+                ) : (
+                  ""
+                )}
+              </SRadioLabel>
+              <SRadioInput
+                id="two"
+                type="radio"
+                value="50"
+                checked={drinkLevelValue === "50"}
+                onChange={handleDrinklevelChange}
+                disabled={!isEdit && !isSave}
+              />
+              <SRadioLabel htmlFor="two">
+                <SCircle />
+                <span>적당히</span>
+                {drinkLevelValue === "50" ? (
+                  <motion.img
+                    src={normaldrink}
+                    layoutId="drinkSelectedBox"
+                    style={{ position: "absolute", width: "47px", top: "4px", zIndex: "1" }}
+                  />
+                ) : (
+                  ""
+                )}
+              </SRadioLabel>
+              <SRadioInput
+                id="three"
+                type="radio"
+                value="100"
+                checked={drinkLevelValue === "100"}
+                onChange={handleDrinklevelChange}
+                disabled={!isEdit && !isSave}
+              />
+              <SRadioLabel htmlFor="three">
+                <SCircle />
+                <span>만취</span>
+                {drinkLevelValue === "100" ? (
+                  <motion.img
+                    src={largedrink}
+                    layoutId="drinkSelectedBox"
+                    style={{ position: "absolute", top: "0px", zIndex: "1" }}
+                  />
+                ) : (
+                  ""
+                )}
+              </SRadioLabel>
+              <ResponsiveSLine />
+            </SCentered>
           </div>
           <div>
             <SP>오늘의 기분</SP>
-            <SRangeContainer>
-              <SRangeDiv>
-                <STextP>{emotion}</STextP>
-                <SImg src={emotionImage} alt={""} />
-              </SRangeDiv>
-              <SRangeInput
-                type="range"
-                name="emotion"
-                min="0"
-                max="100"
-                step="50"
-                value={emotionValue}
+            <SCentered>
+              <SRadioInput
+                id="sad"
+                type="radio"
+                value="0"
+                checked={emotionValue === "0"}
                 onChange={handleEmotionChange}
                 disabled={!isEdit && !isSave}
               />
-            </SRangeContainer>
+              <SRadioLabel htmlFor="sad">
+                <SCircle />
+                <span>별로예요</span>
+                {emotionValue === "0" ? (
+                  <motion.img
+                    src={sad}
+                    layoutId="selectedBox"
+                    style={{ position: "absolute", width: "38px", top: "3px", zIndex: "1" }}
+                  />
+                ) : (
+                  ""
+                )}
+              </SRadioLabel>
+              <SRadioInput
+                id="soso"
+                type="radio"
+                value="50"
+                checked={emotionValue === "50"}
+                onChange={handleEmotionChange}
+                disabled={!isEdit && !isSave}
+              />
+              <SRadioLabel htmlFor="soso">
+                <SCircle />
+                <span>그냥그래요</span>
+                {emotionValue === "50" ? (
+                  <motion.img
+                    src={soso}
+                    layoutId="selectedBox"
+                    style={{ position: "absolute", width: "38px", top: "3px", zIndex: "1" }}
+                  />
+                ) : (
+                  ""
+                )}
+              </SRadioLabel>
+              <SRadioInput
+                id="good"
+                type="radio"
+                value="100"
+                checked={emotionValue === "100"}
+                onChange={handleEmotionChange}
+                disabled={!isEdit && !isSave}
+              />
+              <SRadioLabel htmlFor="good">
+                <SCircle />
+                <span>최고예요</span>
+                {emotionValue === "100" ? (
+                  <motion.img
+                    src={good}
+                    layoutId="selectedBox"
+                    style={{ position: "absolute", width: "38px", top: "3px", zIndex: "1" }}
+                  />
+                ) : (
+                  ""
+                )}
+              </SRadioLabel>
+              <ResponsiveSLine />
+            </SCentered>
           </div>
           <div>
             <SP>오늘의 한마디</SP>

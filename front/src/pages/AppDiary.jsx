@@ -29,14 +29,14 @@ const SMainDiv = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: start;
-  min-height: calc(100vh - 300px);
+  // min-height: calc(100vh - 300px);
   margin: 23px 0 100px 0;
 
-  @media only screen and (max-height: 768px) and (-webkit-min-device-pixel-ratio: 1.25),
-    only screen and (max-height: 768px) and (min-resolution: 120dpi),
-    only screen and (max-height: 768px) and (min-resolution: 1.25dppx) {
-    margin-top: 30px;
-  }
+  // @media only screen and (max-height: 768px) and (-webkit-min-device-pixel-ratio: 1.25),
+  //   only screen and (max-height: 768px) and (min-resolution: 120dpi),
+  //   only screen and (max-height: 768px) and (min-resolution: 1.25dppx) {
+  //   margin-top: 30px;
+  // }
 `;
 
 const SHeaderDivider = styled.div`
@@ -72,7 +72,7 @@ const AppDiary = () => {
 
   useEffect(() => {
     if (!user.id) {
-      alert("로그인하고오세요");
+      alert("로그인이 필요한 서비스입니다!");
       navigate("/signin");
     }
   });
@@ -98,10 +98,7 @@ const AppDiary = () => {
           <SHeaderDivider />
           <SMainDiv>
             <SMainDivider />
-            <DiaryCalander
-              setSelectedDate={setSelectedDate}
-              selectedDate={selectedDate}
-            />
+            <DiaryCalander setSelectedDate={setSelectedDate} selectedDate={selectedDate} />
             <DiaryEditor selectedDate={selectedDate} />
           </SMainDiv>
         </>
