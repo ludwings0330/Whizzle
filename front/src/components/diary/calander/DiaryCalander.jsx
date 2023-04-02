@@ -32,7 +32,7 @@ const SHeaderDiv = styled.div`
 const SDateP = styled.p`
   background-image: linear-gradient(to right, #f84f5a, #f6cb5a);
   -webkit-background-clip: text;
-  -moz-background-clip: text;
+  -moz-background-clip: inherit;
   background-clip: text;
   color: transparent;
   font-weight: bold;
@@ -50,7 +50,6 @@ const SCalanderDiv = styled.div`
     background-color: transparent;
     color: #212529;
     font-size: 1rem;
-    font-weight: 400;
     line-height: 1.5;
     text-align: left;
     font-weight: bold;
@@ -75,8 +74,8 @@ const SCalanderDiv = styled.div`
     padding: 25px;
 
     &:hover {
-      background: #f84f5a;
-      color: white;
+      background: #333333 !important;
+      color: white !important;
     }
   }
 `;
@@ -86,7 +85,7 @@ const SPrevButton = styled.button`
   background: none;
   font-size: 60px;
   line-height: 1;
-  padding: 10;
+  padding: 10px;
   cursor: pointer;
 
   &::before {
@@ -100,7 +99,7 @@ const SNextButton = styled.button`
   background: none;
   font-size: 60px;
   line-height: 1;
-  padding: 10;
+  padding: 10px;
   margin-bottom: 10px;
   cursor: pointer;
 
@@ -275,7 +274,8 @@ const DiaryCalander = ({ setSelectedDate, selectedDate }) => {
       const result = diaryList.find((diary) => diary.date === dateStr);
 
       if (result) {
-        activeDay.style.backgroundColor = "yellow";
+        activeDay.style.background = "#f94f5a";
+        activeDay.style.color = "white";
       }
     });
   }, [diaryList, data, rows]);
