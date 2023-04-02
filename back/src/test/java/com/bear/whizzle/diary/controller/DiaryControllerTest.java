@@ -13,7 +13,8 @@ import com.bear.whizzle.common.util.JwtUtil;
 import com.bear.whizzle.diary.controller.dto.DiaryRequestSaveDto;
 import com.bear.whizzle.diary.controller.dto.DiaryRequestUpdateDto;
 import com.bear.whizzle.diary.controller.dto.DiaryResponseDto;
-import com.bear.whizzle.diary.mapper.DiaryMapper;
+import com.bear.whizzle.diary.controller.dto.DrinkDto;
+import com.bear.whizzle.diary.controller.dto.WhiskyNameDto;
 import com.bear.whizzle.diary.repository.DiaryRepository;
 import com.bear.whizzle.domain.exception.NotFoundException;
 import com.bear.whizzle.domain.model.entity.Diary;
@@ -27,6 +28,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
@@ -99,24 +101,31 @@ class DiaryControllerTest {
                                                          .whiskyIds(Set.of(1L, 2L, 3L))
                                                          .emotion(Emotion.GOOD)
                                                          .drinkLevel(DrinkLevel.HEAVY)
-                                                         .content("기분이 매우매우 조으다.")
+                                                         .content("feel so good")
                                                          .build();
 
         // when
-        mockMvc.perform(
-                post("/api/diaries")
-                        .header("Authorization", "Bearer " + testToken)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(saveDto))
-        ).andExpect(status().isCreated());
+        String content = mockMvc.perform(
+                                        post("/api/diaries")
+                                                .header("Authorization", "Bearer " + testToken)
+                                                .contentType(MediaType.APPLICATION_JSON)
+                                                .content(objectMapper.writeValueAsString(saveDto))
+                                ).andExpect(status().isCreated())
+                                .andReturn()
+                                .getResponse()
+                                .getContentAsString();
 
         // then
-        assertThatCode(
-                () -> {
-                    Diary actual = diaryRepository.findByMemberIdAndDate(testMemberId, LocalDate.now()).get();
-                    assertThat(DiaryMapper.toDiaryRequestSaveDto(actual)).isEqualTo(saveDto);
-                }
-        ).doesNotThrowAnyException();
+        DiaryResponseDto actual = objectMapper.readValue(content, DiaryResponseDto.class);
+        assertThat(actual.getDate()).isEqualTo(saveDto.getDate());
+        assertThat(actual.getEmotion()).isEqualTo(saveDto.getEmotion());
+        assertThat(actual.getDrinkLevel()).isEqualTo(saveDto.getDrinkLevel());
+        assertThat(actual.getContent()).isEqualTo(saveDto.getContent());
+        assertThat(actual.getDrinks()
+                         .stream()
+                         .map(DrinkDto::getWhisky)
+                         .map(WhiskyNameDto::getId)
+                         .collect(Collectors.toSet())).isEqualTo(saveDto.getWhiskyIds());
     }
 
     @Test
@@ -129,43 +138,47 @@ class DiaryControllerTest {
                                                                .id(testDiaryId)
                                                                .emotion(Emotion.GOOD)
                                                                .drinkLevel(DrinkLevel.LIGHT)
-                                                               .content("정상 작동")
+                                                               .content("normal operation")
                                                                .deletedDrinkOrders(deletedDrinkOrders)
                                                                .insertedWhiskyIds(insertedWhiskyIds)
                                                                .build();
 
         // when
-        mockMvc.perform(
-                put("/api/diaries/" + testDiaryId)
-                        .header("Authorization", "Bearer " + testToken)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(updateDto))
-        ).andExpect(status().isOk());
+        String content = mockMvc.perform(
+                                        put("/api/diaries/" + testDiaryId)
+                                                .header("Authorization", "Bearer " + testToken)
+                                                .contentType(MediaType.APPLICATION_JSON)
+                                                .content(objectMapper.writeValueAsString(updateDto))
+                                ).andExpect(status().isOk())
+                                .andReturn()
+                                .getResponse()
+                                .getContentAsString();
 
         // then
-        assertThatCode(
-                () -> {
-                    Diary actual = diaryRepository.findWithDrinksById(testDiaryId).get();
+        DiaryResponseDto actual = objectMapper.readValue(content, DiaryResponseDto.class);
+        assertThat(actual.getId()).isEqualTo(updateDto.getId());
+        assertThat(actual.getEmotion()).isEqualTo(updateDto.getEmotion());
+        assertThat(actual.getDrinkLevel()).isEqualTo(updateDto.getDrinkLevel());
+        assertThat(actual.getContent()).isEqualTo(updateDto.getContent());
 
-                    assertThat(DiaryMapper.toDiaryRequestUpdateDto(actual)).isEqualTo(updateDto);
-                    assertThat(actual.getDrinks()
-                                     .stream()
-                                     .filter(Drink::isDeleted)
-                                     .map(Drink::getDrinkOrder)
-                                     .filter(deletedDrinkOrders::contains)
-                                     .collect(Collectors.toSet()))
-                            .isEqualTo(deletedDrinkOrders);
+        assertThatCode(() -> {
+            Diary found = diaryRepository.findById(actual.getId()).get();
+            assertThat(found.getDrinks()
+                            .stream()
+                            .filter(Drink::getIsDeleted)
+                            .map(Drink::getDrinkOrder)
+                            .collect(Collectors.toSet()))
+                    .isEqualTo(deletedDrinkOrders);
 
-                    assertThat(actual.getDrinks()
-                                     .stream()
-                                     .filter(drink -> !drink.isDeleted())
-                                     .map(Drink::getWhisky)
-                                     .map(Whisky::getId)
-                                     .filter(insertedWhiskyIds::contains)
-                                     .collect(Collectors.toSet()))
-                            .isEqualTo(insertedWhiskyIds);
-                }
-        ).doesNotThrowAnyException();
+            assertThat(found.getDrinks()
+                            .stream()
+                            .filter(Predicate.not(Drink::getIsDeleted))
+                            .map(Drink::getWhisky)
+                            .map(Whisky::getId)
+                            .filter(insertedWhiskyIds::contains)
+                            .collect(Collectors.toSet()))
+                    .isEqualTo(insertedWhiskyIds);
+        }).doesNotThrowAnyException();
     }
 
     @Test
@@ -182,10 +195,10 @@ class DiaryControllerTest {
                 () -> {
                     Diary actual = diaryRepository.findWithDrinksById(testDiaryId).get();
 
-                    assertThat(actual.isDeleted()).isTrue();
+                    assertThat(actual.getIsDeleted()).isTrue();
                     assertThat(actual.getDrinks()
                                      .stream()
-                                     .filter(Drink::isDeleted)
+                                     .filter(Drink::getIsDeleted)
                                      .count())
                             .isEqualTo(actual.getDrinks().size());
                 }
@@ -214,7 +227,7 @@ class DiaryControllerTest {
                         .content(objectMapper.writeValueAsString(saveDto))
         ).andExpect(status().isCreated());
 
-        Diary diary = diaryRepository.findByMemberIdAndDate(TEST_MEMBER_ID, LocalDate.now())
+        Diary diary = diaryRepository.findWithDrinksByMemberIdAndDate(TEST_MEMBER_ID, LocalDate.now())
                                      .orElseThrow(() -> new NotFoundException("다이어리 작성 실패"));
 
         mockMvc.perform(

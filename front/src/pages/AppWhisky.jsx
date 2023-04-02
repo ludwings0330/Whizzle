@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import favoriteFilled from "../assets/img/favorite_white_filled.png";
 import favoriteBorder from "../assets/img/favorite_white_border.png";
 import create from "../assets/img/create.png";
 import styled from "styled-components";
 import {
-  whiskyDetail,
   getKeep,
-  keepToggle,
-  getStatistics,
-  getSimilar,
   getReview,
+  getSimilar,
+  getStatistics,
+  keepToggle,
+  whiskyDetail,
   getMyReview,
 } from "../apis/whiskyDetail";
 import { userState } from "../store/userStore";
@@ -22,6 +22,7 @@ import WhiskyDetailInfo from "../components/whisky/WhiskyDetailInfo";
 import WhiskyDetailReview from "../components/whisky/WhiskyDetailReview";
 import WhiskySimilarList from "../components/whisky/WhiskySimilarList";
 import Graph from "../components/common/Graph";
+import { warning } from "../components/notify/notify";
 
 const SButton = styled.button`
   width: 63px;
@@ -79,6 +80,7 @@ const AppWhisky = () => {
 
   // 위스키 정보 조회
   const [whisky, setWhisky] = useState(null);
+
   async function getWhiskyInfo(param) {
     try {
       const whiskyInfo = await whiskyDetail(param);
@@ -100,6 +102,7 @@ const AppWhisky = () => {
 
   // 선호 통계 조회
   const [stat, setStat] = useState(null);
+
   async function getStatisticsInfo(param) {
     try {
       const statInfo = await getStatistics(param);
@@ -124,6 +127,7 @@ const AppWhisky = () => {
 
   // 유사 위스키 조회
   const [similarWhiskys, setSimilarWhiskys] = useState([]);
+
   async function getSimilarInfo(param) {
     try {
       const similarInfo = await getSimilar(param);
@@ -135,6 +139,7 @@ const AppWhisky = () => {
 
   // 리뷰 조회
   const [reviews, setReviews] = useState([]);
+
   async function getReviewInfo(id, baseId, reviewOrder) {
     let data;
     if (baseId) {
@@ -194,7 +199,10 @@ const AppWhisky = () => {
     if (isLogin) {
       setIsKeep(!isKeep);
       keepToggle(id);
-    } else if (window.confirm("로그인이 필요한 기능입니다.\n로그인 페이지로 이동하시겠습니까?")) {
+    }
+    // } else if (window.confirm("로그인이 필요한 기능입니다.\n로그인 페이지로 이동하시겠습니까?")) {
+    else {
+      warning("로그인이 필요한 기능입니다!");
       navigate("/signin");
     }
   };

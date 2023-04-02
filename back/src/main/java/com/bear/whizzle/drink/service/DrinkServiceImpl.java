@@ -2,7 +2,6 @@ package com.bear.whizzle.drink.service;
 
 import com.bear.whizzle.domain.model.entity.Diary;
 import com.bear.whizzle.domain.model.entity.Drink;
-import com.bear.whizzle.domain.model.entity.Whisky;
 import com.bear.whizzle.whisky.repository.WhiskyRepository;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
@@ -15,17 +14,19 @@ public class DrinkServiceImpl implements DrinkService {
     private final WhiskyRepository whiskyRepository;
 
     @Override
-    public void writeDrinks(Diary diary, Set<Long> whiskyIds) {
+    public Diary writeDrinks(Diary diary, Set<Long> whiskyIds) {
         rewriteDrinks(diary, whiskyIds);
 
-        for (Long whiskyId : whiskyIds) {
-            Whisky whisky = whiskyRepository.getReferenceById(whiskyId);
-            Drink drink = Drink.builder()
-                               .whisky(whisky)
-                               .build();
+        whiskyRepository.findAllById(whiskyIds)
+                        .forEach(whisky -> {
+                            Drink drink = Drink.builder()
+                                               .whisky(whisky)
+                                               .build();
 
-            diary.addDrink(drink);
-        }
+                            diary.addDrink(drink);
+                        });
+
+        return diary;
     }
 
     @Override

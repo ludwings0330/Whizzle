@@ -4,12 +4,18 @@ import { preference } from "../../../store/indexStore";
 import { motion } from "framer-motion";
 import QuestionChooseWhiskyItem from "./QuestionChooseWhiskyItem";
 import styled from "styled-components";
+import { warning } from "../../notify/notify";
 
 const SDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: linear-gradient(125.02deg, #f84f5a 28.12%, #f7875a 65.62%, #f7cb5a 100%);
+  background-image: linear-gradient(
+    125.02deg,
+    #f84f5a 28.12%,
+    #f7875a 65.62%,
+    #f7cb5a 100%
+  );
 `;
 
 const slide = {
@@ -68,7 +74,12 @@ const SButtonText = styled.span`
   font-size: 18px;
   font-family: "Pretendard Variable";
   font-weight: bold;
-  background-image: linear-gradient(125.02deg, #f84f5a 28.12%, #f7875a 65.62%, #f7cb5a 100%);
+  background-image: linear-gradient(
+    125.02deg,
+    #f84f5a 28.12%,
+    #f7875a 65.62%,
+    #f7cb5a 100%
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 `;
@@ -124,7 +135,7 @@ const QuestionChooseWhisky = (props) => {
       props.setDirection("next");
       props.setActivePage(6);
     } else {
-      alert("1개 이상의 위스키를 선택해주세요!");
+      warning("1개 이상의 위스키를 선택해주세요!");
     }
   };
 
