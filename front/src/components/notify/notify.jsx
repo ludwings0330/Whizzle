@@ -1,6 +1,10 @@
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 
-const option = { position:"bottom-right", pauseOnHover: false, autoClose: 2000 }
+const option = {
+  position: "bottom-right",
+  pauseOnHover: false,
+  autoClose: 2000,
+};
 
 export const success = (msg) => toast.success(msg, option);
 

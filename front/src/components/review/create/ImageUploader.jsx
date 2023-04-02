@@ -1,9 +1,9 @@
-import React, { useState, useCallback } from "react";
+import React, { useCallback } from "react";
 import styled from "styled-components";
 import { useDropzone } from "react-dropzone";
 
 import imgupload from "../../../assets/img/imgupload.png";
-import {warning} from "../../notify/notify";
+import { error, warning } from "../../notify/notify";
 
 const SDiv = styled.div`
   border: 2px dashed #ccc;
@@ -52,7 +52,7 @@ const ImageUploader = ({ images, setImages }) => {
       );
 
       if (imageFiles.length > 5 - images.length) {
-        alert(
+        error(
           `최대 5장까지 업로드 가능합니다. 현재 ${images.length}장의 사진이 업로드되어 있습니다.`
         );
         return;
@@ -76,7 +76,10 @@ const ImageUploader = ({ images, setImages }) => {
     [images]
   );
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop, multiple: true });
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    multiple: true,
+  });
 
   return (
     <>
