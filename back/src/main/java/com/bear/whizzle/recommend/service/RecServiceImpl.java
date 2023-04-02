@@ -9,6 +9,7 @@ import com.bear.whizzle.domain.model.type.Flavor;
 import com.bear.whizzle.keep.repository.KeepCustomRepository;
 import com.bear.whizzle.member.repository.MemberRepository;
 import com.bear.whizzle.preference.repository.PreferenceRepository;
+import com.bear.whizzle.preference.service.query.PreferenceQueryService;
 import com.bear.whizzle.recommend.PreferenceMapper;
 import com.bear.whizzle.recommend.RecommendWhiskyMapper;
 import com.bear.whizzle.recommend.controller.dto.PreferenceDto;
@@ -39,6 +40,7 @@ public class RecServiceImpl implements RecService {
     private final PreferenceRepository preferenceRepository;
     private final KeepCustomRepository keepCustomRepository;
     private final WhiskyQueryService whiskyQueryService;
+    private final PreferenceQueryService preferenceQueryService;
     private final SavedModelRepository savedModelRepository;
     private final MemberRepository memberRepository;
 
@@ -71,7 +73,7 @@ public class RecServiceImpl implements RecService {
         } else if (recWhiskyRequestDto.getFlavor() != null) { // use flavor
             flavor = recWhiskyRequestDto.getFlavor();
         }
-        FlavorSummary flavorSummary = whiskyQueryService.findFlavorMinMax();
+        FlavorSummary flavorSummary = preferenceQueryService.findFlavorMinMax();
         return PreferenceMapper.toPreferenceDto(memberId, priceTier, flavor, flavorSummary);
     }
 
