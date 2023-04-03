@@ -121,10 +121,10 @@ const ImageUploader = ({ files, handleFiles, maxNum, preImages, handlePreImages 
       <div style={thumb} key={index}>
         <div style={thumbInner}>
           <img
-            src={`https://half-moon-bear.s3.ap-northeast-2.amazonaws.com/${image.imgPath}`}
+            src={image.reviewImageUrl}
             style={img}
             alt="gogogo"
-            onDoubleClick={() => handlePreImages(image.uid)}
+            onDoubleClick={() => handlePreImages(image.reviewImageId)}
           />
         </div>
       </div>

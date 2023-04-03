@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { changeHeader, rollbackHeader } from "../hooks/changeHeader";
 import { whiskyDetail } from "../apis/whiskyDetail";
-import { reviewCreate } from "../apis/review";
+import { reviewCreate, reviewUpdate } from "../apis/review";
+import { useRecoilState } from "recoil";
+import { reviewState } from "../store/indexStore";
 import "./AppReview.css";
 
 //import images
@@ -65,6 +67,7 @@ const SButtonText = styled.span`
 //리뷰작성 페이지
 const AppReview = () => {
   const navigate = useNavigate();
+  const [reviewData, setReviewData] = useRecoilState(reviewState);
   const [isCreate, setIsCreate] = useState();
 
   const [content, setContent] = useState("");
@@ -79,7 +82,7 @@ const AppReview = () => {
 
   const handlePreImages = (id) => {
     setDeleteImages((prev) => [...prev, id]);
-    setPreImages(preImages.filter((image) => image.uid !== id));
+    setPreImages(preImages.filter((image) => image.reviewImageId !== id));
   };
 
   const handleFiles = (datas) => {
@@ -88,26 +91,64 @@ const AppReview = () => {
 
   const reviewSave = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append("whiskyId", whiskyId);
-    formData.append("rating", rating);
-    if (content !== "") {
-      formData.append("content", content);
-    }
-    console.log(whiskyId, rating, content, files);
-    if (files !== []) {
-      files.forEach((file) => {
-        formData.append("reviewImageFiles", file);
-      });
-    }
 
-    try {
-      await reviewCreate(formData);
-      navigate(`/review/${whiskyId}`);
-    } catch {
-      console.log("리뷰 저장 실패");
+    if (isCreate) {
+      const formData = new FormData();
+      formData.append("rating", rating);
+      if (content !== "") {
+        formData.append("content", content);
+      }
+      formData.append("whiskyId", whiskyId);
+
+      if (files !== []) {
+        files.forEach((file) => {
+          formData.append("reviewImageFiles", file);
+        });
+      }
+      try {
+        await reviewCreate(formData);
+        navigate(`/whisky/${whiskyId}`);
+      } catch {
+        console.log("리뷰 저장 실패");
+      }
+    } else {
+      const formData = new FormData();
+      formData.append("rating", rating);
+      if (content !== "") {
+        formData.append("content", content);
+      }
+      if (files !== []) {
+        files.forEach((file) => {
+          formData.append("addedReviewImageFiles", file);
+        });
+      }
+      console.log(deleteImages);
+      formData.append("deletedReviewImageIds", deleteImages);
+      // if (deleteImages !== []) {
+      //   deleteImages.forEach((file) => {
+      //     formData.append("deleteReviewImageIds", file);
+      //   });
+      // }
+      try {
+        const reviewId = reviewData.reviewInfo.reviewId;
+        await reviewUpdate(reviewId, formData);
+        navigate(`/whisky/${whiskyId}`);
+      } catch {
+        console.log("리뷰 수정 실패");
+      }
     }
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+
+    if (!reviewData.reviewInfo) {
+      console.log(reviewData.reviewId);
+      setIsCreate(true);
+    } else {
+      setIsCreate(false);
+    }
+  }, []);
 
   const getWhiskyInfo = async (id) => {
     try {
@@ -119,13 +160,24 @@ const AppReview = () => {
     }
   };
 
+  const getReviewInfo = () => {
+    const data = reviewData.reviewInfo;
+    setPreImages(data?.reviewImages);
+    setContent(data?.content);
+    setRating(data?.rating);
+  };
+
   // 페이지 mount시 네비게이션 바 이미지와 글씨 색 변경
   useEffect(() => {
     getWhiskyInfo();
+    if (!isCreate) {
+      getReviewInfo();
+    }
 
     changeHeader();
     return () => {
       rollbackHeader();
+      setReviewData({});
     };
   }, []);
 
@@ -134,8 +186,12 @@ const AppReview = () => {
       <form encType="multipart/form-data">
         <SContainer>
           <STitleDiv>
-            <STitleP>리뷰 작성</STitleP>
-            <SP>아래 위스키에 대한 리뷰를 작성해주세요</SP>
+            <STitleP>{isCreate ? "리뷰 작성" : "리뷰 수정"}</STitleP>
+            <SP>
+              {isCreate
+                ? "아래 위스키에 대한 리뷰를 작성해주세요"
+                : "아래 위스키에 대한 리뷰를 수정해주세요"}
+            </SP>
           </STitleDiv>
           <ReviewDetailInfo whisky={whisky} />
           <SContentDiv>
@@ -156,13 +212,9 @@ const AppReview = () => {
             <SContentP>평점 등록</SContentP>
           </SContentDiv>
           <ReviewRating rating={rating} setRating={setRating} />
-          <div
-            type="submit"
-            className="container container-two"
-            onClick={reviewSave}
-          >
+          <div type="submit" className="container container-two" onClick={reviewSave}>
             <button className="selected-button">
-              <SButtonText>작성 완료</SButtonText>
+              <SButtonText>{isCreate ? "작성 완료" : "수정 완료"}</SButtonText>
               <div className="fill-two"></div>
             </button>
           </div>
