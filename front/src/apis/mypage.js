@@ -30,20 +30,19 @@ export const badgeApi = async (id, params) => {
   }
 };
 
-export const nicknameChangeApi = async (newNickname) => {
+export const nicknameChangeApi = async (nickname) => {
   try {
     const formData = new FormData();
-    formData.append("nickname", newNickname);
+    formData.append("nickname", nickname);
 
-    const response = await api.put(`/api/members`, formData, {
+    await api.put(`/api/members`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
     });
-
-    return response.data;
+    return true;
   } catch (error) {
-    console.error(error);
+    return true;
   }
 };
 
@@ -52,14 +51,15 @@ export const profileChangeApi = async (profileImageFile) => {
     const formData = new FormData();
     formData.append("profileImageFile", profileImageFile);
 
-    const response = await api.put(`api/members`, formData, {
+    await api.put(`api/members`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
     });
-    return response;
+
+    return true;
   } catch (error) {
     console.log(error);
-    throw error; // 오류를 던져서 에러 핸들링이 가능하도록 합니다.
+    throw error;
   }
 };
