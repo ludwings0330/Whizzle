@@ -34,5 +34,5 @@ class PersonalWhiskyRequest(BaseModel):
 
 
 class MemberData(BaseModel):
-    ratings: List[Rating] = Body(..., alias="ratingList")
+    ratings: List[Rating] = Body(..., alias="ratings")
     preferences: List[Preference] = Body(...)
