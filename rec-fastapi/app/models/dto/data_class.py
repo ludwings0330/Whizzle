@@ -1,6 +1,8 @@
 from fastapi import Body
 from pydantic import BaseModel
+from typing import List
 import pandas as pd
+from common.config import settings
 
 
 class Preference(BaseModel):
@@ -19,44 +21,14 @@ class Preference(BaseModel):
     tart: float = Body(..., ge=0, le=1)
     fruity: float = Body(..., ge=0, le=1)
     floral: float = Body(..., ge=0, le=1)
-    cols: list = [
-        "user_id",
-        "price_tier",
-        "smoky",
-        "peaty",
-        "spicy",
-        "herbal",
-        "oily",
-        "body",
-        "rich",
-        "sweet",
-        "salty",
-        "vanilla",
-        "tart",
-        "fruity",
-        "floral",
-    ]
 
-    def get_preference(self):
-        return pd.DataFrame(
-            [
-                [
-                    self.user_id,
-                    self.price_tier,
-                    self.smoky,
-                    self.peaty,
-                    self.spicy,
-                    self.herbal,
-                    self.oily,
-                    self.body,
-                    self.rich,
-                    self.sweet,
-                    self.salty,
-                    self.vanilla,
-                    self.tart,
-                    self.fruity,
-                    self.floral,
-                ]
-            ],
-            columns=self.cols,
-        )
+
+class Rating(BaseModel):
+    user_id: int = Body(..., alias="memberId")
+    whisky_id: int = Body(..., alias="whiskyId", ge=1)
+    rating: int = Body(...)
+
+
+class MemberData(BaseModel):
+    ratings: List[Rating] = Body(..., alias="ratingList")
+    preferences: List[Preference] = Body(...)
