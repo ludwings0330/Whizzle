@@ -25,7 +25,8 @@ public class DiaryCustomRepository {
                 diary.date, ConstantImpl.create("%Y-%m")
         );
 
-        return queryFactory.selectFrom(diary)
+        return queryFactory.selectDistinct(diary)
+                           .from(diary)
                            .innerJoin(diary.drinks, drink).fetchJoin()
                            .innerJoin(drink.whisky, whisky).fetchJoin()
                            .where(diary.member.id.eq(memberId),
