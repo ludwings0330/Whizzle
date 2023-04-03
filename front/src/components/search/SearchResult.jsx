@@ -4,17 +4,19 @@ import styled from "styled-components";
 import { useRecoilState } from "recoil";
 import { searchData } from "../../store/indexStore";
 import { getsearchWhisky } from "../../apis/search";
+import Lottie from "lottie-react";
+import animationData from "../../assets/img/lotties/error-bear.json";
 
 import SearchBar from "./SearchBar";
 import WhiskyList from "../common/WhiskyList";
 import { changeHeader, rollbackHeader } from "../../hooks/changeHeader";
 
 const Wrapper = styled.div`
-  margin-top: 70px;
+  margin-top: 30px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: calc(100vh - 70px);
+  min-height: 105vh;
 `;
 
 const SearchBarDiv = styled.div`
@@ -25,12 +27,14 @@ const SearchBarDiv = styled.div`
 `;
 
 const SP = styled.p`
-  margin-top: 70px;
+  margin-top: 40px;
   font-size: 20px;
+  color: #636363;
 `;
 
 const SSpan = styled.span`
   color: #f84f5a;
+  font-weight: bold;
 `;
 
 const SearchResult = () => {
@@ -115,14 +119,22 @@ const SearchResult = () => {
     <Wrapper>
       <SearchBarDiv>
         <SearchBar />
-        <SP>
-          <SSpan>'{word}'</SSpan> 검색 결과입니다.
-        </SP>
+        {result.length ? (
+          <SP>
+            <SSpan>'{word}'</SSpan> 에 대한 검색 결과입니다.
+          </SP>
+        ) : (
+          <SP>
+            <SSpan>'{word}'</SSpan> 에 대한 검색 결과가 없습니다.
+          </SP>
+        )}
       </SearchBarDiv>
       {result.length ? (
         <WhiskyList whiskys={result} />
       ) : (
-        <p style={{ marginTop: "100px" }}>검색 결과가 없습니다</p>
+        <>
+          <Lottie animationData={animationData} style={{ height: "450px", paddingTop: "10px" }} />
+        </>
       )}
       <div ref={observerRef}></div>
     </Wrapper>

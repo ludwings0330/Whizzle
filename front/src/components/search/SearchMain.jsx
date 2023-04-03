@@ -10,15 +10,13 @@ const Wrapper = styled.div`
 `;
 
 const SHeaderDiv = styled.div`
-  width: 100vw;
   max-width: 100%;
   height: 250px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-image: url(${searchHeader});
-  background-repeat: no-repeat;
+  background: url(${searchHeader}) center center / cover no-repeat;
 `;
 
 const SMainDiv = styled.div`
@@ -30,7 +28,7 @@ const SMainDiv = styled.div`
 `;
 
 const SP = styled.p`
-  font-size: 20px;
+  font-size: 18px;
   color: white;
 `;
 
@@ -49,7 +47,9 @@ const SearchMain = () => {
   return (
     <Wrapper>
       <SHeaderDiv>
-        <SP style={{ fontSize: "32px", marginBottom: "0px", fontWeight: "bold" }}>
+        <SP
+          style={{ fontSize: "32px", paddingTop: "10px", marginBottom: "0px", fontWeight: "bold" }}
+        >
           나만의 위's키 백과
         </SP>
         <SP>이름을 통해 원하는 위스키를 검색하세요!</SP>
