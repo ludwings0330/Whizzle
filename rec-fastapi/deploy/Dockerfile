@@ -5,8 +5,7 @@ WORKDIR /src
 COPY ./rec-fastapi/ /src
 WORKDIR app
 
-RUN pip install --upgrade pip \
-    pip install --no-cache-dir --upgrade -r requirements.txt \
+RUN pip install --no-cache-dir --upgrade -r requirements.txt
 
 ENTRYPOINT ["uvicorn", "main:app", \
              "--host", "0.0.0.0", \
