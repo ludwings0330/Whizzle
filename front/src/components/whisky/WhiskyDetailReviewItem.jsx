@@ -5,7 +5,9 @@ import ReactStars from "react-stars";
 import favoriteBorder from "../../assets/img/review_favorite_border.png";
 import favoriteFilled from "../../assets/img/review_favorite_filled.png";
 import { likeReview } from "../../apis/review";
+import { useRecoilValue } from "recoil";
 import Swal from "sweetalert2";
+import { userState } from "../../store/userStore";
 
 const Wrapper = styled.div`
   display: flex;
@@ -112,15 +114,31 @@ const WhiskyDetailReviewItem = ({ review }) => {
     }
   }
 
+  const user = useRecoilValue(userState);
+  const isLogin = Boolean(user.id);
   const [isLike, setISLike] = useState(review.reviewInfo.liked);
   const onLikeHandler = () => {
-    if (isLike) {
-      setLikeCount(likeCount - 1);
+    if (isLogin) {
+      if (isLike) {
+        setLikeCount(likeCount - 1);
+      } else {
+        setLikeCount(likeCount + 1);
+      }
+      setISLike(!isLike);
+      likeToggle(review.reviewInfo.reviewId);
     } else {
-      setLikeCount(likeCount + 1);
+      Swal.fire({
+        title: "로그인이 필요한 기능입니다. \n로그인 하시겠습니까?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes",
+        cancelButtonText: "No",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/signin");
+        }
+      });
     }
-    setISLike(!isLike);
-    likeToggle(review.reviewInfo.reviewId);
   };
 
   const [seeMore, setSeeMore] = useState(false);

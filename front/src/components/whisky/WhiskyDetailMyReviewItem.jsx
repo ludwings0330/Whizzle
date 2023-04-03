@@ -6,6 +6,7 @@ import favoriteFilled from "../../assets/img/review_favorite_filled.png";
 import { useSetRecoilState } from "recoil";
 import { deleteReview } from "../../apis/review";
 import { reviewState } from "../../store/indexStore";
+import Swal from "sweetalert2";
 
 const Wrapper = styled.div`
   display: flex;
@@ -129,12 +130,28 @@ const WhiskyDetailMyReviewItem = ({ review, whiskyId, onDelete }) => {
     setSeeMore(!seeMore);
   };
 
+  const modalHandler = (pic) => {
+    Swal.fire({
+      title: "  ",
+      text: "",
+      imageUrl: pic.reviewImageUrl,
+      imageHeight: 480,
+      imageAlt: "Custom image",
+      showConfirmButton: false,
+    });
+  };
+
   const reviewDeleteFunc = async () => {
     if (window.confirm("리뷰를 삭제하시겠습니까?")) {
       try {
         const res = await deleteReview(review.reviewInfo.reviewId);
         if (res) {
-          window.alert("리뷰가 삭제되었습니다.");
+          Swal.fire({
+            title: "리뷰가 삭제되었습니다",
+            icon: "success",
+            showCloseButton: true,
+            timer: 2000,
+          });
           console.log("리뷰 삭제 성공");
           onDelete();
         }
@@ -183,7 +200,12 @@ const WhiskyDetailMyReviewItem = ({ review, whiskyId, onDelete }) => {
       {review.reviewInfo.reviewImages.length ? (
         <SReviewPicDiv>
           {review.reviewInfo.reviewImages.map((pic, index) => (
-            <SImg src={pic.reviewImageUrl} alt="리뷰사진" />
+            <SImg
+              onClick={() => modalHandler(pic)}
+              key={index}
+              src={pic.reviewImageUrl}
+              alt="리뷰사진"
+            />
           ))}
         </SReviewPicDiv>
       ) : null}

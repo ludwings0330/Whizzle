@@ -14,3 +14,12 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
+
+.my-swal-container .swal2-title {
+  font-size: 20px;
+}
+
+.my-swal-confirm-button {
+  background-color: #f84f5a;
+  color: #d8d8d8;
+}
