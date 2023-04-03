@@ -107,7 +107,7 @@ const AppReview = () => {
       }
       try {
         await reviewCreate(formData);
-        navigate(`/whisky/${whiskyId}`);
+        navigate(`/whisky/${whiskyId}?review=true`);
       } catch {
         console.log("리뷰 저장 실패");
       }
@@ -124,15 +124,10 @@ const AppReview = () => {
       }
       console.log(deleteImages);
       formData.append("deletedReviewImageIds", deleteImages);
-      // if (deleteImages !== []) {
-      //   deleteImages.forEach((file) => {
-      //     formData.append("deleteReviewImageIds", file);
-      //   });
-      // }
       try {
         const reviewId = reviewData.reviewInfo.reviewId;
         await reviewUpdate(reviewId, formData);
-        navigate(`/whisky/${whiskyId}`);
+        navigate(`/whisky/${whiskyId}?review=true`);
       } catch {
         console.log("리뷰 수정 실패");
       }
