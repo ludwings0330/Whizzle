@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, forwardRef } from "react";
 import styled from "styled-components";
 import { useRecoilValue } from "recoil";
 import { useParams } from "react-router-dom";
@@ -6,7 +6,6 @@ import { getReview, getMyReview } from "../../apis/whiskyDetail";
 import { userState } from "../../store/userStore";
 import WhiskyDetailReviewItem from "./WhiskyDetailReviewItem";
 import WhiskyDetailMyReviewItem from "./WhiskyDetailMyReviewItem";
-import { forwardRef } from "react";
 
 const Wrapper = styled.div`
   margin-top: 100px;
@@ -102,9 +101,9 @@ const WhiskyDetailReview = forwardRef(({ whisky }, ref) => {
     resetStateAndGetData();
   }, [id, sortOrder]);
 
-  useEffect(() => {
+  const refreshMyReview = () => {
     getMyReview(id);
-  }, [myReview]);
+  };
 
   // 무한 스크롤
   const observerRef = useRef(null);
@@ -164,6 +163,7 @@ const WhiskyDetailReview = forwardRef(({ whisky }, ref) => {
                 key={review.reviewInfo.reviewId}
                 whiskyId={id}
                 review={review}
+                onDelete={refreshMyReview}
               />
             );
           })
