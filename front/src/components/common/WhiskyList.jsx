@@ -9,7 +9,7 @@ const SWrapper = styled.div`
   justify-content: start;
   align-items: center;
   gap: 50px 23px;
-  margin-top: 70px;
+  margin-top: 90px;
   margin-bottom: 150px;
   width: 830px;
 `;
