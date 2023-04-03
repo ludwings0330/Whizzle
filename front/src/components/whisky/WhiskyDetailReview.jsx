@@ -139,8 +139,8 @@ const WhiskyDetailReview = forwardRef(({ whisky }, ref) => {
   const [reviewNumber, setReviewNumber] = useState(0);
 
   useEffect(() => {
-    if (whisky.length) {
-      setReviewNumber(whisky.length);
+    if (whisky?.reviewCount) {
+      setReviewNumber(whisky.reviewCount);
     }
   }, [whisky]);
 
