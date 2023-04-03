@@ -31,9 +31,6 @@ public class WhiskyQueryServiceImpl implements WhiskyQueryService {
     private final KeepRepository keepRepository;
     private final CacheManager cacheManager;
 
-    @Value("${app.cache.flavor-key}")
-    private String flavorKey;
-
     @Value("${app.cache.price-key}")
     private String priceKey;
 
@@ -54,17 +51,6 @@ public class WhiskyQueryServiceImpl implements WhiskyQueryService {
     @Override
     public Slice<WhiskySimpleResponseDto> findWhiskiesWithoutKeep(Pageable pageable, WhiskySearchCondition searchCondition) {
         return whiskyProjectionRepository.findTopNByWordAndLastOffset(pageable, searchCondition);
-    }
-
-    @Override
-    public FlavorSummary findFlavorMinMax() {
-        Cache flavorCache = cacheManager.getCache(CacheType.FLAVOR_MINMAX.getCacheName());
-        FlavorSummary summary = flavorCache.get(flavorKey, FlavorSummary.class);
-        if (summary == null) {
-            summary = whiskyProjectionRepository.findFlavorMinMax();
-            flavorCache.put(flavorKey, summary);
-        }
-        return summary;
     }
 
     @Override

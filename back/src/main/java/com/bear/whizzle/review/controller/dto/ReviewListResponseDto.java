@@ -7,6 +7,7 @@ import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import lombok.Data;
 
@@ -65,7 +66,9 @@ public class ReviewListResponseDto {
             this.likeCount = review.getLikeCount();
             this.createdDateTime = review.getCreatedDateTime();
 
-            reviewImages = review.getImages().stream().filter(image -> !image.isDeleted())
+            reviewImages = review.getImages()
+                                 .stream()
+                                 .filter(Predicate.not(ReviewImage::getIsDeleted))
                                  .map(ReviewImageInfo::new)
                                  .collect(Collectors.toList());
         }

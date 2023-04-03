@@ -49,13 +49,20 @@ export const getSimilar = async (id) => {
   }
 };
 
-export const getReview = async (data) => {
-  const { id, baseId, reviewOrder } = data;
+export const getReview = async (id, data) => {
   try {
-    const res = await api.get(
-      `/api/reviews/whiskies/${id}/any?baseId=${baseId}&reviewOrder=${reviewOrder}`
-    );
+    const res = await api.get(`/api/reviews/whiskies/${id}/any`, { params: data });
     console.log("리뷰 조회 성공");
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getMyReview = async (id) => {
+  try {
+    const res = await api.get(`/api/reviews/whiskies/${id}/my`);
+    console.log("나의 리뷰 조회 성공");
     return res.data;
   } catch (error) {
     console.log(error);

@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { userState } from "../../store/userStore";
 import { useRecoilValue } from "recoil";
-import { keepToggle, getKeep } from "../../apis/whiskyDetail";
+import { getKeep, keepToggle } from "../../apis/whiskyDetail";
 import favoriteBorder from "../../assets/img/favorite_border.png";
 import favoriteFilled from "../../assets/img/favorite_filled.png";
 import ReactStars from "react-stars";
+import { warning } from "../notify/notify";
 
 const SCard = styled.div`
   position: relative;
@@ -48,6 +49,7 @@ const SImg = styled.img`
   object-fit: cover;
   transition: 0.5s;
   transform-origin: bottom;
+
   ${SCard}:hover & {
     transform: scale(1.05);
     transition: 0.5s;
@@ -68,6 +70,7 @@ const SLikeImg = styled.img`
   height: 30px;
   transition: 0.5s;
   z-index: 2;
+
   &:hover {
     transform: scale(1.2);
     transition: 0.5s;
@@ -102,7 +105,7 @@ const SName = styled.div`
 const WhiskySimilarListItem = (props) => {
   const whisky = props.whisky;
   const navigate = useNavigate();
-  const [isKeep, setIsKeep] = useState(false);
+  const [isKeep, setIsKeep] = useState(whisky.isKept);
 
   const goDetail = () => {
     if (props.notScroll) {
@@ -114,27 +117,15 @@ const WhiskySimilarListItem = (props) => {
   const user = useRecoilValue(userState);
   const isLogin = Boolean(user.id);
 
-  async function getKeepInfo(param) {
-    try {
-      const keepInfo = await getKeep(param);
-      setIsKeep(keepInfo);
-    } catch (error) {
-      console.log("킵 정보 조회 실패");
-    }
-  }
-
-  useEffect(() => {
-    if (isLogin) {
-      getKeepInfo(whisky.id);
-    }
-  }, []);
-
   const keepHandler = (e) => {
     e.stopPropagation();
     if (isLogin) {
       setIsKeep(!isKeep);
       keepToggle(whisky.id);
-    } else if (window.confirm("로그인이 필요한 기능입니다.\n로그인 페이지로 이동하시겠습니까?")) {
+    }
+    // } else if (window.confirm("로그인이 필요한 기능입니다.\n로그인 페이지로 이동하시겠습니까?")) {
+    else {
+      warning("로그인이 필요한 기능입니다!");
       navigate("/signin");
     }
   };

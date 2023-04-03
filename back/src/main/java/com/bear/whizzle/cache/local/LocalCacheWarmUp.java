@@ -1,6 +1,7 @@
 package com.bear.whizzle.cache.local;
 
 import com.bear.whizzle.domain.model.type.CacheType;
+import com.bear.whizzle.preference.service.query.PreferenceQueryService;
 import com.bear.whizzle.whisky.repository.projection.dto.FlavorSummary;
 import com.bear.whizzle.whisky.service.query.WhiskyQueryService;
 import java.util.Map;
@@ -19,6 +20,8 @@ public class LocalCacheWarmUp {
 
     private final CacheManager cacheManager;
     private final WhiskyQueryService whiskyQueryService;
+    private final PreferenceQueryService preferenceQueryService;
+
     @Value("${app.cache.flavor-key}")
     private String flavorKey;
     @Value("${app.cache.price-key}")
@@ -27,8 +30,8 @@ public class LocalCacheWarmUp {
     @EventListener(ApplicationReadyEvent.class)
     public void warmUp() {
         log.debug("===============Caching Whisky Flavor Min Max Data================");
-        FlavorSummary flavorMinMax = whiskyQueryService.findFlavorMinMax();
-        cacheManager.getCache(CacheType.FLAVOR_MINMAX.getCacheName()).put(flavorKey, flavorMinMax);
+        FlavorSummary flavorSummary = preferenceQueryService.findFlavorMinMax();
+        cacheManager.getCache(CacheType.FLAVOR_MINMAX.getCacheName()).put(flavorKey, flavorSummary);
 
         log.debug("===============Caching Whisky Price Tier Data================");
         Map<Long, Integer> whiskyPriceTier = whiskyQueryService.findWhiskyPriceTier();
