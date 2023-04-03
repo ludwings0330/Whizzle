@@ -4,11 +4,11 @@ services:
   whizzle-back-03:
     image: whizzle/back:2
     ports:
-      - "8083:8080"
+      - "8082:8080"
     volumes:
       - /app/data/spring/config:/app/config
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/api/health"]
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/api/health" ]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -17,11 +17,11 @@ services:
   whizzle-back-04:
     image: whizzle/back:2
     ports:
-      - "8084:8080"
+      - "8083:8080"
     volumes:
       - /app/data/spring/config:/app/config
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/api/health"]
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/api/health" ]
       interval: 30s
       timeout: 10s
       retries: 3
