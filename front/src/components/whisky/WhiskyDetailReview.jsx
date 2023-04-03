@@ -104,6 +104,7 @@ const WhiskyDetailReview = forwardRef(({ whisky }, ref) => {
   // 나의 리뷰 삭제 시 다시 받아오기
   const refreshMyReview = () => {
     getMyReviewInfo(id);
+    setReviewNumber(reviewNumber - 1);
   };
 
   // 무한 스크롤
@@ -135,11 +136,19 @@ const WhiskyDetailReview = forwardRef(({ whisky }, ref) => {
     };
   }, [observerRef, lastId]);
 
+  const [reviewNumber, setReviewNumber] = useState(0);
+
+  useEffect(() => {
+    if (whisky.length) {
+      setReviewNumber(whisky.length);
+    }
+  }, [whisky]);
+
   return (
     <Wrapper ref={ref}>
       <SHeadDiv>
         <SP>
-          <SSpan>{whisky?.reviewCount}</SSpan>건의 리뷰
+          <SSpan>{reviewNumber}</SSpan>건의 리뷰
         </SP>
         <SP style={{ fontSize: "20px" }}>
           <SOrderSpan
