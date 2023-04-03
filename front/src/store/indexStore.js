@@ -120,3 +120,8 @@ export const searchData = atom({
   key: "searchData",
   default: [],
 });
+
+export const reviewState = atom({
+  key: "reviewState",
+  default: {},
+});

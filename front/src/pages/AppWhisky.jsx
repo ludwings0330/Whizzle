@@ -1,17 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import React, { useEffect, useState, useRef } from "react";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import favoriteFilled from "../assets/img/favorite_white_filled.png";
 import favoriteBorder from "../assets/img/favorite_white_border.png";
 import create from "../assets/img/create.png";
 import styled from "styled-components";
-import {
-  getKeep,
-  getReview,
-  getSimilar,
-  getStatistics,
-  keepToggle,
-  whiskyDetail,
-} from "../apis/whiskyDetail";
+import { getKeep, getSimilar, getStatistics, keepToggle, whiskyDetail } from "../apis/whiskyDetail";
 import { userState } from "../store/userStore";
 import { useRecoilValue } from "recoil";
 import { changeHeader, rollbackHeader } from "../hooks/changeHeader";
@@ -66,6 +59,9 @@ const SContainer = styled.div`
 `;
 
 const AppWhisky = () => {
+  const navigate = useNavigate();
+  const { id } = useParams();
+
   // 페이지 mount시 네비게이션 바 이미지와 글씨 색 변경
   useEffect(() => {
     changeHeader();
@@ -74,7 +70,20 @@ const AppWhisky = () => {
     };
   }, []);
 
-  const { id } = useParams();
+  // 리뷰페이지에서 왔다면, review 창으로 보냄
+  const reviewRef = useRef(null);
+  const location = useLocation();
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const toReview = params.get("review");
+
+    if (toReview === "true") {
+      setTimeout(() => {
+        reviewRef.current.scrollIntoView({ block: "start" });
+      }, 500);
+    }
+  }, [location.search]);
 
   // 위스키 정보 조회
   const [whisky, setWhisky] = useState(null);
@@ -135,24 +144,6 @@ const AppWhisky = () => {
     }
   }
 
-  // 리뷰 조회
-  const [reviews, setReviews] = useState([]);
-
-  async function getReviewInfo(id, baseId, reviewOrder) {
-    const data = {
-      id,
-      baseId,
-      reviewOrder,
-    };
-    try {
-      const reviewInfo = await getReview(data);
-      console.log(reviewInfo);
-      setReviews((prev) => [...prev, ...reviewInfo]);
-    } catch (error) {
-      console.log("리뷰 정보 조회 실패");
-    }
-  }
-
   const user = useRecoilValue(userState);
   const isLogin = Boolean(user.id);
   const [isKeep, setIsKeep] = useState(false);
@@ -164,10 +155,9 @@ const AppWhisky = () => {
     getSimilarInfo(id);
     // 통계 정보 요청
     getStatisticsInfo(id);
-    // 리뷰 목록 요청
-    getReviewInfo(id, 0, "LIKE");
-    // 킵 여부 조회 요청
+
     if (isLogin) {
+      // 킵 여부 조회 요청
       getKeepInfo(id);
     }
     window.scrollTo(0, 0);
@@ -185,8 +175,6 @@ const AppWhisky = () => {
     }
   };
 
-  const navigate = useNavigate();
-
   return (
     <>
       <SContainer>
@@ -198,10 +186,8 @@ const AppWhisky = () => {
         <div style={{ width: "990px", marginBottom: "0px", marginTop: "90px" }}>
           <SP>이런 위스키는 어떠세요?</SP>
         </div>
-        {similarWhiskys.length ? (
-          <WhiskySimilarList whiskys={similarWhiskys} />
-        ) : null}
-        <WhiskyDetailReview whisky={whisky} stat={stat} />
+        {similarWhiskys.length ? <WhiskySimilarList whiskys={similarWhiskys} /> : null}
+        <WhiskyDetailReview ref={reviewRef} id={id} whisky={whisky} />
         <SButtonDiv>
           <SButton onClick={favorite} style={{ marginBottom: "10px" }}>
             <SImg src={isKeep ? favoriteFilled : favoriteBorder} alt="keep" />

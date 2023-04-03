@@ -105,7 +105,7 @@ const SName = styled.div`
 const WhiskySimilarListItem = (props) => {
   const whisky = props.whisky;
   const navigate = useNavigate();
-  const [isKeep, setIsKeep] = useState(false);
+  const [isKeep, setIsKeep] = useState(whisky.isKept);
 
   const goDetail = () => {
     if (props.notScroll) {
@@ -116,21 +116,6 @@ const WhiskySimilarListItem = (props) => {
   // keep 관련
   const user = useRecoilValue(userState);
   const isLogin = Boolean(user.id);
-
-  async function getKeepInfo(param) {
-    try {
-      const keepInfo = await getKeep(param);
-      setIsKeep(keepInfo);
-    } catch (error) {
-      console.log("킵 정보 조회 실패");
-    }
-  }
-
-  useEffect(() => {
-    if (isLogin) {
-      getKeepInfo(whisky.id);
-    }
-  }, []);
 
   const keepHandler = (e) => {
     e.stopPropagation();

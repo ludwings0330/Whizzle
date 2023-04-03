@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import WhiskySimilarListItem from "../../whisky/WhiskySimilarListItem";
 import WhiskyListItem from "../../common/WhiskyListItem";
 import styled from "styled-components";
 

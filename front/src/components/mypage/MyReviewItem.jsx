@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import ReactStars from "react-stars";
 import moment from "moment";
+import { useNavigate } from "react-router-dom";
 
 const SDiv = styled.div`
   width: 100%;
@@ -107,8 +108,13 @@ const MyReviewItem = ({ review }) => {
   const truncatedName = truncateName(review.whiskyName);
   const truncatedContent = truncateContent(review.content);
 
+  const navigate = useNavigate();
+  const onClickHandler = () => {
+    navigate(`/whisky/${review.whiskyId}?review=true`);
+  };
+
   return (
-    <SDiv>
+    <SDiv onClick={onClickHandler}>
       <SBox>
         <SContainer>
           <SName>{truncatedName}</SName>
