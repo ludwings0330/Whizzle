@@ -80,6 +80,8 @@ const SNicknameDiv = styled.div`
   align-items: center;
 `;
 
+const SInput = styled.input``;
+
 //마이페이지 상단 해당 유저의 기본 정보
 const MyProfile = () => {
   const user = useRecoilValue(userState);
@@ -87,6 +89,7 @@ const MyProfile = () => {
   const [newProfileImage, setProfileImage] = useState(user.image.url);
   const [newOriginName, setNewOriginName] = useState(user.image.originName);
   const [userStateData, setUserStateData] = useRecoilState(userState);
+  const [isNicknameEditing, setIsNicknameEditing] = useState(false);
 
   const handleProfileImageChange = async (e) => {
     const file = e.target.files[0];
@@ -119,6 +122,14 @@ const MyProfile = () => {
     setNewNickname(response.data.nickname);
   };
 
+  const handleNicknameEditing = () => {
+    setIsNicknameEditing(true);
+  };
+
+  const handleNicknameEditingFinish = () => {
+    setIsNicknameEditing(false);
+  };
+
   return (
     <>
       <SMainDiv>
@@ -137,8 +148,22 @@ const MyProfile = () => {
         </SImgContainer>
         <SInfoDiv>
           <SNicknameDiv>
-            <SP>{user.nickname}</SP>
-            <SPencilIcon src={pencilIcon} alt="Change Nickname" onClick={handleNicknameChange} />
+            {isNicknameEditing ? (
+              <SInput
+                value={newNickname}
+                onChange={handleNicknameChange}
+                onBlur={handleNicknameEditingFinish}
+              />
+            ) : (
+              <>
+                <SP>{user.nickname}</SP>
+                <SPencilIcon
+                  src={pencilIcon}
+                  alt="Change Nickname"
+                  onClick={handleNicknameEditing}
+                />
+              </>
+            )}
           </SNicknameDiv>
           <MyLevel level={user.level} max={100} />
         </SInfoDiv>
