@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router";
 import styled from "styled-components";
 import ReactStars from "react-stars";
 import favoriteBorder from "../../assets/img/review_favorite_border.png";
 import favoriteFilled from "../../assets/img/review_favorite_filled.png";
 import { likeReview } from "../../apis/review";
+import Swal from "sweetalert2";
 
 const Wrapper = styled.div`
   display: flex;
@@ -49,6 +51,7 @@ const SProfileImg = styled.img`
 `;
 
 const SLevelDiv = styled.div`
+  margin-left: 3px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -78,9 +81,11 @@ const SReviewPicDiv = styled.div`
 `;
 
 const SImg = styled.img`
-  width: 100px;
   height: 100px;
+  width: 100px;
+  object-fit: cover;
   margin-right: 16px;
+  cursor: pointer;
 `;
 
 const STextDiv = styled.div`
@@ -123,6 +128,22 @@ const WhiskyDetailReviewItem = ({ review }) => {
     setSeeMore(!seeMore);
   };
 
+  const modalHandler = (pic) => {
+    Swal.fire({
+      title: "  ",
+      text: "",
+      imageUrl: pic.reviewImageUrl,
+      imageHeight: 480,
+      imageAlt: "Custom image",
+      showConfirmButton: false,
+    });
+  };
+
+  const navigate = useNavigate();
+  const goToUserPage = () => {
+    navigate("/mypage", { state: { userId: review.memberInfo.memberId } });
+  };
+
   return (
     <Wrapper>
       <SReviewInfoDiv>
@@ -130,7 +151,15 @@ const WhiskyDetailReviewItem = ({ review }) => {
           <SProfileImg src={review.memberInfo.profileImageUrl} alt="유저 프로필" />
           <SUserDiv>
             <SNicknameDiv>
-              <p style={{ marginLeft: "2px", fontWeight: "600", fontSize: "24px" }}>
+              <p
+                onClick={goToUserPage}
+                style={{
+                  marginLeft: "2px",
+                  fontWeight: "600",
+                  fontSize: "24px",
+                  cursor: "pointer",
+                }}
+              >
                 {review.memberInfo.nickname}
               </p>
               <SLevelDiv>
@@ -165,7 +194,12 @@ const WhiskyDetailReviewItem = ({ review }) => {
       {review.reviewInfo.reviewImages.length ? (
         <SReviewPicDiv>
           {review.reviewInfo.reviewImages.map((pic, index) => (
-            <SImg key={index} src={pic.reviewImageUrl} alt="리뷰사진" />
+            <SImg
+              onClick={() => modalHandler(pic)}
+              key={index}
+              src={pic.reviewImageUrl}
+              alt="리뷰사진"
+            />
           ))}
         </SReviewPicDiv>
       ) : null}
