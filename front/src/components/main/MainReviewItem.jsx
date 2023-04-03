@@ -13,6 +13,7 @@ const SReview = styled.div`
 
 const SImg = styled.img`
   width: 100%;
+  height: 45%;
   object-fit: cover;
 `;
 
@@ -24,7 +25,9 @@ const MainReviewItem = (props) => {
           <SImg src={defaultImg} />
         </SReview>
       ) : (
-        <SReview></SReview>
+        <SReview>
+          <SImg src={defaultImg} />
+        </SReview>
       )}
     </>
   );
