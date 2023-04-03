@@ -272,21 +272,23 @@ const DiaryCalander = ({ setSelectedDate, selectedDate }) => {
         dateStr[1]
       )}-${Number(dateStr[2]) < 10 ? "0" : ""}${Number(dateStr[2])}`;
 
-      const result = diaryList.find((diary) => diary.date === dateStr);
+      if(diaryList) {
+        const result = diaryList.find((diary) => diary.date === dateStr);
 
-      if (result) {
-        switch(result.drinkLevel) {
-          case "LIGHT":
-            activeDay.style.backgroundColor = "#FDC5C9";
-            break;
-          case "MODERATE":
-            activeDay.style.backgroundColor = "#FA8990";
-            break;
-          case "HEAVY":
-            activeDay.style.backgroundColor = "#F84F5A";
-            break;
+        if (result) {
+          switch (result.drinkLevel) {
+            case "LIGHT":
+              activeDay.style.backgroundColor = "#FDC5C9";
+              break;
+            case "MODERATE":
+              activeDay.style.backgroundColor = "#FA8990";
+              break;
+            case "HEAVY":
+              activeDay.style.backgroundColor = "#F84F5A";
+              break;
+          }
+          activeDay.style.color = "#fff";
         }
-        activeDay.style.color = "#fff";
       }
     });
   }, [diaryList, data, rows]);
