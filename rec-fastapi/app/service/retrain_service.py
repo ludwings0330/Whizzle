@@ -9,7 +9,9 @@ from models.dto.data_class import Rating, Preference
 from util.modelutil import *
 
 
-def fit_partial_user(ratings: List[Rating], preferences: List[Preference], item_features):
+def fit_partial_user(
+    ratings: List[Rating], preferences: List[Preference], item_features
+):
     try:
         model = load_rec_model()
         rating_df = make_rating_df(ratings)

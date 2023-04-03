@@ -55,8 +55,7 @@ def make_features(preference_df, item_features):
     dataset = load_dataset()
     # make user features
     preference_source = make_source(preference_df)
-    preference_meta = dataset.build_user_features(
-        preference_source, normalize=False)
+    preference_meta = dataset.build_user_features(preference_source, normalize=False)
     # make item features
     item_features = item_features[
         ["whisky_id", "price_tier"] + item_features.columns.tolist()[4:]
@@ -68,11 +67,9 @@ def make_features(preference_df, item_features):
 
 def save_ratings(rating_df):
     logging.debug("train_rating.csv is updated")
-    ratings = pd.read_csv(settings.RATING_PATH,
-                          index_col=0, encoding=settings.ENCODING)
+    ratings = pd.read_csv(settings.RATING_PATH, index_col=0, encoding=settings.ENCODING)
     ratings = pd.concat([ratings, rating_df], ignore_index=True)
-    ratings.drop_duplicates(
-        subset=["user_id", "whisky_id"], keep="last", inplace=True)
+    ratings.drop_duplicates(subset=["user_id", "whisky_id"], keep="last", inplace=True)
     ratings.to_csv(settings.RATING_PATH, encoding=settings.ENCODING)
 
 
@@ -81,12 +78,9 @@ def save_user_features(user_features_df):
     user_features = pd.read_csv(
         settings.USER_FEATURES_PATH, index_col=0, encoding=settings.ENCODING
     )
-    user_features = pd.concat(
-        [user_features, user_features_df], ignore_index=True)
-    user_features.drop_duplicates(
-        subset=["user_id"], keep="last", inplace=True)
-    user_features.to_csv(settings.USER_FEATURES_PATH,
-                         encoding=settings.ENCODING)
+    user_features = pd.concat([user_features, user_features_df], ignore_index=True)
+    user_features.drop_duplicates(subset=["user_id"], keep="last", inplace=True)
+    user_features.to_csv(settings.USER_FEATURES_PATH, encoding=settings.ENCODING)
 
 
 def save_model(model, path):

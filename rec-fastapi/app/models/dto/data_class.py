@@ -2,7 +2,6 @@ from fastapi import Body
 from pydantic import BaseModel
 from typing import List
 import pandas as pd
-from common.config import settings
 
 
 class Preference(BaseModel):
@@ -27,6 +26,11 @@ class Rating(BaseModel):
     user_id: int = Body(..., alias="memberId")
     whisky_id: int = Body(..., alias="whiskyId", ge=1)
     rating: int = Body(...)
+
+
+class PersonalWhiskyRequest(BaseModel):
+    user_id: int = Body(..., alias="memberId")
+    preferences: List[Preference] = Body(..., alias="preferenceDtoList")
 
 
 class MemberData(BaseModel):

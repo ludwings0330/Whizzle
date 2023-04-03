@@ -15,7 +15,6 @@ from util.modelutil import load_rec_model, make_features, make_user_features_df
 def predict_personal_whisky(preferences: List[Preference], item_features):
     model = load_rec_model()
     preference_df = make_user_features_df(preferences)
-    logging.debug(preference_df)
     user_meta, item_meta = make_features(preference_df, item_features)
     item_ids = np.arange(item_features.shape[0])
     scores = model.predict(
@@ -40,6 +39,9 @@ def predict_similar_whisky(whisky_id: int, item_features, k: int = 5):
     scores = cosine_sim[whisky_id]
 
     # sort by similarity
-    logging.debug("whisky id : {} result index : {}".format(
-        whisky_id, np.argsort(-scores)[1: k+1].tolist()))
-    return np.argsort(-scores)[1: k + 1].tolist()
+    logging.debug(
+        "whisky id : {} result index : {}".format(
+            whisky_id, np.argsort(-scores)[1 : k + 1].tolist()
+        )
+    )
+    return np.argsort(-scores)[1 : k + 1].tolist()

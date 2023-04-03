@@ -17,7 +17,9 @@ async def retrain_exist_user(
     memberData: MemberData = Body(..., alias="retrainData"),
     item_features: ItemFeatures = Depends(ItemFeatures),
 ):
-    return background_tasks.add_task(fit_partial_user, memberData.ratings, memberData.preferences, item_features.data)
+    return background_tasks.add_task(
+        fit_partial_user, memberData.ratings, memberData.preferences, item_features.data
+    )
 
     # @rec.post("/retrain/new", status_code=200)
     # async def retrain_new_model(
