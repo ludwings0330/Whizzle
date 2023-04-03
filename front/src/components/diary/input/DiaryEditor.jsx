@@ -255,7 +255,11 @@ const DiaryEditor = ({ selectedDate }) => {
     const name = e.target.textContent;
     setSearchWhisky("");
     setAuto([]);
-    setSearchTerms([...searchTerms, { id, name }]);
+    if(searchTerms.length < 3)
+      setSearchTerms([...searchTerms, { id, name }]);
+    else {
+      error("위스키는 3개까지 저장할 수 있습니다!")
+    }
   };
 
   const contentChange = (e) => {
