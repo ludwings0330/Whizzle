@@ -112,7 +112,7 @@ const SButton = styled.button`
   }
 `;
 
-const WhiskyDetailMyReviewItem = ({ review, whiskyId }) => {
+const WhiskyDetailMyReviewItem = ({ review, whiskyId, onDelete }) => {
   const setReview = useSetRecoilState(reviewState);
   const navigate = useNavigate();
 
@@ -136,6 +136,7 @@ const WhiskyDetailMyReviewItem = ({ review, whiskyId }) => {
         if (res) {
           window.alert("리뷰가 삭제되었습니다.");
           console.log("리뷰 삭제 성공");
+          onDelete();
         }
       } catch {
         console.log("리뷰 삭제 실패");

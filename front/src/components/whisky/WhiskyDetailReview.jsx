@@ -102,6 +102,10 @@ const WhiskyDetailReview = forwardRef(({ whisky }, ref) => {
     resetStateAndGetData();
   }, [id, sortOrder]);
 
+  useEffect(() => {
+    getMyReview(id);
+  }, [myReview]);
+
   // 무한 스크롤
   const observerRef = useRef(null);
   useEffect(() => {

@@ -2,6 +2,7 @@ import axios from "axios";
 import { BASE_URL, LOCAL_FRONT_URL } from "../constants/constants";
 import { parse, stringify } from "qs";
 import { info } from "../components/notify/notify";
+import Logout from "../hooks/Logout";
 
 // 토큰 재발급 axios
 const refreshAxios = axios.create({
@@ -16,8 +17,7 @@ const refreshAxios = axios.create({
 });
 
 export const reissueAccessToken = async () => {
-  refreshAxios.defaults.headers["Authorization"] =
-    "Bearer " + localStorage.getItem("refreshToken");
+  refreshAxios.defaults.headers["Authorization"] = "Bearer " + localStorage.getItem("refreshToken");
   await refreshAxios
     .get("/api/auth/refresh")
     .then((response) => {
@@ -27,7 +27,8 @@ export const reissueAccessToken = async () => {
     .catch((error) => {
       console.log(error);
       info("세션이 만료되었습니다. \n 다시 로그인해주세요.");
-      localStorage.clear();
+      const logout = Logout();
+      logout();
       window.location.href = `${LOCAL_FRONT_URL}/signin`;
     });
 };
