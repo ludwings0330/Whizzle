@@ -141,24 +141,36 @@ const WhiskyDetailMyReviewItem = ({ review, whiskyId, onDelete }) => {
     });
   };
 
-  const reviewDeleteFunc = async () => {
-    if (window.confirm("리뷰를 삭제하시겠습니까?")) {
-      try {
-        const res = await deleteReview(review.reviewInfo.reviewId);
-        if (res) {
-          Swal.fire({
-            title: "리뷰가 삭제되었습니다",
-            icon: "success",
-            showCloseButton: true,
-            timer: 2000,
-          });
-          console.log("리뷰 삭제 성공");
-          onDelete();
-        }
-      } catch {
-        console.log("리뷰 삭제 실패");
+  const deletingReview = async () => {
+    try {
+      const res = await deleteReview(review.reviewInfo.reviewId);
+      if (res) {
+        Swal.fire({
+          title: "리뷰가 삭제되었습니다",
+          icon: "success",
+          showCloseButton: true,
+          timer: 2000,
+        });
+        console.log("리뷰 삭제 성공");
+        onDelete();
       }
+    } catch {
+      console.log("리뷰 삭제 실패");
     }
+  };
+
+  const reviewDeleteFunc = () => {
+    Swal.fire({
+      title: "리뷰를 삭제하시겠습니까?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes",
+      cancelButtonText: "No",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deletingReview();
+      }
+    });
   };
 
   return (
