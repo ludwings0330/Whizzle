@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Body, Path, BackgroundTasks, Depends
+from typing import List
 
 import time
 import random
@@ -9,7 +10,6 @@ from common.context.ItemFeatures import ItemFeatures
 
 
 rec = APIRouter(
-    prefix="/rec",
     tags=["rec"],
     responses={404: {"description": "Page Not found"}},
 )
@@ -26,10 +26,10 @@ async def retrain_model():
 
 @rec.post("/personal-whisky", status_code=200)
 async def rec_personal_whisky(
-    preference: Preference = Body(...),
+    preferences: List[Preference] = Body(...),
     item_features: ItemFeatures = Depends(ItemFeatures),
 ):
-    return predict_personal_whisky(preference, item_features.data)
+    return predict_personal_whisky(preferences, item_features.data)
 
 
 @rec.get("/similar-whisky/{whisky_id}", status_code=200)
