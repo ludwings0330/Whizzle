@@ -22,7 +22,7 @@ import sad from "../../../assets/img/sad.png";
 import littledrink from "../../../assets/img/littledrink.png";
 import normaldrink from "../../../assets/img/normaldrink.png";
 import largedrink from "../../../assets/img/largedrink.png";
-import { success } from "../../notify/notify";
+import {error, success} from "../../notify/notify";
 import Swal from "sweetalert2";
 
 const SBorderDiv = styled.div`
@@ -242,7 +242,7 @@ const DiaryEditor = ({ selectedDate }) => {
 
   // 검색어 자동완성
   async function autoword(word) {
-    if (word.length >= 3) {
+    if (word.length >= 1) {
       try {
         const autoWord = await getAutocomplete(word);
         setAuto(autoWord);
@@ -264,9 +264,7 @@ const DiaryEditor = ({ selectedDate }) => {
 
   const setWhiskyName = (e) => {
     if (e.key === "Enter" && searchWhisky !== "") {
-      setSearchTerms([...searchTerms, searchWhisky]);
-
-      setSearchWhisky("");
+      error("자동완성 목록에서 위스키를 선택해주세요!");
     }
   };
 
@@ -368,12 +366,15 @@ const DiaryEditor = ({ selectedDate }) => {
     setEmotionValue(emotionValue);
     if (emotionValue <= 33) {
       setEmotion("별로예요");
+      setEmotionValue(0);
       setEmotionImage(sad);
     } else if (emotionValue <= 66) {
       setEmotion("그냥그래요");
+      setEmotionValue(50);
       setEmotionImage(soso);
     } else {
       setEmotion("최고예요");
+      setEmotionValue(100);
       setEmotionImage(good);
     }
   };
@@ -383,12 +384,15 @@ const DiaryEditor = ({ selectedDate }) => {
     setDrinkLevelValue(drinklevelValue);
     if (drinklevelValue <= 33) {
       setDrinkLevel("소량");
+      setDrinkLevelValue(0);
       setDrinkImage(littledrink);
     } else if (drinklevelValue <= 66) {
       setDrinkLevel("적당히");
+      setDrinkLevelValue(50);
       setDrinkImage(normaldrink);
     } else {
       setDrinkLevel("만취");
+      setDrinkLevelValue(100);
       setDrinkImage(largedrink);
     }
   };
