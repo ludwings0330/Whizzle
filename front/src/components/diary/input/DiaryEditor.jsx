@@ -308,7 +308,7 @@ const DiaryEditor = ({ selectedDate }) => {
         setDrinkLevelValue(50);
         setDrinkImage(normaldrink);
         break;
-      case "HAEVY":
+      case "HEAVY":
         setDrinkLevel("만취");
         setDrinkLevelValue(100);
         setDrinkImage(largedrink);
