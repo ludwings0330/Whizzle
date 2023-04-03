@@ -20,7 +20,7 @@ const StyledReactStars = styled(ReactStars)`
 
 const ReviewRating = ({ rating, setRating }) => {
   const ratingChange = (e) => {
-    const ratingValue = parseFloat(e.target.value);
+    const ratingValue = parseFloat(e);
     setRating(ratingValue);
   };
 
@@ -30,10 +30,10 @@ const ReviewRating = ({ rating, setRating }) => {
         count={5}
         value={rating}
         edit={true}
-        size={55}
+        size={45}
         color1={"rgba(128, 128, 128, 0.2)"}
         color2={"#F84F5A"}
-        onClick={ratingChange}
+        onChange={ratingChange}
       />
     </SRatingDiv>
   );

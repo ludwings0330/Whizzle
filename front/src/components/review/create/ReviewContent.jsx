@@ -4,15 +4,22 @@ import styled from "styled-components";
 const SDiv = styled.div``;
 
 const STextarea = styled.textarea`
-  padding: 10px;
-  font-size: 16px;
+  padding: 25px;
+  font-size: 18px;
   line-height: 1.4;
   border: 1px solid #adadad;
   border-radius: 8px;
   box-sizing: border-box;
   resize: vertical;
-  height: 300px;
-  width: 930px;
+  height: 267px;
+  width: 830px;
+  color: #363636;
+  font-family: Pretendard Variable;
+  background: #fcfcfc;
+  &:focus {
+    outline: 0;
+    background: none;
+  }
 `;
 
 const ReviewContent = ({ content, setContent }) => {

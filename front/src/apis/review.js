@@ -2,7 +2,12 @@ import api from "./axiosInstance";
 
 export const reviewCreate = async (data) => {
   try {
-    const res = await api.post(`/api/reviews`, data);
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    };
+    const res = await api.post(`/api/reviews`, data, config);
     console.log(res);
     return true;
   } catch (error) {
