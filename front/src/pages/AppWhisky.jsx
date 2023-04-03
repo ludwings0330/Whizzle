@@ -8,6 +8,7 @@ import { getKeep, getSimilar, getStatistics, keepToggle, whiskyDetail } from "..
 import { userState } from "../store/userStore";
 import { useRecoilValue } from "recoil";
 import { changeHeader, rollbackHeader } from "../hooks/changeHeader";
+import Swal from "sweetalert2";
 
 //import components
 import WhiskyDetailInfo from "../components/whisky/WhiskyDetailInfo";
@@ -167,11 +168,40 @@ const AppWhisky = () => {
     if (isLogin) {
       setIsKeep(!isKeep);
       keepToggle(id);
+    } else {
+      Swal.fire({
+        title: "로그인이 필요한 기능입니다. \n로그인 하시겠습니까?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes",
+        cancelButtonText: "No",
+        customClass: {
+          container: "my-swal-container",
+          confirmButton: "my-swal-confirm-button",
+        },
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/signin");
+        }
+      });
     }
-    // } else if (window.confirm("로그인이 필요한 기능입니다.\n로그인 페이지로 이동하시겠습니까?")) {
-    else {
-      warning("로그인이 필요한 기능입니다!");
-      navigate("/signin");
+  };
+
+  const createReview = () => {
+    if (isLogin) {
+      navigate(`/review/${id}`);
+    } else {
+      Swal.fire({
+        title: "로그인이 필요한 기능입니다. \n로그인 하시겠습니까?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes",
+        cancelButtonText: "No",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/signin");
+        }
+      });
     }
   };
 
@@ -192,7 +222,7 @@ const AppWhisky = () => {
           <SButton onClick={favorite} style={{ marginBottom: "10px" }}>
             <SImg src={isKeep ? favoriteFilled : favoriteBorder} alt="keep" />
           </SButton>
-          <SButton onClick={() => navigate(`/review/${id}`)}>
+          <SButton onClick={createReview}>
             <SImg src={create} alt="create" />
           </SButton>
         </SButtonDiv>

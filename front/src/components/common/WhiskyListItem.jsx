@@ -5,6 +5,9 @@ import favoriteBorder from "../../assets/img/favorite_border.png";
 import favoriteFilled from "../../assets/img/favorite_filled.png";
 import ReactStars from "react-stars";
 import { keepApi } from "../../apis/whisky";
+import { userState } from "../../store/userStore";
+import { useRecoilValue } from "recoil";
+import Swal from "sweetalert2";
 
 const SCard = styled.div`
   position: relative;
@@ -109,11 +112,28 @@ const WhiskyListItem = (props) => {
     navigate(`/whisky/${props.whisky.id}`);
   };
 
+  const user = useRecoilValue(userState);
+  const isLogin = Boolean(user.id);
+
   const keepHandler = async (event) => {
     event.stopPropagation();
-    const result = await keepApi(props.whisky.id);
-    if (result === true) {
-      setIsKeep((prev) => !prev);
+    if (isLogin) {
+      const result = await keepApi(props.whisky.id);
+      if (result === true) {
+        setIsKeep((prev) => !prev);
+      }
+    } else {
+      Swal.fire({
+        title: "로그인이 필요한 기능입니다. \n로그인 하시겠습니까?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes",
+        cancelButtonText: "No",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/signin");
+        }
+      });
     }
   };
 

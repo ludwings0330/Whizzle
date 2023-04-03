@@ -16,8 +16,7 @@ const refreshAxios = axios.create({
 });
 
 export const reissueAccessToken = async () => {
-  refreshAxios.defaults.headers["Authorization"] =
-    "Bearer " + localStorage.getItem("refreshToken");
+  refreshAxios.defaults.headers["Authorization"] = "Bearer " + localStorage.getItem("refreshToken");
   await refreshAxios
     .get("/api/auth/refresh")
     .then((response) => {
@@ -30,13 +29,12 @@ export const reissueAccessToken = async () => {
       localStorage.clear();
 
       Swal.fire({
-        title: '세션이 만료되었습니다.',
-        text: '다시 로그인해주세요',
-        icon: 'error',
-        timer: 1500
+        title: "세션이 만료되었습니다.",
+        text: "다시 로그인해주세요",
+        icon: "error",
+        timer: 1500,
       }).then((result) => {
         window.location.href = `${LOCAL_FRONT_URL}/signin`;
       });
-
     });
 };

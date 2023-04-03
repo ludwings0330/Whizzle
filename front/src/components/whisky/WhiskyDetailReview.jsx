@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, forwardRef } from "react";
 import styled from "styled-components";
 import { useRecoilValue } from "recoil";
 import { useParams } from "react-router-dom";
@@ -6,7 +6,6 @@ import { getReview, getMyReview } from "../../apis/whiskyDetail";
 import { userState } from "../../store/userStore";
 import WhiskyDetailReviewItem from "./WhiskyDetailReviewItem";
 import WhiskyDetailMyReviewItem from "./WhiskyDetailMyReviewItem";
-import { forwardRef } from "react";
 
 const Wrapper = styled.div`
   margin-top: 100px;
@@ -102,6 +101,12 @@ const WhiskyDetailReview = forwardRef(({ whisky }, ref) => {
     resetStateAndGetData();
   }, [id, sortOrder]);
 
+  // 나의 리뷰 삭제 시 다시 받아오기
+  const refreshMyReview = () => {
+    getMyReviewInfo(id);
+    setReviewNumber(reviewNumber - 1);
+  };
+
   // 무한 스크롤
   const observerRef = useRef(null);
   useEffect(() => {
@@ -131,11 +136,19 @@ const WhiskyDetailReview = forwardRef(({ whisky }, ref) => {
     };
   }, [observerRef, lastId]);
 
+  const [reviewNumber, setReviewNumber] = useState(0);
+
+  useEffect(() => {
+    if (whisky?.reviewCount) {
+      setReviewNumber(whisky.reviewCount);
+    }
+  }, [whisky]);
+
   return (
     <Wrapper ref={ref}>
       <SHeadDiv>
         <SP>
-          <SSpan>{whisky?.reviewCount}</SSpan>건의 리뷰
+          <SSpan>{reviewNumber}</SSpan>건의 리뷰
         </SP>
         <SP style={{ fontSize: "20px" }}>
           <SOrderSpan
@@ -160,6 +173,7 @@ const WhiskyDetailReview = forwardRef(({ whisky }, ref) => {
                 key={review.reviewInfo.reviewId}
                 whiskyId={id}
                 review={review}
+                onDelete={refreshMyReview}
               />
             );
           })

@@ -230,7 +230,7 @@ const Header = () => {
                 </NavLink>
               </NavDiv>
               <NavDiv style={{ marginRight: "0px", height: "40px" }}>
-                <NavLink style={({ isActive }) => (isActive ? activeStyle : nonActiveStyle)} to="/">
+                <NavLink style={nonActiveStyle} to="/">
                   <SP className="dropdown" onClick={signout}>
                     로그아웃
                   </SP>

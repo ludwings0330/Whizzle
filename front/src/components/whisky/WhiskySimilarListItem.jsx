@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { userState } from "../../store/userStore";
 import { useRecoilValue } from "recoil";
-import { getKeep, keepToggle } from "../../apis/whiskyDetail";
+import { keepToggle } from "../../apis/whiskyDetail";
 import favoriteBorder from "../../assets/img/favorite_border.png";
 import favoriteFilled from "../../assets/img/favorite_filled.png";
 import ReactStars from "react-stars";
-import { warning } from "../notify/notify";
+import Swal from "sweetalert2";
 
 const SCard = styled.div`
   position: relative;
@@ -122,11 +122,18 @@ const WhiskySimilarListItem = (props) => {
     if (isLogin) {
       setIsKeep(!isKeep);
       keepToggle(whisky.id);
-    }
-    // } else if (window.confirm("로그인이 필요한 기능입니다.\n로그인 페이지로 이동하시겠습니까?")) {
-    else {
-      warning("로그인이 필요한 기능입니다!");
-      navigate("/signin");
+    } else {
+      Swal.fire({
+        title: "로그인이 필요한 기능입니다. \n로그인 하시겠습니까?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes",
+        cancelButtonText: "No",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/signin");
+        }
+      });
     }
   };
 

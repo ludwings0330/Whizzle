@@ -1,9 +1,13 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router";
 import styled from "styled-components";
 import ReactStars from "react-stars";
 import favoriteBorder from "../../assets/img/review_favorite_border.png";
 import favoriteFilled from "../../assets/img/review_favorite_filled.png";
 import { likeReview } from "../../apis/review";
+import { useRecoilValue } from "recoil";
+import Swal from "sweetalert2";
+import { userState } from "../../store/userStore";
 
 const Wrapper = styled.div`
   display: flex;
@@ -49,6 +53,7 @@ const SProfileImg = styled.img`
 `;
 
 const SLevelDiv = styled.div`
+  margin-left: 3px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -78,9 +83,11 @@ const SReviewPicDiv = styled.div`
 `;
 
 const SImg = styled.img`
-  width: 100px;
   height: 100px;
+  width: 100px;
+  object-fit: cover;
   margin-right: 16px;
+  cursor: pointer;
 `;
 
 const STextDiv = styled.div`
@@ -107,20 +114,52 @@ const WhiskyDetailReviewItem = ({ review }) => {
     }
   }
 
+  const user = useRecoilValue(userState);
+  const isLogin = Boolean(user.id);
   const [isLike, setISLike] = useState(review.reviewInfo.liked);
   const onLikeHandler = () => {
-    if (isLike) {
-      setLikeCount(likeCount - 1);
+    if (isLogin) {
+      if (isLike) {
+        setLikeCount(likeCount - 1);
+      } else {
+        setLikeCount(likeCount + 1);
+      }
+      setISLike(!isLike);
+      likeToggle(review.reviewInfo.reviewId);
     } else {
-      setLikeCount(likeCount + 1);
+      Swal.fire({
+        title: "로그인이 필요한 기능입니다. \n로그인 하시겠습니까?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes",
+        cancelButtonText: "No",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/signin");
+        }
+      });
     }
-    setISLike(!isLike);
-    likeToggle(review.reviewInfo.reviewId);
   };
 
   const [seeMore, setSeeMore] = useState(false);
   const fullContent = () => {
     setSeeMore(!seeMore);
+  };
+
+  const modalHandler = (pic) => {
+    Swal.fire({
+      title: "  ",
+      text: "",
+      imageUrl: pic.reviewImageUrl,
+      imageHeight: 480,
+      imageAlt: "Custom image",
+      showConfirmButton: false,
+    });
+  };
+
+  const navigate = useNavigate();
+  const goToUserPage = () => {
+    navigate("/mypage", { state: { userId: review.memberInfo.memberId } });
   };
 
   return (
@@ -130,21 +169,34 @@ const WhiskyDetailReviewItem = ({ review }) => {
           <SProfileImg src={review.memberInfo.profileImageUrl} alt="유저 프로필" />
           <SUserDiv>
             <SNicknameDiv>
-              <p style={{ marginLeft: "2px", fontWeight: "600", fontSize: "24px" }}>
+              <p
+                onClick={goToUserPage}
+                style={{
+                  marginLeft: "2px",
+                  fontWeight: "600",
+                  fontSize: "24px",
+                  cursor: "pointer",
+                }}
+              >
                 {review.memberInfo.nickname}
               </p>
               <SLevelDiv>
                 <p style={{ color: "#ffffff" }}>{Math.floor(review.memberInfo.level * 10) / 10}%</p>
               </SLevelDiv>
             </SNicknameDiv>
-            <ReactStars
-              count={5}
-              value={Math.round(review.reviewInfo.rating * 2) / 2}
-              edit={false}
-              size={21}
-              color1={"rgba(128, 128, 128, 0.2)"}
-              color2={"#F84F5A"}
-            />
+            <div style={{ display: "flex" }}>
+              <ReactStars
+                count={5}
+                value={Math.round(review.reviewInfo.rating * 2) / 2}
+                edit={false}
+                size={21}
+                color1={"rgba(128, 128, 128, 0.2)"}
+                color2={"#F84F5A"}
+              />
+              <p style={{ marginTop: "3px", marginLeft: "8px" }}>
+                {review.reviewInfo.createdDateTime.split("T")[0].replaceAll("-", ".")}
+              </p>
+            </div>
           </SUserDiv>
         </div>
         <SLikeDiv>
@@ -160,7 +212,12 @@ const WhiskyDetailReviewItem = ({ review }) => {
       {review.reviewInfo.reviewImages.length ? (
         <SReviewPicDiv>
           {review.reviewInfo.reviewImages.map((pic, index) => (
-            <SImg key={index} src={pic.reviewImageUrl} alt="리뷰사진" />
+            <SImg
+              onClick={() => modalHandler(pic)}
+              key={index}
+              src={pic.reviewImageUrl}
+              alt="리뷰사진"
+            />
           ))}
         </SReviewPicDiv>
       ) : null}
