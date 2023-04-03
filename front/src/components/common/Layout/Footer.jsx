@@ -7,10 +7,18 @@ import animationData from "../../../assets/img/lotties/drinking-bear.json";
 const SDiv = styled.div`
   display: flex;
   position: relative;
+  justify-content: center;
+  align-items: center;
+  background-color: #f9f9f9;
+  padding: 100px 0px;
+`;
+
+const SInnerDiv = styled.div`
+  display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: start;
-  background-color: #f9f9f9;
-  padding: 100px 250px;
+  width: 70%;
 `;
 
 const SImg = styled.img`
@@ -45,29 +53,30 @@ const Footer = () => {
         animationData={animationData}
         style={{ position: "absolute", height: "150px", zIndex: 1, top: -99, right: 50 }}
       />
-      <div>
-        <SImg src={footerLogo} alt="footer_logo.png" />
-        <SContent>(주) drunkenbear | 대표: 내맘대로 이예진</SContent>
-        <SContent>Copyright ©2023 drunkenbear. All rights reserved.</SContent>
-      </div>
-      <div>
-        <STitle>깃허브</STitle>
-        <SContent>노션</SContent>
-        <SContent>또뭐있지</SContent>
-        <SContent>무튼 로고추가</SContent>
-      </div>
-      <div>
-        <STitle>깃허브</STitle>
-        <SContent>노션</SContent>
-        <SContent>또뭐있지</SContent>
-        <SContent>무튼 로고추가</SContent>
-      </div>
-      <div>
-        <STitle>깃허브</STitle>
-        <SContent>노션</SContent>
-        <SContent>또뭐있지</SContent>
-        <SContent>무튼 로고추가</SContent>
-      </div>
+      <SInnerDiv>
+        <div>
+          <SImg src={footerLogo} alt="footer_logo.png" />
+          <SContent>(주) drunkenbear | Sponsored by. SSAFY</SContent>
+          <SContent>만든 사람들 | 이다운 배창민 이예진 정지은 최은성 황준현</SContent>
+          <SContent>Copyright ©2023 drunkenbear. All rights reserved.</SContent>
+        </div>
+        <div>
+          <STitle>주요기능</STitle>
+          <SContent>위스키 추천</SContent>
+          <SContent>위스키 다이어리</SContent>
+          <SContent>위스키 검색</SContent>
+        </div>
+        <div>
+          <STitle>고객센터</STitle>
+          <SContent>이메일 : yejinlee0707@gmail.com</SContent>
+          <SContent>전화번호 : 010-6430-9492</SContent>
+          <SContent>주소 : 역삼동 테헤란로 212</SContent>
+        </div>
+        <div>
+          <STitle>이용약관</STitle>
+          <STitle>개인정보처리방침</STitle>
+        </div>
+      </SInnerDiv>
     </SDiv>
   );
 };
