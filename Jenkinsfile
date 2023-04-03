@@ -25,7 +25,7 @@ node {
   stage('Build Spring Server Image') {
     echo "Dockerfile를 이용하여 백엔드 서버 이미지 생성"
     sh '''
-      docker build -t whizzle/back ./back
+      docker build -t whizzle/back ./back/deploy
     '''
   }
 
@@ -45,7 +45,7 @@ node {
         -d whizzle/back
     '''
   }
-
+  
   stage('Remove Existing Front Container And Image') {
     sh '''
       echo "프론트 컨테이너 종료"
@@ -67,7 +67,7 @@ node {
   stage('Build Front Image') {
     echo "Dockerfile를 이용하여 프론트 이미지 생성"
     sh '''
-      docker build -t whizzle/front ./front
+      docker build -t whizzle/front ./front/deploy
     '''
   }
 

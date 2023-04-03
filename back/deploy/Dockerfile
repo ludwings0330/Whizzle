@@ -2,7 +2,8 @@
 FROM openjdk:11-slim AS builder
 WORKDIR /app
 
-COPY . /app
+# Jenkins에서 빌드 시 "docker build -t ${newImage} -f ./back/deploy/Dockerfile ." 를 이용하므로 경로에 주의해야 한다.
+COPY ./back /app
 RUN ./gradlew bootJar
 
 # 빌드 결과를 담은 이미지 생성

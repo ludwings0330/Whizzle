@@ -18,14 +18,12 @@ import {warning} from "../components/notify/notify";
 
 
 const SHeaderDiv = styled.div`
-  width: 100vw;
-  height: 300px;
+  height: 250px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-image: url(${diary_header});
-  background-repeat: no-repeat;
+  background: url(${diary_header}) center center / cover no-repeat;
 `;
 
 const SMainDiv = styled.div`
@@ -33,18 +31,18 @@ const SMainDiv = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: start;
-  min-height: calc(100vh - 300px);
-  margin: 30px 0 50px 0;
+  // min-height: calc(100vh - 300px);
+  margin: 23px 0 100px 0;
 
-  @media only screen and (max-height: 768px) and (-webkit-min-device-pixel-ratio: 1.25),
-    only screen and (max-height: 768px) and (min-resolution: 120dpi),
-    only screen and (max-height: 768px) and (min-resolution: 1.25dppx) {
-    margin-top: 30px;
-  }
+  // @media only screen and (max-height: 768px) and (-webkit-min-device-pixel-ratio: 1.25),
+  //   only screen and (max-height: 768px) and (min-resolution: 120dpi),
+  //   only screen and (max-height: 768px) and (min-resolution: 1.25dppx) {
+  //   margin-top: 30px;
+  // }
 `;
 
 const SHeaderDivider = styled.div`
-  height: 30px;
+  height: 3px;
 
   @media only screen and (max-height: 768px) and (-webkit-min-device-pixel-ratio: 1.25),
     only screen and (max-height: 768px) and (min-resolution: 120dpi),
@@ -64,9 +62,9 @@ const SMainDivider = styled.div`
 `;
 
 const SP = styled.p`
-  font-size: 22px;
+  font-size: 18px;
   color: white;
-  margin: 5px;
+  margin: 0px;
 `;
 
 const AppDiary = () => {
@@ -88,9 +86,9 @@ const AppDiary = () => {
           <SHeaderDiv>
             <SP
               style={{
-                fontSize: "40px",
-                marginTop: "50px",
-                marginBottom: "15px",
+                fontSize: "32px",
+                paddingTop: "40px",
+                marginBottom: "18px",
                 fontWeight: "bold",
               }}
             >

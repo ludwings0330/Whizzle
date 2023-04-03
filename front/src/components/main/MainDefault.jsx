@@ -3,7 +3,7 @@ import { useNavigate } from "react-router";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import mainImg from "../../assets/img/main.png";
-import "./MainDefault.css";
+import styles from "./MainDefault.module.css";
 
 const SImg = styled.div`
   height: calc(var(--vh, 1vh) * 100);
@@ -82,10 +82,13 @@ const MainDefault = (props) => {
             {/* <SButton onClick={goRecommend}>
               <SButtonText>나만의 위스키 추천받기</SButtonText>
             </SButton> */}
-            <div className="container container-two" onClick={goRecommend}>
-              <button className="selected-button">
+            <div
+              className={`${styles.container} ${styles.containerTwo}`}
+              onClick={goRecommend}
+            >
+              <button className={styles.selectedButton}>
                 <SButtonText>나만의 위스키 추천받기</SButtonText>
-                <div className="fill-two"></div>
+                <div className={styles.fillTwo}></div>
               </button>
             </div>
           </motion.div>

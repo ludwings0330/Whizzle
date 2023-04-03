@@ -1,107 +1,171 @@
-import React, { useCallback } from "react";
-import styled from "styled-components";
+import React from "react";
 import { useDropzone } from "react-dropzone";
+import styled from "styled-components";
 
 import imgupload from "../../../assets/img/imgupload.png";
-import { error, warning } from "../../notify/notify";
+
+const thumbsContainer = {
+  display: "flex",
+  flexDirection: "row",
+  flexWrap: "wrap",
+  width: "100%",
+  height: "100%",
+  alignItems: "center",
+  gap: "15px",
+};
+
+const thumb = {
+  display: "inline-flex",
+  borderRadius: 2,
+  border: "1px solid #eaeaea",
+  width: "256px",
+  height: "256px",
+  boxSizing: "border-box",
+  position: "relative",
+  background: "#f5f5f5ac",
+  justifyContent: "center",
+};
+
+const thumbInner = {
+  display: "flex",
+  minWidth: 0,
+  overflow: "hidden",
+  width: "100%",
+};
+
+const img = {
+  display: "block",
+  width: "100%",
+  height: "100%",
+  objectFit: "cover",
+};
 
 const SDiv = styled.div`
-  border: 2px dashed #ccc;
-  width: 930px;
-  height: 325px;
-  text-align: center;
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 2px dashed #d8d8d8;
+  width: 800px;
+  min-height: 257px;
+  gap: 5px;
+  padding: 15px;
 `;
 
 const SP = styled.p`
-  margin-top: 20px;
-
-  &:hover {
-    cursor: pointer;
-    color: blue;
-  }
-
-  &:active {
-    color: red;
-  }
+  margin: 2px;
+  cursor: pointer;
+  color: #9d9d9d;
 `;
 
 const SImg = styled.img`
-  height: 10px;
-  width: 10px;
+  height: 70px;
+  width: 70px;
   margin-bottom: 10px;
 `;
 
-const SImgDiv = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-`;
-
-const ImageUploader = ({ images, setImages }) => {
-  const onDrop = useCallback(
-    (acceptedFiles) => {
-      if (acceptedFiles.length > 5) {
-        warning("최대 5장의 사진까지 업로드 가능합니다.");
-        return;
-      }
-
-      const imageFiles = acceptedFiles.filter(
-        (file) => file.type === "image/jpeg" || file.type === "image/png"
-      );
-
-      if (imageFiles.length > 5 - images.length) {
-        error(
-          `최대 5장까지 업로드 가능합니다. 현재 ${images.length}장의 사진이 업로드되어 있습니다.`
-        );
-        return;
-      }
-
-      const imageUrls = [];
-
-      for (let i = 0; i < imageFiles.length; i++) {
-        const reader = new FileReader();
-        reader.readAsDataURL(imageFiles[i]);
-        reader.onload = () => {
-          imageUrls.push(reader.result);
-
-          if (imageUrls.length === imageFiles.length) {
-            setImages((prevImages) => [...prevImages, ...imageUrls]);
-          }
-        };
-      }
+const ImageUploader = ({ files, handleFiles, maxNum, preImages, handlePreImages }) => {
+  const { getRootProps, getInputProps, open } = useDropzone({
+    accept: {
+      "image/*": [],
     },
-
-    [images]
-  );
-
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    multiple: true,
+    onDrop: (acceptedFiles) => {
+      const newImgs = acceptedFiles.map((file) =>
+        Object.assign(file, { preview: URL.createObjectURL(file) })
+      );
+      preImages
+        ? handleFiles([...files, ...newImgs].splice(0, maxNum - preImages.length))
+        : handleFiles([...files, ...newImgs].splice(0, maxNum));
+    },
+    maxFiles: maxNum,
+    noClick: true,
   });
 
+  const addBtn = (
+    <button
+      style={{
+        width: "256px",
+        height: "256px",
+        bolder: "none",
+        background: "none",
+        border: "2px dashed #D8D8D8",
+      }}
+      className="plus"
+      onClick={(e) => {
+        e.preventDefault();
+        open();
+      }}
+    >
+      <p style={{ textAlign: "center", color: "#9d9d9d" }}>
+        이미지를 삭제하려면 <br />
+        더블클릭 하세요.
+      </p>
+    </button>
+  );
+
+  const deleteImage = (f) => {
+    handleFiles(files.filter((file) => file !== f));
+  };
+
+  const thumbs = files.map((file, index) => (
+    <div style={thumb} key={index}>
+      <div style={thumbInner}>
+        <img src={file.preview} style={img} onDoubleClick={() => deleteImage(file)} />
+      </div>
+    </div>
+  ));
+
+  const preThumbs =
+    preImages &&
+    preImages.map((image, index) => (
+      <div style={thumb} key={index}>
+        <div style={thumbInner}>
+          <img
+            src={image.reviewImageUrl}
+            style={img}
+            alt="gogogo"
+            onDoubleClick={() => handlePreImages(image.reviewImageId)}
+          />
+        </div>
+      </div>
+    ));
+
   return (
-    <>
-      <SDiv {...getRootProps()}>
-        <input {...getInputProps()} />
-        {isDragActive ? (
-          <SImgDiv>
-            <SImg src={imgupload} alt="" />
-            <SP>파일을 올리는 중 입니다</SP>
-          </SImgDiv>
-        ) : (
-          <SImgDiv>
-            <SImg src={imgupload} alt="" />
-            <SP>이미지를 드래그하거나 파일을 업로드 하세요</SP>
-            <p>지원 확장자 : jpg, jpeg, png</p>
-          </SImgDiv>
-        )}
-        {images.map((image, index) => (
-          <img key={index} src={image} alt={`Uploaded image ${index + 1}`} />
-        ))}
-      </SDiv>
-    </>
+    <SDiv {...getRootProps({ className: "dropzone" })}>
+      <input {...getInputProps()} />
+
+      {files.length + (preImages ? preImages.length : 0) === 0 ? (
+        <div
+          onClick={(e) => {
+            e.preventDefault();
+            open();
+          }}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            cursor: "pointer",
+            justifySelf: "center",
+            marginY: "3rem",
+            marginX: "2rem",
+          }}
+        >
+          <button style={{ background: "white", border: "none", cursor: "pointer" }}>
+            <SImg src={imgupload} />
+          </button>
+          <SP>이미지를 드래그하거나 클릭하여 직접 선택하세요.</SP>
+          <SP>지원 확장자 : jpg, jpeg, png</SP>
+        </div>
+      ) : (
+        <>
+          <aside style={thumbsContainer}>
+            {preThumbs}
+            {thumbs}
+            {addBtn}
+          </aside>
+        </>
+      )}
+    </SDiv>
   );
 };
 
