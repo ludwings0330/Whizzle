@@ -46,13 +46,14 @@ public class RecController {
     @ResponseStatus(HttpStatus.OK)
     public List<RecWhiskyResponseDto> recPersonalWhisky(
             @AuthenticationPrincipal PrincipalDetails member,
-            @RequestBody RecWhiskyRequestDto recWhiskyRequestDto
+            @RequestBody(required = false) RecWhiskyRequestDto recWhiskyRequestDto
     ) throws UnprocessableEntity, NotFoundException, InternalServerError {
         Long memberId = member == null ? 0L : member.getMemberId();
 
         PreferenceDto preferenceDto = recService.extractPreference(memberId, recWhiskyRequestDto);
         // member가 학습에 포함된 사용자인지 아닌지 판단 로직 필요
-
+        Long recMemberId = recService.isLearnedMember(memberId);
+        preferenceDto.setMemberId(recMemberId);
         return recService.findRecommendWhiskies(
                 recService.filterByPriceTier(
                         recWebClientCall(preferenceDto), preferenceDto.getPriceTier()

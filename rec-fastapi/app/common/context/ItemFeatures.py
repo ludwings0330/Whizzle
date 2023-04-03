@@ -1,5 +1,4 @@
 import pandas as pd
-from scipy.sparse import csr_matrix
 from common.config import settings
 
 
@@ -13,11 +12,10 @@ class ItemFeatures:
         return cls.__instance
 
     def __init__(self):
-        if self.data == None:
+        if self.data is None:
             self.load_item_features()
 
     def load_item_features(self):
         self.data = pd.read_csv(
             settings.ITEM_FEATURES_PATH, index_col=0, encoding=settings.ENCODING
         )
-        self.data = csr_matrix(self.data)

@@ -38,7 +38,7 @@ public class WhiskyProjectionRepository {
         return checkLastPage(pageable, content);
     }
 
-    public FlavorSummary findFlavorMinMax() {
+    public FlavorSummary findFlavorMinMaxByWhisky() {
         return queryFactory.select(
                                    Projections.constructor(FlavorSummary.class,
                                                            whisky.flavor.smoky.min().as("minSmoky"), whisky.flavor.smoky.max().as("maxSmoky"),
