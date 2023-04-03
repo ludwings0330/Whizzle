@@ -74,10 +74,12 @@ const MyReviewItem = ({ review }) => {
   };
 
   const truncateContent = (text) => {
-    if (text.length <= 163) {
+    if (text == undefined) {
+      return "작성된 내용이 없습니다.";
+    } else if (text?.length <= 163) {
       return text;
     }
-    return text.slice(0, 163) + "...";
+    return text?.slice(0, 163) + "...";
   };
 
   const TimeSince = ({ date }) => {

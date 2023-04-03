@@ -19,7 +19,6 @@ import com.bear.whizzle.whisky.repository.WhiskyCustomRepository;
 import com.bear.whizzle.whisky.repository.WhiskyRepository;
 import com.bear.whizzle.whisky.repository.projection.dto.FlavorSummary;
 import com.bear.whizzle.whisky.service.query.WhiskyQueryService;
-import com.sun.jdi.InternalException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -123,12 +122,12 @@ public class RecServiceImpl implements RecService {
      *
      * @param memberId 접근중인 주체
      * @return 학습된 사용자라면 memberId, 신규 사용자라면 0L
-     * @throws InternalException : 학습된 모델이 존재하지 않는 경우 발생합니다.
+     * @throws RuntimeException : 학습된 모델이 존재하지 않는 경우 발생합니다.
      */
     @Override
     public Long isLearnedMember(Long memberId) {
         SavedModel savedModel = savedModelRepository.findTopByOrderByIdDesc()
-                                                    .orElseThrow(() -> new InternalException("서버 에러입니다."));
+                                                    .orElseThrow(() -> new RuntimeException("서버 에러입니다."));
         return memberRepository.findByIdAndCreatedDateTimeBefore(memberId, savedModel.getSavedDateTime())
                                .map(Member::getId)
                                .orElse(0L);

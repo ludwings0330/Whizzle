@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  whizzle-back-03:
+    image: whizzle/back:2
+    ports:
+      - "8083:8080"
+    volumes:
+      - /app/data/spring/config:/app/config
+
+  whizzle-back-04:
+    image: whizzle/back:2
+    ports:
+      - "8084:8080"
+    volumes:
+      - /app/data/spring/config:/app/config

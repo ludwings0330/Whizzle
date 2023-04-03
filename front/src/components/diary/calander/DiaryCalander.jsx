@@ -12,21 +12,25 @@ import styled from "styled-components";
 import { error } from "../../notify/notify";
 
 const SDiv = styled.div`
-  border: 2px solid #e1e1e1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  // width: 720px;
+  // height: 550px;
+  padding: 32px 35px;
+  border: 1px solid #e1e1e1;
+  box-shadow: 15px 15px 25px rgba(162, 162, 162, 0.1);
   border-radius: 8px;
-  display: inline-block;
-  width: 770px;
-  height: 580px;
-  margin: 0 10px;
-  padding: 40px 60px 40px 40px;
-  box-shadow: 5px 5px 5px #e1e1e1;
 `;
 
 const SHeaderDiv = styled.div`
+  width: 660px;
   display: flex;
   justify-content: space-between;
-  align-items: stretch;
+  align-items: center;
   text-align: center;
+  margin-bottom: 30px;
 `;
 
 const SDateP = styled.p`
@@ -36,9 +40,9 @@ const SDateP = styled.p`
   background-clip: text;
   color: transparent;
   font-weight: bold;
-  font-size: 50px;
+  font-size: 32px;
   margin-top: 0;
-  margin-bottom: 30px;
+  margin-bottom: 0px;
 `;
 
 const SCalanderDiv = styled.div`
@@ -46,36 +50,34 @@ const SCalanderDiv = styled.div`
     border-collapse: collapse;
     width: 100%;
     max-width: 100%;
-    margin-bottom: 1rem;
+    // margin-bottom: 30px;
     background-color: transparent;
     color: #212529;
-    font-size: 1rem;
-    line-height: 1.5;
-    text-align: left;
-    font-weight: bold;
+    font-size: 20px;
+    text-align: center;
   }
 
   th,
   td {
     vertical-align: top;
-    border-top: 2px solid #dee2e6;
-    font-weight: bold;
   }
 
   th {
     text-align: inherit;
-    background-color: #f8f9fa;
-    border-bottom: 2px solid #dee2e6;
-    padding: 25px;
+    font-size: 24px;
+    font-weight: bold;
+    padding-top: 3px;
+    padding-bottom: 18px;
   }
 
   td {
-    border-bottom: 1px solid #dee2e6;
-    padding: 25px;
+    cursor: pointer;
+    padding: 22px 10px;
+    width: 80px;
 
     &:hover {
-      background: #333333 !important;
-      color: white !important;
+      background: rgba(248, 79, 90, 0.1);
+      border-radius: 4px;
     }
   }
 `;
@@ -83,7 +85,7 @@ const SCalanderDiv = styled.div`
 const SPrevButton = styled.button`
   border: none;
   background: none;
-  font-size: 60px;
+  font-size: 50px;
   line-height: 1;
   padding: 10px;
   cursor: pointer;
@@ -97,7 +99,7 @@ const SPrevButton = styled.button`
 const SNextButton = styled.button`
   border: none;
   background: none;
-  font-size: 60px;
+  font-size: 50px;
   line-height: 1;
   padding: 10px;
   margin-bottom: 10px;
@@ -111,8 +113,9 @@ const SNextButton = styled.button`
 
 const STbody = styled.tbody`
   .selected-day {
-    background-color: #f84f5a;
-    color: white;
+    background: rgba(248, 79, 90, 0.1);
+    border-radius: 4px;
+    // border: 3px solid #f84f5a;
   }
 `;
 
@@ -156,6 +159,7 @@ const DiaryCalander = ({ setSelectedDate, selectedDate }) => {
   }, [selectedDate]);
 
   useEffect(() => {
+    console.log('data ->', data);
     const drinks = data.drinks;
     const drinkList = drinks.map((drink) => drink.whisky);
     setSearchTerms(drinkList);
@@ -218,12 +222,9 @@ const DiaryCalander = ({ setSelectedDate, selectedDate }) => {
     setSelectedDate(clickedDate);
   };
 
-  const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const weekdays = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 
-  const daysInMonth = getDaysInMonth(
-    selectedDate.getFullYear(),
-    selectedDate.getMonth()
-  );
+  const daysInMonth = getDaysInMonth(selectedDate.getFullYear(), selectedDate.getMonth());
   const firstDayOfMonth = getFirstDayOfMonth(selectedDate);
   const lastDayOfMonth = getLastDayOfMonth(selectedDate);
 
@@ -274,8 +275,18 @@ const DiaryCalander = ({ setSelectedDate, selectedDate }) => {
       const result = diaryList.find((diary) => diary.date === dateStr);
 
       if (result) {
-        activeDay.style.background = "#f94f5a";
-        activeDay.style.color = "white";
+        switch(result.drinkLevel) {
+          case "LIGHT":
+            activeDay.style.backgroundColor = "#FDC5C9";
+            break;
+          case "MODERATE":
+            activeDay.style.backgroundColor = "#FA8990";
+            break;
+          case "HEAVY":
+            activeDay.style.backgroundColor = "#F84F5A";
+            break;
+        }
+        activeDay.style.color = "#fff";
       }
     });
   }, [diaryList, data, rows]);
