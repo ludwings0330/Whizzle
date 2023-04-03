@@ -8,6 +8,7 @@ import com.bear.whizzle.diary.controller.dto.DiaryResponseDto;
 import com.bear.whizzle.diary.mapper.DiaryMapper;
 import com.bear.whizzle.diary.service.DiaryService;
 import com.bear.whizzle.domain.exception.NotFoundException;
+import com.bear.whizzle.domain.model.entity.Diary;
 import com.bear.whizzle.domain.model.type.Action;
 import com.bear.whizzle.memberlevellog.service.MemberLevelLogService;
 import java.time.LocalDate;
@@ -62,19 +63,21 @@ public class DiaryController {
      *
      * @param member              현재 다이어리를 작성한 본인 계정의 정보
      * @param diaryRequestSaveDto 다이어리 작성에 필요한 데이터
+     * @return 작성한 다이어리
      * @throws IllegalArgumentException        다이어리를 미리 작성하는 경우에 발생
      * @throws DataIntegrityViolationException 다이어리를 작성한 날짜에 이미 작성된 다이어리가 있는 경우에 발생
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void writeDiary(@AuthenticationPrincipal PrincipalDetails member, @Valid @RequestBody DiaryRequestSaveDto diaryRequestSaveDto) {
+    public DiaryResponseDto writeDiary(@AuthenticationPrincipal PrincipalDetails member, @Valid @RequestBody DiaryRequestSaveDto diaryRequestSaveDto) {
         if (diaryRequestSaveDto.getDate().isAfter(LocalDate.now())) {
             throw new IllegalArgumentException("오늘 이후의 다이어리를 미리 작성할 수 없습니다.");
         }
 
-        diaryService.writeDiary(member.getMemberId(), diaryRequestSaveDto);
+        Diary diary = diaryService.writeDiary(member.getMemberId(), diaryRequestSaveDto);
         levelLogService.increaseLevelByActivity(member.getMemberId(), Action.DIARY);
         badgeService.awardBadgeOnDiaryCountReached(member.getMemberId());
+        return DiaryMapper.toDiaryResponseDto(diary);
     }
 
     /**
@@ -83,17 +86,20 @@ public class DiaryController {
      * @param member                현재 다이어리를 수정한 본인의 계정 정보
      * @param diaryId               수정하려는 다이어리의 ID
      * @param diaryRequestUpdateDto 다이어리 수정에 필요한 데이터
+     * @return 수정한 다이어리
      * @throws NotFoundException     잘못된 다이어리 ID를 전달한 경우에 발생
      * @throws AccessDeniedException 다이어리 작성자와 현재 자신이 다른 경우에 발생
      */
     @PutMapping("/{diaryId}")
-    public void rewriteDiary(
+    public DiaryResponseDto rewriteDiary(
             @AuthenticationPrincipal PrincipalDetails member,
             @PathVariable Long diaryId,
             @Valid @RequestBody DiaryRequestUpdateDto diaryRequestUpdateDto
     ) {
         diaryRequestUpdateDto.setId(diaryId);
-        diaryService.rewriteDiary(member.getMemberId(), diaryRequestUpdateDto);
+        return DiaryMapper.toDiaryResponseDto(
+                diaryService.rewriteDiary(member.getMemberId(), diaryRequestUpdateDto)
+        );
     }
 
     /**

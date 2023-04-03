@@ -17,6 +17,8 @@ import sad from "../../../assets/img/sad.png";
 import littledrink from "../../../assets/img/littledrink.png";
 import normaldrink from "../../../assets/img/normaldrink.png";
 import largedrink from "../../../assets/img/largedrink.png";
+import { success } from "../../notify/notify";
+import Swal from "sweetalert2";
 
 const SBorderDiv = styled.div`
   display: inline-block;
@@ -215,42 +217,15 @@ const DiaryEditor = ({ selectedDate }) => {
 
   const [auto, setAuto] = useState([]);
 
-  // 검색어 자동완성
-  async function autoword(word) {
-    try {
-      const autoWord = await getAutocomplete(word);
-      console.log(autoWord);
-      setAuto(autoWord);
-    } catch (error) {
-      console.log("검색어 자동 완성 실패");
-    }
-  }
-
-  const autoClick = (e) => {
-    //id 값 받아오기
-    console.log(e.target.id);
-    const id = e.target.id;
-    //위스키 이름 아래에 띄우기
-    console.log(e.target.textContent);
-    const name = e.target.textContent;
-    //wordChange초기화
-    setSearchWhisky("");
-    //위스키 데이터 id값으로 넘기기
-    console.log({ id, name });
-    setSearchTerms([...searchTerms, { id, name }]);
-    //위스키 데이터 없다면 막기
-    //백엔드 등록 성공 알림 왔을 때만 등록 처리하기
-    setAuto([]);
-  };
-
   const [data, setData] = useRecoilState(diaryDataState);
   const [diaryList, setDiaryList] = useRecoilState(diaryState);
+  const [searchTerms, setSearchTerms] = useRecoilState(searchTerm);
 
   const [emotionImage, setEmotionImage] = useState(soso);
   const [drinkImage, setDrinkImage] = useState(normaldrink);
 
-  const [drinkLevelValue, setDrinkLevelValue] = useState("0");
-  const [emotionValue, setEmotionValue] = useState("100");
+  const [drinkLevelValue, setDrinkLevelValue] = useState(50);
+  const [emotionValue, setEmotionValue] = useState(50);
 
   const [emotion, setEmotion] = useState("그냥그래요");
   const [drinkLevel, setDrinkLevel] = useState("적당히");
@@ -259,7 +234,25 @@ const DiaryEditor = ({ selectedDate }) => {
   const [recentSearch, setRecentSearch] = useState([]);
 
   const [content, setContent] = useState("");
-  const [searchTerms, setSearchTerms] = useState([]);
+
+  // 검색어 자동완성
+  async function autoword(word) {
+    if (word.length >= 3) {
+      try {
+        const autoWord = await getAutocomplete(word);
+        setAuto(autoWord);
+      } catch (error) {}
+    }
+  }
+
+  const autoClick = (e) => {
+    const id = e.target.id;
+    const name = e.target.textContent;
+    setSearchWhisky("");
+    setAuto([]);
+    setSearchTerms([...searchTerms, { id, name }]);
+  };
+
   const contentChange = (e) => {
     setContent(e.target.value);
   };
@@ -267,6 +260,7 @@ const DiaryEditor = ({ selectedDate }) => {
   const setWhiskyName = (e) => {
     if (e.key === "Enter" && searchWhisky !== "") {
       setSearchTerms([...searchTerms, searchWhisky]);
+
       setSearchWhisky("");
     }
   };
@@ -274,15 +268,6 @@ const DiaryEditor = ({ selectedDate }) => {
   const wordChange = (e) => {
     setSearchWhisky(e.target.value);
     autoword(e.target.value);
-  };
-
-  const deleteRecentSearchWord = (word) => {
-    let updatedRecentSearch = [...recentSearch];
-    const existingIndex = updatedRecentSearch.indexOf(word);
-    if (existingIndex !== -1) {
-      updatedRecentSearch.splice(existingIndex, 1);
-      setRecentSearch(updatedRecentSearch);
-    }
   };
 
   const deleteSearchWord = (word) => {
@@ -295,19 +280,7 @@ const DiaryEditor = ({ selectedDate }) => {
   };
   useEffect(() => {
     setIsEdit(false);
-    setIsSave(data.id ? false : true);
-
-    if (data.id) {
-      insertData();
-    } else {
-      initData();
-    }
-  }, []);
-
-  useEffect(() => {
-    setIsEdit(false);
-    setIsSave(data.id ? false : true);
-
+    setIsSave(!data.id);
     if (data.id) {
       insertData();
     } else {
@@ -315,34 +288,50 @@ const DiaryEditor = ({ selectedDate }) => {
     }
   }, [selectedDate, data]);
 
-  const initDataSet = () => {
-    setData({
-      id: null,
-      date: "",
-      today: "",
-      emotion: "",
-      drinkLevel: "",
-      content: "",
-      drinks: [
-        {
-          whisky: {
-            id: null,
-            name: "",
-          },
-          drinkOrder: null,
-        },
-      ],
-    });
-  };
-
   const insertData = () => {
-    const newDrinkLevel = data.drinkLevel === "LIGHT" ? 0 : data.drinkLevel === "HEAVY" ? 100 : 50;
-    const newEmotion = data.emotion === "BAD" ? 0 : data.emotion === "GOOD" ? 100 : 50;
-    setSearchWhisky("");
+    console.log("insertData ==>", data);
+    switch (data.drinkLevel) {
+      case "LIGHT":
+        setDrinkLevel("소량");
+        setDrinkLevelValue(0);
+        setDrinkImage(littledrink);
+        break;
+      case "MODERATE":
+        setDrinkLevel("적당히");
+        setDrinkLevelValue(50);
+        setDrinkImage(normaldrink);
+        break;
+      case "HAEVY":
+        setDrinkLevel("만취");
+        setDrinkLevelValue(100);
+        setDrinkImage(largedrink);
+        break;
+    }
+
+    switch (data.emotion) {
+      case "BAD":
+        setEmotion("별로에요");
+        setEmotionValue(0);
+        setEmotionImage(sad);
+        break;
+      case "NORMAL":
+        setEmotion("그냥그래요");
+        setEmotionValue(50);
+        setEmotionImage(soso);
+        break;
+      case "GOOD":
+        setEmotion("최고에요");
+        setEmotionValue(100);
+        setEmotionImage(good);
+        break;
+    }
+
     setContent(data.content);
-    setDrinkLevelValue(newDrinkLevel);
-    setEmotionValue(newEmotion);
-    setSearchTerms(data.drinks.map((drink) => drink.whisky.id));
+
+    const drinks = data.drinks;
+    const drinkList = drinks.map((drink) => drink.whisky);
+
+    setSearchTerms(drinkList);
   };
 
   const initData = () => {
@@ -351,11 +340,17 @@ const DiaryEditor = ({ selectedDate }) => {
 
     setSearchWhisky("");
     setRecentSearch([]);
+
     setEmotionValue(50);
-    setDrinkLevelValue(50);
     setEmotion("그냥그래요");
+    setEmotionImage(soso);
+
+    setDrinkLevelValue(50);
     setDrinkLevel("적당히");
+    setDrinkImage(normaldrink);
+
     setContent("");
+
     const recentSearchData = JSON.parse(sessionStorage.getItem("recentSearch"));
     if (recentSearchData) {
       setRecentSearch(recentSearchData);
@@ -366,11 +361,31 @@ const DiaryEditor = ({ selectedDate }) => {
   const handleEmotionChange = (e) => {
     const emotionValue = e.target.value;
     setEmotionValue(emotionValue);
+    if (emotionValue <= 33) {
+      setEmotion("별로예요");
+      setEmotionImage(sad);
+    } else if (emotionValue <= 66) {
+      setEmotion("그냥그래요");
+      setEmotionImage(soso);
+    } else {
+      setEmotion("최고예요");
+      setEmotionImage(good);
+    }
   };
 
   const handleDrinklevelChange = (e) => {
     const drinklevelValue = e.target.value;
     setDrinkLevelValue(drinklevelValue);
+    if (drinklevelValue <= 33) {
+      setDrinkLevel("소량");
+      setDrinkImage(littledrink);
+    } else if (drinklevelValue <= 66) {
+      setDrinkLevel("적당히");
+      setDrinkImage(normaldrink);
+    } else {
+      setDrinkLevel("만취");
+      setDrinkImage(largedrink);
+    }
   };
 
   const today = new Date(selectedDate);
@@ -381,11 +396,15 @@ const DiaryEditor = ({ selectedDate }) => {
 
   //위스키 이름, 주량, 기분, 한마디
   const onCreate = async () => {
-    console.log(formattedDate);
     const numberSearchTerms = searchTerms.map((whisky) => Number(whisky.id));
-    const changeEmotionApi = emotionValue === 0 ? "BAD" : emotionValue === 50 ? "NORMAL" : "GOOD";
+    const changeEmotionApi =
+      emotionValue < 33 ? "BAD" : emotionValue < 66 ? "NORMAL" : "GOOD";
     const changeDrinkLevelApi =
-      drinkLevelValue === 0 ? "LIGHT" : drinkLevelValue === 50 ? "MODERATE" : "HEAVY";
+      drinkLevelValue < 33
+        ? "LIGHT"
+        : drinkLevelValue < 66
+        ? "MODERATE"
+        : "HEAVY";
 
     const newItem = {
       date: formattedDate.replaceAll(".", "-"),
@@ -395,8 +414,6 @@ const DiaryEditor = ({ selectedDate }) => {
       whiskyIds: numberSearchTerms,
     };
 
-    console.log("create확인");
-    console.log(newItem);
     const createIsOk = await diaryCreate(newItem);
 
     if (createIsOk) {
@@ -408,7 +425,7 @@ const DiaryEditor = ({ selectedDate }) => {
 
   const handleSubmit = () => {
     onCreate();
-    alert("등록 완료");
+    success("다이어리 저장 성공!");
     setIsSave(false);
   };
   // 추가된 함수
@@ -418,62 +435,67 @@ const DiaryEditor = ({ selectedDate }) => {
   };
 
   const handleEdit = async () => {
-    if (window.confirm(`${formattedDate} 날의 일기를 수정하시겠습니까?`)) {
-      const changeEmotionApi = emotionValue == 0 ? "BAD" : emotionValue == 50 ? "NORMAL" : "GOOD";
-      const changeDrinkLevelApi =
-        drinkLevelValue == 0 ? "LIGHT" : drinkLevelValue == 50 ? "MODERATE" : "HEAVY";
-      console.log(drinkLevelValue);
-      console.log(emotionValue);
-      console.log(changeDrinkLevelApi);
-      console.log(changeEmotionApi);
-      const deletedDrinkOrders = [];
-      const insertedWhiskyIds = [];
+    const changeEmotionApi =
+      emotionValue < 33 ? "BAD" : emotionValue < 66 ? "NORMAL" : "GOOD";
+    const changeDrinkLevelApi =
+      drinkLevelValue < 33
+        ? "LIGHT"
+        : drinkLevelValue < 66
+        ? "MODERATE"
+        : "HEAVY";
+    const deletedDrinkOrders = [];
+    const insertedWhiskyIds = [];
 
-      // data.drinks 기준으로 삭제된 drinkOrder 번호 찾기
-      data.drinks.forEach((drink) => {
-        if (!searchTerms.includes(drink.whisky.id)) {
-          deletedDrinkOrders.push(drink.drinkOrder);
-        }
-      });
+    // data.drinks 기준으로 삭제된 drinkOrder 번호 찾기
+    data.drinks.forEach((drink) => {
+      if (!searchTerms.includes(drink.whisky)) {
+        deletedDrinkOrders.push(drink.drinkOrder);
+      }
+    });
 
-      // localSearchTerms 기준으로 추가된 whisky id 찾기
-      searchTerms.forEach((whiskyId) => {
-        const found = data.drinks.find((drink) => drink.whisky.id === whiskyId);
-        if (!found) {
-          insertedWhiskyIds.push(whiskyId);
-        }
-      });
-      console.log(insertedWhiskyIds);
-      console.log(deletedDrinkOrders);
+    // localSearchTerms 기준으로 추가된 whisky id 찾기
+    searchTerms.forEach((whisky) => {
+      const found = data.drinks.find((drink) => drink.whisky.id === whisky.id);
+      if (!found) {
+        insertedWhiskyIds.push(whisky.id);
+      }
+    });
 
-      const editItem = {
-        id: data.id,
-        emotion: changeEmotionApi,
-        drinkLevel: changeDrinkLevelApi,
-        content: content,
-        insertedWhiskyIds: insertedWhiskyIds.map(Number),
-        deletedDrinkOrders: deletedDrinkOrders.map(Number),
-      };
-      await diaryUpdate(editItem.id, editItem);
-      await fetchDiaries(setDiaryList, setData, selectedDate);
-      toggleIsEdit();
-    }
+    const editItem = {
+      id: data.id,
+      emotion: changeEmotionApi,
+      drinkLevel: changeDrinkLevelApi,
+      content: content,
+      insertedWhiskyIds: insertedWhiskyIds.map(Number),
+      deletedDrinkOrders: deletedDrinkOrders.map(Number),
+    };
+    await diaryUpdate(editItem.id, editItem);
+    await fetchDiaries(setDiaryList, setData, selectedDate);
+    toggleIsEdit();
+
+    success("수정 되었습니다! 🚀");
   };
 
   const handleClickRemove = async () => {
-    if (window.confirm(`${formattedDate}날의 일기를 정말 삭제하시겠습니까?`)) {
-      toggleIsEdit();
-      const deletedDiaryId = data.id; // 삭제된 일기의 ID 저장
-
-      await diaryDelete(deletedDiaryId); // 일기 삭제 API 호출
-
-      // 일기 삭제 후, 해당 월의 일기 목록 다시 불러오기
-      const diaryList = await diaryRead(month);
-      setDiaryList(diaryList);
-      await fetchDiaries(setDiaryList, setData, selectedDate);
-      initData();
-      setIsSave(true);
-    }
+    Swal.fire({
+      title: "삭제 할까요?",
+      text: `삭제된 다이어리는 되돌릴 수 없습니다!`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "삭제",
+      cancelButtonText: "취소",
+      reverseButtons: true,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const deletedDiaryId = data.id;
+        await diaryDelete(deletedDiaryId);
+        success("삭제되었습니다!");
+        setDiaryList(await diaryRead(month));
+        await fetchDiaries(setDiaryList, setData, selectedDate);
+        initData();
+        setIsSave(true);
+      }
+    });
   };
 
   const toggleIsEdit = () => {

@@ -7,6 +7,7 @@ import ReactStars from "react-stars";
 import { userState } from "../../../store/userStore";
 import { useRecoilValue } from "recoil";
 import { getKeep, keepToggle } from "../../../apis/whiskyDetail";
+import { warning } from "../../notify/notify";
 
 const SDiv = styled.div`
   margin-top: 10px;
@@ -15,9 +16,11 @@ const SDiv = styled.div`
   &.no-1 {
     width: 990px;
   }
+
   &.no-2 {
     width: 916px;
   }
+
   &.no-3 {
     width: 841px;
   }
@@ -119,7 +122,7 @@ const SBoldColorP = styled.p`
   display: inline-block;
   font-weight: 400;
   font-size: 48px;
-  
+
   &.no-1 {
     background: linear-gradient(120.33deg, #f84f5a, #f29060, #f7cb5a);
     -webkit-background-clip: text;
@@ -145,7 +148,9 @@ const ResultMainWhiskyItem = (props) => {
     if (isLogin) {
       setIsKeep(!isKeep);
       keepToggle(whisky.id);
-    } else if (window.confirm("로그인이 필요한 기능입니다.\n로그인 페이지로 이동하시겠습니까?")) {
+      // } else if (window.confirm("로그인이 필요한 기능입니다.\n로그인 페이지로 이동하시겠습니까?")) {
+    } else {
+      warning("로그인이 필요한 기능입니다!");
       navigate("/signin");
     }
   };
@@ -203,7 +208,8 @@ const ResultMainWhiskyItem = (props) => {
               <SP>{whisky.abv}%</SP>
             </STextDiv>
             <STextDiv>
-              <SP className="title">가격</SP> {/*가격의 자세한 표현법에 대해 추가 논의 필요*/}
+              <SP className="title">가격</SP>{" "}
+              {/*가격의 자세한 표현법에 대해 추가 논의 필요*/}
               <SP>{whisky.priceTier}</SP>
             </STextDiv>
           </div>

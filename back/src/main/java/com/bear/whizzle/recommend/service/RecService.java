@@ -13,4 +13,6 @@ public interface RecService {
 
     <T> List<T> findRecommendWhiskies(List<Long> whiskies, Long memberId, Class<T> returnType);
 
+    Long isLearnedMember(Long memberId);
+
 }

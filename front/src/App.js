@@ -18,6 +18,8 @@ import Callback from "./apis/Callback";
 
 //Layout import
 import Layout from "./components/common/Layout/Layout";
+import {ToastContainer} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"
 
 function App() {
   return (
@@ -36,6 +38,7 @@ function App() {
         <Route path="/callback" element={<Callback />} />
         <Route path="/*" element={<AppError />} />
       </Routes>
+      <ToastContainer/>
     </Layout>
   );
 }

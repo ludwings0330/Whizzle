@@ -9,9 +9,9 @@ public interface DiaryService {
 
     List<Diary> readDiaries(Long memberId, String month);
 
-    void writeDiary(Long memberId, DiaryRequestSaveDto diaryRequestSaveDto);
+    Diary writeDiary(Long memberId, DiaryRequestSaveDto diaryRequestSaveDto);
 
-    void rewriteDiary(Long memberId, DiaryRequestUpdateDto diaryRequestUpdateDto);
+    Diary rewriteDiary(Long memberId, DiaryRequestUpdateDto diaryRequestUpdateDto);
 
     void eraseDiary(Long memberId, Long diaryId);
 

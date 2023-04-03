@@ -14,6 +14,8 @@ import diary_header from "../assets/img/diary_header.png";
 import { diaryState, diaryDataState, fetchDiaries } from "../store/indexStore";
 import { userState } from "../store/userStore";
 import { useNavigate } from "react-router-dom";
+import {warning} from "../components/notify/notify";
+
 
 const SHeaderDiv = styled.div`
   height: 250px;
@@ -72,7 +74,7 @@ const AppDiary = () => {
 
   useEffect(() => {
     if (!user.id) {
-      alert("로그인이 필요한 서비스입니다!");
+      warning("로그인이 필요한 페이지 입니다.");
       navigate("/signin");
     }
   });

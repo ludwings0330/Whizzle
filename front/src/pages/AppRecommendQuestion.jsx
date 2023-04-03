@@ -7,7 +7,7 @@ import { preferenceSave, recommend } from "../apis/recommend";
 import { getPreference } from "../apis/userinfo";
 import presetWisky from "../constants/presetWhisky";
 import { whiskyDetail } from "../apis/whiskyDetail";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import styled, { keyframes } from "styled-components";
 import navigateNext from "../assets/img/navigate_next.png";
 import navigatePrev from "../assets/img/navigate_prev.png";
@@ -20,6 +20,7 @@ import QuestionPrice from "../components/recommend/question/QuestionPrice";
 import QuestionChooseWhisky from "../components/recommend/question/QuestionChooseWhisky";
 import QuestionChooseFlavor from "../components/recommend/question/QuestionChooseFlavor";
 import QuestionLoading from "../components/recommend/question/QuestionLoading";
+import { error } from "../components/notify/notify";
 
 const SDiv = styled.div`
   display: flex;
@@ -27,7 +28,12 @@ const SDiv = styled.div`
   align-items: center;
   flex-direction: column;
   min-height: 100vh;
-  background-image: linear-gradient(90deg, #f84f5a 28.12%, #f7875a 65.62%, #f7cb5a 100%);
+  background-image: linear-gradient(
+    90deg,
+    #f84f5a 28.12%,
+    #f7875a 65.62%,
+    #f7cb5a 100%
+  );
 `;
 
 const slider = {
@@ -45,7 +51,9 @@ const SPrevNavigate = styled.div`
   top: 43.25%;
   left: 0%;
   display: ${(props) =>
-    props.activePage === 0 || props.activePage === 1 || props.activePage === 6 ? "none" : ""};
+    props.activePage === 0 || props.activePage === 1 || props.activePage === 6
+      ? "none"
+      : ""};
 `;
 
 const SNextNavigate = styled.div`
@@ -204,7 +212,9 @@ const AppRecommendQuestion = () => {
 
     // 선택된 위스키로 flavor 가져와서 저장
     try {
-      const selectedWhisky = await whiskyDetail(presetWisky[preferenceValue.whiskies[0]].id);
+      const selectedWhisky = await whiskyDetail(
+        presetWisky[preferenceValue.whiskies[0]].id
+      );
       const selectedWhiskyFlavor = selectedWhisky.flavor;
       setPreferenceValue((prev) => {
         return { ...prev, flavor: selectedWhiskyFlavor };
@@ -249,11 +259,11 @@ const AppRecommendQuestion = () => {
 
   const goNextPage = () => {
     if (activePage === 1 && !(preferenceValue.age && preferenceValue.gender)) {
-      alert("해당되는 내용을 선택해주세요!");
+      error("나이, 성별을 선택해주세요!");
     } else if (activePage === 2 && !preferenceValue.price) {
-      alert("해당되는 내용을 선택해주세요!");
+      error("선호 가격대를 선택해주세요!");
     } else if (activePage === 3 && !preferenceValue.isExperience) {
-      alert("해당되는 내용을 선택해주세요!");
+      error("위스키 경험을 선택해주세요!");
     } else if (activePage === 3 && preferenceValue.isExperience === "true") {
       setDirection("next");
       setActivePage(4);
@@ -281,7 +291,7 @@ const AppRecommendQuestion = () => {
       setDirection("next");
       setActivePage(5);
     } else if (activePage === 4 && !preferenceValue.whiskies) {
-      alert("1개 이상의 위스키를 선택해주세요!");
+      error("1개 이상의 위스키를 선택해주세요!");
     } else {
       setDirection("next");
       setActivePage((prev) => (activePage === 4 ? prev + 2 : prev + 1));
@@ -401,7 +411,9 @@ const AppRecommendQuestion = () => {
         transition={{ duration: 0.75, delay: 0.75 }}
       />
       <motion.div style={slider}>
-        <AnimatePresence custom={direction}>{recommendQuestionPages()}</AnimatePresence>
+        <AnimatePresence custom={direction}>
+          {recommendQuestionPages()}
+        </AnimatePresence>
       </motion.div>
       <SPrevNavigate activePage={activePage} onClick={goPrevPage}>
         <img src={navigatePrev} alt="navigate" />
