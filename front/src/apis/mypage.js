@@ -29,3 +29,37 @@ export const badgeApi = async (id, params) => {
     console.log(error);
   }
 };
+
+export const nicknameChangeApi = async (nickname) => {
+  try {
+    const formData = new FormData();
+    formData.append("nickname", nickname);
+
+    await api.put(`/api/members`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return true;
+  } catch (error) {
+    return true;
+  }
+};
+
+export const profileChangeApi = async (profileImageFile) => {
+  try {
+    const formData = new FormData();
+    formData.append("profileImageFile", profileImageFile);
+
+    await api.put(`api/members`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    return true;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};

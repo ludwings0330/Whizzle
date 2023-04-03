@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
-import {
-  diaryDataState,
-  diaryState,
-  fetchDiaries,
-  searchTerm
-} from "../../../store/indexStore";
+import { diaryDataState, diaryState, fetchDiaries, searchTerm } from "../../../store/indexStore";
 import { motion } from "framer-motion";
 
 //import component
@@ -22,7 +17,7 @@ import sad from "../../../assets/img/sad.png";
 import littledrink from "../../../assets/img/littledrink.png";
 import normaldrink from "../../../assets/img/normaldrink.png";
 import largedrink from "../../../assets/img/largedrink.png";
-import {error, success} from "../../notify/notify";
+import { error, success } from "../../notify/notify";
 import Swal from "sweetalert2";
 
 const SBorderDiv = styled.div`
@@ -410,14 +405,9 @@ const DiaryEditor = ({ selectedDate }) => {
   //위스키 이름, 주량, 기분, 한마디
   const onCreate = async () => {
     const numberSearchTerms = searchTerms.map((whisky) => Number(whisky.id));
-    const changeEmotionApi =
-      emotionValue < 33 ? "BAD" : emotionValue < 66 ? "NORMAL" : "GOOD";
+    const changeEmotionApi = emotionValue < 33 ? "BAD" : emotionValue < 66 ? "NORMAL" : "GOOD";
     const changeDrinkLevelApi =
-      drinkLevelValue < 33
-        ? "LIGHT"
-        : drinkLevelValue < 66
-        ? "MODERATE"
-        : "HEAVY";
+      drinkLevelValue < 33 ? "LIGHT" : drinkLevelValue < 66 ? "MODERATE" : "HEAVY";
 
     const newItem = {
       date: formattedDate.replaceAll(".", "-"),
@@ -448,14 +438,9 @@ const DiaryEditor = ({ selectedDate }) => {
   };
 
   const handleEdit = async () => {
-    const changeEmotionApi =
-      emotionValue < 33 ? "BAD" : emotionValue < 66 ? "NORMAL" : "GOOD";
+    const changeEmotionApi = emotionValue < 33 ? "BAD" : emotionValue < 66 ? "NORMAL" : "GOOD";
     const changeDrinkLevelApi =
-      drinkLevelValue < 33
-        ? "LIGHT"
-        : drinkLevelValue < 66
-        ? "MODERATE"
-        : "HEAVY";
+      drinkLevelValue < 33 ? "LIGHT" : drinkLevelValue < 66 ? "MODERATE" : "HEAVY";
     const deletedDrinkOrders = [];
     const insertedWhiskyIds = [];
 
