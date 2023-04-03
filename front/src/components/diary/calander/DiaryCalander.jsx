@@ -159,6 +159,7 @@ const DiaryCalander = ({ setSelectedDate, selectedDate }) => {
   }, [selectedDate]);
 
   useEffect(() => {
+    console.log('data ->', data);
     const drinks = data.drinks;
     const drinkList = drinks.map((drink) => drink.whisky);
     setSearchTerms(drinkList);
@@ -274,7 +275,17 @@ const DiaryCalander = ({ setSelectedDate, selectedDate }) => {
       const result = diaryList.find((diary) => diary.date === dateStr);
 
       if (result) {
-        activeDay.style.backgroundColor = "#F84F5A";
+        switch(result.drinkLevel) {
+          case "LIGHT":
+            activeDay.style.backgroundColor = "#FDC5C9";
+            break;
+          case "MODERATE":
+            activeDay.style.backgroundColor = "#FA8990";
+            break;
+          case "HEAVY":
+            activeDay.style.backgroundColor = "#F84F5A";
+            break;
+        }
         activeDay.style.color = "#fff";
       }
     });
