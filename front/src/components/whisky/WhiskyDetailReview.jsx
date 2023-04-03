@@ -101,8 +101,9 @@ const WhiskyDetailReview = forwardRef(({ whisky }, ref) => {
     resetStateAndGetData();
   }, [id, sortOrder]);
 
+  // 나의 리뷰 삭제 시 다시 받아오기
   const refreshMyReview = () => {
-    getMyReview(id);
+    getMyReviewInfo(id);
   };
 
   // 무한 스크롤

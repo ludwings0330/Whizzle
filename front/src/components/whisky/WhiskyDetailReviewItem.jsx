@@ -137,14 +137,19 @@ const WhiskyDetailReviewItem = ({ review }) => {
                 <p style={{ color: "#ffffff" }}>{Math.floor(review.memberInfo.level * 10) / 10}%</p>
               </SLevelDiv>
             </SNicknameDiv>
-            <ReactStars
-              count={5}
-              value={Math.round(review.reviewInfo.rating * 2) / 2}
-              edit={false}
-              size={21}
-              color1={"rgba(128, 128, 128, 0.2)"}
-              color2={"#F84F5A"}
-            />
+            <div style={{ display: "flex" }}>
+              <ReactStars
+                count={5}
+                value={Math.round(review.reviewInfo.rating * 2) / 2}
+                edit={false}
+                size={21}
+                color1={"rgba(128, 128, 128, 0.2)"}
+                color2={"#F84F5A"}
+              />
+              <p style={{ marginTop: "3px", marginLeft: "8px" }}>
+                {review.reviewInfo.createdDateTime.split("T")[0].replaceAll("-", ".")}
+              </p>
+            </div>
           </SUserDiv>
         </div>
         <SLikeDiv>
