@@ -23,6 +23,9 @@ management:
   endpoint:
     health:
       show-details: never
+  health:
+    elasticsearch:
+      enabled: false
 
 --- #dev
 server:
