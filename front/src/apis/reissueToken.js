@@ -1,5 +1,5 @@
 import axios from "axios";
-import { BASE_URL } from "../constants/constants";
+import { BASE_URL, LOCAL_FRONT_URL } from "../constants/constants";
 import { parse, stringify } from "qs";
 import { info } from "../components/notify/notify";
 import Logout from "../hooks/Logout";
@@ -29,5 +29,6 @@ export const reissueAccessToken = async () => {
       info("세션이 만료되었습니다. \n 다시 로그인해주세요.");
       const logout = Logout();
       logout();
+      window.location.href = `${LOCAL_FRONT_URL}/signin`;
     });
 };
