@@ -14,8 +14,8 @@ const SInputDiv = styled.div`
   background-repeat: no-repeat;
   width: 560px;
   height: 45px;
-  border: 1px solid #c1c1c1;
-  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.5);
+  // border: 1px solid #c1c1c1;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
   border-radius: 999px;
   padding: 0 0 0 50px;
   background-position: 10px center;
@@ -25,11 +25,11 @@ const SInputDiv = styled.div`
   ${(props) =>
     props.autocompleteVisible &&
     css`
-      border: 2px solid transparent;
-      border-radius: 8px;
-      border-bottom: 2px solid transparent;
-      border-bottom-left-radius: 0px;
-      border-bottom-right-radius: 0px;
+      // border: 2px solid transparent;
+      // border-radius: 8px;
+      // border-bottom: 2px solid transparent;
+      // border-bottom-left-radius: 0px;
+      // border-bottom-right-radius: 0px;
       box-shadow: none;
     `}
 `;
@@ -95,10 +95,10 @@ const SAutocompleteDiv = styled.div`
   top: 0;
   left: 0;
   width: 560px;
-  border: 2px solid transparent;
+  // border: 2px solid transparent;
   border-color: rgba(248, 79, 90, 0.4);
   border-radius: 16px;
-  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
   height: auto;
   min-height: 45px;
   z-index: 3;
@@ -223,7 +223,12 @@ const SearchBar = () => {
                   onClick={() => setRecentSearchData(word)}
                 >
                   <SP>{word.length > 30 ? `${word.slice(0, 30)}...` : word}</SP>
-                  <SButton onClick={(event) => deleteRecentSearchWord(event, word)}>X</SButton>
+                  <SButton
+                    onClick={(event) => deleteRecentSearchWord(event, word)}
+                    style={{ color: "#888888" }}
+                  >
+                    X
+                  </SButton>
                 </SDiv>
               ))}
             {autocompleteWords &&
