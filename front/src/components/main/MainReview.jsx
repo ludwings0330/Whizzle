@@ -70,11 +70,7 @@ const MainReview = (props) => {
       >
         <SReviewBox>
           {reviewList.map((review, index) => {
-            if (index % 2) {
-              return <SReview key={index} style={{ marginTop: "40px" }}></SReview>;
-            } else {
-              return <SReview key={index}></SReview>;
-            }
+            return <MainReviewItem key={index} index={index}></MainReviewItem>;
           })}
         </SReviewBox>
       </motion.div>
