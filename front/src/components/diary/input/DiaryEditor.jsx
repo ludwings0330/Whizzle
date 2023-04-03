@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
-import { diaryDataState, diaryState, fetchDiaries } from "../../../store/indexStore";
+import {
+  diaryDataState,
+  diaryState,
+  fetchDiaries,
+  searchTerm
+} from "../../../store/indexStore";
 import { motion } from "framer-motion";
 
 //import component
@@ -588,14 +593,14 @@ const DiaryEditor = ({ selectedDate }) => {
                 id="one"
                 type="radio"
                 value="0"
-                checked={drinkLevelValue === "0"}
+                checked={drinkLevelValue === 0}
                 onChange={handleDrinklevelChange}
                 disabled={!isEdit && !isSave}
               />
               <SRadioLabel htmlFor="one">
                 <SCircle />
                 <span>소량</span>
-                {drinkLevelValue === "0" ? (
+                {drinkLevelValue === 0 ? (
                   <motion.img
                     src={littledrink}
                     layoutId="drinkSelectedBox"
@@ -609,14 +614,14 @@ const DiaryEditor = ({ selectedDate }) => {
                 id="two"
                 type="radio"
                 value="50"
-                checked={drinkLevelValue === "50"}
+                checked={drinkLevelValue === 50}
                 onChange={handleDrinklevelChange}
                 disabled={!isEdit && !isSave}
               />
               <SRadioLabel htmlFor="two">
                 <SCircle />
                 <span>적당히</span>
-                {drinkLevelValue === "50" ? (
+                {drinkLevelValue === 50 ? (
                   <motion.img
                     src={normaldrink}
                     layoutId="drinkSelectedBox"
@@ -630,14 +635,14 @@ const DiaryEditor = ({ selectedDate }) => {
                 id="three"
                 type="radio"
                 value="100"
-                checked={drinkLevelValue === "100"}
+                checked={drinkLevelValue === 100}
                 onChange={handleDrinklevelChange}
                 disabled={!isEdit && !isSave}
               />
               <SRadioLabel htmlFor="three">
                 <SCircle />
                 <span>만취</span>
-                {drinkLevelValue === "100" ? (
+                {drinkLevelValue === 100 ? (
                   <motion.img
                     src={largedrink}
                     layoutId="drinkSelectedBox"
@@ -657,14 +662,14 @@ const DiaryEditor = ({ selectedDate }) => {
                 id="sad"
                 type="radio"
                 value="0"
-                checked={emotionValue === "0"}
+                checked={emotionValue === 0}
                 onChange={handleEmotionChange}
                 disabled={!isEdit && !isSave}
               />
               <SRadioLabel htmlFor="sad">
                 <SCircle />
                 <span>별로예요</span>
-                {emotionValue === "0" ? (
+                {emotionValue === 0 ? (
                   <motion.img
                     src={sad}
                     layoutId="selectedBox"
@@ -678,14 +683,14 @@ const DiaryEditor = ({ selectedDate }) => {
                 id="soso"
                 type="radio"
                 value="50"
-                checked={emotionValue === "50"}
+                checked={emotionValue === 50}
                 onChange={handleEmotionChange}
                 disabled={!isEdit && !isSave}
               />
               <SRadioLabel htmlFor="soso">
                 <SCircle />
                 <span>그냥그래요</span>
-                {emotionValue === "50" ? (
+                {emotionValue === 50 ? (
                   <motion.img
                     src={soso}
                     layoutId="selectedBox"
@@ -699,14 +704,14 @@ const DiaryEditor = ({ selectedDate }) => {
                 id="good"
                 type="radio"
                 value="100"
-                checked={emotionValue === "100"}
+                checked={emotionValue === 100}
                 onChange={handleEmotionChange}
                 disabled={!isEdit && !isSave}
               />
               <SRadioLabel htmlFor="good">
                 <SCircle />
                 <span>최고예요</span>
-                {emotionValue === "100" ? (
+                {emotionValue === 100 ? (
                   <motion.img
                     src={good}
                     layoutId="selectedBox"
