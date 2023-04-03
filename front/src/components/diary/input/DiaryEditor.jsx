@@ -272,7 +272,7 @@ const DiaryEditor = ({ selectedDate }) => {
   };
   useEffect(() => {
     setIsEdit(false);
-    setIsSave(data.id ? false : true);
+    setIsSave(!data.id);
     if (data.id) {
       insertData();
     } else {
@@ -280,39 +280,49 @@ const DiaryEditor = ({ selectedDate }) => {
     }
   }, [selectedDate, data]);
 
-  // useEffect(() => {}, [searchTerms]);
-
-  const initDataSet = () => {
-    setData({
-      id: null,
-      date: "",
-      today: "",
-      emotion: "",
-      drinkLevel: "",
-      content: "",
-      drinks: [
-        {
-          whisky: {
-            id: null,
-            name: "",
-          },
-          drinkOrder: null,
-        },
-      ],
-    });
-  };
-
   const insertData = () => {
-    const newDrinkLevel =
-      data.drinkLevel === "LIGHT" ? 0 : data.drinkLevel === "HEAVY" ? 100 : 50;
-    const newEmotion =
-      data.emotion === "BAD" ? 0 : data.emotion === "GOOD" ? 100 : 50;
-    setSearchWhisky("");
+    console.log("insertData ==>", data);
+    switch (data.drinkLevel) {
+      case "LIGHT":
+        setDrinkLevel("소량");
+        setDrinkLevelValue(0);
+        setDrinkImage(littledrink);
+        break;
+      case "MODERATE":
+        setDrinkLevel("적당히");
+        setDrinkLevelValue(50);
+        setDrinkImage(normaldrink);
+        break;
+      case "HAEVY":
+        setDrinkLevel("만취");
+        setDrinkLevelValue(100);
+        setDrinkImage(largedrink);
+        break;
+    }
+
+    switch (data.emotion) {
+      case "BAD":
+        setEmotion("별로에요");
+        setEmotionValue(0);
+        setEmotionImage(sad);
+        break;
+      case "NORMAL":
+        setEmotion("그냥그래요");
+        setEmotionValue(50);
+        setEmotionImage(soso);
+        break;
+      case "GOOD":
+        setEmotion("최고에요");
+        setEmotionValue(100);
+        setEmotionImage(good);
+        break;
+    }
+
     setContent(data.content);
-    setDrinkLevelValue(newDrinkLevel);
-    setEmotionValue(newEmotion);
+
     const drinks = data.drinks;
     const drinkList = drinks.map((drink) => drink.whisky);
+
     setSearchTerms(drinkList);
   };
 
@@ -322,11 +332,17 @@ const DiaryEditor = ({ selectedDate }) => {
 
     setSearchWhisky("");
     setRecentSearch([]);
+
     setEmotionValue(50);
-    setDrinkLevelValue(50);
     setEmotion("그냥그래요");
+    setEmotionImage(soso);
+
+    setDrinkLevelValue(50);
     setDrinkLevel("적당히");
+    setDrinkImage(normaldrink);
+
     setContent("");
+
     const recentSearchData = JSON.parse(sessionStorage.getItem("recentSearch"));
     if (recentSearchData) {
       setRecentSearch(recentSearchData);
