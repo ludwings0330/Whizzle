@@ -34,17 +34,28 @@ public class ReviewProjectionRepository {
                 .where(review.whisky.id.eq(whiskyId),
                        pagingCondition(searchCondition),
                        review.isDeleted.isFalse())
-                .orderBy(getOrderBy(searchCondition))
+                .orderBy(getOrderBy(searchCondition), getSecondOrderBy(searchCondition))
                 .limit(5)
                 .fetch();
+    }
+
+    private OrderSpecifier<?> getSecondOrderBy(ReviewSearchCondition searchCondition) {
+        switch (searchCondition.getReviewOrder()) {
+            case LIKE:
+                return review.id.asc();
+            case RECENT:
+                return review.id.desc();
+            default:
+                return null;
+        }
     }
 
     private OrderSpecifier<?> getOrderBy(ReviewSearchCondition searchCondition) {
         switch (searchCondition.getReviewOrder()) {
             case LIKE:
-                return review.likeCount.desc();
+                return review.likeCount.desc(); // 좋아요 많은 순서
             case RECENT:
-                return review.createdDateTime.desc();
+                return review.createdDateTime.desc(); // 최신 순서
             default:
                 return null;
         }
@@ -62,11 +73,11 @@ public class ReviewProjectionRepository {
 
         } else if (searchCondition.getReviewOrder() == ReviewOrder.RECENT) {
             return (searchCondition.getBaseId() == null) ? null :
-                    review.createdDateTime.after(
+                    review.createdDateTime.before(
                             getBaseCreatedDateTime(searchCondition.getBaseId())
                     ).or(
                             review.createdDateTime.eq(getBaseCreatedDateTime(searchCondition.getBaseId()))
-                                                  .and(review.id.gt(searchCondition.getBaseId())));
+                                                  .and(review.id.lt(searchCondition.getBaseId())));
         }
 
         return null;
