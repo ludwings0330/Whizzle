@@ -59,14 +59,13 @@ export const getWhiskyReviews = async (whiskyId, baseId = 0, reviewOrder = "LIKE
 
 //리뷰 수정
 export const reviewUpdate = async (reviewId, data) => {
-  const formData = new FormData();
-  formData.append("rating", data.rating);
-  formData.append("content", data.content);
-  data.deleteReviewImageIds.forEach((id) => formData.append("deleteReviewImageIds", id));
-  data.addedReviewImageFiles.forEach((file) => formData.append("addedReviewImageFiles", file));
-
   try {
-    const res = await api.put(`/api/reviews/${reviewId}`, formData);
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    };
+    const res = await api.put(`/api/reviews/${reviewId}`, data, config);
     console.log(res);
     return true;
   } catch (error) {
