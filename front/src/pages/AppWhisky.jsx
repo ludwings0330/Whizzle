@@ -80,7 +80,7 @@ const AppWhisky = () => {
 
     if (toReview === "true") {
       setTimeout(() => {
-        reviewRef.current.scrollIntoView({ block: "start" });
+        reviewRef.current.scrollIntoView({ block: "start", behavior: "smooth" });
       }, 500);
     }
   }, [location.search]);
