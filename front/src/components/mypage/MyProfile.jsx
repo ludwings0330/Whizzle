@@ -5,6 +5,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { userState } from "../../store/userStore";
 import cameraIcon from "../../assets/img/camera.png";
 import pencilIcon from "../../assets/img/nameEdit.png";
+import { error } from "../notify/notify";
 
 import { profileChangeApi } from "../../apis/mypage";
 import { nicknameChangeApi } from "../../apis/mypage";
@@ -118,11 +119,11 @@ const MyProfile = () => {
 
   const handleNicknameChange = async () => {
     if (!editedNickname || editedNickname.length === 0) {
-      alert("닉네임은 비어있을 수 없습니다.");
+      error("닉네임은 비어있을 수 없습니다.");
       return;
     }
     if (editedNickname.length > 10) {
-      alert("닉네임은 10글자 이하로 입력해주세요.");
+      error("닉네임은 10글자 이하로 입력해주세요.");
       return;
     }
 
