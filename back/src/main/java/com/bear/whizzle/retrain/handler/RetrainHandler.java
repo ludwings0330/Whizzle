@@ -1,7 +1,8 @@
-package com.bear.whizzle.learn.controller;
+package com.bear.whizzle.retrain.handler;
 
-import com.bear.whizzle.learn.controller.dto.MemberData;
-import com.bear.whizzle.learn.service.query.LearnService;
+import com.bear.whizzle.retrain.handler.dto.MemberData;
+import com.bear.whizzle.retrain.service.query.RetrainService;
+import com.bear.whizzle.member.service.MemberService;
 import com.bear.whizzle.recommend.service.RecService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
