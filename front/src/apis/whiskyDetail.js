@@ -21,8 +21,10 @@ export const getKeep = async (id) => {
 export const keepToggle = async (id) => {
   try {
     await api.post(`/api/keeps/${id}`);
+    return true;
   } catch (error) {
     console.log(error);
+    return false;
   }
 };
 

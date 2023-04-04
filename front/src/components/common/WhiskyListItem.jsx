@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import favoriteBorder from "../../assets/img/favorite_border.png";
@@ -6,9 +6,10 @@ import favoriteFilled from "../../assets/img/favorite_filled.png";
 import ReactStars from "react-stars";
 import { keepApi } from "../../apis/whisky";
 import { userState } from "../../store/userStore";
-import { useRecoilValue } from "recoil";
+import {useRecoilState, useRecoilValue} from "recoil";
 import Swal from "sweetalert2";
 import { motion } from "framer-motion";
+import {recommendResult} from "../../store/indexStore";
 
 const SCard = styled.div`
   position: relative;
@@ -103,6 +104,7 @@ const SName = styled.div`
 const WhiskyListItem = (props) => {
   const navigate = useNavigate();
   const [isKeep, setIsKeep] = useState(props.whisky.isKept);
+  const [resultValue, setResultValue] = useRecoilState(recommendResult);
 
   const goDetail = () => {
     navigate(`/whisky/${props.whisky.id}`);
@@ -116,7 +118,20 @@ const WhiskyListItem = (props) => {
     if (isLogin) {
       const result = await keepApi(props.whisky.id);
       if (result === true) {
+        const currentKeep = isKeep;
         setIsKeep((prev) => !prev);
+
+        const targetId = props.whisky.id;
+
+        const updatedResult = resultValue.map(whisky => {
+          if(whisky.id === targetId) {
+            return { ...whisky, isKept: !currentKeep}
+          }
+
+          return whisky;
+        });
+
+        setResultValue(updatedResult);
       }
     } else {
       Swal.fire({
