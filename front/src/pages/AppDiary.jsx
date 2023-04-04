@@ -14,8 +14,7 @@ import diary_header from "../assets/img/diary_header.png";
 import { diaryState, diaryDataState, fetchDiaries } from "../store/indexStore";
 import { userState } from "../store/userStore";
 import { useNavigate } from "react-router-dom";
-import {warning} from "../components/notify/notify";
-
+import { warning } from "../components/notify/notify";
 
 const SHeaderDiv = styled.div`
   height: 250px;
@@ -28,11 +27,12 @@ const SHeaderDiv = styled.div`
 
 const SMainDiv = styled.div`
   display: flex;
+  flex-wrap: wrap;
   flex-direction: row;
   justify-content: center;
   align-items: start;
   // min-height: calc(100vh - 300px);
-  margin: 23px 0 100px 0;
+  margin-bottom: 120px;
 
   // @media only screen and (max-height: 768px) and (-webkit-min-device-pixel-ratio: 1.25),
   //   only screen and (max-height: 768px) and (min-resolution: 120dpi),
@@ -99,7 +99,6 @@ const AppDiary = () => {
           </SHeaderDiv>
           <SHeaderDivider />
           <SMainDiv>
-            <SMainDivider />
             <DiaryCalander setSelectedDate={setSelectedDate} selectedDate={selectedDate} />
             <DiaryEditor selectedDate={selectedDate} />
           </SMainDiv>

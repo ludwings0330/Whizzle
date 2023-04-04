@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  diaryDataState,
-  diaryState,
-  fetchDiaries,
-  searchTerm,
-} from "../../../store/indexStore";
+import { diaryDataState, diaryState, fetchDiaries, searchTerm } from "../../../store/indexStore";
 import { useRecoilState } from "recoil";
 
 //import css
@@ -22,6 +17,7 @@ const SDiv = styled.div`
   border: 1px solid #e1e1e1;
   box-shadow: 15px 15px 25px rgba(162, 162, 162, 0.1);
   border-radius: 8px;
+  margin-top: 25px;
 `;
 
 const SHeaderDiv = styled.div`
@@ -76,8 +72,7 @@ const SCalanderDiv = styled.div`
     width: 80px;
 
     &:hover {
-      background: rgba(248, 79, 90, 0.1);
-      border-radius: 4px;
+      background: #eeeeee;
     }
   }
 `;
@@ -113,24 +108,18 @@ const SNextButton = styled.button`
 
 const STbody = styled.tbody`
   .selected-day {
-    background: rgba(248, 79, 90, 0.1);
-    border-radius: 4px;
-    // border: 3px solid #f84f5a;
+    background: #eeeeee;
   }
 `;
 
 //다이어리 캘린더
 const DiaryCalander = ({ setSelectedDate, selectedDate }) => {
   function prevMonth() {
-    setSelectedDate(
-      (prevDate) => new Date(prevDate.getFullYear(), prevDate.getMonth() - 1, 1)
-    );
+    setSelectedDate((prevDate) => new Date(prevDate.getFullYear(), prevDate.getMonth() - 1, 1));
   }
 
   function nextMonth() {
-    setSelectedDate(
-      (prevDate) => new Date(prevDate.getFullYear(), prevDate.getMonth() + 1, 1)
-    );
+    setSelectedDate((prevDate) => new Date(prevDate.getFullYear(), prevDate.getMonth() + 1, 1));
   }
 
   function getDaysInMonth(year, month) {
@@ -234,9 +223,7 @@ const DiaryCalander = ({ setSelectedDate, selectedDate }) => {
   }
 
   for (let i = 1; i <= daysInMonth; i++) {
-    days.push(
-      `${selectedDate.getFullYear()}-${selectedDate.getMonth() + 1}-${i}`
-    );
+    days.push(`${selectedDate.getFullYear()}-${selectedDate.getMonth() + 1}-${i}`);
   }
 
   for (let i = 0; i < 6 - lastDayOfMonth; i++) {
@@ -267,23 +254,23 @@ const DiaryCalander = ({ setSelectedDate, selectedDate }) => {
       let dateStr = rows[rowIndex].cells[dayIndex]; // 2023-3-18 vs 2023-03-18
       dateStr = dateStr.split("-");
 
-      dateStr = `${dateStr[0]}-${Number(dateStr[1]) < 10 ? "0" : ""}${Number(
-        dateStr[1]
-      )}-${Number(dateStr[2]) < 10 ? "0" : ""}${Number(dateStr[2])}`;
+      dateStr = `${dateStr[0]}-${Number(dateStr[1]) < 10 ? "0" : ""}${Number(dateStr[1])}-${
+        Number(dateStr[2]) < 10 ? "0" : ""
+      }${Number(dateStr[2])}`;
 
-      if(diaryList) {
+      if (diaryList) {
         const result = diaryList.find((diary) => diary.date === dateStr);
 
         if (result) {
           switch (result.drinkLevel) {
             case "LIGHT":
-              activeDay.style.backgroundColor = "#FDC5C9";
+              activeDay.style.backgroundColor = "#FFE2E4";
               break;
             case "MODERATE":
-              activeDay.style.backgroundColor = "#FA8990";
+              activeDay.style.backgroundColor = "#FFA7AC";
               break;
             case "HEAVY":
-              activeDay.style.backgroundColor = "#F84F5A";
+              activeDay.style.backgroundColor = "#FF7C85";
               break;
           }
           activeDay.style.color = "#fff";

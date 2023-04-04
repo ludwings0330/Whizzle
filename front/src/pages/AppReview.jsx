@@ -94,7 +94,7 @@ const AppReview = () => {
 
     if (isCreate) {
       const formData = new FormData();
-      formData.append("rating", rating);
+      formData.append("rating", rating === undefined ? 0 : rating);
       if (content !== "") {
         formData.append("content", content);
       }
@@ -105,6 +105,7 @@ const AppReview = () => {
           formData.append("reviewImageFiles", file);
         });
       }
+
       try {
         await reviewCreate(formData);
         navigate(`/whisky/${whiskyId}?review=true`);

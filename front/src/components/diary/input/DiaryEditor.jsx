@@ -22,8 +22,7 @@ import Swal from "sweetalert2";
 
 const SBorderDiv = styled.div`
   display: inline-block;
-  // width: 460px;
-  // height: 650px;
+  min-width: 400px;
   margin: 0 10px;
   text-align: left;
   padding: 40px;
@@ -32,6 +31,7 @@ const SBorderDiv = styled.div`
   box-shadow: 15px 15px 25px rgba(162, 162, 162, 0.1);
   border-radius: 8px;
   flex-wrap: wrap;
+  margin-top: 25px;
 `;
 
 const SP = styled.p`
@@ -205,12 +205,6 @@ const SLine = styled.div`
   border: 1px solid rgba(248, 79, 90, 0.5);
 `;
 
-const ResponsiveSLine = styled(SLine)`
-  @media (max-width: 760px) {
-    display: none;
-  }
-`;
-
 const DiaryEditor = ({ selectedDate }) => {
   const [isEdit, setIsEdit] = useState(false);
   const [isSave, setIsSave] = useState(true);
@@ -250,10 +244,9 @@ const DiaryEditor = ({ selectedDate }) => {
     const name = e.target.textContent;
     setSearchWhisky("");
     setAuto([]);
-    if(searchTerms.length < 3)
-      setSearchTerms([...searchTerms, { id, name }]);
+    if (searchTerms.length < 3) setSearchTerms([...searchTerms, { id, name }]);
     else {
-      error("위스키는 3개까지 저장할 수 있습니다!")
+      error("위스키는 3개까지 저장할 수 있습니다!");
     }
   };
 
@@ -644,7 +637,7 @@ const DiaryEditor = ({ selectedDate }) => {
                   ""
                 )}
               </SRadioLabel>
-              <ResponsiveSLine />
+              <SLine />
             </SCentered>
           </div>
           <div>
@@ -713,7 +706,7 @@ const DiaryEditor = ({ selectedDate }) => {
                   ""
                 )}
               </SRadioLabel>
-              <ResponsiveSLine />
+              <SLine />
             </SCentered>
           </div>
           <div>
