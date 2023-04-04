@@ -3,6 +3,7 @@ version: '3.8'
 services:
   whizzle-back-03:
     image: whizzle/back:2
+    container_name: whizzle-back-03
     ports:
       - "8082:8080"
     volumes:
@@ -13,9 +14,9 @@ services:
       timeout: 10s
       retries: 3
 
-
   whizzle-back-04:
     image: whizzle/back:2
+    container_name: whizzle-back-04
     ports:
       - "8083:8080"
     volumes:

@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  whizzle-front-01:
+    image: whizzle/front:1
+    container_name: whizzle-front-01
+    networks:
+      front-net:
+        aliases:
+          - front-net-dns
+    ports:
+      - "3001:80"
+
+  whizzle-front-02:
+    image: whizzle/front:1
+    container_name: whizzle-front-02
+    networks:
+      front-net:
+        aliases:
+          - front-net-dns
+    ports:
+      - "3002:80"
