@@ -1,5 +1,11 @@
 import { atom, useRecoilState } from "recoil";
 import { diaryRead } from "../apis/diary";
+import {recoilPersist} from "recoil-persist";
+
+const { persistAtom } = recoilPersist({
+  key: 'recoil-persist',
+  storage: localStorage,
+});
 
 export const diaryState = atom({
   key: "diaryState",
@@ -88,11 +94,13 @@ export const preference = atom({
       floral: 0,
     },
   },
+  effects_UNSTABLE: [persistAtom]
 });
 
 export const recommendResult = atom({
   key: "recommendResult",
   default: [],
+  effects_UNSTABLE: [persistAtom]
 });
 
 export const dailyPreference = atom({
@@ -114,7 +122,7 @@ export const dailyPreference = atom({
       fruity: 0,
       floral: 0,
     },
-  },
+  }
 });
 
 export const searchData = atom({

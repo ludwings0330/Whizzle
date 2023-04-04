@@ -8,6 +8,7 @@ import { keepApi } from "../../apis/whisky";
 import { userState } from "../../store/userStore";
 import { useRecoilValue } from "recoil";
 import Swal from "sweetalert2";
+import { motion } from "framer-motion";
 
 const SCard = styled.div`
   position: relative;
@@ -71,12 +72,7 @@ const SRight = styled.div`
 
 const SLikeImg = styled.img`
   height: 32px;
-  transition: 0.5s;
   z-index: 2;
-  &:hover {
-    transform: scale(1.2);
-    transition: 0.5s;
-  }
 `;
 
 const SRating = styled.div`
@@ -144,11 +140,16 @@ const WhiskyListItem = (props) => {
           <SImg src={props.whisky.imageUrl} />
         </SContainer>
         <SRight>
-          {isKeep ? (
-            <SLikeImg onClick={keepHandler} src={favoriteFilled} alt="like.png" />
-          ) : (
-            <SLikeImg onClick={keepHandler} src={favoriteBorder} alt="like.png" />
-          )}
+          <motion.div
+            whileHover={{ scale: 1.1 }}
+            transition={{ type: "spring", stiffness: 100, damping: 10 }}
+          >
+            {isKeep ? (
+              <SLikeImg onClick={keepHandler} src={favoriteFilled} alt="like.png" />
+            ) : (
+              <SLikeImg onClick={keepHandler} src={favoriteBorder} alt="like.png" />
+            )}
+          </motion.div>
           <SRating>
             <SAvg>{props.whisky.reviewCount === 0 ? "NR" : props.whisky.avgRating}</SAvg>
             <ReactStars

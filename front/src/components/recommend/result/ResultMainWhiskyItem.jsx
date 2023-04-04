@@ -148,7 +148,6 @@ const ResultMainWhiskyItem = (props) => {
     if (isLogin) {
       setIsKeep(!isKeep);
       keepToggle(whisky.id);
-      // } else if (window.confirm("로그인이 필요한 기능입니다.\n로그인 페이지로 이동하시겠습니까?")) {
     } else {
       warning("로그인이 필요한 기능입니다!");
       navigate("/signin");
@@ -167,10 +166,9 @@ const ResultMainWhiskyItem = (props) => {
   async function getKeepInfo(param) {
     try {
       const keepInfo = await getKeep(param);
-      console.log(keepInfo);
       setIsKeep(keepInfo);
     } catch (error) {
-      console.log("킵 정보 조회 실패");
+      console.log(error);
     }
   }
 
