@@ -1,4 +1,4 @@
-package com.bear.whizzle.learn.controller;
+package com.bear.whizzle.learn.controller.dto;
 
 import com.bear.whizzle.recommend.controller.dto.PreferenceDto;
 import com.bear.whizzle.review.repository.projection.dto.RatingDto;

@@ -1,5 +1,6 @@
 package com.bear.whizzle.learn.controller;
 
+import com.bear.whizzle.learn.controller.dto.MemberData;
 import com.bear.whizzle.learn.service.LearnService;
 import com.bear.whizzle.recommend.service.RecService;
 import lombok.RequiredArgsConstructor;

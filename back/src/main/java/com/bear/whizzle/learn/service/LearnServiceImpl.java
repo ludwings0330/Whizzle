@@ -1,7 +1,7 @@
 package com.bear.whizzle.learn.service;
 
 import com.bear.whizzle.domain.model.entity.Preference;
-import com.bear.whizzle.learn.controller.MemberData;
+import com.bear.whizzle.learn.controller.dto.MemberData;
 import com.bear.whizzle.learn.mapper.MemberDataMapper;
 import com.bear.whizzle.preference.repository.PreferenceRepository;
 import com.bear.whizzle.preference.service.query.PreferenceQueryService;
