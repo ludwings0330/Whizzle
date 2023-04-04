@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import favoriteBorder from "../../../assets/img/favorite_border.png";
 import favoriteFilled from "../../../assets/img/favorite_filled.png";
 import ReactStars from "react-stars";
 import { userState } from "../../../store/userStore";
-import {useRecoilState, useRecoilValue} from "recoil";
-import { getKeep, keepToggle } from "../../../apis/whiskyDetail";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { keepToggle } from "../../../apis/whiskyDetail";
 import { warning } from "../../notify/notify";
-import {recommendResult} from "../../../store/indexStore";
+import { recommendResult } from "../../../store/indexStore";
 
 const SDiv = styled.div`
   margin-top: 10px;
@@ -146,7 +146,6 @@ const ResultMainWhiskyItem = (props) => {
   const index = String(props.index);
   const [resultValue, setResultValue] = useRecoilState(recommendResult);
 
-
   const [isKeep, setIsKeep] = useState(whisky.isKept);
   const user = useRecoilValue(userState);
   const isLogin = Boolean(user.id);
@@ -154,16 +153,15 @@ const ResultMainWhiskyItem = (props) => {
   const onKeepHandler = async (e) => {
     e.stopPropagation();
     if (isLogin) {
+      setIsKeep((prev) => !prev);
       const result = await keepToggle(whisky.id);
 
       if (result === true) {
-        setIsKeep(prev => !prev);
-
         const targetId = whisky.id;
 
-        const updatedResult = resultValue.map(whisky => {
-          if(whisky.id === targetId) {
-            return { ...whisky, isKept: !isKeep}
+        const updatedResult = resultValue.map((whisky) => {
+          if (whisky.id === targetId) {
+            return { ...whisky, isKept: !isKeep };
           }
 
           return whisky;

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import favoriteBorder from "../../assets/img/favorite_border.png";
@@ -6,10 +6,10 @@ import favoriteFilled from "../../assets/img/favorite_filled.png";
 import ReactStars from "react-stars";
 import { keepApi } from "../../apis/whisky";
 import { userState } from "../../store/userStore";
-import {useRecoilState, useRecoilValue} from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import Swal from "sweetalert2";
 import { motion } from "framer-motion";
-import {recommendResult} from "../../store/indexStore";
+import { recommendResult } from "../../store/indexStore";
 
 const SCard = styled.div`
   position: relative;
@@ -26,6 +26,7 @@ const SCard = styled.div`
   padding-top: 28px;
   padding-bottom: 10px;
   transition: 0.5s;
+
   &:hover {
     box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.2);
     transition: 0.5s;
@@ -55,6 +56,7 @@ const SImg = styled.img`
   object-fit: cover;
   transition: 0.5s;
   transform-origin: bottom;
+
   ${SCard}:hover & {
     transform: scale(1.05);
     transition: 0.5s;
@@ -75,6 +77,7 @@ const SLikeImg = styled.img`
   height: 32px;
   transition: 0.5s;
   z-index: 2;
+
   &:hover {
     transform: scale(1.2);
     transition: 0.5s;
@@ -121,16 +124,16 @@ const WhiskyListItem = (props) => {
   const keepHandler = async (event) => {
     event.stopPropagation();
     if (isLogin) {
+      const currentKeep = isKeep;
+      setIsKeep((prev) => !prev);
+
       const result = await keepApi(props.whisky.id);
       if (result === true) {
-        const currentKeep = isKeep;
-        setIsKeep((prev) => !prev);
-
         const targetId = props.whisky.id;
 
-        const updatedResult = resultValue.map(whisky => {
-          if(whisky.id === targetId) {
-            return { ...whisky, isKept: !currentKeep}
+        const updatedResult = resultValue.map((whisky) => {
+          if (whisky.id === targetId) {
+            return { ...whisky, isKept: !currentKeep };
           }
 
           return whisky;
@@ -165,13 +168,23 @@ const WhiskyListItem = (props) => {
             transition={{ type: "spring", stiffness: 100, damping: 10 }}
           >
             {isKeep ? (
-              <SLikeImg onClick={keepHandler} src={favoriteFilled} alt="like.png" />
+              <SLikeImg
+                onClick={keepHandler}
+                src={favoriteFilled}
+                alt="like.png"
+              />
             ) : (
-              <SLikeImg onClick={keepHandler} src={favoriteBorder} alt="like.png" />
+              <SLikeImg
+                onClick={keepHandler}
+                src={favoriteBorder}
+                alt="like.png"
+              />
             )}
           </motion.div>
           <SRating>
-            <SAvg>{props.whisky.reviewCount === 0 ? "NR" : props.whisky.avgRating}</SAvg>
+            <SAvg>
+              {props.whisky.reviewCount === 0 ? "NR" : props.whisky.avgRating}
+            </SAvg>
             <ReactStars
               count={5}
               value={Math.round(props.whisky.avgRating * 2) / 2}
