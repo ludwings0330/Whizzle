@@ -24,8 +24,8 @@ public class LearnServiceImpl implements LearnService {
     @Override
     public MemberData reactiveLearnMyData(Long memberId) {
         List<RatingDto> ratings = reviewProjectionRepository.findAllRatingByMemberId(memberId);
-        Preference preference = preferenceRepository.findByMemberId(memberId).orElse(Preference.builder().build());
-        return MemberDataMapper.toMemberData(ratings, List.of(preference), preferenceQueryService.findFlavorMinMax());
+        List<Preference> preferences = preferenceRepository.findAllByMemberIds(List.of(memberId));
+        return MemberDataMapper.toMemberData(ratings, preferences, preferenceQueryService.findFlavorMinMax());
     }
 
 }

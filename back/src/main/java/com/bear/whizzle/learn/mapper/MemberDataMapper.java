@@ -1,7 +1,7 @@
 package com.bear.whizzle.learn.mapper;
 
 import com.bear.whizzle.domain.model.entity.Preference;
-import com.bear.whizzle.learn.controller.MemberData;
+import com.bear.whizzle.learn.controller.dto.MemberData;
 import com.bear.whizzle.recommend.PreferenceMapper;
 import com.bear.whizzle.review.repository.projection.dto.RatingDto;
 import com.bear.whizzle.whisky.repository.projection.dto.FlavorSummary;
@@ -19,7 +19,8 @@ public final class MemberDataMapper {
                          .preferences(
                                  preferences.stream()
                                             .map(p -> PreferenceMapper.toPreferenceDto(p, flavorSummary))
-                                            .collect(Collectors.toList()))
+                                            .collect(Collectors.toList())
+                         )
                          .build();
     }
 
