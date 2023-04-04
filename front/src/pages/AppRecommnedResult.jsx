@@ -134,13 +134,11 @@ const AppRecommnedResult = () => {
   const userPreference = useRecoilValue(preference);
   const user = useRecoilValue(userState);
   const isLogin = Boolean(user.id);
-  console.log(userPreference);
-  console.log(recommend);
 
   const navigate = useNavigate();
   const onClickHandler = (e) => {
     if (e.target.innerText === "취향 정보 다시 입력하기") {
-      navigate("/recommend/question");
+      navigate("/recommend/question", { go: false });
     } else if (e.target.innerText === "데일리 위스키 추천받기") {
       navigate("/daily");
     }
@@ -150,9 +148,6 @@ const AppRecommnedResult = () => {
   useEffect(() => {
     if (!isLogin) {
       setTimeout(() => {
-        // if (window.confirm("회원 가입을 통해 취향을 저장해보세요!")) {
-        //   navigate("/signin");
-        // }
         info("회원 가입을 통해 취향을 저장해보세요!");
       }, 5000);
     }
