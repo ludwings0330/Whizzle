@@ -11,10 +11,8 @@ import Swal from "sweetalert2";
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  width: 990px;
-  min-height: 450px;
+  width: 800px;
   background: #ffffff;
-  border: 1px solid #d8d8d8;
   border-radius: 16px;
   margin-top: 50px;
   box-shadow: 0px 0px 25px rgba(248, 79, 90, 0.5);
@@ -23,6 +21,7 @@ const Wrapper = styled.div`
 const SReviewInfoDiv = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   width: 100%;
   height: 85px;
   margin-top: 38px;
@@ -37,7 +36,7 @@ const SUserDiv = styled.div`
 const SNicknameDiv = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 15px;
   min-width: 215px;
   height: 27px;
   line-height: 27px;
@@ -46,13 +45,14 @@ const SNicknameDiv = styled.div`
 `;
 
 const SProfileImg = styled.img`
-  width: 85px;
-  height: 85px;
+  width: 75px;
+  height: 75px;
   margin-left: 45px;
   border-radius: 50%;
 `;
 
 const SLevelDiv = styled.div`
+  margin-left: 3px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -83,33 +83,38 @@ const SReviewPicDiv = styled.div`
 `;
 
 const SImg = styled.img`
-  width: 100px;
-  height: 100px;
+  height: 90px;
+  width: 90px;
+  object-fit: cover;
   margin-right: 16px;
+  cursor: pointer;
 `;
 
 const STextDiv = styled.div`
   margin-left: 50px;
   margin-right: 50px;
-  margin-top: 40px;
-  margin-bottom: 48px;
+  margin-top: 20px;
+  margin-bottom: 35px;
   width: 890px;
-  font-size: 20px;
+  font-size: 16px;
 `;
 
 const SButton = styled.button`
   font-family: "Pretendard Variable";
-  width: 75px;
-  height: 34px;
-  border: 1px solid #797979;
+  width: 65px;
+  height: 30px;
+  border: 1px solid #dedede;
   border-radius: 999px;
   margin-left: 6px;
   cursor: pointer;
   background-color: transparent;
-  color: #898989;
+  color: #adadad;
+  transition: all 0.3s;
 
   :hover {
-    // 호버 효과 추가해주세요 이예진님
+    transition: all 0.3s;
+    background-color: #dedede;
+    color: #fff;
   }
 `;
 
@@ -176,7 +181,7 @@ const WhiskyDetailMyReviewItem = ({ review, whiskyId, onDelete }) => {
   return (
     <Wrapper>
       <SReviewInfoDiv>
-        <div style={{ display: "flex" }}>
+        <div style={{ display: "flex", alignItems: "center" }}>
           <SProfileImg src={review.memberInfo.profileImageUrl} alt="유저 프로필" />
           <SUserDiv>
             <SNicknameDiv>

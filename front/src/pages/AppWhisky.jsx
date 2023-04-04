@@ -9,6 +9,7 @@ import { userState } from "../store/userStore";
 import { useRecoilValue } from "recoil";
 import { changeHeader, rollbackHeader } from "../hooks/changeHeader";
 import Swal from "sweetalert2";
+import { motion } from "framer-motion";
 
 //import components
 import WhiskyDetailInfo from "../components/whisky/WhiskyDetailInfo";
@@ -18,10 +19,13 @@ import Graph from "../components/common/Graph";
 import { warning } from "../components/notify/notify";
 
 const SButton = styled.button`
-  width: 63px;
-  height: 63px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
 
-  border-radius: 50%;
+  border-radius: 999%;
   border: none;
   cursor: pointer;
 
@@ -30,22 +34,24 @@ const SButton = styled.button`
 `;
 
 const SButtonDiv = styled.div`
+  z-index: 100;
   position: sticky;
-  left: 87vw;
-  bottom: 50px;
+  left: 76vw;
+  bottom: 60px;
   width: 63px;
   height: 120px;
 `;
 
 const SImg = styled.img`
-  width: 33px;
-  height: 33px;
+  width: 28px;
+  height: 28px;
   cursor: pointer;
 `;
 
 const SP = styled.p`
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 600;
+  color: #363636;
 `;
 
 const SContainer = styled.div`
@@ -209,21 +215,40 @@ const AppWhisky = () => {
     <>
       <SContainer>
         {whisky && <WhiskyDetailInfo whisky={whisky} stat={stat} />}
-        <div style={{ width: "990px", marginBottom: "0px", marginTop: "30px" }}>
+        <div style={{ width: "830px", marginBottom: "0px", marginTop: "50px" }}>
           <SP>이 위스키는 이런 맛을 가지고 있어요!</SP>
         </div>
         {whisky && <Graph flavor={whisky.flavor} />}
-        <div style={{ width: "990px", marginBottom: "0px", marginTop: "90px" }}>
-          <SP>이런 위스키는 어떠세요?</SP>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            width: "830px",
+            marginBottom: "0px",
+            marginTop: "90px",
+          }}
+        >
+          <SP style={{ marginRight: "30px" }}>이런 위스키는 어떠세요?</SP>
+          <p>오른쪽으로 스와이프해서 더 많은 위스키를 알아보세요!</p>
         </div>
-        {similarWhiskys.length ? <WhiskySimilarList whiskys={similarWhiskys} /> : null}
+        {similarWhiskys?.length ? <WhiskySimilarList whiskys={similarWhiskys} /> : null}
         <WhiskyDetailReview ref={reviewRef} id={id} whisky={whisky} />
         <SButtonDiv>
-          <SButton onClick={favorite} style={{ marginBottom: "10px" }}>
-            <SImg src={isKeep ? favoriteFilled : favoriteBorder} alt="keep" />
+          <SButton onClick={favorite} style={{ paddingTop: "6px", marginBottom: "10px" }}>
+            <motion.div
+              whileHover={{ scale: 1.2 }}
+              transition={{ type: "spring", stiffness: 100, damping: 10 }}
+            >
+              <SImg src={isKeep ? favoriteFilled : favoriteBorder} alt="keep" />
+            </motion.div>
           </SButton>
           <SButton onClick={createReview}>
-            <SImg src={create} alt="create" />
+            <motion.div
+              whileHover={{ scale: 1.2 }}
+              transition={{ type: "spring", stiffness: 100, damping: 10 }}
+            >
+              <SImg src={create} alt="create" />
+            </motion.div>
           </SButton>
         </SButtonDiv>
       </SContainer>
