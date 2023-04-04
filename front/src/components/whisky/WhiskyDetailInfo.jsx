@@ -6,21 +6,34 @@ const SDiv = styled.div`
   display: flex;
   width: 100vw;
   max-width: 100%;
-  height: 550px;
+  height: 450px;
   justify-content: center;
   align-items: center;
-
   background: #f7f3f0;
+`;
+
+const SInnerDiv = styled.div`
+  display: flex;
+  width: 830px;
+  justify-content: center;
+  align-items: center;
+`;
+
+const SImgContainer = styled.div`
+  max-width: 300px;
+  margin-right: 50px;
 `;
 
 const SImg = styled.img`
   height: 365px;
-  margin-right: 50px;
+  max-width: 100%;
+  object-fit: cover;
+  margin-right: 70px;
 `;
 
 const STextDiv = styled.div`
   display: flex;
-  height: 29px;
+  height: 20px;
   margin-top: 0px;
   margin-bottom: 16px;
   align-items: center;
@@ -28,15 +41,15 @@ const STextDiv = styled.div`
 `;
 
 const STitleP = styled.p`
-  font-weight: 700;
-  font-size: 36px;
+  font-weight: bold;
+  font-size: 28px;
   margin-top: 0px;
   margin-bottom: 35px;
-  max-width: 600px;
+  max-width: 800px;
 `;
 
 const SP = styled.p`
-  font-size: 24px;
+  font-size: 20px;
   margin-right: 10px;
 
   &.title {
@@ -61,16 +74,16 @@ const SStatDiv = styled.div`
   align-items: center;
   justify-content: center;
   width: 500px;
-  height: 104px;
+  height: 90px;
 
   background: #ffffff;
   box-shadow: 0px 4px 35px rgba(193, 193, 193, 0.25);
   border-radius: 30px;
-  margin-top: 63px;
+  margin-top: 50px;
 `;
 
 const SStatP = styled.p`
-  font-size: 20px;
+  font-size: 18px;
 `;
 
 const SStatContainer = styled.div`
@@ -88,42 +101,46 @@ const WhiskyDetailInfo = (props) => {
   return (
     <>
       <SDiv>
-        <SImg src={whisky.imageUrl} alt={whisky.name} />
-        <div>
-          <STitleP>{whisky.name}</STitleP>
-          <STextDiv>
-            <SP className="title">분류</SP>
-            <SP>{whisky.category}</SP>
-          </STextDiv>
-          <STextDiv>
-            <SP className="title">원산지</SP>
-            <SP>{whisky.location}</SP>
-          </STextDiv>
-          <STextDiv>
-            <SP className="title">도수</SP>
-            <SP>{whisky.abv}%</SP>
-          </STextDiv>
-          <STextDiv>
-            <SP className="title">가격</SP> {/*가격의 자세한 표현법에 대해 추가 논의 필요*/}
-            <SP>{whisky.priceTier}</SP>
-          </STextDiv>
-          <STextDiv style={{ marginTop: "30px" }}>
-            <SP style={{ fontSize: "40px", marginRight: "20px" }}>
-              {whisky.avgRating ? whisky.avgRating : "NR"}
-            </SP>
-            <SRatingDiv>
-              <ReactStars
-                count={5}
-                value={Math.round(whisky.avgRating * 2) / 2}
-                edit={false}
-                size={21}
-                color1={"rgba(128, 128, 128, 0.2)"}
-                color2={"#F84F5A"}
-              />
-              <SRatingP>{whisky.reviewCount} rating(s)</SRatingP>
-            </SRatingDiv>
-          </STextDiv>
-        </div>
+        <SInnerDiv>
+          <SImgContainer>
+            <SImg src={whisky.imageUrl} alt={whisky.name} />
+          </SImgContainer>
+          <div>
+            <STitleP>{whisky.name}</STitleP>
+            <STextDiv>
+              <SP className="title">분류</SP>
+              <SP>{whisky.category}</SP>
+            </STextDiv>
+            <STextDiv>
+              <SP className="title">원산지</SP>
+              <SP>{whisky.location}</SP>
+            </STextDiv>
+            <STextDiv>
+              <SP className="title">도수</SP>
+              <SP>{whisky.abv}%</SP>
+            </STextDiv>
+            <STextDiv>
+              <SP className="title">가격</SP> {/*가격의 자세한 표현법에 대해 추가 논의 필요*/}
+              <SP>{whisky.priceTier}</SP>
+            </STextDiv>
+            <STextDiv style={{ marginTop: "50px" }}>
+              <SP style={{ fontWeight: "200", fontSize: "40px", marginRight: "20px" }}>
+                {whisky.avgRating ? whisky.avgRating : "NR"}
+              </SP>
+              <SRatingDiv>
+                <ReactStars
+                  count={5}
+                  value={Math.round(whisky.avgRating * 2) / 2}
+                  edit={false}
+                  size={21}
+                  color1={"rgba(128, 128, 128, 0.2)"}
+                  color2={"#F84F5A"}
+                />
+                <SRatingP>{whisky.reviewCount} rating(s)</SRatingP>
+              </SRatingDiv>
+            </STextDiv>
+          </div>
+        </SInnerDiv>
       </SDiv>
       {stat && (
         <SStatContainer>
