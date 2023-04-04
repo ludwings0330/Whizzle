@@ -1,9 +1,9 @@
 import { atom, useRecoilState } from "recoil";
 import { diaryRead } from "../apis/diary";
-import {recoilPersist} from "recoil-persist";
+import { recoilPersist } from "recoil-persist";
 
 const { persistAtom } = recoilPersist({
-  key: 'recoil-persist',
+  key: "recoil-persist",
   storage: localStorage,
 });
 
@@ -52,12 +52,12 @@ export const fetchDiaries = async (setDiaryList, setData, selectDate) => {
     const clickedDate = `${year}-${month < 10 ? "0" : ""}${month}-${day < 10 ? "0" : ""}${day}`;
 
     let found = false;
-    if(diaries) {
+    if (diaries) {
       diaries.forEach((diary) => {
         const diaryDate = diary.date;
         if (diaryDate === clickedDate) {
           setData((prev) => {
-            return {...prev, ...diary};
+            return { ...prev, ...diary };
           });
           found = true;
         }
@@ -94,13 +94,13 @@ export const preference = atom({
       floral: 0,
     },
   },
-  effects_UNSTABLE: [persistAtom]
+  effects_UNSTABLE: [persistAtom],
 });
 
 export const recommendResult = atom({
   key: "recommendResult",
   default: [],
-  effects_UNSTABLE: [persistAtom]
+  effects_UNSTABLE: [persistAtom],
 });
 
 export const dailyPreference = atom({
@@ -122,7 +122,7 @@ export const dailyPreference = atom({
       fruity: 0,
       floral: 0,
     },
-  }
+  },
 });
 
 export const searchData = atom({
@@ -133,4 +133,9 @@ export const searchData = atom({
 export const reviewState = atom({
   key: "reviewState",
   default: {},
+});
+
+export const showAllState = atom({
+  key: "showAllState",
+  default: false,
 });

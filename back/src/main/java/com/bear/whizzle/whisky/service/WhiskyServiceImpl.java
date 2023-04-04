@@ -26,4 +26,9 @@ public class WhiskyServiceImpl implements WhiskyService {
         return findWhisky(whiskyId).getFlavor();
     }
 
+    @Override
+    public Integer countWhiskies(String word) {
+        return whiskyRepository.countByName("%" + word.toUpperCase() + "%");
+    }
+
 }

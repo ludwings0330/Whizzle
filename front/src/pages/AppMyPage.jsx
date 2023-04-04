@@ -4,12 +4,13 @@ import { changeHeader, rollbackHeader } from "../hooks/changeHeader";
 import { userState } from "../store/userStore";
 import { useRecoilValue } from "recoil";
 import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 //components import
 import MyBadge from "../components/mypage/MyBadge";
 import MyProfile from "../components/mypage/MyProfile";
 import MypageTab from "../components/mypage/MypageTab";
-import { useNavigate } from "react-router";
+import { showAllState } from "../store/indexStore";
 
 const SContainer = styled.div`
   margin-top: 100px;
@@ -30,25 +31,20 @@ const SInfoDiv = styled.div`
 
 const AppMyPage = () => {
   const user = useRecoilValue(userState);
-  const isLogin = Boolean(user.id);
-  const navigate = useNavigate();
 
   const location = useLocation();
   let memberId = user.id;
   if (location.state) memberId = location.state.memberInfo.memberId;
 
   // 페이지 mount시 네비게이션 바 이미지와 글씨 색 변경
+  const showAll = useRecoilValue(showAllState);
   useEffect(() => {
     window.scrollTo(0, 0);
-    if (isLogin) {
-      changeHeader();
-      return () => {
-        rollbackHeader();
-      };
-    } else {
-      navigate("/");
-    }
-  }, []);
+    changeHeader();
+    return () => {
+      rollbackHeader();
+    };
+  }, [showAll]);
 
   return (
     <>

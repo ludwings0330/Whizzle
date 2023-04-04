@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -44,7 +45,7 @@ public class WhiskyController {
      * @param searchCondition 검색어와 조회한 목록 중 마지막 위스키 ID를 받는다.
      * @return 검색어를 이름에 포함하는 위스키 목록을 반환
      */
-    @GetMapping("/any")
+    @GetMapping("/search/any")
     public Slice<WhiskySimpleResponseDto> findWhiskies(
             @AuthenticationPrincipal PrincipalDetails member,
             @PageableDefault(size = 5) Pageable pageable,
@@ -85,6 +86,11 @@ public class WhiskyController {
     @GetMapping("/suggest/{whiskyName}/any")
     public List<WhiskyDocument> autocompleteWhiskyName(@PathVariable String whiskyName) {
         return whiskySearchRepository.suggestByName(whiskyName);
+    }
+
+    @GetMapping("/count/any")
+    public Integer countWhiskies(@RequestParam String word) {
+        return whiskyService.countWhiskies(word);
     }
 
 }
