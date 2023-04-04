@@ -16,6 +16,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Table(name = "saved_model")
@@ -49,5 +50,10 @@ public class SavedModel {
     @Min(0)
     @Max(1)
     private Float mrr;
+
+    @NotNull
+    @ColumnDefault("0")
+    @Builder.Default
+    private Boolean isUsed = Boolean.FALSE;
 
 }
