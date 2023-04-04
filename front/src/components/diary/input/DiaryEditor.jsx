@@ -123,11 +123,16 @@ const SUpdateButton = styled.button`
   font-size: 15px;
   font-weight: bold;
   cursor: pointer;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-left: 12px;
+  padding-right: 12px;
   height: 31px;
   margin-left: 5px;
   font-family: Pretendard Variable;
+  :hover {
+    transition: all 0.3s;
+    background-color: #f84f5a;
+    color: #fff;
+  }
 `;
 
 const SAutoDiv = styled.div`
