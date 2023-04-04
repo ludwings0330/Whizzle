@@ -1,9 +1,9 @@
-package com.bear.whizzle.learn.service;
+package com.bear.whizzle.learn.service.query;
 
 import com.bear.whizzle.learn.controller.dto.MemberData;
 
 public interface LearnService {
 
-    MemberData reactiveLearnMyData(Long memberId);
+    MemberData reactiveLearnData(Long memberId);
 
 }

@@ -1,4 +1,4 @@
-package com.bear.whizzle.learn.service;
+package com.bear.whizzle.learn.service.query;
 
 import com.bear.whizzle.domain.model.entity.Preference;
 import com.bear.whizzle.learn.controller.dto.MemberData;
@@ -22,7 +22,7 @@ public class LearnServiceImpl implements LearnService {
     private final PreferenceQueryService preferenceQueryService;
 
     @Override
-    public MemberData reactiveLearnMyData(Long memberId) {
+    public MemberData reactiveLearnData(Long memberId) {
         List<RatingDto> ratings = reviewProjectionRepository.findAllRatingByMemberId(memberId);
         List<Preference> preferences = preferenceRepository.findAllByMemberIds(List.of(memberId));
         return MemberDataMapper.toMemberData(ratings, preferences, preferenceQueryService.findFlavorMinMax());
