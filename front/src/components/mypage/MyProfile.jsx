@@ -102,11 +102,11 @@ const MyProfile = (props) => {
   const { memberId } = props;
 
   const [otherUserInfo, setOtherUserInfo] = useState(null);
-  const isEditable = memberId === "defaultMemberId";
+  const isEditable = memberId === user.id;
 
   useEffect(() => {
     setOtherUserInfo(null);
-    if (memberId !== "defaultMemberId") {
+    if (memberId !== user.id) {
       const fetchUserInfo = async () => {
         const userData = await userInfo(memberId);
         setOtherUserInfo(userData);

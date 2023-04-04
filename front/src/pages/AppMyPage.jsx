@@ -34,13 +34,12 @@ const AppMyPage = () => {
   const navigate = useNavigate();
 
   const location = useLocation();
-  let memberId = "defaultMemberId";
-  if (location.state) memberId = location.state?.memberId;
-  console.log(memberId);
-  console.log(location);
+  let memberId = user.id;
+  if (location.state) memberId = location.state.memberInfo.memberId;
 
   // 페이지 mount시 네비게이션 바 이미지와 글씨 색 변경
   useEffect(() => {
+    window.scrollTo(0, 0);
     if (isLogin) {
       changeHeader();
       return () => {
@@ -56,9 +55,9 @@ const AppMyPage = () => {
       <SContainer>
         <SInfoDiv>
           <MyProfile memberId={memberId} />
-          <MyBadge />
+          <MyBadge memberId={memberId} />
         </SInfoDiv>
-        <MypageTab />
+        <MypageTab memberId={memberId} />
       </SContainer>
     </>
   );

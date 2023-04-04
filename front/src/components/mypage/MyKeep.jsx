@@ -38,9 +38,8 @@ const SWarning = styled.div`
 `;
 
 //마이페이지 내가 킵한 위스키
-const MyKeep = (props) => {
+const MyKeep = ({ memberId }) => {
   const user = useRecoilValue(userState);
-  const { memberId } = props;
 
   const memberIdToUse = memberId ?? user.id;
 

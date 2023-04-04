@@ -26,12 +26,9 @@ const SBox = styled.div`
 `;
 
 //마이페이지 뱃지
-const MyBadge = (props) => {
+const MyBadge = ({ memberId }) => {
   const user = useRecoilValue(userState);
-
-  const { memberId } = props;
-
-  const memberIdToUse = memberId ?? user.id;
+  const memberIdToUse = memberId || user.id;
 
   const [badges, setBadges] = useState([]);
 

@@ -44,9 +44,8 @@ const SWarning = styled.div`
   font-size: 18px;
 `;
 
-const MyReivew = (props) => {
+const MyReivew = ({ memberId }) => {
   const user = useRecoilValue(userState);
-  const { memberId } = props;
   const memberIdToUse = memberId ?? user.id;
 
   const [reviews, setReviews] = useState([]);
