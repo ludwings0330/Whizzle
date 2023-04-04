@@ -284,7 +284,6 @@ const DiaryEditor = ({ selectedDate }) => {
   }, [selectedDate, data]);
 
   const insertData = () => {
-    console.log("insertData ==>", data);
     switch (data.drinkLevel) {
       case "LIGHT":
         setDrinkLevel("소량");

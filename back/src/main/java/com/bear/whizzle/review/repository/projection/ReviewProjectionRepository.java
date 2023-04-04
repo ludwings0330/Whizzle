@@ -8,7 +8,9 @@ import com.bear.whizzle.common.annotation.Performance;
 import com.bear.whizzle.domain.model.entity.Review;
 import com.bear.whizzle.domain.model.type.ReviewOrder;
 import com.bear.whizzle.review.controller.dto.ReviewSearchCondition;
+import com.bear.whizzle.review.repository.projection.dto.RatingDto;
 import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.JPQLQuery;
@@ -126,6 +128,20 @@ public class ReviewProjectionRepository {
                 .orderBy(review.createdDateTime.desc(), review.id.desc())
                 .limit(3)
                 .fetch();
+    }
+
+    public List<RatingDto> findAllRatingByMemberId(Long memberId) {
+        return queryFactory
+                .select(Projections.constructor(
+                        RatingDto.class,
+                        review.member.id,
+                        review.whisky.id,
+                        review.rating.multiply(2).intValue()
+                ))
+                .from(review)
+                .where(
+                        review.member.id.eq(memberId)
+                ).fetch();
     }
 
 }

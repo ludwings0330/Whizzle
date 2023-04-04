@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from common.config import settings
 from common.context.ItemFeatures import ItemFeatures
-from routers import recommend
+from routers import recommend, retrain
 
 
 def get_application():
@@ -19,8 +19,10 @@ def get_application():
         allow_headers=["*"],
     )
 
-    # router settings
-    _app.include_router(recommend.rec)
+    prefix = "/rec"  # Define the prefix
+
+    _app.include_router(recommend.rec, prefix=prefix)
+    _app.include_router(retrain.rec, prefix=prefix)
 
     return _app
 

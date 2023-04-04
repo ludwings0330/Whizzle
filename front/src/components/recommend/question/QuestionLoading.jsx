@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
-import "./QuestionLoading.css";
+import styles from "./QuestionLoading.module.css";
 
 const slide = {
   // position: "absolute",
@@ -70,7 +70,7 @@ const QuestionLoading = (props) => {
         <use x="0" y="0" xlinkHref="#text" fill="transparent" />
 
         <rect
-          className="water-fill"
+          className={styles.waterFill}
           mask="url(#text_mask)"
           fill="url(#water)"
           x="-400"
