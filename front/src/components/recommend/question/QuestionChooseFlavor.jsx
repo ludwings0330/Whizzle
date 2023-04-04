@@ -56,14 +56,14 @@ const SInfo = styled.div`
   top: 5px;
   left: 102%;
   min-width: 420px;
-  padding: 15px 20px;
+  padding: 18px 22px;
   gap: 10px;
   background: rgba(255, 255, 255, 0.75);
   box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
   font-weight: normal;
-  font-size: 16px;
-  line-height: 130%;
+  font-size: 18px;
+  line-height: 25px;
   color: #666666;
   display: ${(props) => (props.hover ? "block" : "none")};
 `;

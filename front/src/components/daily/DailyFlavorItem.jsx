@@ -66,8 +66,8 @@ const SBalloon = styled.div`
   z-index: 1;
   justify-content: center;
   align-items: center;
-  min-width: 150px;
-  padding: 15px 20px;
+  min-width: 200px;
+  padding: 18px 23px;
   top: 130px;
   border-radius: 10px;
   background: rgba(255, 255, 255, 0.9);
@@ -85,9 +85,10 @@ const SBalloon = styled.div`
 `;
 
 const SBalloonText = styled.p`
-  font-size: 14px;
+  font-size: 16px;
   color: #666666;
   margin: 0;
+  line-height: 20px;
 `;
 
 const flavorInfo = {
