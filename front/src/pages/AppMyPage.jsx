@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { changeHeader, rollbackHeader } from "../hooks/changeHeader";
 import { userState } from "../store/userStore";
 import { useRecoilValue } from "recoil";
+import { useLocation } from "react-router-dom";
 
 //components import
 import MyBadge from "../components/mypage/MyBadge";
@@ -32,6 +33,12 @@ const AppMyPage = () => {
   const isLogin = Boolean(user.id);
   const navigate = useNavigate();
 
+  const location = useLocation();
+  let memberId = "defaultMemberId";
+  if (location.state) memberId = location.state.userId.memberId;
+  console.log(memberId);
+  console.log(location);
+
   // 페이지 mount시 네비게이션 바 이미지와 글씨 색 변경
   useEffect(() => {
     if (isLogin) {
@@ -48,7 +55,7 @@ const AppMyPage = () => {
     <>
       <SContainer>
         <SInfoDiv>
-          <MyProfile />
+          <MyProfile memberId={memberId} />
           <MyBadge />
         </SInfoDiv>
         <MypageTab />

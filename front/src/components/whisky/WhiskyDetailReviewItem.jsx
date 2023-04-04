@@ -159,7 +159,8 @@ const WhiskyDetailReviewItem = ({ review }) => {
 
   const navigate = useNavigate();
   const goToUserPage = () => {
-    navigate("/mypage", { state: { userId: review.memberInfo.memberId } });
+    navigate("/mypage", { state: { memberInfo: review.memberInfo } });
+    console.log(review.memberInfo);
   };
 
   return (
