@@ -73,7 +73,12 @@ const SRight = styled.div`
 
 const SLikeImg = styled.img`
   height: 32px;
+  transition: 0.5s;
   z-index: 2;
+  &:hover {
+    transform: scale(1.2);
+    transition: 0.5s;
+  }
 `;
 
 const SRating = styled.div`
