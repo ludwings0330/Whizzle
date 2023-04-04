@@ -65,7 +65,7 @@ def make_features(preference_df, item_features):
     return preference_meta, item_meta
 
 
-def save_ratings(rating_df):
+def concat_ratings(rating_df):
     logging.debug("train_rating.csv is updated")
     ratings = pd.read_csv(settings.RATING_PATH, index_col=0, encoding=settings.ENCODING)
     ratings = pd.concat([ratings, rating_df], ignore_index=True)
@@ -73,7 +73,7 @@ def save_ratings(rating_df):
     ratings.to_csv(settings.RATING_PATH, encoding=settings.ENCODING)
 
 
-def save_user_features(user_features_df):
+def concat_user_features(user_features_df):
     logging.debug("user_features.csv is updated")
     user_features = pd.read_csv(
         settings.USER_FEATURES_PATH, index_col=0, encoding=settings.ENCODING
