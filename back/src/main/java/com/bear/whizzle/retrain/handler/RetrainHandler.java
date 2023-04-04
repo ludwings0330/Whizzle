@@ -4,10 +4,12 @@ import com.bear.whizzle.retrain.handler.dto.MemberData;
 import com.bear.whizzle.retrain.service.query.RetrainService;
 import com.bear.whizzle.member.service.MemberService;
 import com.bear.whizzle.recommend.service.RecService;
+import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -36,4 +38,25 @@ public class RetrainHandler {
         }
     }
 
+    @Scheduled(cron = "0 0 3 * * *")
+    public void retrainNewMember() {
+        MemberData memberData = retrainService.reactiveLearnData(
+                memberService.findNewMemberIds()
+        );
+        LocalDateTime now = LocalDateTime.now();
+        if(memberData.getPreferences().isEmpty() && memberData.getRatings().isEmpty()) {
+            log.info("신규 사용자 없음 학습 진행하지 않습니다.");
+            return;
+        }
+        memberData.setTime(now.toString());
+        log.info("신규 사용자 학습 진행 : {}", memberData);
+        webClient.post()
+                 .uri("/rec/retrain/new")
+                 .accept(MediaType.APPLICATION_JSON)
+                 .contentType(MediaType.APPLICATION_JSON)
+                 .bodyValue(memberData)
+                 .retrieve() // API 호출
+                 .bodyToMono(Void.class)
+                 .block();
+    }
 }
