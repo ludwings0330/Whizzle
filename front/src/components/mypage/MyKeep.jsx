@@ -38,9 +38,12 @@ const SWarning = styled.div`
 `;
 
 //마이페이지 내가 킵한 위스키
-const MyKeep = () => {
+const MyKeep = (props) => {
   const user = useRecoilValue(userState);
-  const id = user.id;
+  const { memberId } = props;
+
+  const memberIdToUse = memberId ?? user.id;
+
   const [whiskys, setWhiskys] = useState([]);
   const [lastId, setLastId] = useState(null);
   const [isLast, setIsLast] = useState(false);
@@ -69,11 +72,11 @@ const MyKeep = () => {
         observer.unobserve(observerRef.current);
       }
     };
-  }, [observerRef, lastId]);
+  }, [observerRef, lastId, memberIdToUse]);
 
   const myKeepApi = async () => {
     const params = {
-      memberId: id,
+      memberId: memberIdToUse, // memberId가 없는 경우 id를 사용
       lastOffset: lastId,
       size: 9,
     };

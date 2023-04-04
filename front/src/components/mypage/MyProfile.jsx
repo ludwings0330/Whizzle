@@ -107,7 +107,6 @@ const MyProfile = (props) => {
   useEffect(() => {
     setOtherUserInfo(null);
     if (memberId !== "defaultMemberId") {
-      console.log(123123123);
       const fetchUserInfo = async () => {
         const userData = await userInfo(memberId);
         setOtherUserInfo(userData);

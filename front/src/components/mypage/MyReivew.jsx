@@ -44,9 +44,11 @@ const SWarning = styled.div`
   font-size: 18px;
 `;
 
-const MyReivew = () => {
+const MyReivew = (props) => {
   const user = useRecoilValue(userState);
-  const id = user.id;
+  const { memberId } = props;
+  const memberIdToUse = memberId ?? user.id;
+
   const [reviews, setReviews] = useState([]);
   const [lastId, setLastId] = useState(null);
   const [isLast, setIsLast] = useState(false);
@@ -75,7 +77,7 @@ const MyReivew = () => {
         observer.unobserve(observerRef.current);
       }
     };
-  }, [observerRef, lastId]);
+  }, [observerRef, lastId, memberIdToUse]);
 
   const myReviewApi = async () => {
     if (!isLoading && !isLast) {
@@ -86,7 +88,7 @@ const MyReivew = () => {
           baseId: lastId,
           reviewOrder: "RECENT",
         };
-        const myReviews = await reviewApi(id, params);
+        const myReviews = await reviewApi(memberIdToUse, params);
         if (myReviews.length > 0) {
           setReviews((prev) => {
             return [...prev, ...myReviews];

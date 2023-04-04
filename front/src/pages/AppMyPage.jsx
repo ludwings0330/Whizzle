@@ -35,7 +35,9 @@ const AppMyPage = () => {
 
   const location = useLocation();
   let memberId = "defaultMemberId";
-  if (location.state) memberId = location.state.memberInfo.memberId;
+  if (location.state) memberId = location.state?.memberId;
+  console.log(memberId);
+  console.log(location);
 
   // 페이지 mount시 네비게이션 바 이미지와 글씨 색 변경
   useEffect(() => {

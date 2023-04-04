@@ -8,12 +8,12 @@ import { likeReview } from "../../apis/review";
 import { useRecoilValue } from "recoil";
 import Swal from "sweetalert2";
 import { userState } from "../../store/userStore";
-import { motion } from "framer-motion";
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  width: 780px;
+  width: 990px;
+  min-height: 450px;
   background: #ffffff;
   border: 1px solid #d8d8d8;
   border-radius: 16px;
@@ -23,10 +23,9 @@ const Wrapper = styled.div`
 const SReviewInfoDiv = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: center;
   width: 100%;
   height: 85px;
-  margin-top: 30px;
+  margin-top: 38px;
 `;
 
 const SUserDiv = styled.div`
@@ -38,7 +37,7 @@ const SUserDiv = styled.div`
 const SNicknameDiv = styled.div`
   display: flex;
   align-items: center;
-  gap: 15px;
+  justify-content: space-between;
   min-width: 215px;
   height: 27px;
   line-height: 27px;
@@ -47,8 +46,8 @@ const SNicknameDiv = styled.div`
 `;
 
 const SProfileImg = styled.img`
-  width: 75px;
-  height: 75px;
+  width: 85px;
+  height: 85px;
   margin-left: 45px;
   border-radius: 50%;
 `;
@@ -84,8 +83,8 @@ const SReviewPicDiv = styled.div`
 `;
 
 const SImg = styled.img`
-  height: 90px;
-  width: 90px;
+  height: 100px;
+  width: 100px;
   object-fit: cover;
   margin-right: 16px;
   cursor: pointer;
@@ -94,10 +93,10 @@ const SImg = styled.img`
 const STextDiv = styled.div`
   margin-left: 50px;
   margin-right: 50px;
-  margin-top: 20px;
-  margin-bottom: 35px;
+  margin-top: 40px;
+  margin-bottom: 48px;
   width: 890px;
-  font-size: 16px;
+  font-size: 20px;
 `;
 
 const WhiskyDetailReviewItem = ({ review }) => {
@@ -167,7 +166,7 @@ const WhiskyDetailReviewItem = ({ review }) => {
   return (
     <Wrapper>
       <SReviewInfoDiv>
-        <div style={{ display: "flex", alignItems: "center" }}>
+        <div style={{ display: "flex" }}>
           <SProfileImg src={review.memberInfo.profileImageUrl} alt="유저 프로필" />
           <SUserDiv>
             <SNicknameDiv>
@@ -176,7 +175,7 @@ const WhiskyDetailReviewItem = ({ review }) => {
                 style={{
                   marginLeft: "2px",
                   fontWeight: "600",
-                  fontSize: "20px",
+                  fontSize: "24px",
                   cursor: "pointer",
                 }}
               >
@@ -202,23 +201,18 @@ const WhiskyDetailReviewItem = ({ review }) => {
           </SUserDiv>
         </div>
         <SLikeDiv>
-          <motion.div
-            whileHover={{ scale: 1.1 }}
-            transition={{ type: "spring", stiffness: 100, damping: 10 }}
-          >
-            <SLikeImg
-              style={{ cursor: "pointer" }}
-              onClick={onLikeHandler}
-              src={isLike ? favoriteFilled : favoriteBorder}
-              alt="#"
-            />
-          </motion.div>
+          <SLikeImg
+            style={{ cursor: "pointer" }}
+            onClick={onLikeHandler}
+            src={isLike ? favoriteFilled : favoriteBorder}
+            alt="#"
+          />
           <p style={{ color: "#F84F5A" }}>{likeCount}</p>
         </SLikeDiv>
       </SReviewInfoDiv>
       {review.reviewInfo.reviewImages.length ? (
         <SReviewPicDiv>
-          {review.reviewInfo.reviewImages.slice(0, 5).map((pic, index) => (
+          {review.reviewInfo.reviewImages.map((pic, index) => (
             <SImg
               onClick={() => modalHandler(pic)}
               key={index}
