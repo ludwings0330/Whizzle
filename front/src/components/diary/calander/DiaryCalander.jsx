@@ -148,7 +148,6 @@ const DiaryCalander = ({ setSelectedDate, selectedDate }) => {
   }, [selectedDate]);
 
   useEffect(() => {
-    console.log("data ->", data);
     const drinks = data.drinks;
     const drinkList = drinks.map((drink) => drink.whisky);
     setSearchTerms(drinkList);
