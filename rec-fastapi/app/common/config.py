@@ -16,6 +16,7 @@ class Settings(BaseSettings):
     ITEM_FEATURES_PATH: str
     USER_FEATURES_PATH: str
     RATING_PATH: str
+    TEST_DATA_PATH: str
     ENCODING: str
     N_USERS: int
     LOG_LEVEL: str
