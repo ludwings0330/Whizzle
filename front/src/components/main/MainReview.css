@@ -1,0 +1,19 @@
+.slide-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  animation: loop 18s linear infinite;
+}
+
+@keyframes loop {
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@-webkit-keyframes loop {
+  100% {
+    transform: translateX(-100%);
+  }
+}
