@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import Lottie from "lottie-react";
 import animationData from "../assets/img/lotties/error-bear.json";
+import { useRecoilValue } from "recoil";
+import { showAllState } from "../store/indexStore";
 // import animationData from "../assets/img/lotties/drinking-bear.json";
 import { changeHeader, rollbackHeader } from "../hooks/changeHeader";
 
@@ -28,12 +30,13 @@ const SText = styled.div`
 
 const AppError = () => {
   // 페이지 mount시 네비게이션 바 이미지와 글씨 색 변경
+  const showAll = useRecoilValue(showAllState);
   useEffect(() => {
     changeHeader();
     return () => {
       rollbackHeader();
     };
-  }, []);
+  }, [showAll]);
 
   return (
     <SDiv>

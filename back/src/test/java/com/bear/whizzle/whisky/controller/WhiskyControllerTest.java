@@ -1,8 +1,11 @@
 package com.bear.whizzle.whisky.controller;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.bear.whizzle.auth.service.PrincipalDetails;
@@ -26,6 +29,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
@@ -156,7 +161,27 @@ class WhiskyControllerTest {
                                 .getContentAsString();
 
         // then
-        Assertions.assertThat(objectMapper.readValue(content, PreferenceStatisticsDto.class)).isNotNull();
+        assertThat(objectMapper.readValue(content, PreferenceStatisticsDto.class)).isNotNull();
+    }
+
+    @Test
+    @DisplayName("검색된 위스키의 총 개수 조회")
+    void countWhiskies() throws Exception {
+        // given
+        final String TEST_WORD = "Hi";
+
+        // when
+        String content = mockMvc.perform(
+                                        get("/api/whiskies/count/any")
+                                                .param("word", TEST_WORD)
+                                ).andExpect(status().isOk())
+                                .andReturn()
+                                .getResponse()
+                                .getContentAsString();
+
+        // then
+        int actual = Integer.parseInt(content);
+        assertThat(actual).isNotNegative();
     }
 
 }

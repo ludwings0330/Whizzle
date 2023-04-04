@@ -9,4 +9,6 @@ public interface WhiskyService {
 
     Flavor getWhiskyFlavorById(long whiskyId);
 
+    Integer countWhiskies(String word);
+
 }

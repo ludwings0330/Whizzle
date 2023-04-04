@@ -12,7 +12,18 @@ export const getAutocomplete = async (word) => {
 export const getsearchWhisky = async (data) => {
   const { word, offset, size } = data;
   try {
-    const res = await api.get(`/api/whiskies/any?word=${word}&lastOffset=${offset}&size=${size}`);
+    const res = await api.get(
+      `/api/whiskies/search/any?word=${word}&lastOffset=${offset}&size=${size}`
+    );
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getsearchWhiskyCount = async (word) => {
+  try {
+    const res = await api.get(`/api/whiskies/count/any?word=${word}`);
     return res.data;
   } catch (error) {
     console.log(error);
