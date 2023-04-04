@@ -1,7 +1,7 @@
 import { toast } from "react-toastify";
 
 const option = {
-  position: "bottom-right",
+  position: "top-right",
   pauseOnHover: false,
   autoClose: 2000,
 };

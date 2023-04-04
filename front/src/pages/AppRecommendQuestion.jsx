@@ -21,6 +21,7 @@ import QuestionChooseWhisky from "../components/recommend/question/QuestionChoos
 import QuestionChooseFlavor from "../components/recommend/question/QuestionChooseFlavor";
 import QuestionLoading from "../components/recommend/question/QuestionLoading";
 import { error } from "../components/notify/notify";
+import {useLocation} from "react-router-dom";
 
 const SDiv = styled.div`
   display: flex;
@@ -103,11 +104,10 @@ const Svg = styled.svg`
   }
 `;
 
-const AppRecommendQuestion = () => {
+const AppRecommendQuestion = (props) => {
   const user = useRecoilValue(userState);
   const isLogin = Boolean(user.id);
   const navigate = useNavigate();
-
   const [preferenceValue, setPreferenceValue] = useRecoilState(preference);
   const [resultValue, setResultValue] = useRecoilState(recommendResult);
   const [activePage, setActivePage] = useState(0);
@@ -126,11 +126,9 @@ const AppRecommendQuestion = () => {
             priceTier: userPreference.data.priceTier,
             flavor: userPreference.data.flavor,
           };
-          console.log(recommendData);
           try {
             let recommendedResult;
             recommendedResult = await recommend(recommendData);
-            // console.log(recommendedResult);
             if (recommendedResult !== undefined) {
               setResultValue(recommendedResult);
               navigate("/recommend/result");
@@ -235,7 +233,9 @@ const AppRecommendQuestion = () => {
   };
 
   useEffect(() => {
-    goResult();
+    if(resultValue.length > 0) {
+      whiskySubmitHandler();
+    }
   }, []);
 
   useEffect(() => {
