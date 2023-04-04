@@ -126,6 +126,7 @@ const SDiv = styled.div`
   width: fit-content;
   max-width: 300px;
   gap: 5px;
+  cursor: pointer;
 `;
 
 const SUpdateButton = styled.button`
@@ -449,6 +450,10 @@ const DiaryEditor = ({ selectedDate }) => {
   };
 
   const handleSubmit = () => {
+    if(searchTerms.length === 0) {
+      error("위스키를 한 개 이상 입력해주세요");
+      return;
+    }
     onCreate();
     success("다이어리 저장 성공!");
     setIsSave(false);
@@ -460,6 +465,10 @@ const DiaryEditor = ({ selectedDate }) => {
   };
 
   const handleEdit = async () => {
+    if(searchTerms.length===0) {
+      error("위스키를 한 개 이상 입력해주세요");
+      return;
+    }
     const changeEmotionApi =
       emotionValue < 33 ? "BAD" : emotionValue < 66 ? "NORMAL" : "GOOD";
     const changeDrinkLevelApi =
@@ -592,7 +601,7 @@ const DiaryEditor = ({ selectedDate }) => {
               {searchTerms.map((whisky, index) => (
                 <SDiv
                   key={index}
-                  onClick={() => navigate(`/whisky/${whisky.id}`)}
+                  onClick={() => (!(isSave||isEdit))?navigate(`/whisky/${whisky.id}`):null}
                 >
                   <SName>
                     {whisky.name?.length > 37
