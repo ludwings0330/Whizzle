@@ -37,12 +37,14 @@ const STab = styled(Tab)`
   }
 `;
 
-const MypageTab = () => {
+const MypageTab = (props) => {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
 
   const handleTabSelect = (index) => {
     setActiveTabIndex(index);
   };
+
+  const { memberId } = props;
 
   return (
     <>
@@ -52,10 +54,10 @@ const MypageTab = () => {
           <STab>작성한 리뷰</STab>
         </STabList>
         <TabPanel>
-          <MyKeep />
+          <MyKeep memberId={memberId} />
         </TabPanel>
         <TabPanel>
-          <MyReivew />
+          <MyReivew memberId={memberId} />
         </TabPanel>
       </Tabs>
     </>

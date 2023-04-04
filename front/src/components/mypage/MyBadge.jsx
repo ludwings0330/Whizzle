@@ -26,9 +26,9 @@ const SBox = styled.div`
 `;
 
 //마이페이지 뱃지
-const MyBadge = () => {
+const MyBadge = ({ memberId }) => {
   const user = useRecoilValue(userState);
-  const id = user.id;
+  const memberIdToUse = memberId || user.id;
 
   const [badges, setBadges] = useState([]);
 
@@ -40,7 +40,7 @@ const MyBadge = () => {
     };
 
     try {
-      const myBadges = await badgeApi(id);
+      const myBadges = await badgeApi(memberIdToUse, {});
       setBadges(myBadges);
       if (myBadges.length % 5 !== 0) {
         const count = 5 - (myBadges.length % 5);
@@ -55,7 +55,7 @@ const MyBadge = () => {
 
   useEffect(() => {
     getBadge();
-  }, []);
+  }, [memberIdToUse]);
 
   return (
     <>

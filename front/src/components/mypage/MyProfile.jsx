@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import MyLevel from "./MyLevel";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -9,6 +9,7 @@ import { error } from "../notify/notify";
 
 import { profileChangeApi } from "../../apis/mypage";
 import { nicknameChangeApi } from "../../apis/mypage";
+import { userInfo } from "../../apis/userinfo";
 
 const SImgContainer = styled.div`
   position: relative;
@@ -89,7 +90,7 @@ const SButton = styled.button`
 const SInput = styled.input``;
 
 //마이페이지 상단 해당 유저의 기본 정보
-const MyProfile = () => {
+const MyProfile = (props) => {
   const user = useRecoilValue(userState);
   const [isEditing, setIsEditing] = useState(false);
   const [editedNickname, setEditedNickname] = useState(user.nickname);
@@ -97,6 +98,28 @@ const MyProfile = () => {
   const [newNickname, setNewNickname] = useState(user.nickname);
   const [newProfileImage, setProfileImage] = useState(user.image.url);
   const [userStateData, setUserStateData] = useRecoilState(userState);
+
+  const { memberId } = props;
+
+  const [otherUserInfo, setOtherUserInfo] = useState(null);
+  const isEditable = memberId === user.id;
+
+  useEffect(() => {
+    setOtherUserInfo(null);
+    if (memberId !== user.id) {
+      const fetchUserInfo = async () => {
+        const userData = await userInfo(memberId);
+        setOtherUserInfo(userData);
+      };
+
+      fetchUserInfo();
+    }
+  }, [memberId]);
+
+  //나의 마이페이지에는 memberId가 없음
+  //타인의 마이페이지에 들어갈 때는 memberId가 존재
+  //따라서 memberId가 존재한다면 memberId의 nickname과 profileImageUrl, level을 띄우고
+  //수정할 수 없도록 하기
 
   const handleProfileImageChange = async (e) => {
     const file = e.target.files[0];
@@ -154,17 +177,24 @@ const MyProfile = () => {
     <>
       <SMainDiv>
         <SImgContainer>
-          <SImg src={`${user.image.url}`} alt={user.name} />
-          <label htmlFor="profile-image-upload">
-            <SCameraIcon src={cameraIcon} alt="Change Profile Picture" />
-          </label>
-          <input
-            id="profile-image-upload"
-            type="file"
-            accept=".jpg, .jpeg, .png"
-            onChange={handleProfileImageChange}
-            style={{ display: "none" }}
+          <SImg
+            src={`${otherUserInfo ? otherUserInfo.image.url : user.image.url}`}
+            alt={user.name}
           />
+          {isEditable && (
+            <>
+              <label htmlFor="profile-image-upload">
+                <SCameraIcon src={cameraIcon} alt="Change Profile Picture" />
+              </label>
+              <input
+                id="profile-image-upload"
+                type="file"
+                accept=".jpg, .jpeg, .png"
+                onChange={handleProfileImageChange}
+                style={{ display: "none" }}
+              />
+            </>
+          )}
         </SImgContainer>
         <SInfoDiv>
           <SNicknameDiv>
@@ -188,16 +218,18 @@ const MyProfile = () => {
               </>
             ) : (
               <>
-                <SP>{user.nickname}</SP>
-                <SPencilIcon
-                  src={pencilIcon}
-                  alt="Change Nickname"
-                  onClick={handleEditNicknameClick}
-                />
+                <SP>{otherUserInfo ? otherUserInfo.nickname : user.nickname}</SP>
+                {isEditable && (
+                  <SPencilIcon
+                    src={pencilIcon}
+                    alt="Change Nickname"
+                    onClick={handleEditNicknameClick}
+                  />
+                )}
               </>
             )}
           </SNicknameDiv>
-          <MyLevel level={user.level} max={100} />
+          <MyLevel level={otherUserInfo ? otherUserInfo.level : user.level} max={100} />
         </SInfoDiv>
       </SMainDiv>
     </>
