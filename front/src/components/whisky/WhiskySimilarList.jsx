@@ -4,7 +4,7 @@ import WhiskySimilarListItem from "./WhiskySimilarListItem";
 import { throttle } from "../../hooks/throttle";
 
 const SContainer = styled.div`
-  width: 990px;
+  width: 800px;
   max-width: 100%;
   display: flex;
   overflow-x: scroll;
