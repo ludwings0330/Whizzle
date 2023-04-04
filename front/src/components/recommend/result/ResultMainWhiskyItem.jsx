@@ -5,9 +5,10 @@ import favoriteBorder from "../../../assets/img/favorite_border.png";
 import favoriteFilled from "../../../assets/img/favorite_filled.png";
 import ReactStars from "react-stars";
 import { userState } from "../../../store/userStore";
-import { useRecoilValue } from "recoil";
+import {useRecoilState, useRecoilValue} from "recoil";
 import { getKeep, keepToggle } from "../../../apis/whiskyDetail";
 import { warning } from "../../notify/notify";
+import {recommendResult} from "../../../store/indexStore";
 
 const SDiv = styled.div`
   margin-top: 10px;
@@ -143,11 +144,33 @@ const SBoldColorP = styled.p`
 const ResultMainWhiskyItem = (props) => {
   const whisky = props.whisky;
   const index = String(props.index);
-  const onKeepHandler = (e) => {
+  const [resultValue, setResultValue] = useRecoilState(recommendResult);
+
+
+  const [isKeep, setIsKeep] = useState(whisky.isKept);
+  const user = useRecoilValue(userState);
+  const isLogin = Boolean(user.id);
+
+  const onKeepHandler = async (e) => {
     e.stopPropagation();
     if (isLogin) {
-      setIsKeep(!isKeep);
-      keepToggle(whisky.id);
+      const result = await keepToggle(whisky.id);
+
+      if (result === true) {
+        setIsKeep(prev => !prev);
+
+        const targetId = whisky.id;
+
+        const updatedResult = resultValue.map(whisky => {
+          if(whisky.id === targetId) {
+            return { ...whisky, isKept: !isKeep}
+          }
+
+          return whisky;
+        });
+
+        setResultValue(updatedResult);
+      }
     } else {
       warning("로그인이 필요한 기능입니다!");
       navigate("/signin");
@@ -158,25 +181,6 @@ const ResultMainWhiskyItem = (props) => {
   const onClickHandler = () => {
     navigate(`/whisky/${whisky.id}`);
   };
-
-  const [isKeep, setIsKeep] = useState(false);
-  const user = useRecoilValue(userState);
-  const isLogin = Boolean(user.id);
-
-  async function getKeepInfo(param) {
-    try {
-      const keepInfo = await getKeep(param);
-      setIsKeep(keepInfo);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  useEffect(() => {
-    if (isLogin) {
-      getKeepInfo(whisky.id);
-    }
-  }, []);
 
   return (
     <SDiv onClick={onClickHandler} className={`no-${index}`}>
