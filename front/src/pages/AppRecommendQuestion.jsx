@@ -28,12 +28,7 @@ const SDiv = styled.div`
   align-items: center;
   flex-direction: column;
   min-height: 100vh;
-  background-image: linear-gradient(
-    90deg,
-    #f84f5a 28.12%,
-    #f7875a 65.62%,
-    #f7cb5a 100%
-  );
+  background-image: linear-gradient(90deg, #f84f5a 28.12%, #f7875a 65.62%, #f7cb5a 100%);
 `;
 
 const slider = {
@@ -51,9 +46,7 @@ const SPrevNavigate = styled.div`
   top: 43.25%;
   left: 0%;
   display: ${(props) =>
-    props.activePage === 0 || props.activePage === 1 || props.activePage === 6
-      ? "none"
-      : ""};
+    props.activePage === 0 || props.activePage === 1 || props.activePage === 6 ? "none" : ""};
 `;
 
 const SNextNavigate = styled.div`
@@ -129,12 +122,11 @@ const AppRecommendQuestion = () => {
           setPreferenceValue((prev) => {
             return { ...prev, flavor: userPreference.data.flavor };
           });
-          // console.log(userPreference.data);
           const recommendData = {
-            priceTier: preferenceValue.priceTier,
-            flavor: preferenceValue.flavor,
+            priceTier: userPreference.data.priceTier,
+            flavor: userPreference.data.flavor,
           };
-          // console.log(recommendData);
+          console.log(recommendData);
           try {
             let recommendedResult;
             recommendedResult = await recommend(recommendData);
@@ -212,9 +204,7 @@ const AppRecommendQuestion = () => {
 
     // 선택된 위스키로 flavor 가져와서 저장
     try {
-      const selectedWhisky = await whiskyDetail(
-        presetWisky[preferenceValue.whiskies[0]].id
-      );
+      const selectedWhisky = await whiskyDetail(presetWisky[preferenceValue.whiskies[0]].id);
       const selectedWhiskyFlavor = selectedWhisky.flavor;
       setPreferenceValue((prev) => {
         return { ...prev, flavor: selectedWhiskyFlavor };
@@ -411,9 +401,7 @@ const AppRecommendQuestion = () => {
         transition={{ duration: 0.75, delay: 0.75 }}
       />
       <motion.div style={slider}>
-        <AnimatePresence custom={direction}>
-          {recommendQuestionPages()}
-        </AnimatePresence>
+        <AnimatePresence custom={direction}>{recommendQuestionPages()}</AnimatePresence>
       </motion.div>
       <SPrevNavigate activePage={activePage} onClick={goPrevPage}>
         <img src={navigatePrev} alt="navigate" />
