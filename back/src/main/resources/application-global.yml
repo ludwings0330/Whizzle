@@ -38,7 +38,7 @@ logging:
 
 webclient:
 #  baseurl: http://localhost
-  baseurl: http://j8a805.p.ssafy.io
+  baseurl: https://j8a805.p.ssafy.io
   port: 8000
 
 spring:
