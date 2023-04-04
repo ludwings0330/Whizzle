@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { changeHeader, rollbackHeader } from "../hooks/changeHeader";
 import { userState } from "../store/userStore";
 import { useRecoilValue } from "recoil";
+import { showAllState } from "../store/indexStore";
 
 //components import
 import MyBadge from "../components/mypage/MyBadge";
@@ -33,16 +34,13 @@ const AppMyPage = () => {
   const navigate = useNavigate();
 
   // 페이지 mount시 네비게이션 바 이미지와 글씨 색 변경
+  const showAll = useRecoilValue(showAllState);
   useEffect(() => {
-    if (isLogin) {
-      changeHeader();
-      return () => {
-        rollbackHeader();
-      };
-    } else {
-      navigate("/");
-    }
-  }, []);
+    changeHeader();
+    return () => {
+      rollbackHeader();
+    };
+  }, [showAll]);
 
   return (
     <>
