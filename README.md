@@ -82,7 +82,8 @@
 
 ---
 
-시스템 아키텍처 이미지 추가
+![whizzle-architecture-01](./output/10_시스템_아키텍처/Whizzle_Architecture-1.png)
+![whizzle-architecture-02](./output/10_시스템_아키텍처/Whizzle_Architecture-2.png)
 
 ## 기술 스택
 
