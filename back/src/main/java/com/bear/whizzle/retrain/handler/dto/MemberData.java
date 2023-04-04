@@ -1,4 +1,4 @@
-package com.bear.whizzle.learn.controller.dto;
+package com.bear.whizzle.retrain.handler.dto;
 
 import com.bear.whizzle.recommend.controller.dto.PreferenceDto;
 import com.bear.whizzle.review.repository.projection.dto.RatingDto;
@@ -17,7 +17,12 @@ import lombok.ToString;
 @ToString
 public class MemberData {
 
+    private String time;
     private List<RatingDto> ratings;
     private List<PreferenceDto> preferences;
+
+    public void setTime(String time) {
+        this.time = time;
+    }
 
 }

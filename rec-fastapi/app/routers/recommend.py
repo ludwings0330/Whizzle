@@ -29,10 +29,12 @@ async def rec_personal_whisky(
     personal_whisky_request: PersonalWhiskyRequest = Body(...),
     item_features: ItemFeatures = Depends(ItemFeatures),
 ):
-    logging.debug(
-        "user_id : {} learned model user_id : {} call personal whisky.".format(
+
+    logging.info(
+        "실제 사용자 : {}\n추천 조회 id : {}\nPreference : {}".format(
             personal_whisky_request.user_id,
             personal_whisky_request.preferences[0].user_id,
+            personal_whisky_request.preferences[0],
         )
     )
     return predict_personal_whisky(
@@ -45,6 +47,7 @@ async def rec_similar_whisky(
     whisky_id: int = Path(..., ge=1),
     item_features: ItemFeatures = Depends(ItemFeatures),
 ):
+    logging.info("whisky id : {}".format(whisky_id))
     return predict_similar_whisky(whisky_id, item_features.data)
 
 

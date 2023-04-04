@@ -130,7 +130,7 @@ public class ReviewProjectionRepository {
                 .fetch();
     }
 
-    public List<RatingDto> findAllRatingByMemberId(Long memberId) {
+    public List<RatingDto> findAllRatingByMemberInIds(List<Long> memberIds) {
         return queryFactory
                 .select(Projections.constructor(
                         RatingDto.class,
@@ -140,7 +140,7 @@ public class ReviewProjectionRepository {
                 ))
                 .from(review)
                 .where(
-                        review.member.id.eq(memberId)
+                        review.member.id.in(memberIds)
                 ).fetch();
     }
 

@@ -3,7 +3,6 @@ package com.bear.whizzle.recommend.service;
 import com.bear.whizzle.domain.exception.NotFoundException;
 import com.bear.whizzle.domain.model.entity.Member;
 import com.bear.whizzle.domain.model.entity.Preference;
-import com.bear.whizzle.domain.model.entity.SavedModel;
 import com.bear.whizzle.domain.model.entity.Whisky;
 import com.bear.whizzle.domain.model.type.Flavor;
 import com.bear.whizzle.keep.repository.KeepCustomRepository;
@@ -126,9 +125,7 @@ public class RecServiceImpl implements RecService {
      */
     @Override
     public Long isLearnedMember(Long memberId) {
-        SavedModel savedModel = savedModelRepository.findTopByOrderByIdDesc()
-                                                    .orElseThrow(() -> new RuntimeException("서버 에러입니다."));
-        return memberRepository.findByIdAndCreatedDateTimeBefore(memberId, savedModel.getSavedDateTime())
+        return memberRepository.findByIdAndCreatedDateTimeBefore(memberId)
                                .map(Member::getId)
                                .orElse(0L);
     }
