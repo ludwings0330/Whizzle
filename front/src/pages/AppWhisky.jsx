@@ -34,6 +34,7 @@ const SButton = styled.button`
 `;
 
 const SButtonDiv = styled.div`
+  z-index: 100;
   position: sticky;
   left: 76vw;
   bottom: 60px;
