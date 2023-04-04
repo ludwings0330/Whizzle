@@ -13,12 +13,13 @@ def fit_partial_user(
     ratings: List[Rating], preferences: List[Preference], item_features
 ):
     try:
+        dataset = load_dataset()
         model = load_rec_model()
         rating_df = make_rating_df(ratings)
-        interactions, weights = make_interactions(rating_df)
+        interactions, weights = make_interactions(rating_df, dataset)
         preference_df = make_user_features_df(preferences)
         user_meta, item_meta = make_features(
-            preference_df=preference_df, item_features=item_features
+            preference_df=preference_df, item_features=item_features, dataset=dataset
         )
         # add error detection logic
         model.fit_partial(
@@ -32,6 +33,7 @@ def fit_partial_user(
         save_model(model)
         rating_df = concat_ratings(rating_df=rating_df)
         user_features_df = concat_user_features(user_features_df=preference_df)
+        logging.info("train_rating.csv and user_features is updated")
         rating_df.to_csv(settings.RATING_PATH, encoding=settings.ENCODING)
         user_features_df.to_csv(settings.USER_FEATURES_PATH, encoding=settings.ENCODING)
     except Exception as e:
