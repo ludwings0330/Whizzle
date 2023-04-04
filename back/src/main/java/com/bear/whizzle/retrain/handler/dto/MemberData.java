@@ -17,7 +17,12 @@ import lombok.ToString;
 @ToString
 public class MemberData {
 
+    private String time;
     private List<RatingDto> ratings;
     private List<PreferenceDto> preferences;
+
+    public void setTime(String time) {
+        this.time = time;
+    }
 
 }

@@ -11,10 +11,10 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     Optional<Member> findByEmailAndProvider(String email, String provider);
 
-    @Query("SELECT m FROM Member m WHERE m.id = :memberId AND m.createdDateTime <= (SELECT MAX(s.savedDateTime) FROM SavedModel s)")
+    @Query("SELECT m FROM Member m WHERE m.id = :memberId AND m.createdDateTime <= (SELECT MAX(s.savedDateTime) FROM SavedModel s WHERE s.isUsed = TRUE)")
     Optional<Member> findByIdAndCreatedDateTimeBefore(@Param("memberId") Long memberId);
 
-    @Query("SELECT m.id FROM Member m WHERE m.createdDateTime >= ( SELECT MAX(s.savedDateTime) FROM SavedModel s) ")
+    @Query("SELECT m.id FROM Member m WHERE m.createdDateTime >= ( SELECT MAX(s.savedDateTime) FROM SavedModel s WHERE s.isUsed = TRUE)")
     List<Long> findIdsByCreatedDateTimeAfter();
 
 }
