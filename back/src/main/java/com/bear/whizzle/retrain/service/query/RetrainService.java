@@ -5,6 +5,6 @@ import java.util.List;
 
 public interface RetrainService {
 
-    MemberData reactiveLearnData(Long memberId);
+    MemberData reactiveLearnData(List<Long> memberId);
 
 }

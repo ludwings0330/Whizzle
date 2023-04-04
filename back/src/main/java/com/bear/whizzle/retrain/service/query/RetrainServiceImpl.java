@@ -22,9 +22,9 @@ public class RetrainServiceImpl implements RetrainService {
     private final PreferenceQueryService preferenceQueryService;
 
     @Override
-    public MemberData reactiveLearnData(Long memberId) {
-        List<RatingDto> ratings = reviewProjectionRepository.findAllRatingByMemberId(memberId);
-        List<Preference> preferences = preferenceRepository.findAllByMemberIds(List.of(memberId));
+    public MemberData reactiveLearnData(List<Long> memberIds) {
+        List<RatingDto> ratings = reviewProjectionRepository.findAllRatingByMemberInIds(memberIds);
+        List<Preference> preferences = preferenceRepository.findAllByMemberIds(memberIds);
         return MemberDataMapper.toMemberData(ratings, preferences, preferenceQueryService.findFlavorMinMax());
     }
 
