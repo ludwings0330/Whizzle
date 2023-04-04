@@ -46,12 +46,12 @@ export const fetchDiaries = async (setDiaryList, setData, selectDate) => {
     const clickedDate = `${year}-${month < 10 ? "0" : ""}${month}-${day < 10 ? "0" : ""}${day}`;
 
     let found = false;
-    if(diaries) {
+    if (diaries) {
       diaries.forEach((diary) => {
         const diaryDate = diary.date;
         if (diaryDate === clickedDate) {
           setData((prev) => {
-            return {...prev, ...diary};
+            return { ...prev, ...diary };
           });
           found = true;
         }
@@ -125,4 +125,9 @@ export const searchData = atom({
 export const reviewState = atom({
   key: "reviewState",
   default: {},
+});
+
+export const showAllState = atom({
+  key: "showAllState",
+  default: false,
 });

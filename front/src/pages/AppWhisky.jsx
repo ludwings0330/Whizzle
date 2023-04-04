@@ -9,6 +9,7 @@ import { userState } from "../store/userStore";
 import { useRecoilValue } from "recoil";
 import { changeHeader, rollbackHeader } from "../hooks/changeHeader";
 import Swal from "sweetalert2";
+import { showAllState } from "../store/indexStore";
 
 //import components
 import WhiskyDetailInfo from "../components/whisky/WhiskyDetailInfo";
@@ -64,12 +65,13 @@ const AppWhisky = () => {
   const { id } = useParams();
 
   // 페이지 mount시 네비게이션 바 이미지와 글씨 색 변경
+  const showAll = useRecoilValue(showAllState);
   useEffect(() => {
     changeHeader();
     return () => {
       rollbackHeader();
     };
-  }, []);
+  }, [showAll]);
 
   // 리뷰페이지에서 왔다면, review 창으로 보냄
   const reviewRef = useRef(null);

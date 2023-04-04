@@ -1,5 +1,7 @@
 import colorLogo from "../assets/img/colorLogo.png";
 import logo from "../assets/img/logo.png";
+import hamburger from "../assets/img/hamburger.png";
+import colorHamburger from "../assets/img/color_hamburger.png";
 
 export function changeHeader() {
   // 로고 변경
@@ -15,6 +17,12 @@ export function changeHeader() {
   // 아래쪽 외곽선 추가
   const nav = document.getElementById("navbar");
   nav.style.borderBottom = "1px solid #D2D2D2";
+
+  // mobile nav 버튼 색 변경
+  const mobileNav = document.getElementById("ham");
+  if (mobileNav) {
+    mobileNav.src = colorHamburger;
+  }
 }
 
 export function rollbackHeader() {
@@ -29,4 +37,9 @@ export function rollbackHeader() {
 
   const nav = document.getElementById("navbar");
   nav.style.borderBottom = "0px solid #D2D2D2";
+
+  const mobileNav = document.getElementById("ham");
+  if (mobileNav) {
+    mobileNav.src = hamburger;
+  }
 }

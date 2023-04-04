@@ -89,7 +89,8 @@ const SBoldColorP = styled.p`
   text-fill-color: transparent;
   font-weight: 700;
   font-size: 48px;
-  margin-bottom: 0px;
+  margin-bottom: 20px;
+  margin-top: 20px;
 `;
 
 const SBtnDiv = styled.div`
@@ -165,9 +166,7 @@ const AppRecommnedResult = () => {
   useEffect(() => {
     const flavorEntries = Object.entries(flavor);
     flavorEntries.sort((a, b) => b[1] - a[1]);
-    const maxValues = flavorEntries
-      .slice(0, 2)
-      .map(([key, value]) => key.toUpperCase());
+    const maxValues = flavorEntries.slice(0, 2).map(([key, value]) => key.toUpperCase());
     setMaxValue(maxValues);
   }, []);
 
@@ -191,14 +190,12 @@ const AppRecommnedResult = () => {
       <SGraphDiv>
         <STitleP>취향 분석 결과</STitleP>
         <SGraphP>
-          <SColorSpan>
-            {user.nickname ? user.nickname : NON_LOGIN_NICKNAME}
-          </SColorSpan>
+          <SColorSpan>{user.nickname ? user.nickname : NON_LOGIN_NICKNAME}</SColorSpan>
           <SSpan>님의 취향분석 결과입니다.</SSpan>
-          <SBoldColorP>
-            {maxValue[0]} & {maxValue[1]}
-          </SBoldColorP>
         </SGraphP>
+        <SBoldColorP>
+          {maxValue[0]} & {maxValue[1]}
+        </SBoldColorP>
         <Graph flavor={flavor} />
       </SGraphDiv>
       {recommend && recommend.length && (
@@ -210,9 +207,7 @@ const AppRecommnedResult = () => {
           STitleP={STitleP}
         />
       )}
-      {recommend && recommend.length && (
-        <ResultWhiskyList whiskys={recommend.slice(3)} />
-      )}
+      {recommend && recommend.length && <ResultWhiskyList whiskys={recommend.slice(3)} />}
       <SBtnDiv>
         <SQuestionBtn onClick={onClickHandler}>
           <SColorSpan style={{ fontSize: "20px", fontWeight: "600" }}>
