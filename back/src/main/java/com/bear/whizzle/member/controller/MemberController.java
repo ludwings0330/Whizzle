@@ -5,7 +5,7 @@ import com.bear.whizzle.badge.controller.dto.BadgeResponseDto;
 import com.bear.whizzle.badge.service.query.BadgeQueryService;
 import com.bear.whizzle.domain.model.entity.Member;
 import com.bear.whizzle.domain.model.entity.Preference;
-import com.bear.whizzle.learn.controller.LearnController;
+import com.bear.whizzle.retrain.handler.RetrainHandler;
 import com.bear.whizzle.member.controller.dto.MemberBaseInfoResponseDto;
 import com.bear.whizzle.member.mapper.MemberMapper;
 import com.bear.whizzle.member.service.MemberService;
@@ -41,7 +41,7 @@ public class MemberController {
 
     private final PreferenceService preferenceService;
 
-    private final LearnController learnController;
+    private final RetrainHandler retrainHandler;
 
     @GetMapping("/{memberId}/any")
     public MemberBaseInfoResponseDto findMember(@PathVariable Long memberId) {
@@ -74,7 +74,7 @@ public class MemberController {
     public void updateMemberPreference(@AuthenticationPrincipal PrincipalDetails user,
                                        @RequestBody MemberPreferenceRequestDto preference) {
         preferenceService.updateMemberPreference(user, preference);
-        learnController.retrainExistedMember(user.getMemberId());
+        retrainHandler.retrainExistedMember(user.getMemberId());
     }
 
 }

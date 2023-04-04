@@ -1,7 +1,7 @@
-package com.bear.whizzle.learn.mapper;
+package com.bear.whizzle.retrain.mapper;
 
 import com.bear.whizzle.domain.model.entity.Preference;
-import com.bear.whizzle.learn.controller.dto.MemberData;
+import com.bear.whizzle.retrain.handler.dto.MemberData;
 import com.bear.whizzle.recommend.PreferenceMapper;
 import com.bear.whizzle.review.repository.projection.dto.RatingDto;
 import com.bear.whizzle.whisky.repository.projection.dto.FlavorSummary;
