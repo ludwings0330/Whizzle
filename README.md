@@ -224,7 +224,7 @@
 * ERD [링크](./output/7_ERD/Whizzle_ERD.png)
 * API 명세서 [링크](https://www.notion.so/7-API-b39044513414450d834d1d26f8f6f54b?pvs=4)
 * 시퀀스 다이어그램 - 작성중
-* 시스템 아키텍처 - 작성중
+* 시스템 아키텍처 [링크](./output/10_시스템_아키텍처/Whizzle_Architecture.pdf)
 * E2E 테스트 케이스 - [링크](./output/9_E2E_테스트케이스/Whizzle_E2E_Test.xlsx)
 * 발표 자료
   * [230317 Whizzle 중간발표.pdf ](./output/presentation/23.03.17_위즐_중간발표.pdf)
