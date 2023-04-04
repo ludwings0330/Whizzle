@@ -9,6 +9,7 @@ import { userState } from "../store/userStore";
 import { useRecoilValue } from "recoil";
 import { changeHeader, rollbackHeader } from "../hooks/changeHeader";
 import Swal from "sweetalert2";
+import { motion } from "framer-motion";
 
 //import components
 import WhiskyDetailInfo from "../components/whisky/WhiskyDetailInfo";
@@ -232,11 +233,21 @@ const AppWhisky = () => {
         {similarWhiskys?.length ? <WhiskySimilarList whiskys={similarWhiskys} /> : null}
         <WhiskyDetailReview ref={reviewRef} id={id} whisky={whisky} />
         <SButtonDiv>
-          <SButton onClick={favorite} style={{ marginBottom: "10px" }}>
-            <SImg src={isKeep ? favoriteFilled : favoriteBorder} alt="keep" />
+          <SButton onClick={favorite} style={{ paddingTop: "6px", marginBottom: "10px" }}>
+            <motion.div
+              whileHover={{ scale: 1.2 }}
+              transition={{ type: "spring", stiffness: 100, damping: 10 }}
+            >
+              <SImg src={isKeep ? favoriteFilled : favoriteBorder} alt="keep" />
+            </motion.div>
           </SButton>
           <SButton onClick={createReview}>
-            <SImg src={create} alt="create" />
+            <motion.div
+              whileHover={{ scale: 1.2 }}
+              transition={{ type: "spring", stiffness: 100, damping: 10 }}
+            >
+              <SImg src={create} alt="create" />
+            </motion.div>
           </SButton>
         </SButtonDiv>
       </SContainer>
