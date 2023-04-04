@@ -66,7 +66,6 @@ public class SecurityConfig {
         http.authorizeRequests(request ->
                                        request
                                                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll() // 추가
-                                               .antMatchers("/api/auth/**").permitAll()
                                                .antMatchers("/login/**").permitAll()
                                                .antMatchers("/api/**/any").permitAll()
                                                .antMatchers("/api/health").permitAll()

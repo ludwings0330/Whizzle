@@ -8,22 +8,29 @@ import WhiskyDetailReviewItem from "./WhiskyDetailReviewItem";
 import WhiskyDetailMyReviewItem from "./WhiskyDetailMyReviewItem";
 
 const Wrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   margin-top: 100px;
 `;
 
 const SHeadDiv = styled.div`
-  width: 990px;
+  width: 830px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 `;
 
 const SP = styled.p`
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 600;
+  color: #363636;
 `;
 
 const SSpan = styled.span`
   color: #f84f5a;
+  font-weight: 700;
 `;
 
 const SOrderSpan = styled.span`
@@ -150,17 +157,17 @@ const WhiskyDetailReview = forwardRef(({ whisky }, ref) => {
         <SP>
           <SSpan>{reviewNumber}</SSpan>건의 리뷰
         </SP>
-        <SP style={{ fontSize: "20px" }}>
+        <SP style={{ fontSize: "16px" }}>
           <SOrderSpan
             onClick={orderChange}
-            style={{ fontWeight: sortOrder === "LIKE" ? 700 : 400, marginRight: "24px" }}
+            style={{ fontWeight: sortOrder === "LIKE" ? 700 : 400, marginRight: "15px" }}
           >
             좋아요순
           </SOrderSpan>
           <span style={{ fontWeight: "400" }}>|</span>
           <SOrderSpan
             onClick={orderChange}
-            style={{ fontWeight: sortOrder === "RECENT" ? 700 : 400, marginLeft: "24px" }}
+            style={{ fontWeight: sortOrder === "RECENT" ? 700 : 400, marginLeft: "15px" }}
           >
             최신순
           </SOrderSpan>

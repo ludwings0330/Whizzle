@@ -3,8 +3,8 @@ import { ResponsiveLine } from "@nivo/line";
 import styled from "styled-components";
 
 const SDiv = styled.div`
-  width: 990px;
-  height: 240px;
+  width: 830px;
+  height: 180px;
 `;
 
 const SContainer = styled.div`
@@ -31,11 +31,12 @@ const Graph = (props) => {
           curve="natural"
           colors={"#F84F5A"}
           theme={{
-            background: "#000000",
-            textColor: "#ffffff",
-            fontSize: "20px",
+            // background: "#000000",
+            textColor: "#777777",
+            fontFamily: "Pretendard Variable",
+            fontSize: "16px",
           }}
-          margin={{ top: 30, right: 30, bottom: 40, left: 35 }}
+          margin={{ top: 10, right: 30, bottom: 60, left: 35 }}
           lineWidth={5}
           xScale={{ type: "point" }}
           yScale={{
@@ -52,16 +53,16 @@ const Graph = (props) => {
           axisLeft={null}
           axisBottom={{
             orient: "bottom",
-            tickSize: 5,
-            tickPadding: 5,
+            tickSize: 0,
+            tickPadding: 30,
             tickRotation: 0,
             legendOffset: 36,
             legendPosition: "middle",
           }}
           pointSize={7}
-          pointColor="#F2A660"
+          pointColor="#fff"
           pointBorderWidth={1}
-          pointBorderColor="#F2A660"
+          pointBorderColor="#F84F5A"
           pointLabelYOffset={-12}
           useMesh={false}
           enableGridX={false}

@@ -11,4 +11,5 @@ RUN pip install --upgrade pip && \
 ENTRYPOINT ["uvicorn", "main:app", \
              "--host", "0.0.0.0", \
              "--port", "8000", \
-             "--env-file", "/src/config/.env"]
+             "--env-file", "/src/config/.env", \
+             "--env-file", "/src/config/.env.prod"]

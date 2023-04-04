@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useRecoilValue } from "recoil";
+import {useRecoilState, useRecoilValue} from "recoil";
 import { userState } from "../store/userStore";
 import { useNavigate } from "react-router-dom";
 import { NON_LOGIN_NICKNAME } from "../constants/constants";
@@ -130,16 +130,15 @@ const SDailyBtn = styled.button`
 
 //추천 결과 페이지
 const AppRecommnedResult = () => {
-  const recommend = useRecoilValue(recommendResult);
+  const [recommend, setRecommend] = useRecoilState(recommendResult);
   const userPreference = useRecoilValue(preference);
   const user = useRecoilValue(userState);
   const isLogin = Boolean(user.id);
-  console.log(userPreference);
-  console.log(recommend);
 
   const navigate = useNavigate();
   const onClickHandler = (e) => {
     if (e.target.innerText === "취향 정보 다시 입력하기") {
+      setRecommend((prev) => []);
       navigate("/recommend/question");
     } else if (e.target.innerText === "데일리 위스키 추천받기") {
       navigate("/daily");
@@ -150,9 +149,6 @@ const AppRecommnedResult = () => {
   useEffect(() => {
     if (!isLogin) {
       setTimeout(() => {
-        // if (window.confirm("회원 가입을 통해 취향을 저장해보세요!")) {
-        //   navigate("/signin");
-        // }
         info("회원 가입을 통해 취향을 저장해보세요!");
       }, 5000);
     }

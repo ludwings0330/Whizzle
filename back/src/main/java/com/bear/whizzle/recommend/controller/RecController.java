@@ -2,12 +2,14 @@ package com.bear.whizzle.recommend.controller;
 
 import com.bear.whizzle.auth.service.PrincipalDetails;
 import com.bear.whizzle.domain.exception.NotFoundException;
+import com.bear.whizzle.recommend.controller.dto.PersonalWhiskyCallDto;
 import com.bear.whizzle.recommend.controller.dto.PreferenceDto;
 import com.bear.whizzle.recommend.controller.dto.RecWhiskyRequestDto;
 import com.bear.whizzle.recommend.controller.dto.RecWhiskyResponseDto;
 import com.bear.whizzle.recommend.controller.dto.SimilarWhiskyResponseDto;
 import com.bear.whizzle.recommend.service.RecService;
 import com.bear.whizzle.whisky.service.query.WhiskyQueryService;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.validation.constraints.Min;
@@ -49,14 +51,18 @@ public class RecController {
             @RequestBody(required = false) RecWhiskyRequestDto recWhiskyRequestDto
     ) throws UnprocessableEntity, NotFoundException, InternalServerError {
         Long memberId = member == null ? 0L : member.getMemberId();
-
+        List<PreferenceDto> preferenceDtos = new ArrayList<>();
         PreferenceDto preferenceDto = recService.extractPreference(memberId, recWhiskyRequestDto);
-        // member가 학습에 포함된 사용자인지 아닌지 판단 로직 필요
         Long recMemberId = recService.isLearnedMember(memberId);
         preferenceDto.setMemberId(recMemberId);
+        preferenceDtos.add(preferenceDto);
         return recService.findRecommendWhiskies(
                 recService.filterByPriceTier(
-                        recWebClientCall(preferenceDto), preferenceDto.getPriceTier()
+                        recWebClientCall(PersonalWhiskyCallDto.builder()
+                                                              .memberId(memberId)
+                                                              .preferenceDtoList(preferenceDtos)
+                                                              .build()),
+                        preferenceDto.getPriceTier()
                 ),
                 memberId,
                 RecWhiskyResponseDto.class
@@ -69,7 +75,7 @@ public class RecController {
      * @param member   접근중인 주체
      * @param whiskyId 위스키 id
      * @return 입력받은 위스키와 유사한 위스키 5개
-     * @throws NotFoundException : 위스키 존재하지 않은 경우 발생
+     * @throws NotFoundException   : 위스키 존재하지 않은 경우 발생
      * @throws UnprocessableEntity : fastAPI로 전달한 parameter 오류
      */
     @GetMapping("/api/similar-whisky/{whiskyId}/any")
@@ -87,17 +93,17 @@ public class RecController {
     /**
      * 위스키 추천 RestAPI - fastAPI
      *
-     * @param preferenceDto
+     * @param personalWhiskyCallDto
      * @return List<Long> : 추천 순위로 정렬된 위스키 index
      * @throws UnprocessableEntity : fastAPI로 전달한 parameter 오류
      * @throws InternalServerError : 학습된 모델에 포함되지 않은 기존 사용자 추천 로직 수행
      */
-    private List<Long> recWebClientCall(PreferenceDto preferenceDto) throws UnprocessableEntity, InternalServerError {
+    private List<Long> recWebClientCall(PersonalWhiskyCallDto personalWhiskyCallDto) throws UnprocessableEntity, InternalServerError {
         return webClient.post()
                         .uri("/rec/personal-whisky")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
-                        .bodyValue(preferenceDto)
+                        .bodyValue(personalWhiskyCallDto)
                         .retrieve()
                         .bodyToFlux(Long.class)
                         .toStream().collect(Collectors.toList());
