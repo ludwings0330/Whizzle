@@ -8,6 +8,7 @@ import { likeReview } from "../../apis/review";
 import { useRecoilValue } from "recoil";
 import Swal from "sweetalert2";
 import { userState } from "../../store/userStore";
+import { motion } from "framer-motion";
 
 const Wrapper = styled.div`
   display: flex;
@@ -201,12 +202,17 @@ const WhiskyDetailReviewItem = ({ review }) => {
           </SUserDiv>
         </div>
         <SLikeDiv>
-          <SLikeImg
-            style={{ cursor: "pointer" }}
-            onClick={onLikeHandler}
-            src={isLike ? favoriteFilled : favoriteBorder}
-            alt="#"
-          />
+          <motion.div
+            whileHover={{ scale: 1.1 }}
+            transition={{ type: "spring", stiffness: 100, damping: 10 }}
+          >
+            <SLikeImg
+              style={{ cursor: "pointer" }}
+              onClick={onLikeHandler}
+              src={isLike ? favoriteFilled : favoriteBorder}
+              alt="#"
+            />
+          </motion.div>
           <p style={{ color: "#F84F5A" }}>{likeCount}</p>
         </SLikeDiv>
       </SReviewInfoDiv>
