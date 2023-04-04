@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { searchData, showAllState } from "../../store/indexStore";
-import { getsearchWhisky } from "../../apis/search";
+import { getsearchWhisky, getsearchWhiskyCount } from "../../apis/search";
 import Lottie from "lottie-react";
 import animationData from "../../assets/img/lotties/error-bear.json";
 
@@ -52,6 +52,7 @@ const SearchResult = () => {
   const [result, setResult] = useRecoilState(searchData);
   const [last, setLast] = useState(false);
   const [offset, setOffset] = useState(0);
+  // 위스키 검색 결과
   async function getsearchResult(data) {
     try {
       const res = await getsearchWhisky(data);
@@ -67,17 +68,30 @@ const SearchResult = () => {
       console.log("검색 결과 저장 실패");
     }
   }
+  // 검색 결과 위스키의 개수
+  const [count, setCount] = useState(0);
+  async function getsearchCount(word) {
+    try {
+      const res = await getsearchWhiskyCount(word);
+      setCount(res);
+    } catch {
+      console.log("위스키 개수 받아오기 실패");
+    }
+  }
+
   // 결과 호출 과정
   useEffect(() => {
     setResult([]);
     setOffset(0);
     setLast(false);
+    setCount(0);
     const data = {
       word: word,
       offset: 0,
       size: 9,
     };
     getsearchResult(data);
+    getsearchCount(word);
   }, [word]);
 
   const getMore = () => {
@@ -121,9 +135,18 @@ const SearchResult = () => {
       <SearchBarDiv>
         <SearchBar />
         {result.length ? (
-          <SP>
-            <SSpan>'{word}'</SSpan> 에 대한 검색 결과입니다.
-          </SP>
+          <div>
+            <div>
+              <SP>
+                <SSpan>'{word}'</SSpan> 에 대한 검색 결과입니다.
+              </SP>
+            </div>
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <SP style={{ marginTop: "10px" }}>
+                <SSpan>'{count}'</SSpan>건의 결과
+              </SP>
+            </div>
+          </div>
         ) : (
           <SP>
             <SSpan>'{word}'</SSpan> 에 대한 검색 결과가 없습니다.
