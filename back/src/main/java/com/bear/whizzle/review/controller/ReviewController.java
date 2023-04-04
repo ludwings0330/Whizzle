@@ -5,6 +5,7 @@ import com.bear.whizzle.auth.service.PrincipalDetails;
 import com.bear.whizzle.badge.service.BadgeService;
 import com.bear.whizzle.domain.model.entity.Review;
 import com.bear.whizzle.domain.model.type.Action;
+import com.bear.whizzle.learn.controller.LearnController;
 import com.bear.whizzle.like.service.LikeService;
 import com.bear.whizzle.memberlevellog.service.MemberLevelLogService;
 import com.bear.whizzle.review.controller.dto.ReviewListResponseDto;
@@ -47,6 +48,7 @@ public class ReviewController {
     private final AuthService authService;
     private final MemberLevelLogService levelLogService;
     private final BadgeService badgeService;
+    private final LearnController learnController;
 
     @GetMapping("/whiskies/{whiskyId}/my")
     public List<ReviewListResponseDto> getMemberReviewsOnWhisky(@AuthenticationPrincipal PrincipalDetails member,
@@ -98,6 +100,7 @@ public class ReviewController {
         reviewService.writeReview(member.getMemberId(), reviewWriteRequestDto);
         levelLogService.increaseLevelByActivity(member.getMemberId(), Action.REVIEW);
         badgeService.awardBadgeOnReviewCountReached(member.getMemberId());
+        learnController.retrainExistedMember(member.getMemberId());
     }
 
     @PutMapping("/{reviewId}")
@@ -106,6 +109,7 @@ public class ReviewController {
                              @PathVariable Long reviewId,
                              @ModelAttribute @Valid ReviewUpdateRequestDto reviewUpdateRequestDto) {
         reviewService.updateReview(reviewId, reviewUpdateRequestDto);
+        learnController.retrainExistedMember(member.getMemberId());
     }
 
     @DeleteMapping("/{reviewId}")
