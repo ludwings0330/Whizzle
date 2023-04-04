@@ -108,7 +108,6 @@ const AppRecommendQuestion = (props) => {
   const user = useRecoilValue(userState);
   const isLogin = Boolean(user.id);
   const navigate = useNavigate();
-  const {go} = useLocation();
   const [preferenceValue, setPreferenceValue] = useRecoilState(preference);
   const [resultValue, setResultValue] = useRecoilState(recommendResult);
   const [activePage, setActivePage] = useState(0);
@@ -127,11 +126,9 @@ const AppRecommendQuestion = (props) => {
             priceTier: userPreference.data.priceTier,
             flavor: userPreference.data.flavor,
           };
-          // console.log(recommendData);
           try {
             let recommendedResult;
             recommendedResult = await recommend(recommendData);
-            // console.log(recommendedResult);
             if (recommendedResult !== undefined) {
               setResultValue(recommendedResult);
               navigate("/recommend/result");
@@ -236,12 +233,9 @@ const AppRecommendQuestion = (props) => {
   };
 
   useEffect(() => {
-    if(!go && resultValue.length > 0) {
-      console.log("goResult");
-    } else {
-      console.log("goResult x");
+    if(resultValue.length > 0) {
+      whiskySubmitHandler();
     }
-    goResult();
   }, []);
 
   useEffect(() => {
