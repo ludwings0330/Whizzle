@@ -6,6 +6,7 @@ import com.bear.whizzle.domain.exception.NotFoundException;
 import com.bear.whizzle.domain.model.entity.Member;
 import com.bear.whizzle.domain.model.type.Image;
 import com.bear.whizzle.member.repository.MemberRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -48,6 +49,11 @@ public class MemberServiceImpl implements MemberService {
 
             log.debug("회원 image 업데이트 : {}", image);
         }
+    }
+
+    @Override
+    public List<Long> findNewMemberIds() {
+        return memberRepository.findIdsByCreatedDateTimeAfter();
     }
 
 }
