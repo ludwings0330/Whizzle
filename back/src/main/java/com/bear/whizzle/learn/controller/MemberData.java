@@ -1,6 +1,6 @@
 package com.bear.whizzle.learn.controller;
 
-import com.bear.whizzle.domain.model.entity.Preference;
+import com.bear.whizzle.recommend.controller.dto.PreferenceDto;
 import com.bear.whizzle.review.repository.projection.dto.RatingDto;
 import java.util.List;
 import lombok.AccessLevel;
@@ -18,6 +18,6 @@ import lombok.ToString;
 public class MemberData {
 
     private List<RatingDto> ratings;
-    private List<Preference> preferences;
+    private List<PreferenceDto> preferences;
 
 }
