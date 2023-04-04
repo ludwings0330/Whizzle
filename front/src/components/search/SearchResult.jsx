@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import { useRecoilState } from "recoil";
-import { searchData } from "../../store/indexStore";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { searchData, showAllState } from "../../store/indexStore";
 import { getsearchWhisky, getsearchWhiskyCount } from "../../apis/search";
 import Lottie from "lottie-react";
 import animationData from "../../assets/img/lotties/error-bear.json";
@@ -38,12 +38,13 @@ const SSpan = styled.span`
 `;
 
 const SearchResult = () => {
+  const showAll = useRecoilValue(showAllState);
   useEffect(() => {
     changeHeader();
     return () => {
       rollbackHeader();
     };
-  }, []);
+  }, [showAll]);
 
   // 검색시 필요한 변수, 검색 함수
   const { word } = useParams();
