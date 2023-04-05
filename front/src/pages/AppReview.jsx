@@ -95,7 +95,7 @@ const AppReview = () => {
     if (isCreate) {
       const formData = new FormData();
       formData.append("rating", rating === undefined ? 0 : rating);
-      if (content !== "") {
+      if (content !== undefined) {
         formData.append("content", content);
       }
       formData.append("whiskyId", whiskyId);
@@ -115,7 +115,7 @@ const AppReview = () => {
     } else {
       const formData = new FormData();
       formData.append("rating", rating);
-      if (content !== "") {
+      if (content !== undefined) {
         formData.append("content", content);
       }
       if (files !== []) {
