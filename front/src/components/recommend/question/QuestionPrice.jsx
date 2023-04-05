@@ -107,7 +107,7 @@ const QuestionPrice = (props) => {
 
   const priceSelectHandler = (event) => {
     const selectedPrice = event.target.value;
-    setPreferenceValue((prev) => ({ ...prev, price: selectedPrice }));
+    setPreferenceValue((prev) => ({ ...prev, priceTier: Number(selectedPrice) }));
 
     props.setDirection("next");
     props.setActivePage((prev) => (props.activePage === 4 ? prev + 2 : prev + 1));
