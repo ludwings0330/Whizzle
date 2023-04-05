@@ -1,5 +1,6 @@
 node {
     def deployedBack
+    def newFrontImage
 
     stage('Git Clone') {
         echo "GitLab master 브랜치 Clone 중..."
@@ -87,24 +88,50 @@ node {
     }
 
     stage('Build Web Server Image') {
-        def oldImage = sh(
-                script: "docker inspect -f {{.Config.Image}} whizzle-front-01",
-                returnStdout: true
-        ).trim()
-        print("기존의 웹 서버 이미지명 : ${oldImage}")
+        def oldImage
+        try {
+            oldImage = sh(
+                    script: "docker inspect -f {{.Config.Image}} whizzle-front-01",
+                    returnStdout: true
+            ).trim()
+            print("기존의 웹 서버 이미지명 : ${oldImage}")
+        } catch (Exception e) {
+            oldImage = "whizzle/front:2"
+        }
 
-        def newImage = (oldImage == "whizzle/front:2") ? "whizzle/front:1" : "whizzle/front:2"
-        print("새로운 웹 서버 이미지명: ${newImage}")
+        newFrontImage = (oldImage == "whizzle/front:2") ? "whizzle/front:1" : "whizzle/front:2"
+        print("새로운 웹 서버 이미지명: ${newFrontImage}")
 
         print("Dockerfile를 이용하여 프론트 이미지 생성")
-        sh "docker build -t ${newImage} -f ./front/deploy/Dockerfile ."
+        sh "docker build -t ${newFrontImage} -f ./front/deploy/Dockerfile ."
     }
 
     stage('Rolling Web Server Container') {
-        def deployedFront = sh(
-                script: 'docker ps -a --format "{{.Names}}" | grep -q whizzle-front | wc -l',
+        int deployedFront = sh(
+                script: 'docker ps --format {{.Names}} | grep whizzle-front | wc -l',
                 returnStdout: true
         ).trim().toInteger()
+        print(deployedFront)
+
+        if (deployedFront == 0) {
+            echo "프론트 컨테이너 실행"
+            sh """
+              docker run -it --rm \
+                --name whizzle-front-01 \
+                --net front-net \
+                --net-alias front-net-dns \
+                -p 3001:80 \
+                -d ${newFrontImage}
+        
+              docker run -it --rm \
+                --name whizzle-front-02 \
+                --net front-net \
+                --net-alias front-net-dns \
+                -p 3002:80 \
+                -d ${newFrontImage}
+            """
+            return
+        }
 
         for (int i = 1; i <= deployedFront; i++) {
             def port = 3000 + i
@@ -117,18 +144,19 @@ node {
                 --net front-net \
                 --net-alias front-net-dns \
                 -p ${port}:80 \
-                -d whizzle/front
+                -d ${newFrontImage}
             """
 
             checkHealthy(port)
-            sh '''
+        }
+
+        sh '''
               echo "사용하지 않는 컨테이너 삭제"
               docker container prune -f
         
               echo "사용하지 않는 이미지 삭제"
               docker image prune -a -f
             '''
-        }
     }
 
     stage('Remove Existing FastAPI Container And Image') {
@@ -161,6 +189,8 @@ node {
         sh '''
           docker run -i --rm \
             --name whizzle-rec \
+            --net back-net \
+            --net-alias rec-net-dns \
             -p 8000:8000 \
             -v /app/data/fast-api/config:/src/config \
             -d whizzle/rec
@@ -189,7 +219,7 @@ private boolean isHealthy(composeFileName, containerCnt) {
 
 def removeContainer(port) {
     def containerName = sh(
-            script: "docker ps | grep \"${port}->\" | awk '{print $NF}'",
+            script: "docker ps | grep \"${port}->\" | awk '{print \$NF}'",
             returnStdout: true
     ).trim()
     print("제거할 컨테이너명 : ${containerName}")
@@ -205,6 +235,7 @@ def checkHealthy(port, maxAttempts = 5, sleepTime = 10) {
     while (maxAttempts-- > 0) {
         try {
             sh(command)
+            print("${port}를 사용하는 새로운 웹 서버가 아주 건강하군요!")
             return true
         } catch (Exception e) {
             print("${port}를 사용하는 새로운 웹 서버 준비 중...")
