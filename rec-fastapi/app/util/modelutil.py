@@ -88,3 +88,7 @@ def save_dataset(dataset, path):
     logging.debug("whizzle_dataset.pkl is updated")
     with open(path, "wb") as f:
         pickle.dump(dataset, f)
+
+
+def create_save_path(file, extension, date):
+    return settings.BACKUP_PATH + file + "_" + date.split(".")[0] + "." + extension

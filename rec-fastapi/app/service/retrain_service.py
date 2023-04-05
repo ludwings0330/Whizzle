@@ -42,7 +42,9 @@ def fit_partial_user(
         logging.error("기존 사용자 모델 재학습 오류 : {}".format(e.args[0]))
 
 
-def refitting(ratings: List[Rating], preferences: List[Preference], item_features):
+def refitting(
+    time, ratings: List[Rating], preferences: List[Preference], item_features
+):
     new_rating_df = make_rating_df(ratings=ratings)
     new_user_features_fd = make_user_features_df(preferences)
     rating_df = concat_ratings(new_rating_df)
@@ -99,7 +101,13 @@ def refitting(ratings: List[Rating], preferences: List[Preference], item_feature
         )
     )
 
-    logging.info("save model, updated Rating csv, updated User Features csv")
+    logging.info("save model, dataset, updated Rating csv, updated User Features csv")
+    pickle.dump(dataset, open(create_save_path("dataset", "pkl", time), "wb"))
+    pickle.dump(model, open(create_save_path("model", "pkl", time), "wb"))
+    rating_df.to_csv(settings.RATING_PATH, encoding=settings.ENCODING)
+    user_features.to_csv(settings.USER_FEATURES_PATH, encoding=settings.ENCODING)
+
+    return precision, recall, auc, mrr
 
 
 def dataset_fit(users, items, cols):
