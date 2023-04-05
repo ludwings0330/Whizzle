@@ -20,6 +20,16 @@ code {
 }
 
 .my-swal-confirm-button {
-  background-color: #f84f5a;
-  color: #d8d8d8;
+  background-color: #f84f5a !important;
+  color: #ffffff !important;
+}
+
+.my-swal-cancel-button {
+  background-color: #dedede !important;
+  color: #ffffff !important;
+}
+
+.my-swal-icon {
+  border-color: #f84f5a !important;
+  color: #f84f5a !important;
 }

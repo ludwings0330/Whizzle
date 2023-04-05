@@ -1,20 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
-import {
-  diaryDataState,
-  diaryState,
-  fetchDiaries,
-  searchTerm,
-} from "../../../store/indexStore";
+import { diaryDataState, diaryState, fetchDiaries, searchTerm } from "../../../store/indexStore";
 import { motion } from "framer-motion";
 
 //import component
-import {
-  diaryCreate,
-  diaryDelete,
-  diaryRead,
-  diaryUpdate,
-} from "../../../apis/diary";
+import { diaryCreate, diaryDelete, diaryRead, diaryUpdate } from "../../../apis/diary";
 import { getAutocomplete } from "../../../apis/search";
 
 //import css
@@ -415,22 +405,14 @@ const DiaryEditor = ({ selectedDate }) => {
   const year = today.getFullYear().toString().padStart(4, "0");
   const month = (today.getMonth() + 1).toString().padStart(2, "0");
   const day = today.getDate().toString().padStart(2, "0");
-  const formattedDate = `${year}.${month.padStart(2, "0")}.${day.padStart(
-    2,
-    "0"
-  )}`;
+  const formattedDate = `${year}.${month.padStart(2, "0")}.${day.padStart(2, "0")}`;
 
   //위스키 이름, 주량, 기분, 한마디
   const onCreate = async () => {
     const numberSearchTerms = searchTerms.map((whisky) => Number(whisky.id));
-    const changeEmotionApi =
-      emotionValue < 33 ? "BAD" : emotionValue < 66 ? "NORMAL" : "GOOD";
+    const changeEmotionApi = emotionValue < 33 ? "BAD" : emotionValue < 66 ? "NORMAL" : "GOOD";
     const changeDrinkLevelApi =
-      drinkLevelValue < 33
-        ? "LIGHT"
-        : drinkLevelValue < 66
-        ? "MODERATE"
-        : "HEAVY";
+      drinkLevelValue < 33 ? "LIGHT" : drinkLevelValue < 66 ? "MODERATE" : "HEAVY";
 
     const newItem = {
       date: formattedDate.replaceAll(".", "-"),
@@ -450,7 +432,7 @@ const DiaryEditor = ({ selectedDate }) => {
   };
 
   const handleSubmit = () => {
-    if(searchTerms.length === 0) {
+    if (searchTerms.length === 0) {
       error("위스키를 한 개 이상 입력해주세요");
       return;
     }
@@ -465,18 +447,13 @@ const DiaryEditor = ({ selectedDate }) => {
   };
 
   const handleEdit = async () => {
-    if(searchTerms.length===0) {
+    if (searchTerms.length === 0) {
       error("위스키를 한 개 이상 입력해주세요");
       return;
     }
-    const changeEmotionApi =
-      emotionValue < 33 ? "BAD" : emotionValue < 66 ? "NORMAL" : "GOOD";
+    const changeEmotionApi = emotionValue < 33 ? "BAD" : emotionValue < 66 ? "NORMAL" : "GOOD";
     const changeDrinkLevelApi =
-      drinkLevelValue < 33
-        ? "LIGHT"
-        : drinkLevelValue < 66
-        ? "MODERATE"
-        : "HEAVY";
+      drinkLevelValue < 33 ? "LIGHT" : drinkLevelValue < 66 ? "MODERATE" : "HEAVY";
     const deletedDrinkOrders = [];
     const insertedWhiskyIds = [];
 
@@ -519,6 +496,12 @@ const DiaryEditor = ({ selectedDate }) => {
       confirmButtonText: "삭제",
       cancelButtonText: "취소",
       reverseButtons: true,
+      customClass: {
+        container: "my-swal-container",
+        confirmButton: "my-swal-confirm-button",
+        cancelButton: "my-swal-cancel-button",
+        icon: "my-swal-icon",
+      },
     }).then(async (result) => {
       if (result.isConfirmed) {
         const deletedDiaryId = data.id;
@@ -601,12 +584,10 @@ const DiaryEditor = ({ selectedDate }) => {
               {searchTerms.map((whisky, index) => (
                 <SDiv
                   key={index}
-                  onClick={() => (!(isSave||isEdit))?navigate(`/whisky/${whisky.id}`):null}
+                  onClick={() => (!(isSave || isEdit) ? navigate(`/whisky/${whisky.id}`) : null)}
                 >
                   <SName>
-                    {whisky.name?.length > 37
-                      ? `${whisky.name?.slice(0, 37)}...`
-                      : whisky.name}
+                    {whisky.name?.length > 37 ? `${whisky.name?.slice(0, 37)}...` : whisky.name}
                   </SName>
                   {(isSave || isEdit) && (
                     <button
