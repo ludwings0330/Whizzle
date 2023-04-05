@@ -5,9 +5,9 @@ import com.bear.whizzle.auth.service.PrincipalDetails;
 import com.bear.whizzle.badge.service.BadgeService;
 import com.bear.whizzle.domain.model.entity.Review;
 import com.bear.whizzle.domain.model.type.Action;
-import com.bear.whizzle.retrain.handler.RetrainHandler;
 import com.bear.whizzle.like.service.LikeService;
 import com.bear.whizzle.memberlevellog.service.MemberLevelLogService;
+import com.bear.whizzle.retrain.handler.RetrainHandler;
 import com.bear.whizzle.review.controller.dto.ReviewListResponseDto;
 import com.bear.whizzle.review.controller.dto.ReviewMyPageResponseDto;
 import com.bear.whizzle.review.controller.dto.ReviewSearchCondition;
@@ -63,6 +63,10 @@ public class ReviewController {
     public List<ReviewListResponseDto> getWhiskyReviewsByWhiskyId(@AuthenticationPrincipal PrincipalDetails member,
                                                                   @PathVariable Long whiskyId,
                                                                   @ModelAttribute ReviewSearchCondition searchCondition) {
+        if (authService.isLogined(member)) {
+            searchCondition.setMemberId(member.getMemberId());
+        }
+
         List<Review> reviews = reviewQueryService.findAllReviewByWhiskyIdAndSearchCondition(whiskyId, searchCondition);
         Set<Long> likeSet = new HashSet<>();
 

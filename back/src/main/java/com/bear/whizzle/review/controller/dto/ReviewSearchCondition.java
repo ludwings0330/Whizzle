@@ -8,5 +8,6 @@ public class ReviewSearchCondition {
 
     private Long baseId;
     private ReviewOrder reviewOrder = ReviewOrder.LIKE;
+    private Long memberId;
 
 }
