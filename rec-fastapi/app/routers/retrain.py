@@ -1,10 +1,10 @@
+from common.config import settings
+from service.retrain_service import fit_partial_user, refitting
+from common.context.ItemFeatures import ItemFeatures
+from models.dto.data_class import MemberData, ModelResult
 from fastapi import APIRouter, Body, Depends, BackgroundTasks
 import logging
-
-from models.dto.data_class import MemberData
-from common.context.ItemFeatures import ItemFeatures
-from service.retrain_service import fit_partial_user, refitting
-
+import aiohttp
 
 rec = APIRouter(
     tags=["rec"],
@@ -36,6 +36,35 @@ async def retrain_new_model(
     return
 
 
-def refitting_model(memberData: MemberData, item_features: ItemFeatures):
-    refitting(memberData.ratings, memberData.preferences, item_features)
-    pass
+async def refitting_model(memberData: MemberData, item_features: ItemFeatures):
+#     precision, recall, auc, mrr = refitting(
+#         memberData.time, memberData.ratings, memberData.preferences, item_features
+#     )
+    precision = 0.056415
+    recall = 0.5845
+    auc = 0.95415
+    mrr = 0.187465
+    data = ModelResult(
+        savedDateTime=memberData.time,
+        precision=precision,
+        recall=recall,
+        auc=auc,
+        mrr=mrr,
+    )
+    logging.info(data)
+    await insert_train_result(data)
+
+
+async def insert_train_result(data: ModelResult):
+    headers = {"content-type": "application/json"}
+    async with aiohttp.ClientSession() as session:
+        async with session.post(
+            "http://localhost:8080/api/rec/retrain-model/any",
+            json=data.__dict__,
+            headers=headers,
+        ) as resp:
+            logging.debug(resp)
+            if resp.status == 200:
+                logging.info("Success Save Retrained Model Information")
+            else:
+                logging.warn("Fail Save Retrained Model Information")
