@@ -18,9 +18,9 @@
 }
 
 /* 애니메이션 스탑 */
-.container:hover > .slideContainer {
+/* .container:hover > .slideContainer {
   animation-play-state: paused;
-}
+} */
 
 .slideImage {
   width: 297px;

@@ -2,6 +2,7 @@ import React from "react";
 import styled, { keyframes } from "styled-components";
 import { motion } from "framer-motion";
 import styles from "./MainReview.module.css";
+import { v4 as uuidv4 } from "uuid";
 
 const SDiv = styled.div`
   display: flex;
@@ -76,14 +77,14 @@ const MainReview = (props) => {
                   {index % 2 ? (
                     <SImg
                       className={styles.slideImage}
-                      key={review}
+                      key={uuidv4()}
                       src={require(`../../assets/img/review${review}.png`)}
                       style={{ marginTop: "50px" }}
                     />
                   ) : (
                     <SImg
                       className={styles.slideImage}
-                      key={review}
+                      key={uuidv4()}
                       src={require(`../../assets/img/review${review}.png`)}
                     />
                   )}
@@ -100,14 +101,14 @@ const MainReview = (props) => {
                   {index % 2 ? (
                     <SImg
                       className={styles.slideImage}
-                      key={review}
+                      key={uuidv4()}
                       src={require(`../../assets/img/review${review}.png`)}
                       style={{ marginTop: "50px" }}
                     />
                   ) : (
                     <SImg
                       className={styles.slideImage}
-                      key={review}
+                      key={uuidv4()}
                       src={require(`../../assets/img/review${review}.png`)}
                     />
                   )}
