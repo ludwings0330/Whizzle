@@ -90,7 +90,7 @@ const DailyPrice = (props) => {
   const priceSelectHandler = (event) => {
     const selectedPrice = event.target.value;
     props.setPreference((prev) => {
-      return { ...prev, price: selectedPrice };
+      return { ...prev, priceTier: Number(selectedPrice) };
     });
   };
 
@@ -102,14 +102,14 @@ const DailyPrice = (props) => {
           id="one"
           type="radio"
           value="1"
-          checked={props.preference.price === "1"}
+          checked={props.preference.priceTier === 1}
           onChange={priceSelectHandler}
         />
         <SRadioLabel htmlFor="one">
           <SCircle />
           <span>5만원 이하</span>
           <span>&nbsp;</span>
-          {props.preference.price === "1" ? (
+          {props.preference.priceTier === 1 ? (
             <motion.div style={selectedStyle} layoutId="selectedBox" />
           ) : (
             ""
@@ -119,14 +119,14 @@ const DailyPrice = (props) => {
           id="two"
           type="radio"
           value="2"
-          checked={props.preference.price === "2"}
+          checked={props.preference.priceTier === 2}
           onChange={priceSelectHandler}
         />
         <SRadioLabel htmlFor="two">
           <SCircle />
           <span>5만원 이상</span>
           <span>10만원 이하</span>
-          {props.preference.price === "2" ? (
+          {props.preference.priceTier === 2 ? (
             <motion.div style={selectedStyle} layoutId="selectedBox" />
           ) : (
             ""
@@ -136,14 +136,14 @@ const DailyPrice = (props) => {
           id="three"
           type="radio"
           value="3"
-          checked={props.preference.price === "3"}
+          checked={props.preference.priceTier === 3}
           onChange={priceSelectHandler}
         />
         <SRadioLabel htmlFor="three">
           <SCircle />
           <span>10만원 이상</span>
           <span>20만원 이하</span>
-          {props.preference.price === "3" ? (
+          {props.preference.priceTier === 3 ? (
             <motion.div style={selectedStyle} layoutId="selectedBox" />
           ) : (
             ""
@@ -153,14 +153,14 @@ const DailyPrice = (props) => {
           id="four"
           type="radio"
           value="4"
-          checked={props.preference.price === "4"}
+          checked={props.preference.priceTier === 4}
           onChange={priceSelectHandler}
         />
         <SRadioLabel htmlFor="four">
           <SCircle />
           <span>20만원 이상</span>
           <span>35만원 이하</span>
-          {props.preference.price === "4" ? (
+          {props.preference.priceTier === 4 ? (
             <motion.div style={selectedStyle} layoutId="selectedBox" />
           ) : (
             ""
@@ -170,14 +170,14 @@ const DailyPrice = (props) => {
           id="five"
           type="radio"
           value="5"
-          checked={props.preference.price === "5"}
+          checked={props.preference.priceTier === 5}
           onChange={priceSelectHandler}
         />
         <SRadioLabel htmlFor="five">
           <SCircle />
           <span>35만원 이상</span>
           <span>&nbsp;</span>
-          {props.preference.price === "5" ? (
+          {props.preference.priceTier === 5 ? (
             <motion.div style={selectedStyle} layoutId="selectedBox" />
           ) : (
             ""

@@ -116,32 +116,26 @@ const AppRecommendQuestion = (props) => {
   const [barWidth, setBarWidth] = useState(0);
 
   const goResult = async () => {
-    if (isLogin) {
-      try {
-        const userPreference = await getPreference(user.id);
-        if (userPreference.status === 200) {
-          setPreferenceValue((prev) => {
-            return { ...prev, flavor: userPreference.data.flavor };
-          });
-          const recommendData = {
-            priceTier: userPreference.data.priceTier,
-            flavor: userPreference.data.flavor,
-          };
-          try {
-            let recommendedResult;
-            recommendedResult = await recommend(recommendData);
-            if (recommendedResult !== undefined) {
-              setResultValue(recommendedResult);
-              navigate("/recommend/result");
-            }
-          } catch {
-            console.log("위스키 추천 실패");
-          }
-        }
-      } catch {
-        console.log("사용자 선호 정보 요청 실패");
-      }
-    }
+    setActivePage(6);
+    console.log('확인', preferenceValue);
+    // 위스키 추천 요청
+    const recommendData = {
+      priceTier: preferenceValue.priceTier,
+      flavor: preferenceValue.flavor,
+    };
+
+    console.log(`recommendDate ->`);
+    console.log(recommendData);
+    await recommend(recommendData).then(data => {
+      setResultValue(data);
+      console.log(data);
+    }).catch(e => console.log(e));
+
+    setPreferenceValue(prev => {return {...prev, saved: true}})
+
+    setTimeout(() => {
+      navigate(`/recommend/result`);
+    }, 2000);
   };
 
   const flavorSubmitHandler = async () => {
@@ -152,7 +146,7 @@ const AppRecommendQuestion = (props) => {
     const saveData = {
       gender: preferenceValue.gender,
       age: preferenceValue.age,
-      priceTier: Number(preferenceValue.price),
+      priceTier: preferenceValue.priceTier,
       flavor: preferenceValue.flavor,
     };
 
@@ -166,7 +160,7 @@ const AppRecommendQuestion = (props) => {
 
     // 위스키 추천 요청
     const recommendData = {
-      priceTier: Number(preferenceValue.price),
+      priceTier: preferenceValue.priceTier,
       flavor: preferenceValue.flavor,
     };
 
@@ -177,6 +171,8 @@ const AppRecommendQuestion = (props) => {
     } catch {
       console.log("위스키 추천 실패");
     }
+
+    setPreferenceValue(prev => {return {...prev, saved: true}})
 
     setTimeout(() => {
       navigate(`/recommend/result`);
@@ -190,7 +186,7 @@ const AppRecommendQuestion = (props) => {
 
       // 위스키 추천 요청
       const recommendData = {
-        priceTier: Number(preferenceValue.price),
+        priceTier: preferenceValue.priceTier,
         whiskies: [preferenceValue.whiskies[0]],
       };
 
@@ -213,13 +209,13 @@ const AppRecommendQuestion = (props) => {
         console.log("위스키 취향 정보 불러오기 실패");
       }
 
-      // 백에 취향정보 저장
-      const saveData = {
-        gender: preferenceValue.gender,
-        age: preferenceValue.age,
-        priceTier: Number(preferenceValue.price),
-        flavor: preferenceValue.selectedWhiskyFlavor,
-      };
+    // 백에 취향정보 저장
+    const saveData = {
+      gender: preferenceValue.gender,
+      age: preferenceValue.age,
+      priceTier: preferenceValue.priceTier,
+      flavor: preferenceValue.selectedWhiskyFlavor,
+    };
 
       if (isLogin) {
         try {
@@ -238,8 +234,14 @@ const AppRecommendQuestion = (props) => {
   };
 
   useEffect(() => {
-    if (resultValue.length > 0) {
-      whiskySubmitHandler();
+    if(preferenceValue.saved === true) {
+      goResult();
+    } else if(user?.id && !preferenceValue.re) {
+      getPreference(user.id).then((response) => {
+        console.log(response.data);
+        setPreferenceValue(prev => {return {...prev, ...response.data, re: false}});
+        goResult();
+      });
     }
   }, []);
 
@@ -288,7 +290,6 @@ const AppRecommendQuestion = (props) => {
     } else if (activePage === 4 && preferenceValue.whiskies == []) {
       error("1개 이상의 위스키를 선택해주세요!");
     } else {
-      console.log(preferenceValue);
       setDirection("next");
       setActivePage((prev) => (activePage === 4 ? prev + 2 : prev + 1));
     }

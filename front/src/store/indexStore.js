@@ -93,6 +93,7 @@ export const preference = atom({
       fruity: 0,
       floral: 0,
     },
+    saved: false,
   },
   effects_UNSTABLE: [persistAtom],
 });

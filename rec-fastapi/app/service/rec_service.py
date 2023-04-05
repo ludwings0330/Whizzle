@@ -9,13 +9,19 @@ import logging
 
 from models.dto.data_class import Preference
 from common.config import settings
-from util.modelutil import load_rec_model, make_features, make_user_features_df
+from util.modelutil import (
+    load_rec_model,
+    load_dataset,
+    make_features,
+    make_user_features_df,
+)
 
 
 def predict_personal_whisky(preferences: List[Preference], item_features):
     model = load_rec_model()
+    dataset = load_dataset()
     preference_df = make_user_features_df(preferences)
-    user_meta, item_meta = make_features(preference_df, item_features)
+    user_meta, item_meta = make_features(preference_df, item_features, dataset)
     item_ids = np.arange(item_features.shape[0])
     scores = model.predict(
         user_ids=preferences[0].user_id

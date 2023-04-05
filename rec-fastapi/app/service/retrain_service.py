@@ -2,9 +2,11 @@ from fastapi import HTTPException
 import logging
 
 from typing import List
-
+import numpy as np
 from lightfm import LightFM
 from lightfm.data import Dataset
+from lightfm.evaluation import precision_at_k, auc_score, recall_at_k, reciprocal_rank
+
 from models.dto.data_class import Rating, Preference
 from util.modelutil import *
 
@@ -13,12 +15,13 @@ def fit_partial_user(
     ratings: List[Rating], preferences: List[Preference], item_features
 ):
     try:
+        dataset = load_dataset()
         model = load_rec_model()
         rating_df = make_rating_df(ratings)
-        interactions, weights = make_interactions(rating_df)
+        interactions, weights = make_interactions(rating_df, dataset)
         preference_df = make_user_features_df(preferences)
         user_meta, item_meta = make_features(
-            preference_df=preference_df, item_features=item_features
+            preference_df=preference_df, item_features=item_features, dataset=dataset
         )
         # add error detection logic
         model.fit_partial(
@@ -30,7 +33,103 @@ def fit_partial_user(
             verbose=False,
         )
         save_model(model)
-        save_ratings(rating_df=rating_df)
-        save_user_features(user_features_df=preference_df)
+        rating_df = concat_ratings(rating_df=rating_df)
+        user_features_df = concat_user_features(user_features_df=preference_df)
+        logging.info("train_rating.csv and user_features is updated")
+        rating_df.to_csv(settings.RATING_PATH, encoding=settings.ENCODING)
+        user_features_df.to_csv(settings.USER_FEATURES_PATH, encoding=settings.ENCODING)
     except Exception as e:
         logging.error("기존 사용자 모델 재학습 오류 : {}".format(e.args[0]))
+
+
+def refitting(
+    time, ratings: List[Rating], preferences: List[Preference], item_features
+):
+    new_rating_df = make_rating_df(ratings=ratings)
+    new_user_features_fd = make_user_features_df(preferences)
+    rating_df = concat_ratings(new_rating_df)
+    user_features = concat_user_features(new_user_features_fd)
+
+    cols = user_features.columns.tolist()[1:]
+    logging.debug(["whisky_id"] + cols)
+    item_features = item_features[["whisky_id"] + cols]
+
+    dataset = dataset_fit(
+        users=np.arange(user_features.user_id.max() + 1),
+        items=np.arange(item_features.whisky_id.max() + 1),
+        cols=cols,
+    )
+
+    interactions, weights = make_interactions(rating_df=rating_df, dataset=dataset)
+    user_meta, item_meta = make_features(user_features, item_features, dataset=dataset)
+
+    origin_model = load_rec_model()
+    hyper_params = origin_model.get_params()
+    model = LightFM(
+        no_components=hyper_params["no_components"],
+        learning_rate=hyper_params["learning_rate"],
+        item_alpha=hyper_params["item_alpha"],
+        user_alpha=hyper_params["user_alpha"],
+        learning_schedule=hyper_params["learning_schedule"],
+        loss=hyper_params["loss"],
+        random_state=hyper_params["random_state"],
+    )
+    model.fit(
+        interactions=interactions,
+        sample_weight=weights,
+        item_features=item_meta,
+        user_features=user_meta,
+        epochs=5,
+        verbose=True,
+    )
+
+    test_data = pd.read_csv(
+        settings.TEST_DATA_PATH, index_col=0, encoding=settings.ENCODING
+    )
+    test_interactions, _ = make_interactions(rating_df=test_data, dataset=dataset)
+
+    precision, recall, auc, mrr = evaluate(
+        model,
+        test_interactions=test_interactions,
+        user_meta=user_meta,
+        item_meta=item_meta,
+    )
+
+    logging.info(
+        "모델 재학습 결과 \nPrecision : {} Recall : {} AUC : {} MRR : {}".format(
+            precision, recall, auc, mrr
+        )
+    )
+
+    logging.info("save model, dataset, updated Rating csv, updated User Features csv")
+    pickle.dump(dataset, open(create_save_path("dataset", "pkl", time), "wb"))
+    pickle.dump(model, open(create_save_path("model", "pkl", time), "wb"))
+    rating_df.to_csv(settings.RATING_PATH, encoding=settings.ENCODING)
+    user_features.to_csv(settings.USER_FEATURES_PATH, encoding=settings.ENCODING)
+
+    return precision, recall, auc, mrr
+
+
+def dataset_fit(users, items, cols):
+    dataset = Dataset()
+    dataset.fit(users=users, items=items, user_features=cols, item_features=cols)
+    return dataset
+
+
+def evaluate(model, test_interactions, user_meta, item_meta):
+    precision = precision_at_k(
+        model, test_interactions, user_features=user_meta, item_features=item_meta, k=9
+    ).mean()
+    recall = recall_at_k(
+        model, test_interactions, user_features=user_meta, item_features=item_meta, k=9
+    ).mean()
+    auc = auc_score(
+        model, test_interactions, user_features=user_meta, item_features=item_meta
+    ).mean()
+    mrr = reciprocal_rank(
+        model,
+        test_interactions=test_interactions,
+        user_features=user_meta,
+        item_features=item_meta,
+    ).mean()
+    return precision, recall, auc, mrr

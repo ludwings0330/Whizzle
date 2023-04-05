@@ -1,5 +1,5 @@
 import axios from "axios";
-import { BASE_URL, LOCAL_FRONT_URL } from "../constants/constants";
+import { BASE_URL } from "../constants/constants";
 import { parse, stringify } from "qs";
 import Swal from "sweetalert2";
 
@@ -31,7 +31,7 @@ export const reissueAccessToken = async () => {
         icon: "error",
         timer: 1500,
       }).then((result) => {
-        window.location.href = `${LOCAL_FRONT_URL}/signin`;
+        window.location.href = `${BASE_URL}/signin`;
       });
     });
 };

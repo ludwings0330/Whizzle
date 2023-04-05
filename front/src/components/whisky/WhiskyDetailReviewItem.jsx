@@ -51,6 +51,7 @@ const SProfileImg = styled.img`
   height: 75px;
   margin-left: 45px;
   border-radius: 50%;
+  cursor: pointer;
 `;
 
 const SLevelDiv = styled.div`
@@ -168,7 +169,11 @@ const WhiskyDetailReviewItem = ({ review }) => {
     <Wrapper>
       <SReviewInfoDiv>
         <div style={{ display: "flex", alignItems: "center" }}>
-          <SProfileImg src={review.memberInfo.profileImageUrl} alt="유저 프로필" />
+          <SProfileImg
+            onClick={goToUserPage}
+            src={review.memberInfo.profileImageUrl}
+            alt="유저 프로필"
+          />
           <SUserDiv>
             <SNicknameDiv>
               <p
