@@ -1,7 +1,8 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
 import { motion } from "framer-motion";
-import "./MainReview.css";
+import styles from "./MainReview.module.css";
+import { v4 as uuidv4 } from "uuid";
 
 const SDiv = styled.div`
   display: flex;
@@ -35,8 +36,8 @@ const SReviewBox = styled.div`
 `;
 
 const SImg = styled.img`
-  width: 100%;
-  height: 100%;
+  // width: 100%;
+  // height: 100%;
   box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.25);
   border-radius: 16px;
 `;
@@ -67,23 +68,56 @@ const MainReview = (props) => {
         whileInView="visible"
         viewport={{ once: true }}
       >
-        <SReviewBox className="slide-container">
-          {reviewList.map((review, index) => {
-            return (
-              <>
-                {index % 2 ? (
-                  <SImg
-                    key={review}
-                    src={require(`../../assets/img/review${review}.png`)}
-                    style={{ marginTop: "40px" }}
-                  />
-                ) : (
-                  <SImg key={review} src={require(`../../assets/img/review${review}.png`)} />
-                )}
-              </>
-            );
-          })}
-        </SReviewBox>
+        <div className={styles.container}>
+          <div className={styles.slideContainer}>
+            {/* <SReviewBox className={styles.slideContainer}> */}
+            {reviewList.map((review, index) => {
+              return (
+                <>
+                  {index % 2 ? (
+                    <SImg
+                      className={styles.slideImage}
+                      key={uuidv4()}
+                      src={require(`../../assets/img/review${review}.png`)}
+                      style={{ marginTop: "50px" }}
+                    />
+                  ) : (
+                    <SImg
+                      className={styles.slideImage}
+                      key={uuidv4()}
+                      src={require(`../../assets/img/review${review}.png`)}
+                    />
+                  )}
+                </>
+              );
+            })}
+            {/* </SReviewBox> */}
+          </div>
+          <div className={styles.slideContainer} style={{ marginLeft: "30px" }}>
+            {/* <SReviewBox className={styles.slideContainer}> */}
+            {reviewList.map((review, index) => {
+              return (
+                <>
+                  {index % 2 ? (
+                    <SImg
+                      className={styles.slideImage}
+                      key={uuidv4()}
+                      src={require(`../../assets/img/review${review}.png`)}
+                      style={{ marginTop: "50px" }}
+                    />
+                  ) : (
+                    <SImg
+                      className={styles.slideImage}
+                      key={uuidv4()}
+                      src={require(`../../assets/img/review${review}.png`)}
+                    />
+                  )}
+                </>
+              );
+            })}
+            {/* </SReviewBox> */}
+          </div>
+        </div>
       </motion.div>
     </SDiv>
   );
