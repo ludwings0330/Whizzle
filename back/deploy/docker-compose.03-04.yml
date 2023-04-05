@@ -4,10 +4,6 @@ services:
   whizzle-back-03:
     image: whizzle/back:2
     container_name: whizzle-back-03
-    networks:
-      back-net:
-        aliases:
-          - spring-net-dns
     ports:
       - "8082:8080"
     volumes:
@@ -21,10 +17,6 @@ services:
   whizzle-back-04:
     image: whizzle/back:2
     container_name: whizzle-back-04
-    networks:
-      back-net:
-        aliases:
-          - spring-net-dns
     ports:
       - "8083:8080"
     volumes:
@@ -34,7 +26,3 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
-
-
-networks:
-  back-net:
