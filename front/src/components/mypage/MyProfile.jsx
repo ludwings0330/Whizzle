@@ -15,6 +15,7 @@ const SImgContainer = styled.div`
   position: relative;
   display: inline-block;
   height: 250px;
+  margin-left: 10px;
 `;
 
 const SCameraIcon = styled.img`
@@ -32,19 +33,20 @@ const SCameraIcon = styled.img`
 `;
 
 const SImg = styled.img`
-  height: 250px;
-  width: 250px;
-  filter: drop-shadow(0px 8px 24px rgba(149, 157, 165, 0.2));
+  margin-top: 17px;
+  height: 220px;
+  width: 220px;
+  // filter: drop-shadow(0px 8px 24px rgba(149, 157, 165, 0.2));
   background-color: white;
-  box-shadow: 0px 8px 24px rgba(149, 157, 165, 0.5); // 그림자 추가
+  box-shadow: 0px 8px 24px rgba(149, 157, 165, 0.2); // 그림자 추가
 
   border-radius: 999px;
 `;
 
 const SP = styled.p`
-  font-size: 40px;
+  font-size: 32px;
   font-weight: bold;
-  padding-top: 20px;
+  padding-top: 40px;
   margin-bottom: 15px;
 `;
 
@@ -66,15 +68,17 @@ const SMainDiv = styled.div`
 `;
 
 const SPencilIcon = styled.img`
-  padding-top: 40px;
+  cursor: pointer;
+  padding-top: 58px;
   padding-left: 30px;
-  height: 40px;
+  height: 35px;
 `;
 
 const SNicknameDiv = styled.div`
   display: flex;
   align-items: center;
 `;
+
 const SButton = styled.button`
   border: 2px solid #f84f5a;
   border-radius: 12px;
@@ -82,12 +86,27 @@ const SButton = styled.button`
   color: white;
   font-size: 15px;
   cursor: pointer;
-  width: 60px;
+  margin-left: 5px;
   height: 31px;
+  padding: 0px 7px;
   font-family: Pretendard Variable;
 `;
 
-const SInput = styled.input``;
+const SInput = styled.input`
+  font-size: 32px;
+  font-weight: bold;
+  // color: #363636;
+  font-family: Pretendard Variable;
+  border-left-width: 0;
+  border-right-width: 0;
+  border-top-width: 0;
+  border-bottom-width: 1;
+  width: 300px;
+  &:focus {
+    outline: 0;
+    background: none;
+  }
+`;
 
 //마이페이지 상단 해당 유저의 기본 정보
 const MyProfile = (props) => {
@@ -199,7 +218,14 @@ const MyProfile = (props) => {
         <SInfoDiv>
           <SNicknameDiv>
             {isEditing ? (
-              <>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginTop: "71px",
+                }}
+              >
                 <SInput
                   type="text"
                   value={editedNickname}
@@ -213,9 +239,9 @@ const MyProfile = (props) => {
                 />
                 <div>
                   <SButton onClick={handleNicknameChange}>수정완료</SButton>
-                  <SButton onClick={handleEditNicknameCancel}>취소</SButton>
+                  <SButton onClick={handleEditNicknameCancel}>수정취소</SButton>
                 </div>
-              </>
+              </div>
             ) : (
               <>
                 <SP>{otherUserInfo ? otherUserInfo.nickname : user.nickname}</SP>
