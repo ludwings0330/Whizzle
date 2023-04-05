@@ -11,6 +11,7 @@ import Graph from "../components/common/Graph";
 import ResultMainWhisky from "../components/recommend/result/ResultMainWhisky";
 import ResultWhiskyList from "../components/recommend/result/ResultWhiskyList";
 import { info } from "../components/notify/notify";
+import Swal from "sweetalert2";
 
 const SHeader = styled.div`
   height: 230px;
@@ -157,7 +158,17 @@ const AppRecommnedResult = () => {
   useEffect(() => {
     if (!isLogin) {
       setTimeout(() => {
-        info("회원 가입을 통해 취향을 저장해보세요!");
+        Swal.fire({
+          title: "회원 가입을 통해 \n취향을 저장해보세요!",
+          icon: "info",
+          showCancelButton: true,
+          confirmButtonText: "로그인",
+          cancelButtonText: "취소",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            navigate("/signin");
+          }
+        });
       }, 5000);
     }
   }, []);
