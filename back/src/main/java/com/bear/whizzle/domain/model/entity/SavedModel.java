@@ -31,17 +31,19 @@ public class SavedModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(columnDefinition = "DATETIME", updatable = false)
+    @Column(name = "saved_date_time", columnDefinition = "DATETIME", updatable = false)
     @NotNull
     private LocalDateTime savedDateTime;
 
+    @Column(name = "precision_k")
     @Min(0)
     @Max(1)
-    private Float precision;
+    private Float precisionK;
 
+    @Column(name = "recall_k")
     @Min(0)
     @Max(1)
-    private Float recall;
+    private Float recallK;
 
     @Min(0)
     @Max(1)
@@ -52,8 +54,10 @@ public class SavedModel {
     private Float mrr;
 
     @NotNull
+    @Column(name = "is_used")
     @ColumnDefault("0")
     @Builder.Default
     private Boolean isUsed = Boolean.FALSE;
+
 
 }
