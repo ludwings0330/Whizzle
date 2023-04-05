@@ -38,7 +38,8 @@ def fit_partial_user(
         user_features_df = concat_user_features(user_features_df=preference_df)
         logging.info("train_rating.csv and user_features is updated")
         rating_df.to_csv(settings.RATING_PATH, encoding=settings.ENCODING)
-        user_features_df.to_csv(settings.USER_FEATURES_PATH, encoding=settings.ENCODING)
+        user_features_df.to_csv(
+            settings.USER_FEATURES_PATH, encoding=settings.ENCODING)
     except Exception as e:
         logging.error("기존 사용자 모델 재학습 오류 : {}".format(e.args[0]))
 
@@ -60,8 +61,10 @@ def refitting(
         cols=cols,
     )
 
-    interactions, weights = make_interactions(rating_df=rating_df, dataset=dataset)
-    user_meta, item_meta = make_features(user_features, item_features, dataset=dataset)
+    interactions, weights = make_interactions(
+        rating_df=rating_df, dataset=dataset)
+    user_meta, item_meta = make_features(
+        user_features, item_features, dataset=dataset)
 
     origin_model = load_rec_model()
     hyper_params = origin_model.get_params()
@@ -87,12 +90,19 @@ def refitting(
         "-------------------------------------[파일 저장 시도]-------------------------------------"
     )
     logging.info("{} 까지의 신규 사용자 반영한 모델, 데이터셋, 파일 저장".format(time))
+    logging.info(
+        "dataset path : {} model path : {}".format(
+            create_save_path("dataset", "pkl", time),
+            create_save_path("model", "pkl", time),
+        )
+    )
     with open(create_save_path("dataset", "pkl", time), "wb") as f:
         pickle.dump(dataset, f)
     with open(create_save_path("model", "pkl", time), "wb") as f:
         pickle.dump(model, f)
     rating_df.to_csv(settings.RATING_PATH, encoding=settings.ENCODING)
-    user_features.to_csv(settings.USER_FEATURES_PATH, encoding=settings.ENCODING)
+    user_features.to_csv(settings.USER_FEATURES_PATH,
+                         encoding=settings.ENCODING)
     logging.info(
         "---------------------------------------[저장 성공]---------------------------------------"
     )
@@ -100,7 +110,8 @@ def refitting(
     test_data = pd.read_csv(
         settings.TEST_DATA_PATH, index_col=0, encoding=settings.ENCODING
     )
-    test_interactions, _ = make_interactions(rating_df=test_data, dataset=dataset)
+    test_interactions, _ = make_interactions(
+        rating_df=test_data, dataset=dataset)
 
     precision, recall, auc, mrr = evaluate(
         model,
@@ -120,7 +131,8 @@ def refitting(
 
 def dataset_fit(users, items, cols):
     dataset = Dataset()
-    dataset.fit(users=users, items=items, user_features=cols, item_features=cols)
+    dataset.fit(users=users, items=items,
+                user_features=cols, item_features=cols)
     return dataset
 
 

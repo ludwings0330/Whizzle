@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javax.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -29,6 +30,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class RecController {
 
     private final WebClient webClient;
@@ -50,6 +52,7 @@ public class RecController {
             @AuthenticationPrincipal PrincipalDetails member,
             @RequestBody(required = false) RecWhiskyRequestDto recWhiskyRequestDto
     ) throws UnprocessableEntity, NotFoundException, InternalServerError {
+        log.info("위스키 추천 Request Data - member : {} RecWhiskyRequestDto : {}", member, recWhiskyRequestDto);
         Long memberId = member == null ? 0L : member.getMemberId();
         List<PreferenceDto> preferenceDtos = new ArrayList<>();
         PreferenceDto preferenceDto = recService.extractPreference(memberId, recWhiskyRequestDto);
