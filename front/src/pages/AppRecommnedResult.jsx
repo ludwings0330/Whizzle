@@ -142,7 +142,9 @@ const AppRecommnedResult = () => {
   const onClickHandler = (e) => {
     if (e.target.innerText === "취향 정보 다시 입력하기") {
       setRecommend((prev) => []);
-      setUserPreference(prev => {return {...prev, saved: false, re: true}});
+      setUserPreference((prev) => {
+        return { ...prev, saved: false, re: true };
+      });
 
       navigate("/recommend/question");
     } else if (e.target.innerText === "데일리 위스키 추천받기") {
@@ -164,6 +166,12 @@ const AppRecommnedResult = () => {
           showCancelButton: true,
           confirmButtonText: "로그인",
           cancelButtonText: "취소",
+          customClass: {
+            container: "my-swal-container",
+            confirmButton: "my-swal-confirm-button",
+            cancelButton: "my-swal-cancel-button",
+            icon: "my-swal-icon",
+          },
         }).then((result) => {
           if (result.isConfirmed) {
             navigate("/signin");

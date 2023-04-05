@@ -30,6 +30,12 @@ export const reissueAccessToken = async () => {
         text: "다시 로그인해주세요",
         icon: "error",
         timer: 1500,
+        customClass: {
+          container: "my-swal-container",
+          confirmButton: "my-swal-confirm-button",
+          cancelButton: "my-swal-cancel-button",
+          icon: "my-swal-icon",
+        },
       }).then((result) => {
         window.location.href = `${BASE_URL}/signin`;
       });

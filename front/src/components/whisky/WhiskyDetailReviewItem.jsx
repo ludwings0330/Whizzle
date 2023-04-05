@@ -135,6 +135,12 @@ const WhiskyDetailReviewItem = ({ review }) => {
         showCancelButton: true,
         confirmButtonText: "Yes",
         cancelButtonText: "No",
+        customClass: {
+          container: "my-swal-container",
+          confirmButton: "my-swal-confirm-button",
+          cancelButton: "my-swal-cancel-button",
+          icon: "my-swal-icon",
+        },
       }).then((result) => {
         if (result.isConfirmed) {
           navigate("/signin");
@@ -156,6 +162,12 @@ const WhiskyDetailReviewItem = ({ review }) => {
       imageHeight: 480,
       imageAlt: "Custom image",
       showConfirmButton: false,
+      customClass: {
+        container: "my-swal-container",
+        confirmButton: "my-swal-confirm-button",
+        cancelButton: "my-swal-cancel-button",
+        icon: "my-swal-icon",
+      },
     });
   };
 
