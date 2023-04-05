@@ -270,7 +270,7 @@ const ResultMainWhiskyItem = (props) => {
             color1={"rgba(128, 128, 128, 0.2)"}
             color2={"#F84F5A"}
           />
-          <p style={{ fontSize: "14px", marginTop: "5px" }}>{whisky.reviewCount} rating(s)</p>
+          <p style={{ fontSize: "16px", marginTop: "5px" }}>{whisky.reviewCount} rating(s)</p>
         </SRatingDiv>
       </SCardDiv>
     </SDiv>

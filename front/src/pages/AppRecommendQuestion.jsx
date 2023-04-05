@@ -11,6 +11,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import styled, { keyframes } from "styled-components";
 import navigateNext from "../assets/img/navigate_next.png";
 import navigatePrev from "../assets/img/navigate_prev.png";
+import { warning } from "../components/notify/notify";
 
 //components import
 import QuestionStart from "../components/recommend/question/QuestionStart";
@@ -21,7 +22,7 @@ import QuestionChooseWhisky from "../components/recommend/question/QuestionChoos
 import QuestionChooseFlavor from "../components/recommend/question/QuestionChooseFlavor";
 import QuestionLoading from "../components/recommend/question/QuestionLoading";
 import { error } from "../components/notify/notify";
-import {useLocation} from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const SDiv = styled.div`
   display: flex;
@@ -183,57 +184,61 @@ const AppRecommendQuestion = (props) => {
   };
 
   const whiskySubmitHandler = async () => {
-    setDirection("next");
-    setActivePage(6);
+    if (preferenceValue.whiskies.length > 0) {
+      setDirection("next");
+      setActivePage(6);
 
-    // 위스키 추천 요청
-    const recommendData = {
-      priceTier: Number(preferenceValue.price),
-      whiskies: [preferenceValue.whiskies[0]],
-    };
+      // 위스키 추천 요청
+      const recommendData = {
+        priceTier: Number(preferenceValue.price),
+        whiskies: [preferenceValue.whiskies[0]],
+      };
 
-    try {
-      let recommendedResult;
-      recommendedResult = await recommend(recommendData);
-      setResultValue(recommendedResult);
-    } catch {
-      console.log("위스키 추천 실패");
-    }
-
-    // 선택된 위스키로 flavor 가져와서 저장
-    try {
-      const selectedWhisky = await whiskyDetail(presetWisky[preferenceValue.whiskies[0]].id);
-      const selectedWhiskyFlavor = selectedWhisky.flavor;
-      setPreferenceValue((prev) => {
-        return { ...prev, flavor: selectedWhiskyFlavor };
-      });
-    } catch {
-      console.log("위스키 취향 정보 불러오기 실패");
-    }
-
-    // 백에 취향정보 저장
-    const saveData = {
-      gender: preferenceValue.gender,
-      age: preferenceValue.age,
-      priceTier: Number(preferenceValue.price),
-      flavor: preferenceValue.selectedWhiskyFlavor,
-    };
-
-    if (isLogin) {
       try {
-        await preferenceSave(saveData);
+        let recommendedResult;
+        recommendedResult = await recommend(recommendData);
+        setResultValue(recommendedResult);
       } catch {
-        console.log("취향 정보 저장 실패");
+        console.log("위스키 추천 실패");
       }
-    }
 
-    setTimeout(() => {
-      navigate(`/recommend/result`);
-    }, 2000);
+      // 선택된 위스키로 flavor 가져와서 저장
+      try {
+        const selectedWhisky = await whiskyDetail(presetWisky[preferenceValue.whiskies[0]].id);
+        const selectedWhiskyFlavor = selectedWhisky.flavor;
+        setPreferenceValue((prev) => {
+          return { ...prev, flavor: selectedWhiskyFlavor };
+        });
+      } catch {
+        console.log("위스키 취향 정보 불러오기 실패");
+      }
+
+      // 백에 취향정보 저장
+      const saveData = {
+        gender: preferenceValue.gender,
+        age: preferenceValue.age,
+        priceTier: Number(preferenceValue.price),
+        flavor: preferenceValue.selectedWhiskyFlavor,
+      };
+
+      if (isLogin) {
+        try {
+          await preferenceSave(saveData);
+        } catch {
+          console.log("취향 정보 저장 실패");
+        }
+      }
+
+      setTimeout(() => {
+        navigate(`/recommend/result`);
+      }, 2000);
+    } else {
+      warning("1개 이상의 위스키를 선택해주세요!");
+    }
   };
 
   useEffect(() => {
-    if(resultValue.length > 0) {
+    if (resultValue.length > 0) {
       whiskySubmitHandler();
     }
   }, []);
@@ -280,9 +285,10 @@ const AppRecommendQuestion = (props) => {
       });
       setDirection("next");
       setActivePage(5);
-    } else if (activePage === 4 && !preferenceValue.whiskies) {
+    } else if (activePage === 4 && preferenceValue.whiskies == []) {
       error("1개 이상의 위스키를 선택해주세요!");
     } else {
+      console.log(preferenceValue);
       setDirection("next");
       setActivePage((prev) => (activePage === 4 ? prev + 2 : prev + 1));
     }
