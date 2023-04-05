@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import {useRecoilState, useRecoilValue} from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { userState } from "../store/userStore";
 import { useNavigate } from "react-router-dom";
 import { NON_LOGIN_NICKNAME } from "../constants/constants";
@@ -13,9 +13,8 @@ import ResultWhiskyList from "../components/recommend/result/ResultWhiskyList";
 import { info } from "../components/notify/notify";
 
 const SHeader = styled.div`
-  width: 100vw;
-  max-width: 100%;
-  height: 300px;
+  height: 230px;
+  padding-top: 20px;
   background: linear-gradient(108.47deg, #f84f5a 33.1%, #f7cb5a 92.59%);
   display: flex;
   flex-direction: column;
@@ -24,7 +23,7 @@ const SHeader = styled.div`
 `;
 
 const SP = styled.p`
-  font-size: 20px;
+  font-size: 18px;
   color: white;
   display: flex;
   justify-content: center;
@@ -43,13 +42,14 @@ const SGraphDiv = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 50px;
+  margin-top: 60px;
 `;
 
 const SGraphP = styled.p`
   display: inline-block;
-  font-size: 20px;
+  font-size: 18px;
   text-align: center;
+  margin-top: 15px;
 `;
 
 const SColorSpan = styled.span`
@@ -71,10 +71,10 @@ const STitleP = styled.p`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  width: 174px;
-  height: 44px;
+  width: 165px;
+  height: 40px;
   color: #ffffff;
-  font-size: 20px;
+  font-size: 18px;
   margin-bottom: 0px;
 
   background: #f84f5a;
@@ -90,7 +90,7 @@ const SBoldColorP = styled.p`
   font-weight: 700;
   font-size: 48px;
   margin-bottom: 20px;
-  margin-top: 20px;
+  margin-top: 30px;
 `;
 
 const SBtnDiv = styled.div`
@@ -98,14 +98,16 @@ const SBtnDiv = styled.div`
   max-width: 100%;
   display: flex;
   justify-content: center;
+  margin-top: 40px;
+  margin-bottom: 20px;
 `;
 
 const SQuestionBtn = styled.button`
-  width: 318px;
-  height: 74px;
+  width: 310px;
+  height: 70px;
   margin-right: 30px;
   margin-bottom: 200px;
-  border: 3px solid transparent;
+  border: 2px solid transparent;
   border-radius: 999px;
   background-image: linear-gradient(#fff, #fff),
     linear-gradient(120.33deg, #f84f5a, #f29060, #f7cb5a);
@@ -117,16 +119,15 @@ const SQuestionBtn = styled.button`
 `;
 
 const SDailyBtn = styled.button`
-  width: 318px;
-  height: 74px;
+  width: 310px;
+  height: 70px;
   border: 1px solid transparent;
   font-family: "Pretendard Variable";
   background: linear-gradient(106.95deg, #f84f5a 11.68%, #f2a660 86.99%);
   border-radius: 999px;
-  font-size: 20px;
+  font-size: 18px;
   color: #ffffff;
   cursor: pointer;
-  font-weight: 600;
 `;
 
 //추천 결과 페이지
@@ -144,6 +145,10 @@ const AppRecommnedResult = () => {
     } else if (e.target.innerText === "데일리 위스키 추천받기") {
       navigate("/daily");
     }
+  };
+
+  const goSignin = () => {
+    navigate("/signin");
   };
 
   // 비로그인 유저의 경우 회원가입 유도 모달을 띄움
@@ -206,11 +211,15 @@ const AppRecommnedResult = () => {
       {recommend && recommend.length && <ResultWhiskyList whiskys={recommend.slice(3)} />}
       <SBtnDiv>
         <SQuestionBtn onClick={onClickHandler}>
-          <SColorSpan style={{ fontSize: "20px", fontWeight: "600" }}>
-            취향 정보 다시 입력하기
-          </SColorSpan>
+          <SColorSpan style={{ fontSize: "18px" }}>취향 정보 다시 입력하기</SColorSpan>
         </SQuestionBtn>
-        <SDailyBtn onClick={onClickHandler}>데일리 위스키 추천받기</SDailyBtn>
+        {isLogin ? (
+          <SDailyBtn onClick={onClickHandler}>데일리 위스키 추천받기</SDailyBtn>
+        ) : (
+          <SDailyBtn onClick={goSignin} style={{ width: "330px" }}>
+            회원가입하고 더 많은 추천받기
+          </SDailyBtn>
+        )}
       </SBtnDiv>
     </>
   );

@@ -7,90 +7,118 @@ import ReactStars from "react-stars";
 import { userState } from "../../../store/userStore";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { keepToggle } from "../../../apis/whiskyDetail";
-import { warning } from "../../notify/notify";
 import { recommendResult } from "../../../store/indexStore";
+import Swal from "sweetalert2";
 
 const SDiv = styled.div`
   margin-top: 10px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 
   &.no-1 {
-    width: 990px;
+    width: 830px;
   }
 
   &.no-2 {
-    width: 916px;
+    width: 780px;
   }
 
   &.no-3 {
-    width: 841px;
+    width: 730px;
   }
 `;
 
 const SCardDiv = styled.div`
-  height: 284px;
-  display: grid;
-  grid-template-columns: 1fr 1.5fr 1fr;
+  height: 250px;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  padding-right: 50px;
   position: relative;
-  left: 127px;
+  left: 100px;
   background: #ffffff;
   border: 1px solid #d8d8d8;
   border-radius: 16px;
   cursor: pointer;
+  transition: 0.5s;
 
   &.no-1 {
-    width: 863px;
+    width: 660px;
   }
 
   &.no-2 {
-    width: 815px;
-    left: 110px;
+    width: 600px;
+    left: 100px;
   }
 
   &.no-3 {
-    width: 738px;
-    left: 110px;
+    width: 550px;
+    left: 100px;
+  }
+
+  &:hover {
+    box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.2);
+    transition: 0.5s;
   }
 `;
 
 const SImg = styled.img`
-  max-height: 85%;
   max-width: 100%;
-  margin-bottom: 20px;
-  margin-top: 20px;
+  height: 100%;
+  object-fit: cover;
+  transition: 0.5s;
+  transform-origin: bottom;
+
+  ${SDiv}:hover & {
+    transform: scale(1.05);
+    transition: 0.5s;
+  }
 `;
 
 const SImgDiv = styled.div`
-  height: 284px;
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 240px;
+  text-align: center;
+  position: absolute;
+  left: 25px;
+  bottom: 30px;
+  width: 130px;
 `;
 
 const SKeepBtn = styled.button`
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   border: none;
   background-color: transparent;
   cursor: pointer;
   margin-bottom: 4px;
   margin-left: 5px;
+  position: absolute;
+  top: 26px;
+  right: 35px;
+  transition: 0.5s;
+
+  &:hover {
+    transform: scale(1.3);
+    transition: 0.5s;
+  }
 `;
 
 const STitleDiv = styled.div`
   display: flex;
   align-items: center;
-  margin-top: 10px;
 `;
 
 const STitleP = styled.p`
   font-weight: 700;
-  font-size: 24px;
+  font-size: 20px;
+  margin-top: 10px;
 `;
 
 const STextDiv = styled.div`
   display: flex;
-  height: 29px;
+  height: 23px;
   margin-top: 0px;
   margin-bottom: 8px;
   align-items: center;
@@ -98,7 +126,7 @@ const STextDiv = styled.div`
 `;
 
 const SP = styled.p`
-  font-size: 20px;
+  font-size: 16px;
   margin-right: 10px;
   font-weight: 300;
 
@@ -113,6 +141,7 @@ const SRatingDiv = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-left: 15px;
 `;
 
 const SBoldColorP = styled.p`
@@ -122,15 +151,15 @@ const SBoldColorP = styled.p`
   font-family: "Pacifico";
   display: inline-block;
   font-weight: 400;
-  font-size: 48px;
+  font-size: 40px;
 
   &.no-1 {
-    background: linear-gradient(120.33deg, #f84f5a, #f29060, #f7cb5a);
+    background: linear-gradient(90deg, #f84f5a, #f29060, #f7cb5a);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     text-fill-color: transparent;
-    font-size: 64px;
+    font-size: 55px;
   }
 
   &.no-2 {
@@ -138,7 +167,7 @@ const SBoldColorP = styled.p`
   }
 
   &.no-3 {
-    color: #636363;
+    color: #363636;
 `;
 
 const ResultMainWhiskyItem = (props) => {
@@ -170,8 +199,17 @@ const ResultMainWhiskyItem = (props) => {
         setResultValue(updatedResult);
       }
     } else {
-      warning("로그인이 필요한 기능입니다!");
-      navigate("/signin");
+      Swal.fire({
+        title: "로그인이 필요한 기능입니다. \n로그인 하시겠습니까?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes",
+        cancelButtonText: "No",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/signin");
+        }
+      });
     }
   };
 
@@ -187,12 +225,12 @@ const ResultMainWhiskyItem = (props) => {
         <SImgDiv>
           <SImg src={whisky.imageUrl} alt="X" />
         </SImgDiv>
-        <div>
+        <SKeepBtn onClick={onKeepHandler}>
+          <img src={isKeep ? favoriteFilled : favoriteBorder} alt="x" />
+        </SKeepBtn>
+        <div style={{ width: "48%" }}>
           <STitleDiv>
             <STitleP>{whisky.name}</STitleP>
-            <SKeepBtn onClick={onKeepHandler}>
-              <img src={isKeep ? favoriteFilled : favoriteBorder} alt="x" />
-            </SKeepBtn>
           </STitleDiv>
           <div>
             <STextDiv>
@@ -208,8 +246,7 @@ const ResultMainWhiskyItem = (props) => {
               <SP>{whisky.abv}%</SP>
             </STextDiv>
             <STextDiv>
-              <SP className="title">가격</SP>{" "}
-              {/*가격의 자세한 표현법에 대해 추가 논의 필요*/}
+              <SP className="title">가격</SP> {/*가격의 자세한 표현법에 대해 추가 논의 필요*/}
               <SP>{whisky.priceTier}</SP>
             </STextDiv>
           </div>
@@ -218,8 +255,8 @@ const ResultMainWhiskyItem = (props) => {
           <p
             style={{
               fontWeight: "300",
-              fontSize: "36px",
-              marginBottom: "10px",
+              fontSize: "28px",
+              marginBottom: "0px",
               marginTop: "5px",
             }}
           >
@@ -229,11 +266,11 @@ const ResultMainWhiskyItem = (props) => {
             count={5}
             value={Math.round(whisky.avgRating * 2) / 2}
             edit={false}
-            size={30}
+            size={20}
             color1={"rgba(128, 128, 128, 0.2)"}
             color2={"#F84F5A"}
           />
-          <p>{whisky.reviewCount} rating(s)</p>
+          <p style={{ fontSize: "14px", marginTop: "5px" }}>{whisky.reviewCount} rating(s)</p>
         </SRatingDiv>
       </SCardDiv>
     </SDiv>
