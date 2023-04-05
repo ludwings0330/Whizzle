@@ -27,12 +27,14 @@ const SCentered = styled.div`
   gap: 16px;
   justify-content: center;
   align-items: center;
-  padding-top: 50px;
+  padding-top: ${(props) => (props.isMobile ? "20px" : "50px")};
+  margin-left: ${(props) => (props.isMobile ? "5vw" : "0px")};
+  margin-right: ${(props) => (props.isMobile ? "5vw" : "0px")};
 `;
 
 const STitle = styled.p`
   text-align: center;
-  font-size: 32px;
+  font-size: ${(props) => (props.isMobile ? "1.6rem" : "32px")};
   font-weight: bold;
   color: white;
 `;
@@ -103,6 +105,7 @@ const selectedStyle = {
 
 //추천 두번째 질문 -> 가격을 물어봄
 const QuestionPrice = (props) => {
+  const isMobile = props.isMobile;
   const [preferenceValue, setPreferenceValue] = useRecoilState(preference);
 
   const priceSelectHandler = (event) => {
@@ -126,8 +129,8 @@ const QuestionPrice = (props) => {
       exit="exit"
       custom={props.direction}
     >
-      <STitle>구매 가능한 가격대를 선택해주세요</STitle>
-      <SCentered>
+      <STitle isMobile={isMobile}>구매 가능한 가격대를 선택해주세요</STitle>
+      <SCentered isMobile={isMobile}>
         <SRadioInput
           id="one"
           type="radio"
