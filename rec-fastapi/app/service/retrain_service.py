@@ -1,6 +1,7 @@
 from fastapi import HTTPException
 import logging
 
+import pickle
 from typing import List
 import numpy as np
 from lightfm import LightFM
@@ -51,7 +52,6 @@ def refitting(
     user_features = concat_user_features(new_user_features_fd)
 
     cols = user_features.columns.tolist()[1:]
-    logging.debug(["whisky_id"] + cols)
     item_features = item_features[["whisky_id"] + cols]
 
     dataset = dataset_fit(
@@ -79,8 +79,22 @@ def refitting(
         sample_weight=weights,
         item_features=item_meta,
         user_features=user_meta,
-        epochs=5,
+        epochs=1,
         verbose=True,
+    )
+
+    logging.info(
+        "-------------------------------------[파일 저장 시도]-------------------------------------"
+    )
+    logging.info("{} 까지의 신규 사용자 반영한 모델, 데이터셋, 파일 저장".format(time))
+    with open(create_save_path("dataset", "pkl", time), "wb") as f:
+        pickle.dump(dataset, f)
+    with open(create_save_path("model", "pkl", time), "wb") as f:
+        pickle.dump(model, f)
+    rating_df.to_csv(settings.RATING_PATH, encoding=settings.ENCODING)
+    user_features.to_csv(settings.USER_FEATURES_PATH, encoding=settings.ENCODING)
+    logging.info(
+        "---------------------------------------[저장 성공]---------------------------------------"
     )
 
     test_data = pd.read_csv(
@@ -100,12 +114,6 @@ def refitting(
             precision, recall, auc, mrr
         )
     )
-
-    logging.info("save model, dataset, updated Rating csv, updated User Features csv")
-    pickle.dump(dataset, open(create_save_path("dataset", "pkl", time), "wb"))
-    pickle.dump(model, open(create_save_path("model", "pkl", time), "wb"))
-    rating_df.to_csv(settings.RATING_PATH, encoding=settings.ENCODING)
-    user_features.to_csv(settings.USER_FEATURES_PATH, encoding=settings.ENCODING)
 
     return precision, recall, auc, mrr
 

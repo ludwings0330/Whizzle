@@ -14,8 +14,8 @@ public class SavedModelMapper {
                          .auc(savedModelRequestDto.getAuc())
                          .mrr(savedModelRequestDto.getMrr())
                          .savedDateTime(savedModelRequestDto.getSavedDateTime())
-                         .precision(savedModelRequestDto.getPrecision())
-                         .recall(savedModelRequestDto.getRecall())
+                         .precisionK(savedModelRequestDto.getPrecision())
+                         .recallK(savedModelRequestDto.getRecall())
                          .build();
     }
 
