@@ -8,12 +8,12 @@ import com.bear.whizzle.domain.model.type.Flavor;
 import com.bear.whizzle.keep.repository.KeepCustomRepository;
 import com.bear.whizzle.member.repository.MemberRepository;
 import com.bear.whizzle.preference.repository.PreferenceRepository;
+import com.bear.whizzle.preference.repository.projection.PreferenceProjectionRepository;
 import com.bear.whizzle.preference.service.query.PreferenceQueryService;
 import com.bear.whizzle.recommend.PreferenceMapper;
 import com.bear.whizzle.recommend.RecommendWhiskyMapper;
 import com.bear.whizzle.recommend.controller.dto.PreferenceDto;
 import com.bear.whizzle.recommend.controller.dto.RecWhiskyRequestDto;
-import com.bear.whizzle.savedmodel.repository.SavedModelRepository;
 import com.bear.whizzle.whisky.repository.WhiskyCustomRepository;
 import com.bear.whizzle.whisky.repository.WhiskyRepository;
 import com.bear.whizzle.whisky.repository.projection.dto.FlavorSummary;
@@ -39,7 +39,7 @@ public class RecServiceImpl implements RecService {
     private final KeepCustomRepository keepCustomRepository;
     private final WhiskyQueryService whiskyQueryService;
     private final PreferenceQueryService preferenceQueryService;
-    private final SavedModelRepository savedModelRepository;
+    private final PreferenceProjectionRepository preferenceProjectionRepository;
     private final MemberRepository memberRepository;
 
     @Value("${app.rec.topK}")
@@ -71,7 +71,7 @@ public class RecServiceImpl implements RecService {
         } else if (recWhiskyRequestDto.getFlavor() != null) { // use flavor
             flavor = recWhiskyRequestDto.getFlavor();
         }
-        FlavorSummary flavorSummary = preferenceQueryService.findFlavorMinMax();
+        FlavorSummary flavorSummary = FlavorSummary.selectMinMax(preferenceQueryService.findFlavorMinMax(), preferenceProjectionRepository.findFlavorMinMaxByPreference());
         return PreferenceMapper.toPreferenceDto(memberId, priceTier, flavor, flavorSummary);
     }
 
