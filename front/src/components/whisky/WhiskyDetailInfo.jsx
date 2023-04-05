@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import ReactStars from "react-stars";
+import moneyImg from "../../assets/img/money.png";
 
 const SDiv = styled.div`
   display: flex;
@@ -98,6 +99,8 @@ const WhiskyDetailInfo = (props) => {
   const whisky = props.whisky;
   const stat = props.stat;
 
+  const priceList = [0] * whisky.priceTier;
+
   return (
     <>
       <SDiv>
@@ -121,7 +124,9 @@ const WhiskyDetailInfo = (props) => {
             </STextDiv>
             <STextDiv>
               <SP className="title">가격</SP> {/*가격의 자세한 표현법에 대해 추가 논의 필요*/}
-              <SP>{whisky.priceTier}</SP>
+              {priceList?.map((cnt, index) => {
+                <img key={index} src={moneyImg} />;
+              })}
             </STextDiv>
             <STextDiv style={{ marginTop: "50px" }}>
               <SP style={{ fontWeight: "200", fontSize: "40px", marginRight: "20px" }}>
