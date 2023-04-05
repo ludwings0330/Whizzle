@@ -196,6 +196,13 @@ node {
             -d whizzle/rec
         '''
     }
+
+    stage('Prune Networks') {
+        echo "사용하지 않는 네트워크 제거"
+        sh '''
+          docker network prune -f
+        '''
+    }
 }
 
 private boolean isHealthy(composeFileName, containerCnt) {
