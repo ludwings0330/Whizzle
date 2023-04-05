@@ -132,7 +132,7 @@ const SDailyBtn = styled.button`
 //추천 결과 페이지
 const AppRecommnedResult = () => {
   const [recommend, setRecommend] = useRecoilState(recommendResult);
-  const userPreference = useRecoilValue(preference);
+  const [userPreference, setUserPreference] = useRecoilState(preference);
   const user = useRecoilValue(userState);
   const isLogin = Boolean(user.id);
 
@@ -140,6 +140,8 @@ const AppRecommnedResult = () => {
   const onClickHandler = (e) => {
     if (e.target.innerText === "취향 정보 다시 입력하기") {
       setRecommend((prev) => []);
+      setUserPreference(prev => {return {...prev, saved: false, re: true}});
+
       navigate("/recommend/question");
     } else if (e.target.innerText === "데일리 위스키 추천받기") {
       navigate("/daily");
