@@ -251,7 +251,7 @@ const ResultMainWhiskyItem = (props) => {
               {Array(whisky.priceTier)
                 .fill()
                 .map((cnt, index) => {
-                  return <img key={index} src={moneyImg} style={{ height: "110%" }} />;
+                  return <img key={index} src={moneyImg} style={{ height: "100%" }} />;
                 })}
             </STextDiv>
           </div>
