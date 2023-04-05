@@ -37,13 +37,9 @@ async def retrain_new_model(
 
 
 async def refitting_model(memberData: MemberData, item_features: ItemFeatures):
-#     precision, recall, auc, mrr = refitting(
-#         memberData.time, memberData.ratings, memberData.preferences, item_features
-#     )
-    precision = 0.056415
-    recall = 0.5845
-    auc = 0.95415
-    mrr = 0.187465
+    precision, recall, auc, mrr = refitting(
+        memberData.time, memberData.ratings, memberData.preferences, item_features
+    )
     data = ModelResult(
         savedDateTime=memberData.time,
         precision=precision,
@@ -59,7 +55,7 @@ async def insert_train_result(data: ModelResult):
     headers = {"content-type": "application/json"}
     async with aiohttp.ClientSession() as session:
         async with session.post(
-            "http://localhost:8080/api/rec/retrain-model/any",
+            settings.SPRING_BASE_URL + "/api/rec/retrain-model/any",
             json=data.__dict__,
             headers=headers,
         ) as resp:
