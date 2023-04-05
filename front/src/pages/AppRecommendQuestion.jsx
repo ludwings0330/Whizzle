@@ -11,6 +11,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import styled, { keyframes } from "styled-components";
 import navigateNext from "../assets/img/navigate_next.png";
 import navigatePrev from "../assets/img/navigate_prev.png";
+import { warning } from "../components/notify/notify";
 
 //components import
 import QuestionStart from "../components/recommend/question/QuestionStart";
@@ -187,32 +188,23 @@ const AppRecommendQuestion = (props) => {
   }, []);
 
   const goResult = async () => {
-    if (isLogin) {
-      try {
-        const userPreference = await getPreference(user.id);
-        if (userPreference.status === 200) {
-          setPreferenceValue((prev) => {
-            return { ...prev, flavor: userPreference.data.flavor };
-          });
-          const recommendData = {
-            priceTier: userPreference.data.priceTier,
-            flavor: userPreference.data.flavor,
-          };
-          try {
-            let recommendedResult;
-            recommendedResult = await recommend(recommendData);
-            if (recommendedResult !== undefined) {
-              setResultValue(recommendedResult);
-              navigate("/recommend/result");
-            }
-          } catch {
-            console.log("위스키 추천 실패");
-          }
-        }
-      } catch {
-        console.log("사용자 선호 정보 요청 실패");
-      }
-    }
+    setActivePage(6);
+
+    // 위스키 추천 요청
+    const recommendData = {
+      priceTier: preferenceValue.priceTier,
+      flavor: preferenceValue.flavor,
+    };
+
+    await recommend(recommendData).then(data => {
+      setResultValue(data);
+    }).catch(e => console.log(e));
+
+    setPreferenceValue(prev => {return {...prev, saved: true, re: false}})
+
+    setTimeout(() => {
+      navigate(`/recommend/result`);
+    }, 2000);
   };
 
   const flavorSubmitHandler = async () => {
@@ -223,7 +215,7 @@ const AppRecommendQuestion = (props) => {
     const saveData = {
       gender: preferenceValue.gender,
       age: preferenceValue.age,
-      priceTier: Number(preferenceValue.price),
+      priceTier: preferenceValue.priceTier,
       flavor: preferenceValue.flavor,
     };
 
@@ -237,7 +229,7 @@ const AppRecommendQuestion = (props) => {
 
     // 위스키 추천 요청
     const recommendData = {
-      priceTier: Number(preferenceValue.price),
+      priceTier: preferenceValue.priceTier,
       flavor: preferenceValue.flavor,
     };
 
@@ -248,6 +240,8 @@ const AppRecommendQuestion = (props) => {
     } catch {
       console.log("위스키 추천 실패");
     }
+
+    setPreferenceValue(prev => {return {...prev, saved: true, re: false}})
 
     setTimeout(() => {
       navigate(`/recommend/result`);
@@ -255,58 +249,70 @@ const AppRecommendQuestion = (props) => {
   };
 
   const whiskySubmitHandler = async () => {
-    setDirection("next");
-    setActivePage(6);
+    if (preferenceValue.whiskies.length > 0) {
+      setDirection("next");
+      setActivePage(6);
 
-    // 위스키 추천 요청
-    const recommendData = {
-      priceTier: Number(preferenceValue.price),
-      whiskies: [preferenceValue.whiskies[0]],
-    };
+      // 위스키 추천 요청
+      const recommendData = {
+        priceTier: preferenceValue.priceTier,
+        whiskies: [preferenceValue.whiskies[0]],
+      };
 
-    try {
-      let recommendedResult;
-      recommendedResult = await recommend(recommendData);
-      setResultValue(recommendedResult);
-    } catch {
-      console.log("위스키 추천 실패");
-    }
-
-    // 선택된 위스키로 flavor 가져와서 저장
-    try {
-      const selectedWhisky = await whiskyDetail(presetWisky[preferenceValue.whiskies[0]].id);
-      const selectedWhiskyFlavor = selectedWhisky.flavor;
-      setPreferenceValue((prev) => {
-        return { ...prev, flavor: selectedWhiskyFlavor };
-      });
-    } catch {
-      console.log("위스키 취향 정보 불러오기 실패");
-    }
-
-    // 백에 취향정보 저장
-    const saveData = {
-      gender: preferenceValue.gender,
-      age: preferenceValue.age,
-      priceTier: Number(preferenceValue.price),
-      flavor: preferenceValue.selectedWhiskyFlavor,
-    };
-
-    if (isLogin) {
       try {
-        await preferenceSave(saveData);
+        let recommendedResult;
+        recommendedResult = await recommend(recommendData);
+        setResultValue(recommendedResult);
       } catch {
-        console.log("취향 정보 저장 실패");
+        console.log("위스키 추천 실패");
       }
-    }
 
-    setTimeout(() => {
-      navigate(`/recommend/result`);
-    }, 2000);
+      // 선택된 위스키로 flavor 가져와서 저장
+      let selectedWhiskyFlavor;
+      try {
+        const selectedWhisky = await whiskyDetail(presetWisky[preferenceValue.whiskies[0]].id);
+        selectedWhiskyFlavor = selectedWhisky.flavor;
+        setPreferenceValue((prev) => {
+          return { ...prev, flavor: selectedWhiskyFlavor };
+        });
+      } catch {
+        console.log("위스키 취향 정보 불러오기 실패");
+      }
+
+      // 백에 취향정보 저장
+      const saveData = {
+        gender: preferenceValue.gender,
+        age: preferenceValue.age,
+        priceTier: preferenceValue.priceTier,
+        flavor: selectedWhiskyFlavor,
+      };
+
+      if (isLogin) {
+        try {
+          await preferenceSave(saveData);
+        } catch {
+          console.log("취향 정보 저장 실패");
+        }
+      }
+
+      setPreferenceValue(prev => {return {...prev, saved: true, re: false}})
+
+      setTimeout(() => {
+        navigate(`/recommend/result`);
+      }, 2000);
+    } else {
+      warning("1개 이상의 위스키를 선택해주세요!");
+    }
   };
 
   useEffect(() => {
-    if (resultValue.length > 0) {
-      whiskySubmitHandler();
+    if(preferenceValue.saved === true) {
+      goResult();
+    } else if(user?.id && !preferenceValue.re) {
+      getPreference(user.id).then((response) => {
+        setPreferenceValue(prev => {return {...prev, ...response.data, re: false}});
+        goResult();
+      });
     }
   }, []);
 
@@ -352,7 +358,7 @@ const AppRecommendQuestion = (props) => {
       });
       setDirection("next");
       setActivePage(5);
-    } else if (activePage === 4 && !preferenceValue.whiskies) {
+    } else if (activePage === 4 && preferenceValue.whiskies == []) {
       error("1개 이상의 위스키를 선택해주세요!");
     } else {
       setDirection("next");

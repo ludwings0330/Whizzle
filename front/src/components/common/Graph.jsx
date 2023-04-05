@@ -36,7 +36,7 @@ const Graph = (props) => {
             fontFamily: "Pretendard Variable",
             fontSize: "16px",
           }}
-          margin={{ top: 10, right: 30, bottom: 60, left: 35 }}
+          margin={{ top: 25, right: 30, bottom: 60, left: 35 }}
           lineWidth={5}
           xScale={{ type: "point" }}
           yScale={{

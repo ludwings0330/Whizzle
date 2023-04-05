@@ -53,7 +53,7 @@ const AppDailyWhisky = () => {
     setIsLoading(true);
 
     const body = {
-      priceTier: preference.price,
+      priceTier: preference.priceTier,
       flavor: preference.flavor,
     };
 
@@ -68,7 +68,7 @@ const AppDailyWhisky = () => {
   };
 
   useEffect(() => {
-    if (preference.price !== "") {
+    if (preference.priceTier) {
       dailyRecommendApi();
     }
   }, [preference]);

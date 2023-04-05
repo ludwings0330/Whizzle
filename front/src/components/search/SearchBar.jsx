@@ -222,7 +222,7 @@ const SearchBar = () => {
                   key={index}
                   onClick={() => setRecentSearchData(word)}
                 >
-                  <SP>{word.length > 30 ? `${word.slice(0, 30)}...` : word}</SP>
+                  <SP>{word.length > 70 ? `${word.slice(0, 6700)}...` : word}</SP>
                   <SButton
                     onClick={(event) => deleteRecentSearchWord(event, word)}
                     style={{ color: "#888888" }}
@@ -234,7 +234,7 @@ const SearchBar = () => {
             {autocompleteWords &&
               autocompleteWords.map((word, index) => (
                 <SDiv key={index + 4} onClick={() => setRecentSearchData(word)}>
-                  <SP>{word.length > 30 ? `${word.slice(0, 30)}...` : word}</SP>
+                  <SP>{word.length > 70 ? `${word.slice(0, 70)}...` : word}</SP>
                 </SDiv>
               ))}
           </SWordDiv>

@@ -34,5 +34,14 @@ class PersonalWhiskyRequest(BaseModel):
 
 
 class MemberData(BaseModel):
+    time: str = None
     ratings: List[Rating] = Body(..., alias="ratings")
     preferences: List[Preference] = Body(...)
+
+
+class ModelResult(BaseModel):
+    savedDateTime: str
+    precision: float
+    recall: float
+    auc: float
+    mrr: float

@@ -12,8 +12,6 @@ public class WebClientConfig {
 
     @Value("${webclient.baseurl}")
     private String baseUrl;
-    @Value("${webclient.port}")
-    private String port;
 
     @Bean
     public WebClient webClient() {
@@ -23,10 +21,11 @@ public class WebClientConfig {
                           .stream()
                           .filter(LoggingCodecSupport.class::isInstance)
                           .forEach(writer -> ((LoggingCodecSupport) writer).setEnableLoggingRequestDetails(true));
+
         // WebClient 생성
         return WebClient.builder()
                         .exchangeStrategies(exchangeStrategies)
-                        .baseUrl(String.format("%s:%s", baseUrl, port))
+                        .baseUrl(baseUrl)
                         .build();
     }
 

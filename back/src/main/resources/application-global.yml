@@ -38,8 +38,7 @@ logging:
 
 webclient:
 #  baseurl: http://localhost
-  baseurl: http://j8a805.p.ssafy.io
-  port: 8000
+  baseurl: http://whizzle.o-r.kr
 
 spring:
   config:
@@ -67,8 +66,7 @@ logging:
     com: info
 
 webclient:
-  baseurl: http://j8a805.p.ssafy.io
-  port: 8000
+  baseurl: http://whizzle.o-r.kr
 
 spring:
   config:
