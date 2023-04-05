@@ -9,6 +9,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { keepToggle } from "../../../apis/whiskyDetail";
 import { recommendResult } from "../../../store/indexStore";
 import Swal from "sweetalert2";
+import moneyImg from "../../../assets/img/money.png";
 
 const SDiv = styled.div`
   margin-top: 10px;
@@ -247,7 +248,11 @@ const ResultMainWhiskyItem = (props) => {
             </STextDiv>
             <STextDiv>
               <SP className="title">가격</SP> {/*가격의 자세한 표현법에 대해 추가 논의 필요*/}
-              <SP>{whisky.priceTier}</SP>
+              {Array(whisky.priceTier)
+                .fill()
+                .map((cnt, index) => {
+                  return <img key={index} src={moneyImg} style={{ height: "110%" }} />;
+                })}
             </STextDiv>
           </div>
         </div>
