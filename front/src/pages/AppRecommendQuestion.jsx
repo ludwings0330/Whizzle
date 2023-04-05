@@ -21,7 +21,7 @@ import QuestionChooseWhisky from "../components/recommend/question/QuestionChoos
 import QuestionChooseFlavor from "../components/recommend/question/QuestionChooseFlavor";
 import QuestionLoading from "../components/recommend/question/QuestionLoading";
 import { error } from "../components/notify/notify";
-import {useLocation} from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const SDiv = styled.div`
   display: flex;
@@ -233,7 +233,7 @@ const AppRecommendQuestion = (props) => {
   };
 
   useEffect(() => {
-    if(resultValue.length > 0) {
+    if (resultValue.length > 0) {
       whiskySubmitHandler();
     }
   }, []);
@@ -392,7 +392,6 @@ const AppRecommendQuestion = (props) => {
         );
     }
   };
-
   return (
     <SDiv>
       <ProgressBar

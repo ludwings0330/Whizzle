@@ -228,9 +228,7 @@ const WhiskyDetailMyReviewItem = ({ review, whiskyId, onDelete }) => {
       ) : null}
 
       <STextDiv>
-        {review.reviewInfo.content === "undefined" ? (
-          <p>작성된 내용이 없습니다.</p>
-        ) : review.reviewInfo.content.length > 255 ? (
+        {review.reviewInfo.content.length > 255 ? (
           !seeMore ? (
             <p>
               {review.reviewInfo.content.slice(0, 255)}

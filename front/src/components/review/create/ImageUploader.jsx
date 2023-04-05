@@ -1,6 +1,7 @@
 import React from "react";
 import { useDropzone } from "react-dropzone";
 import styled from "styled-components";
+import { error } from "../../notify/notify";
 
 import imgupload from "../../../assets/img/imgupload.png";
 
@@ -70,6 +71,10 @@ const ImageUploader = ({ files, handleFiles, maxNum, preImages, handlePreImages 
       "image/*": [],
     },
     onDrop: (acceptedFiles) => {
+      if (files.length + acceptedFiles.length + (preImages ? preImages.length : 0) > maxNum) {
+        error(`최대 ${maxNum}개의 이미지까지 업로드할 수 있습니다.`);
+        return;
+      }
       const newImgs = acceptedFiles.map((file) =>
         Object.assign(file, { preview: URL.createObjectURL(file) })
       );
