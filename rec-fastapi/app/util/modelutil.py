@@ -42,17 +42,14 @@ def make_source(data):
     return source
 
 
-def make_interactions(rating_df):
-    dataset = load_dataset()
-    # rating_df = make_rating_df(ratings)
+def make_interactions(rating_df, dataset):
     rating_source = list(
         zip(rating_df["user_id"], rating_df["whisky_id"], rating_df["rating"])
     )
     return dataset.build_interactions(rating_source)
 
 
-def make_features(preference_df, item_features):
-    dataset = load_dataset()
+def make_features(preference_df, item_features, dataset):
     # make user features
     preference_source = make_source(preference_df)
     preference_meta = dataset.build_user_features(preference_source, normalize=False)
@@ -65,22 +62,20 @@ def make_features(preference_df, item_features):
     return preference_meta, item_meta
 
 
-def save_ratings(rating_df):
-    logging.debug("train_rating.csv is updated")
+def concat_ratings(rating_df):
     ratings = pd.read_csv(settings.RATING_PATH, index_col=0, encoding=settings.ENCODING)
     ratings = pd.concat([ratings, rating_df], ignore_index=True)
     ratings.drop_duplicates(subset=["user_id", "whisky_id"], keep="last", inplace=True)
-    ratings.to_csv(settings.RATING_PATH, encoding=settings.ENCODING)
+    return ratings
 
 
-def save_user_features(user_features_df):
-    logging.debug("user_features.csv is updated")
+def concat_user_features(user_features_df):
     user_features = pd.read_csv(
         settings.USER_FEATURES_PATH, index_col=0, encoding=settings.ENCODING
     )
     user_features = pd.concat([user_features, user_features_df], ignore_index=True)
     user_features.drop_duplicates(subset=["user_id"], keep="last", inplace=True)
-    user_features.to_csv(settings.USER_FEATURES_PATH, encoding=settings.ENCODING)
+    return user_features
 
 
 def save_model(model, path):
@@ -93,3 +88,7 @@ def save_dataset(dataset, path):
     logging.debug("whizzle_dataset.pkl is updated")
     with open(path, "wb") as f:
         pickle.dump(dataset, f)
+
+
+def create_save_path(file, extension, date):
+    return settings.BACKUP_PATH + file + "_" + date.split(".")[0] + "." + extension
