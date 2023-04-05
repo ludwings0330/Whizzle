@@ -10,7 +10,12 @@ const SDiv = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-image: linear-gradient(125.02deg, #f84f5a 28.12%, #f7875a 65.62%, #f7cb5a 100%);
+  background-image: linear-gradient(
+    125.02deg,
+    #f84f5a 28.12%,
+    #f7875a 65.62%,
+    #f7cb5a 100%
+  );
 `;
 
 const slide = {
@@ -63,6 +68,7 @@ const SRadioLabel = styled.label`
   color: white;
   font-size: 18px;
   transition: 0.2s;
+
   &:hover {
     background-color: rgba(255, 255, 255, 0.2);
   }
@@ -110,10 +116,15 @@ const QuestionPrice = (props) => {
 
   const priceSelectHandler = (event) => {
     const selectedPrice = event.target.value;
-    setPreferenceValue((prev) => ({ ...prev, priceTier: Number(selectedPrice) }));
+    setPreferenceValue((prev) => ({
+      ...prev,
+      priceTier: Number(selectedPrice),
+    }));
 
     props.setDirection("next");
-    props.setActivePage((prev) => (props.activePage === 4 ? prev + 2 : prev + 1));
+    props.setActivePage((prev) =>
+      props.activePage === 4 ? prev + 2 : prev + 1
+    );
   };
 
   useEffect(() => {
@@ -135,14 +146,14 @@ const QuestionPrice = (props) => {
           id="one"
           type="radio"
           value="1"
-          checked={preferenceValue.price === "1"}
+          checked={preferenceValue.priceTier === 1}
           onChange={priceSelectHandler}
         />
         <SRadioLabel htmlFor="one">
           <SCircle />
           <span>5만원 이하</span>
           <span>&nbsp;</span>
-          {preferenceValue.price === "1" ? (
+          {preferenceValue.priceTier === 1 ? (
             <motion.div style={selectedStyle} layoutId="selectedBox" />
           ) : (
             ""
@@ -152,14 +163,14 @@ const QuestionPrice = (props) => {
           id="two"
           type="radio"
           value="2"
-          checked={preferenceValue.price === "2"}
+          checked={preferenceValue.priceTier === 2}
           onChange={priceSelectHandler}
         />
         <SRadioLabel htmlFor="two">
           <SCircle />
           <span>5만원 이상</span>
           <span>10만원 이하</span>
-          {preferenceValue.price === "2" ? (
+          {preferenceValue.priceTier === 2 ? (
             <motion.div style={selectedStyle} layoutId="selectedBox" />
           ) : (
             ""
@@ -169,14 +180,14 @@ const QuestionPrice = (props) => {
           id="three"
           type="radio"
           value="3"
-          checked={preferenceValue.price === "3"}
+          checked={preferenceValue.priceTier === 3}
           onChange={priceSelectHandler}
         />
         <SRadioLabel htmlFor="three">
           <SCircle />
           <span>10만원 이상</span>
           <span>20만원 이하</span>
-          {preferenceValue.price === "3" ? (
+          {preferenceValue.priceTier === 3 ? (
             <motion.div style={selectedStyle} layoutId="selectedBox" />
           ) : (
             ""
@@ -186,14 +197,14 @@ const QuestionPrice = (props) => {
           id="four"
           type="radio"
           value="4"
-          checked={preferenceValue.price === "4"}
+          checked={preferenceValue.priceTier === 4}
           onChange={priceSelectHandler}
         />
         <SRadioLabel htmlFor="four">
           <SCircle />
           <span>20만원 이상</span>
           <span>35만원 이하</span>
-          {preferenceValue.price === "4" ? (
+          {preferenceValue.priceTier === 4 ? (
             <motion.div style={selectedStyle} layoutId="selectedBox" />
           ) : (
             ""
@@ -203,14 +214,14 @@ const QuestionPrice = (props) => {
           id="five"
           type="radio"
           value="5"
-          checked={preferenceValue.price === "5"}
+          checked={preferenceValue.priceTier === 5}
           onChange={priceSelectHandler}
         />
         <SRadioLabel htmlFor="five">
           <SCircle />
           <span>35만원 이상</span>
           <span>&nbsp;</span>
-          {preferenceValue.price === "5" ? (
+          {preferenceValue.priceTier === 5 ? (
             <motion.div style={selectedStyle} layoutId="selectedBox" />
           ) : (
             ""

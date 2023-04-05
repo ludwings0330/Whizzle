@@ -1,11 +1,10 @@
-import { useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { userState } from "../store/userStore";
 import jwtDecode from "jwt-decode";
-import { userInfo } from "./userinfo";
+import { getPreference, userInfo } from "./userinfo";
 import { preference } from "../store/indexStore";
-import { useRecoilValue } from "recoil";
 import { preferenceSave } from "../apis/recommend";
 
 const Callback = () => {
@@ -13,11 +12,11 @@ const Callback = () => {
   const navigate = useNavigate();
   const queryParams = new URLSearchParams(location.search);
   const setUser = useSetRecoilState(userState);
-  const preferenceValue = useRecoilValue(preference);
+  const [preferenceValue, setPreferenceValue] = useRecoilState(preference);
 
   const accessToken = queryParams.get("accessToken");
   const refreshToken = queryParams.get("refreshToken");
-  const isNew = queryParams.get("isNew") === "true";
+  const [isNew, setIsNew] = useState(queryParams.get("isNew") === "true");
   const jwt = jwtDecode(accessToken);
 
   // 토큰 저장
@@ -34,6 +33,26 @@ const Callback = () => {
   async function getUserInfo() {
     try {
       const newUser = await userInfo(jwt.memberId);
+      // 저장된 입맛정보 없으면 가져오기를 시도해봄. 있으면 그대로 둔다!
+      if (!preferenceValue.age) {
+        await getPreference(jwt.memberId)
+          .then((response) => {
+            if (response.status === 204) {
+              // 존재하는게 없다면
+              setPreferenceValue((prev) => {
+                return { ...prev, re: true };
+              });
+              // 입맛 정보가 없으면 신규 회원이나 다름없는 취급
+              setIsNew(true);
+            } else if (response.status == 200) {
+              // 존재한다면 입맛 정보 저장
+              setPreferenceValue((prev) => {
+                return { ...prev, ...response.data, re: false };
+              });
+            }
+          })
+          .catch((e) => console.log(e));
+      }
       const newUserData = {
         id: jwt.memberId, // JWT 파싱하여 유저 id와 exp를 저장
         exp: jwt.exp,
@@ -43,7 +62,6 @@ const Callback = () => {
         image: newUser.image,
         level: newUser.level,
       };
-      console.log(newUserData);
       setUser(newUserData);
     } catch (error) {
       console.log("유저 정보 저장 실패");
@@ -54,11 +72,14 @@ const Callback = () => {
     const saveData = {
       gender: preferenceValue.gender,
       age: preferenceValue.age,
-      priceTier: Number(preferenceValue.price),
+      priceTier: preferenceValue.priceTier,
       flavor: preferenceValue.flavor,
     };
     try {
       await preferenceSave(saveData);
+      setPreferenceValue((prev) => {
+        return { ...prev, re: false };
+      });
       console.log("신규유저 취향저장 성공");
     } catch {
       console.log("신규유저 취향저장 실패");
@@ -69,10 +90,8 @@ const Callback = () => {
     setToken();
     getUserInfo();
 
-    if (isNew) {
-      if (preferenceValue.age) {
-        savePrefInfo();
-      }
+    if (isNew || preference.age) {
+      savePrefInfo();
       navigate("/recommend/question");
     } else {
       navigate("/");
