@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class RetrainServiceImpl implements RetrainService {
+public class RetrainQueryServiceImpl implements RetrainQueryService {
 
     private final ReviewProjectionRepository reviewProjectionRepository;
     private final PreferenceRepository preferenceRepository;
