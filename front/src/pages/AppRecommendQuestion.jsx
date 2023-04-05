@@ -117,21 +117,18 @@ const AppRecommendQuestion = (props) => {
 
   const goResult = async () => {
     setActivePage(6);
-    console.log('확인', preferenceValue);
+
     // 위스키 추천 요청
     const recommendData = {
       priceTier: preferenceValue.priceTier,
       flavor: preferenceValue.flavor,
     };
 
-    console.log(`recommendDate ->`);
-    console.log(recommendData);
     await recommend(recommendData).then(data => {
       setResultValue(data);
-      console.log(data);
     }).catch(e => console.log(e));
 
-    setPreferenceValue(prev => {return {...prev, saved: true}})
+    setPreferenceValue(prev => {return {...prev, saved: true, re: false}})
 
     setTimeout(() => {
       navigate(`/recommend/result`);
@@ -172,7 +169,7 @@ const AppRecommendQuestion = (props) => {
       console.log("위스키 추천 실패");
     }
 
-    setPreferenceValue(prev => {return {...prev, saved: true}})
+    setPreferenceValue(prev => {return {...prev, saved: true, re: false}})
 
     setTimeout(() => {
       navigate(`/recommend/result`);
@@ -199,9 +196,10 @@ const AppRecommendQuestion = (props) => {
       }
 
       // 선택된 위스키로 flavor 가져와서 저장
+      let selectedWhiskyFlavor;
       try {
         const selectedWhisky = await whiskyDetail(presetWisky[preferenceValue.whiskies[0]].id);
-        const selectedWhiskyFlavor = selectedWhisky.flavor;
+        selectedWhiskyFlavor = selectedWhisky.flavor;
         setPreferenceValue((prev) => {
           return { ...prev, flavor: selectedWhiskyFlavor };
         });
@@ -209,13 +207,17 @@ const AppRecommendQuestion = (props) => {
         console.log("위스키 취향 정보 불러오기 실패");
       }
 
-    // 백에 취향정보 저장
-    const saveData = {
-      gender: preferenceValue.gender,
-      age: preferenceValue.age,
-      priceTier: preferenceValue.priceTier,
-      flavor: preferenceValue.selectedWhiskyFlavor,
-    };
+
+      console.log(selectedWhiskyFlavor);
+      // 백에 취향정보 저장
+      const saveData = {
+        gender: preferenceValue.gender,
+        age: preferenceValue.age,
+        priceTier: preferenceValue.priceTier,
+        flavor: selectedWhiskyFlavor,
+      };
+
+      console.log(saveData);
 
       if (isLogin) {
         try {
@@ -224,6 +226,8 @@ const AppRecommendQuestion = (props) => {
           console.log("취향 정보 저장 실패");
         }
       }
+
+      setPreferenceValue(prev => {return {...prev, saved: true, re: false}})
 
       setTimeout(() => {
         navigate(`/recommend/result`);
@@ -238,7 +242,7 @@ const AppRecommendQuestion = (props) => {
       goResult();
     } else if(user?.id && !preferenceValue.re) {
       getPreference(user.id).then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         setPreferenceValue(prev => {return {...prev, ...response.data, re: false}});
         goResult();
       });
