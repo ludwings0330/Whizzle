@@ -93,7 +93,7 @@ const SRating = styled.div`
 
 const SAvg = styled.p`
   font-size: 24px;
-  font-weight: bold;
+  font-weight: 300;
   margin: 0;
 `;
 
@@ -168,23 +168,13 @@ const WhiskyListItem = (props) => {
             transition={{ type: "spring", stiffness: 100, damping: 10 }}
           >
             {isKeep ? (
-              <SLikeImg
-                onClick={keepHandler}
-                src={favoriteFilled}
-                alt="like.png"
-              />
+              <SLikeImg onClick={keepHandler} src={favoriteFilled} alt="like.png" />
             ) : (
-              <SLikeImg
-                onClick={keepHandler}
-                src={favoriteBorder}
-                alt="like.png"
-              />
+              <SLikeImg onClick={keepHandler} src={favoriteBorder} alt="like.png" />
             )}
           </motion.div>
           <SRating>
-            <SAvg>
-              {props.whisky.reviewCount === 0 ? "NR" : props.whisky.avgRating}
-            </SAvg>
+            <SAvg>{props.whisky.reviewCount === 0 ? "NR" : props.whisky.avgRating}</SAvg>
             <ReactStars
               count={5}
               value={Math.round(props.whisky.avgRating * 2) / 2}
