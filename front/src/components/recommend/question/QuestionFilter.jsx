@@ -108,6 +108,7 @@ const SAbove = styled.div`
 
 //추천 첫 질문 성별, 나이
 const QuestionFilter = (props) => {
+  const isMobile = props.isMobile;
   const [preferenceValue, setPreferenceValue] = useRecoilState(preference);
 
   const genderSelectHandler = (event) => {

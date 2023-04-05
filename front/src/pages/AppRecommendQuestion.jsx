@@ -21,7 +21,7 @@ import QuestionChooseWhisky from "../components/recommend/question/QuestionChoos
 import QuestionChooseFlavor from "../components/recommend/question/QuestionChooseFlavor";
 import QuestionLoading from "../components/recommend/question/QuestionLoading";
 import { error } from "../components/notify/notify";
-import {useLocation} from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const SDiv = styled.div`
   display: flex;
@@ -113,6 +113,19 @@ const AppRecommendQuestion = (props) => {
   const [activePage, setActivePage] = useState(0);
   const [direction, setDirection] = useState("next");
   const [barWidth, setBarWidth] = useState(0);
+
+  // 브라우저 사이즈에 따라 모바일로 인식하여 다른 화면 표출
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 800);
+
+  useEffect(() => {
+    function handleResize() {
+      setIsMobile(window.innerWidth <= 800);
+    }
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const goResult = async () => {
     if (isLogin) {
@@ -233,7 +246,7 @@ const AppRecommendQuestion = (props) => {
   };
 
   useEffect(() => {
-    if(resultValue.length > 0) {
+    if (resultValue.length > 0) {
       whiskySubmitHandler();
     }
   }, []);
@@ -324,6 +337,7 @@ const AppRecommendQuestion = (props) => {
       case 1:
         return (
           <QuestionFilter
+            isMobile={isMobile}
             key={activePage}
             direction={direction}
             pageVariants={pageVariants}
