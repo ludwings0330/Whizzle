@@ -17,10 +17,12 @@ class Settings(BaseSettings):
     USER_FEATURES_PATH: str
     RATING_PATH: str
     TEST_DATA_PATH: str
+    BACKUP_PATH: str
     ENCODING: str
     N_USERS: int
     LOG_LEVEL: str
     ENV: str
+    SPRING_BASE_URL: str
 
     @validator("BACKEND_CORS_ORIGINS", pre=True)
     def assemble_cors_origins(cls, v: Union[str, List[str]]) -> Union[List[str], str]:
