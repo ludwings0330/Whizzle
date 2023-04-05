@@ -11,7 +11,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import styled, { keyframes } from "styled-components";
 import navigateNext from "../assets/img/navigate_next.png";
 import navigatePrev from "../assets/img/navigate_prev.png";
-import { warning } from "../components/notify/notify";
+import { error, warning } from "../components/notify/notify";
 
 //components import
 import QuestionStart from "../components/recommend/question/QuestionStart";
@@ -21,8 +21,6 @@ import QuestionPrice from "../components/recommend/question/QuestionPrice";
 import QuestionChooseWhisky from "../components/recommend/question/QuestionChooseWhisky";
 import QuestionChooseFlavor from "../components/recommend/question/QuestionChooseFlavor";
 import QuestionLoading from "../components/recommend/question/QuestionLoading";
-import { error } from "../components/notify/notify";
-import { useLocation } from "react-router-dom";
 
 const SDiv = styled.div`
   display: flex;
@@ -30,7 +28,12 @@ const SDiv = styled.div`
   align-items: center;
   flex-direction: column;
   min-height: 100vh;
-  background-image: linear-gradient(90deg, #f84f5a 28.12%, #f7875a 65.62%, #f7cb5a 100%);
+  background-image: linear-gradient(
+    90deg,
+    #f84f5a 28.12%,
+    #f7875a 65.62%,
+    #f7cb5a 100%
+  );
 `;
 
 const slider = {
@@ -57,7 +60,9 @@ const SPrevNavigate = styled.div`
   top: 43.25%;
   left: 0%;
   display: ${(props) =>
-    props.activePage === 0 || props.activePage === 1 || props.activePage === 6 ? "none" : ""};
+    props.activePage === 0 || props.activePage === 1 || props.activePage === 6
+      ? "none"
+      : ""};
 `;
 
 const SNextNavigate = styled.div`
@@ -159,7 +164,12 @@ const SButtonText = styled.span`
   font-size: 18px;
   font-family: "Pretendard Variable";
   font-weight: bold;
-  background-image: linear-gradient(125.02deg, #f84f5a 28.12%, #f7875a 65.62%, #f7cb5a 100%);
+  background-image: linear-gradient(
+    125.02deg,
+    #f84f5a 28.12%,
+    #f7875a 65.62%,
+    #f7cb5a 100%
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 `;
@@ -181,6 +191,7 @@ const AppRecommendQuestion = (props) => {
     function handleResize() {
       setIsMobile(window.innerWidth <= 800);
     }
+
     window.addEventListener("resize", handleResize);
     return () => {
       window.removeEventListener("resize", handleResize);
@@ -196,11 +207,15 @@ const AppRecommendQuestion = (props) => {
       flavor: preferenceValue.flavor,
     };
 
-    await recommend(recommendData).then(data => {
-      setResultValue(data);
-    }).catch(e => console.log(e));
+    await recommend(recommendData)
+      .then((data) => {
+        setResultValue(data);
+      })
+      .catch((e) => console.log(e));
 
-    setPreferenceValue(prev => {return {...prev, saved: true, re: false}})
+    setPreferenceValue((prev) => {
+      return { ...prev, saved: true, re: false };
+    });
 
     setTimeout(() => {
       navigate(`/recommend/result`);
@@ -241,7 +256,9 @@ const AppRecommendQuestion = (props) => {
       console.log("위스키 추천 실패");
     }
 
-    setPreferenceValue(prev => {return {...prev, saved: true, re: false}})
+    setPreferenceValue((prev) => {
+      return { ...prev, saved: true, re: false };
+    });
 
     setTimeout(() => {
       navigate(`/recommend/result`);
@@ -270,7 +287,9 @@ const AppRecommendQuestion = (props) => {
       // 선택된 위스키로 flavor 가져와서 저장
       let selectedWhiskyFlavor;
       try {
-        const selectedWhisky = await whiskyDetail(presetWisky[preferenceValue.whiskies[0]].id);
+        const selectedWhisky = await whiskyDetail(
+          presetWisky[preferenceValue.whiskies[0]].id
+        );
         selectedWhiskyFlavor = selectedWhisky.flavor;
         setPreferenceValue((prev) => {
           return { ...prev, flavor: selectedWhiskyFlavor };
@@ -295,7 +314,9 @@ const AppRecommendQuestion = (props) => {
         }
       }
 
-      setPreferenceValue(prev => {return {...prev, saved: true, re: false}})
+      setPreferenceValue((prev) => {
+        return { ...prev, saved: true, re: false };
+      });
 
       setTimeout(() => {
         navigate(`/recommend/result`);
@@ -306,11 +327,14 @@ const AppRecommendQuestion = (props) => {
   };
 
   useEffect(() => {
-    if(preferenceValue.saved === true) {
+    console.log(preferenceValue);
+    if (preferenceValue.saved === true) {
       goResult();
-    } else if(user?.id && !preferenceValue.re) {
+    } else if (user?.id && !preferenceValue.re) {
       getPreference(user.id).then((response) => {
-        setPreferenceValue(prev => {return {...prev, ...response.data, re: false}});
+        setPreferenceValue((prev) => {
+          return { ...prev, ...response.data, re: false };
+        });
         goResult();
       });
     }
@@ -484,7 +508,9 @@ const AppRecommendQuestion = (props) => {
         transition={{ duration: 0.75, delay: 0.75 }}
       />
       <motion.div style={isMobile ? mobileSlider : slider}>
-        <AnimatePresence custom={direction}>{recommendQuestionPages()}</AnimatePresence>
+        <AnimatePresence custom={direction}>
+          {recommendQuestionPages()}
+        </AnimatePresence>
       </motion.div>
       {isMobile ? (
         <SMobilePrevBtn activePage={activePage} onClick={goPrevPage}>
@@ -496,7 +522,11 @@ const AppRecommendQuestion = (props) => {
         </SPrevNavigate>
       )}
       {isMobile ? (
-        <SMobileNextBtn style={{ left: "55vw" }} activePage={activePage} onClick={goNextPage}>
+        <SMobileNextBtn
+          style={{ left: "55vw" }}
+          activePage={activePage}
+          onClick={goNextPage}
+        >
           <SButtonText>다음</SButtonText>
         </SMobileNextBtn>
       ) : (
