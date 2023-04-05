@@ -28,10 +28,12 @@ const slide = {
 };
 
 const SCentered = styled.div`
+  margin-top: ${(props) => (props.isMobile ? "70px" : "0px")};
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding-bottom: ${(props) => (props.isMobile ? "10vw" : "0px")};
 `;
 
 const SQuestion = styled.div`
@@ -39,13 +41,13 @@ const SQuestion = styled.div`
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  margin-top: 35px;
+  margin-top: ${(props) => (props.isMobile ? "5px" : "35px")};
   gap: 30px;
 `;
 
 const STitle = styled.p`
   text-align: center;
-  font-size: 32px;
+  font-size: ${(props) => (props.isMobile ? "1.8rem" : "32px")};
   font-weight: bold;
   color: white;
 `;
@@ -68,8 +70,10 @@ const SGenderSelector = styled.label`
   justify-content: end;
   align-items: center;
   cursor: pointer;
-  width: 247px;
-  height: 241px;
+  width: ${(props) => (props.isMobile ? "40vw" : "247px")};
+  height: ${(props) => (props.isMobile ? "40vw" : "241px")};
+  // width: 247px;
+  // height: 241px;
   background-color: rgba(255, 255, 255, 0.2);
   border: 1px solid rgba(255, 255, 255, 0.6);
   border-radius: 4px;
@@ -86,8 +90,10 @@ const SAgeSelector = styled.label`
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  width: 166px;
-  height: 53px;
+  width: ${(props) => (props.isMobile ? "40vw" : "166px")};
+  height: ${(props) => (props.isMobile ? "13.5vw" : "53px")};
+  // width: 166px;
+  // height: 53px;
   background: rgba(255, 255, 255, 0.2);
   border: 1px solid rgba(255, 255, 255, 0.6);
   border-radius: 4px;
@@ -100,14 +106,26 @@ const SAgeSelector = styled.label`
 `;
 
 const SAbove = styled.div`
+  width: 87%;
   display: flex;
   align-items: center;
-  gap: 120px;
-  width: 87%;
+  gap: ${(props) => (props.isMobile ? "55%" : "120px")};
+`;
+
+const SGenderImg = styled.img`
+  width: ${(props) => (props.isMobile ? "35vw" : "auto")};
+  filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))";
+`;
+
+const SMaleImg = styled.img`
+  width: ${(props) => (props.isMobile ? "27vw" : "auto")};
+
+  filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))";
 `;
 
 //추천 첫 질문 성별, 나이
 const QuestionFilter = (props) => {
+  const isMobile = props.isMobile;
   const [preferenceValue, setPreferenceValue] = useRecoilState(preference);
 
   const genderSelectHandler = (event) => {
@@ -143,10 +161,10 @@ const QuestionFilter = (props) => {
       exit="exit"
       custom={props.direction}
     >
-      <SCentered>
-        <STitle>성별과 연령대를 알려주세요</STitle>
+      <SCentered isMobile={isMobile}>
+        <STitle isMobile={isMobile}>성별과 연령대를 알려주세요</STitle>
         {/* 성별 */}
-        <SQuestion>
+        <SQuestion isMobile={isMobile}>
           <SRadioInput
             id="female_btn"
             type="radio"
@@ -154,18 +172,12 @@ const QuestionFilter = (props) => {
             checked={preferenceValue.gender === "FEMALE"}
             onChange={genderSelectHandler}
           />
-          <SGenderSelector htmlFor="female_btn">
-            <SAbove style={{ marginBottom: "15px" }}>
-              <img src={checkImg} alt="check" />
-              <span>여성</span>
+          <SGenderSelector isMobile={isMobile} htmlFor="female_btn">
+            <SAbove isMobile={isMobile} style={isMobile ? null : { marginBottom: "15px" }}>
+              {isMobile ? null : <img src={checkImg} alt="check" />}
+              {isMobile ? null : <span>여성</span>}
             </SAbove>
-            <img
-              src={femaleImg}
-              alt="female"
-              style={{
-                filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))",
-              }}
-            />
+            <SGenderImg isMobile={isMobile} src={femaleImg} alt="female" />
           </SGenderSelector>
           <SRadioInput
             id="male_btn"
@@ -174,18 +186,12 @@ const QuestionFilter = (props) => {
             checked={preferenceValue.gender === "MALE"}
             onChange={genderSelectHandler}
           />
-          <SGenderSelector htmlFor="male_btn">
-            <SAbove>
-              <img src={checkImg} alt="check" />
-              <span>남성</span>
+          <SGenderSelector isMobile={isMobile} htmlFor="male_btn">
+            <SAbove isMobile={isMobile}>
+              {isMobile ? null : <img src={checkImg} alt="check" />}
+              {isMobile ? null : <span>남성</span>}
             </SAbove>
-            <img
-              src={maleImg}
-              alt="male"
-              style={{
-                filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))",
-              }}
-            />
+            <SMaleImg isMobile={isMobile} src={maleImg} alt="male" />
           </SGenderSelector>
         </SQuestion>
 
@@ -198,7 +204,9 @@ const QuestionFilter = (props) => {
             checked={preferenceValue.age === "TWENTY"}
             onChange={ageSelectHandler}
           />
-          <SAgeSelector htmlFor="20_btn">20대</SAgeSelector>
+          <SAgeSelector isMobile={isMobile} htmlFor="20_btn">
+            20대
+          </SAgeSelector>
           <SRadioInput
             id="30_btn"
             type="radio"
@@ -206,7 +214,9 @@ const QuestionFilter = (props) => {
             checked={preferenceValue.age === "THIRTY"}
             onChange={ageSelectHandler}
           />
-          <SAgeSelector htmlFor="30_btn">30대</SAgeSelector>
+          <SAgeSelector isMobile={isMobile} htmlFor="30_btn">
+            30대
+          </SAgeSelector>
           <SRadioInput
             id="40_btn"
             type="radio"
@@ -214,7 +224,9 @@ const QuestionFilter = (props) => {
             checked={preferenceValue.age === "FORTY"}
             onChange={ageSelectHandler}
           />
-          <SAgeSelector htmlFor="40_btn">40대</SAgeSelector>
+          <SAgeSelector isMobile={isMobile} htmlFor="40_btn">
+            40대
+          </SAgeSelector>
           <SRadioInput
             id="50_btn"
             type="radio"
@@ -222,7 +234,9 @@ const QuestionFilter = (props) => {
             checked={preferenceValue.age === "FIFTY"}
             onChange={ageSelectHandler}
           />
-          <SAgeSelector htmlFor="50_btn">50대 이상</SAgeSelector>
+          <SAgeSelector isMobile={isMobile} htmlFor="50_btn">
+            50대 이상
+          </SAgeSelector>
         </SQuestion>
       </SCentered>
     </motion.div>

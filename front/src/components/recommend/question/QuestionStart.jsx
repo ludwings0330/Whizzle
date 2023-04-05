@@ -17,14 +17,14 @@ const STitle = styled.p`
   margin-top: 10vh;
   margin-bottom: 0;
   text-align: center;
-  font-size: 32px;
+  font-size: ${(props) => (props.isMobile ? "1.7rem" : "32px")};
   font-weight: bold;
   color: white;
 `;
 
 const SContent = styled.p`
   text-align: center;
-  font-size: 20px;
+  font-size: ${(props) => (props.isMobile ? "1rem" : "20px")};
   color: white;
 `;
 
@@ -52,6 +52,7 @@ const SButtonText = styled.span`
 `;
 
 const QuestionStart = (props) => {
+  const isMobile = props.isMobile;
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -59,8 +60,8 @@ const QuestionStart = (props) => {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.6 }}
     >
-      <STitle>나만의 취향 찾기, 위스키 추천</STitle>
-      <SContent>
+      <STitle isMobile={isMobile}>나만의 취향 찾기, 위스키 추천</STitle>
+      <SContent isMobile={isMobile}>
         매일 똑같은 소주, 맥주가 지겹다면?
         <br />
         나의 취향에 꼭 맞는 위스키를 추천받아 보세요!

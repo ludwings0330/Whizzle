@@ -42,6 +42,15 @@ const slider = {
   flexDirection: "column",
 };
 
+const mobileSlider = {
+  // position: "absolute",
+  display: "flex",
+  minHeight: "80vh",
+  justifyContent: "center",
+  alignItems: "center",
+  flexDirection: "column",
+};
+
 const SPrevNavigate = styled.div`
   cursor: pointer;
   position: fixed;
@@ -96,13 +105,63 @@ const animatePath = keyframes`
 
 const Svg = styled.svg`
   z-index: 0;
+  height: ${(props) => (props.isMobile ? "5%" : "15%")};
   width: 100%;
-  height: 15%;
   transition: all 300ms ease-in-out 150ms;
 
   .path-0 {
     animation: ${animatePath} 4s linear infinite;
   }
+`;
+
+const SMobilePrevBtn = styled.button`
+  display: ${(props) =>
+    props.activePage === 0 ||
+    props.activePage === 1 ||
+    props.activePage === 4 ||
+    props.activePage === 5 ||
+    props.activePage === 6
+      ? "none"
+      : ""};
+  width: 40vw;
+  height: 12vw;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+  border-radius: 999px;
+  background: white;
+  position: absolute;
+  bottom: 6vh;
+  left: 6vw;
+`;
+
+const SMobileNextBtn = styled.button`
+  display: ${(props) =>
+    props.activePage === 0 ||
+    props.activePage === 4 ||
+    props.activePage === 5 ||
+    props.activePage === 6
+      ? "none"
+      : ""};
+  width: 40vw;
+  height: 12vw;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+  border-radius: 999px;
+  background: white;
+  position: absolute;
+  bottom: 6vh;
+  left: 6vw;
+`;
+
+const SButtonText = styled.span`
+  font-size: 18px;
+  font-family: "Pretendard Variable";
+  font-weight: bold;
+  background-image: linear-gradient(125.02deg, #f84f5a 28.12%, #f7875a 65.62%, #f7cb5a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 `;
 
 const AppRecommendQuestion = (props) => {
@@ -114,6 +173,19 @@ const AppRecommendQuestion = (props) => {
   const [activePage, setActivePage] = useState(0);
   const [direction, setDirection] = useState("next");
   const [barWidth, setBarWidth] = useState(0);
+
+  // 브라우저 사이즈를 추적하여, mobile 여부를 확인
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 800);
+
+  useEffect(() => {
+    function handleResize() {
+      setIsMobile(window.innerWidth <= 800);
+    }
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const goResult = async () => {
     setActivePage(6);
@@ -326,10 +398,11 @@ const AppRecommendQuestion = (props) => {
   const recommendQuestionPages = () => {
     switch (activePage) {
       case 0:
-        return <QuestionStart goNextPage={goNextPage} />;
+        return <QuestionStart isMobile={isMobile} goNextPage={goNextPage} />;
       case 1:
         return (
           <QuestionFilter
+            isMobile={isMobile}
             key={activePage}
             direction={direction}
             pageVariants={pageVariants}
@@ -341,6 +414,7 @@ const AppRecommendQuestion = (props) => {
       case 2:
         return (
           <QuestionPrice
+            isMobile={isMobile}
             key={activePage}
             direction={direction}
             pageVariants={pageVariants}
@@ -352,6 +426,7 @@ const AppRecommendQuestion = (props) => {
       case 3:
         return (
           <QuestionExperience
+            isMobile={isMobile}
             key={activePage}
             direction={direction}
             pageVariants={pageVariants}
@@ -363,6 +438,7 @@ const AppRecommendQuestion = (props) => {
       case 4:
         return (
           <QuestionChooseWhisky
+            isMobile={isMobile}
             key={activePage}
             direction={direction}
             pageVariants={pageVariants}
@@ -375,6 +451,7 @@ const AppRecommendQuestion = (props) => {
       case 5:
         return (
           <QuestionChooseFlavor
+            isMobile={isMobile}
             key={activePage}
             direction={direction}
             pageVariants={pageVariants}
@@ -406,15 +483,27 @@ const AppRecommendQuestion = (props) => {
         animate={{ width: barWidth }}
         transition={{ duration: 0.75, delay: 0.75 }}
       />
-      <motion.div style={slider}>
+      <motion.div style={isMobile ? mobileSlider : slider}>
         <AnimatePresence custom={direction}>{recommendQuestionPages()}</AnimatePresence>
       </motion.div>
-      <SPrevNavigate activePage={activePage} onClick={goPrevPage}>
-        <img src={navigatePrev} alt="navigate" />
-      </SPrevNavigate>
-      <SNextNavigate activePage={activePage} onClick={goNextPage}>
-        <img src={navigateNext} alt="navigate" />
-      </SNextNavigate>
+      {isMobile ? (
+        <SMobilePrevBtn activePage={activePage} onClick={goPrevPage}>
+          <SButtonText>이전</SButtonText>
+        </SMobilePrevBtn>
+      ) : (
+        <SPrevNavigate activePage={activePage} onClick={goPrevPage}>
+          <img src={navigatePrev} alt="navigate" />
+        </SPrevNavigate>
+      )}
+      {isMobile ? (
+        <SMobileNextBtn style={{ left: "55vw" }} activePage={activePage} onClick={goNextPage}>
+          <SButtonText>다음</SButtonText>
+        </SMobileNextBtn>
+      ) : (
+        <SNextNavigate activePage={activePage} onClick={goNextPage}>
+          <img src={navigateNext} alt="navigate" />
+        </SNextNavigate>
+      )}
       {activePage === 0 ? (
         <motion.div
           initial={{ opacity: 0 }}
@@ -450,6 +539,7 @@ const AppRecommendQuestion = (props) => {
           transition={{ duration: 0.6 }}
         >
           <Svg
+            isMobile={isMobile}
             id="svg"
             viewBox="0 0 1440 390"
             xmlns="http://www.w3.org/2000/svg"

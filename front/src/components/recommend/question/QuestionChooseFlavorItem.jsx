@@ -16,17 +16,19 @@ const SCard = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 91px;
-  height: 91px;
+  width: ${(props) => (props.isMobile ? "15vw" : "91px")};
+  height: ${(props) => (props.isMobile ? "15vw" : "91px")};
+  // width: 91px;
+  // height: 91px;
   background: #EEEEEE;
-  border-radius: 30px;
+  border-radius: ${(props) => (props.isMobile ? "20px" : "30px")};
   transition: 0.5s;
   ${({ shadowLevel }) => `box-shadow: 0px 0px 25px rgba(248, 79, 90, ${shadowLevel});`}
   }
 `;
 
 const SImg = styled.img`
-  width: 75px;
+  width: ${(props) => (props.isMobile ? "13vw" : "75px")};
   transition: 0.5s;
   -ms-user-select: none;
   -moz-user-select: -moz-none;
@@ -41,11 +43,11 @@ const SFront = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 91px;
-  height: 91px;
-  border-radius: 30px;
+  width: ${(props) => (props.isMobile ? "15vw" : "91px")};
+  height: ${(props) => (props.isMobile ? "15vw" : "91px")};
+  border-radius: ${(props) => (props.isMobile ? "20px" : "30px")};
   transition: 0.5s;
-  font-size: 18px;
+  font-size: ${(props) => (props.isMobile ? "1rem" : "18px")};
   // font-weight: bold;
   color: #666666;
   background: rgba(238, 238, 238, 0.8);
@@ -70,7 +72,7 @@ const SBalloon = styled.div`
   align-items: center;
   min-width: 200px;
   padding: 18px 23px;
-  top: 130px;
+  top: ${(props) => (props.isMobile ? "11.5vh" : "130px")};
   border-radius: 10px;
   background: rgba(255, 255, 255, 0.9);
   box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.25);
@@ -87,7 +89,7 @@ const SBalloon = styled.div`
 `;
 
 const SBalloonText = styled.p`
-  font-size: 16px;
+  font-size: ${(props) => (props.isMobile ? "0.8rem" : "16px")};
   color: #666666;
   margin: 0;
   line-height: 20px;
@@ -110,6 +112,7 @@ const flavorInfo = {
 };
 
 const QuestionChooseFlavorItem = (props) => {
+  const isMobile = props.isMobile;
   const [preferenceValue, setPreferenceValue] = useRecoilState(preference);
   const [isHover, setIsHover] = useState(false);
 
@@ -124,27 +127,39 @@ const QuestionChooseFlavorItem = (props) => {
         },
       };
     });
+    if (isMobile) {
+      setIsHover(true);
+      setTimeout(() => {
+        setIsHover(false);
+      }, 1000);
+    }
   };
 
   return (
     <SWrap>
       <SCard
+        isMobile={isMobile}
         onClick={onClickHandler}
         shadowLevel={preferenceValue.flavor[props.flavor] * 0.01}
         onMouseEnter={() => setIsHover(true)}
         onMouseLeave={() => setIsHover(false)}
       >
-        <SBalloon isHover={isHover}>
-          <SBalloonText>{flavorInfo[props.flavor]}</SBalloonText>
+        <SBalloon isMobile={isMobile} isHover={isHover}>
+          <SBalloonText isMobile={isMobile}>{flavorInfo[props.flavor]}</SBalloonText>
         </SBalloon>
         <SImg
+          isMobile={isMobile}
           src={require(`../../../assets/img/flavor/${preferFlavor}.png`)}
           alt={preferFlavor}
           onMouseEnter={() => setIsHover(true)}
           onMouseLeave={() => setIsHover(false)}
         />
         {preferenceValue.flavor[props.flavor] !== 0 ? (
-          <SFront onMouseEnter={() => setIsHover(true)} onMouseLeave={() => setIsHover(false)}>
+          <SFront
+            isMobile={isMobile}
+            onMouseEnter={() => setIsHover(true)}
+            onMouseLeave={() => setIsHover(false)}
+          >
             {preferenceValue.flavor[props.flavor]}%
           </SFront>
         ) : (
