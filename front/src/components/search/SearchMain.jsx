@@ -35,7 +35,7 @@ const SP = styled.p`
 const SImg = styled.img`
   width: 272px;
   height: 75.75px;
-  margin-bottom: 32px;
+  margin-bottom: 50px;
 `;
 
 const SearchMain = () => {
