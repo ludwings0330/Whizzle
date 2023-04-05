@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import favoriteBorder from "../../assets/img/favorite_border.png";
@@ -6,10 +6,10 @@ import favoriteFilled from "../../assets/img/favorite_filled.png";
 import ReactStars from "react-stars";
 import { keepApi } from "../../apis/whisky";
 import { userState } from "../../store/userStore";
-import {useRecoilState, useRecoilValue} from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import Swal from "sweetalert2";
 import { motion } from "framer-motion";
-import {recommendResult} from "../../store/indexStore";
+import { recommendResult } from "../../store/indexStore";
 
 const SCard = styled.div`
   position: relative;
@@ -19,12 +19,12 @@ const SCard = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  width: 261px;
-  height: 312px;
+  width: 43vw;
+  height: 45vh;
   border: 1px solid #d8d8d8;
   border-radius: 16px;
-  padding-top: 28px;
-  padding-bottom: 10px;
+  padding-top: 10vh;
+  padding-bottom: 2vh;
   transition: 0.5s;
   &:hover {
     box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.2);
@@ -38,7 +38,7 @@ const STop = styled.div`
   align-items: center;
   padding-right: 18px;
   gap: 25px;
-  width: 220px;
+  width: 50vw;
 `;
 
 const SContainer = styled.div`
@@ -51,7 +51,7 @@ const SContainer = styled.div`
 
 const SImg = styled.img`
   max-width: 100%;
-  height: 100%;
+  height: 20vh;
   object-fit: cover;
   transition: 0.5s;
   transform-origin: bottom;
@@ -72,7 +72,8 @@ const SRight = styled.div`
 `;
 
 const SLikeImg = styled.img`
-  height: 32px;
+  height: 3vh;
+  width: 3vh;
   z-index: 2;
 `;
 
@@ -84,7 +85,7 @@ const SRating = styled.div`
 `;
 
 const SAvg = styled.p`
-  font-size: 24px;
+  font-size: 0.5rem;
   font-weight: bold;
   margin: 0;
 `;
@@ -123,9 +124,9 @@ const WhiskyListItem = (props) => {
 
         const targetId = props.whisky.id;
 
-        const updatedResult = resultValue.map(whisky => {
-          if(whisky.id === targetId) {
-            return { ...whisky, isKept: !currentKeep}
+        const updatedResult = resultValue.map((whisky) => {
+          if (whisky.id === targetId) {
+            return { ...whisky, isKept: !currentKeep };
           }
 
           return whisky;

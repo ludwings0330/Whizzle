@@ -11,32 +11,43 @@ import { warning } from "../../notify/notify";
 import { recommendResult } from "../../../store/indexStore";
 
 const SDiv = styled.div`
-  margin-top: 10px;
-  margin-bottom: 30px;
+  margin-top: 2vh;
+  margin-bottom: 3vh;
+  width: 60%;
 
   &.no-1 {
-    width: 990px;
+    width: 90vw;
   }
 
   &.no-2 {
-    width: 916px;
+    width: 80vw;
   }
 
   &.no-3 {
-    width: 841px;
+    width: 75vw;
+  }
+
+  @media (max-width: 360px) {
+    &.no-1,
+    &.no-2,
+    &.no-3 {
+      width: 80%;
+    }
   }
 `;
 
 const SCardDiv = styled.div`
-  height: 284px;
+  height: 40vh;
   display: grid;
+  align-items: center;
   grid-template-columns: 1fr 1.5fr 1fr;
   position: relative;
-  left: 127px;
   background: #ffffff;
   border: 1px solid #d8d8d8;
   border-radius: 16px;
   cursor: pointer;
+  width: 100%;
+  left: 0;
 
   &.no-1 {
     width: 863px;
@@ -51,60 +62,141 @@ const SCardDiv = styled.div`
     width: 738px;
     left: 110px;
   }
+
+  @media (max-width: 412px) {
+    &.no-1,
+    &.no-2,
+    &.no-3 {
+      width: 100%;
+      left: 0;
+      max-width: 300px;
+      margin: 0 auto;
+    }
+  }
+
+  @media (min-width: 413px) and (max-width: 615px) {
+    &.no-1,
+    &.no-2,
+    &.no-3 {
+      width: 100%;
+      left: 0;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+  }
+
+  @media (min-width: 616px) and (max-width: 767px) {
+    &.no-1,
+    &.no-2,
+    &.no-3 {
+      width: 100%;
+      left: 0;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+  }
+
+  @media (min-width: 768px) and (max-width: 1023px) {
+    &.no-1,
+    &.no-2,
+    &.no-3 {
+      width: 100%;
+      left: 0;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    &.no-1,
+    &.no-2,
+    &.no-3 {
+      width: 100%;
+      left: 0;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+  }
 `;
 
 const SImg = styled.img`
-  max-height: 85%;
-  max-width: 100%;
-  margin-bottom: 20px;
-  margin-top: 20px;
+  height: 32vh;
+  width: 34vw;
+  margin-bottom: 2vh;
+  margin-top: 2vh;
 `;
 
 const SImgDiv = styled.div`
-  height: 284px;
+  height: 50vw;
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media only screen and (max-width: 412px) {
+    height: 56.6vw;
+  }
+
+  @media only screen and (max-width: 360px) {
+    height: 61.3vw;
+  }
+
+  @media only screen and (max-width: 375px) {
+    height: 67.2vw;
+  }
 `;
 
 const SKeepBtn = styled.button`
-  width: 36px;
-  height: 36px;
+  width: 2vw;
+  height: 2vh;
   border: none;
   background-color: transparent;
   cursor: pointer;
-  margin-bottom: 4px;
+  margin-bottom: 10px;
   margin-left: 5px;
-`;
+}`;
 
 const STitleDiv = styled.div`
   display: flex;
   align-items: center;
+  justify-content: center;
   margin-top: 10px;
 `;
-
 const STitleP = styled.p`
   font-weight: 700;
-  font-size: 24px;
+  font-size: 1rem;
 `;
 
 const STextDiv = styled.div`
   display: flex;
-  height: 29px;
-  margin-top: 0px;
+  height: 4vh;
+  margin-top: 0;
   margin-bottom: 8px;
   align-items: center;
-  lien-height: 29px;
+  line-height: 2vh;
+  @media (max-width: 360px) {
+    height: 3vh;
+    margin-bottom: 2vh;
+    line-height: 2vh;
+  }
 `;
 
 const SP = styled.p`
-  font-size: 20px;
-  margin-right: 10px;
+  font-size: 0.8rem;
+  margin-right: 1vw;
   font-weight: 300;
 
   &.title {
     font-weight: 600;
-    width: 70px;
+    width: 14vw;
+  }
+
+  @media (max-width: 360px) {
+    font-size: 16px;
+    margin-right: 5px;
+
+    &.title {
+      width: 50px;
+    }
   }
 `;
 
@@ -113,16 +205,17 @@ const SRatingDiv = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-top: 10vh;
+  margin-right: 5vw;
 `;
 
 const SBoldColorP = styled.p`
   margin-top: 0px;
   margin-bottom: 0px;
-  margin-left: 10px;
   font-family: "Pacifico";
   display: inline-block;
   font-weight: 400;
-  font-size: 48px;
+  font-size: 3rem;
 
   &.no-1 {
     background: linear-gradient(120.33deg, #f84f5a, #f29060, #f7cb5a);
@@ -130,7 +223,7 @@ const SBoldColorP = styled.p`
     -webkit-text-fill-color: transparent;
     background-clip: text;
     text-fill-color: transparent;
-    font-size: 64px;
+    font-size: 3.5rem;
   }
 
   &.no-2 {
@@ -139,6 +232,12 @@ const SBoldColorP = styled.p`
 
   &.no-3 {
     color: #636363;
+`;
+
+const SKeepImg = styled.img`
+  height: 4vh;
+  width: 6vw;
+  margin-left: 4vw;
 `;
 
 const MobileResultMainWhiskyItem = (props) => {
@@ -192,7 +291,7 @@ const MobileResultMainWhiskyItem = (props) => {
           <STitleDiv>
             <STitleP>{whisky.name}</STitleP>
             <SKeepBtn onClick={onKeepHandler}>
-              <img src={isKeep ? favoriteFilled : favoriteBorder} alt="x" />
+              <SKeepImg src={isKeep ? favoriteFilled : favoriteBorder} alt="x" />
             </SKeepBtn>
           </STitleDiv>
           <div>
@@ -215,25 +314,24 @@ const MobileResultMainWhiskyItem = (props) => {
           </div>
         </div>
         <SRatingDiv>
-          <p
+          <SP
             style={{
               fontWeight: "300",
-              fontSize: "36px",
-              marginBottom: "10px",
-              marginTop: "5px",
+              fontSize: "1rem",
+              marginTop: "10px",
             }}
           >
             {whisky.avgRating}
-          </p>
+          </SP>
           <ReactStars
             count={5}
             value={Math.round(whisky.avgRating * 2) / 2}
             edit={false}
-            size={30}
+            size={5}
             color1={"rgba(128, 128, 128, 0.2)"}
             color2={"#F84F5A"}
           />
-          <p>{whisky.reviewCount} rating(s)</p>
+          <SP>{whisky.reviewCount} rating(s)</SP>
         </SRatingDiv>
       </SCardDiv>
     </SDiv>
