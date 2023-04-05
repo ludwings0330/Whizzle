@@ -1,6 +1,7 @@
 import logging
-import dill as pickle
+import pickle
 import pandas as pd
+import re
 
 from common.config import settings
 from lightfm import LightFM
@@ -91,4 +92,6 @@ def save_dataset(dataset, path):
 
 
 def create_save_path(file, extension, date):
-    return settings.BACKUP_PATH + file + "_" + date.split(".")[0] + "." + extension
+    time = date.split(".")[0]
+    time = re.sub(":", "_", time)
+    return settings.BACKUP_PATH + file + "_" + time + "." + extension
