@@ -1,7 +1,7 @@
 package com.bear.whizzle.retrain.handler;
 
 import com.bear.whizzle.retrain.handler.dto.MemberData;
-import com.bear.whizzle.retrain.service.query.RetrainService;
+import com.bear.whizzle.retrain.service.query.RetrainQueryService;
 import com.bear.whizzle.member.service.MemberService;
 import com.bear.whizzle.recommend.service.RecService;
 import java.time.LocalDateTime;
@@ -20,13 +20,13 @@ public class RetrainHandler {
 
     private final WebClient webClient;
     private final RecService recService;
-    private final RetrainService retrainService;
+    private final RetrainQueryService retrainQueryService;
     private final MemberService memberService;
 
     public void retrainExistedMember(Long memberId) {
         if (!recService.isLearnedMember(memberId).equals(0L)) {
             log.info("학습된 사용자 {} : 실시간 반영 진행", memberId);
-            MemberData memberData = retrainService.reactiveLearnData(List.of(memberId));
+            MemberData memberData = retrainQueryService.reactiveLearnData(List.of(memberId));
             webClient.post()
                      .uri("/rec/retrain/exist")
                      .accept(MediaType.APPLICATION_JSON)
@@ -40,7 +40,7 @@ public class RetrainHandler {
 
     @Scheduled(cron = "0 0 3 * * *")
     public void retrainNewMember() {
-        MemberData memberData = retrainService.reactiveLearnData(
+        MemberData memberData = retrainQueryService.reactiveLearnData(
                 memberService.findNewMemberIds()
         );
         LocalDateTime now = LocalDateTime.now();
