@@ -207,8 +207,6 @@ const AppRecommendQuestion = (props) => {
         console.log("위스키 취향 정보 불러오기 실패");
       }
 
-
-      console.log(selectedWhiskyFlavor);
       // 백에 취향정보 저장
       const saveData = {
         gender: preferenceValue.gender,
@@ -216,8 +214,6 @@ const AppRecommendQuestion = (props) => {
         priceTier: preferenceValue.priceTier,
         flavor: selectedWhiskyFlavor,
       };
-
-      console.log(saveData);
 
       if (isLogin) {
         try {
@@ -242,7 +238,6 @@ const AppRecommendQuestion = (props) => {
       goResult();
     } else if(user?.id && !preferenceValue.re) {
       getPreference(user.id).then((response) => {
-        // console.log(response.data);
         setPreferenceValue(prev => {return {...prev, ...response.data, re: false}});
         goResult();
       });
