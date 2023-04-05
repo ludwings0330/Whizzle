@@ -1,0 +1,46 @@
+.container {
+  position: relative;
+  width: 99vw;
+  height: 480px;
+  display: flex;
+  overflow: hidden;
+}
+
+.slideContainer {
+  display: flex;
+  /* margin-top: 60px; */
+  /* height: 500px; */
+  gap: 30px;
+  justify-content: center;
+  align-items: center;
+
+  animation: loop 25s linear infinite;
+}
+
+/* 애니메이션 스탑 */
+.container:hover > .slideContainer {
+  animation-play-state: paused;
+}
+
+.slideImage {
+  width: 297px;
+  height: 366px;
+}
+
+.slideImage > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@keyframes loop {
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@-webkit-keyframes loop {
+  100% {
+    transform: translateX(-100%);
+  }
+}
