@@ -144,5 +144,5 @@ export const showAllState = atom({
 
 export const isMobileState = atom({
   key: "isMobileState",
-  default: false,
+  default: window.innerWidth <= 800,
 });
