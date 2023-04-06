@@ -1,6 +1,6 @@
 .container {
   position: relative;
-  width: 99.1vw;
+  width: 99vw;
   height: 480px;
   display: flex;
   overflow: hidden;
@@ -23,8 +23,20 @@
 } */
 
 .slideImage {
-  width: 297px;
+  /* width: 293px; */
   height: 366px;
+}
+
+@media screen and (max-width: 1000px) {
+  .slideImage {
+    height: 150px;
+  }
+  .slideContainer {
+    gap: 10px;
+  }
+  .container {
+    height: 200px;
+  }
 }
 
 .slideImage > img {

@@ -6,6 +6,7 @@ import { userState } from "../../store/userStore";
 import styled, { keyframes } from "styled-components";
 import { motion } from "framer-motion";
 import mainRecommendImg from "../../assets/img/main_recommend.jpg";
+import mobileMainImg from "../../assets/img/mobile_main_recommend.png";
 import { todayWhisky } from "../../hooks/todayWhisky";
 
 const SBackImg = styled.div`
@@ -14,6 +15,11 @@ const SBackImg = styled.div`
   display: flex;
   justify-content: start;
   align-items: center;
+
+  @media screen and (max-width: 1244px) {
+    background: url(${mobileMainImg}) center center / cover no-repeat;
+    justify-content: center;
+  }
 `;
 
 const SContainer = styled.div`
@@ -22,6 +28,12 @@ const SContainer = styled.div`
   padding-top: 8vh;
   padding-left: 11vh;
   height: 77vh;
+  @media screen and (max-width: 800px) {
+    flex-direction: column;
+    align-items: center;
+    padding-top: 0;
+    padding-left: 0;
+  }
 `;
 
 const SWhiskyImg = styled.img`
@@ -34,6 +46,12 @@ const SWhiskyImg = styled.img`
     transform: scale(1.03);
     transition: 0.5s;
   }
+  @media screen and (max-width: 800px) {
+    height: 100%;
+    margin-right: 0;
+    margin-top: 50px;
+    margin-bottom: 0;
+  }
 `;
 
 const STextCon = styled.div`
@@ -42,6 +60,14 @@ const STextCon = styled.div`
   justify-content: start;
   align-items: flex-start;
   margin-bottom: 6vh;
+  @media screen and (max-width: 800px) {
+    justify-content: center;
+    align-items: center;
+    height: 35vh;
+    margin-bottom: 0;
+    margin-top: 50px;
+    margin-left: 100px;
+  }
 `;
 
 const SRight = styled.div`
@@ -49,6 +75,10 @@ const SRight = styled.div`
   flex-direction: column;
   justify-content: start;
   align-items: start;
+  @media screen and (max-width: 800px) {
+    justify-content: center;
+    align-items: center;
+  }
 `;
 
 const blink = keyframes`
@@ -74,6 +104,11 @@ const SText = styled.div`
     border-right: 2px solid #777;
     animation: ${blink} 0.9s infinite steps(2);
   }
+  @media screen and (max-width: 800px) {
+    width: 100vw;
+    font-size: 4.5vw;
+    font-align: center;
+  }
 `;
 
 const SUserName = styled.span`
@@ -81,6 +116,13 @@ const SUserName = styled.span`
   background-image: linear-gradient(125.02deg, #f84f5a 28.12%, #f7875a 65.62%, #f7cb5a 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+`;
+
+const SMotion = styled(motion.div)`
+  height: 100%;
+  @media screen and (max-width: 800px) {
+    height: 60%;
+  }
 `;
 
 //메인화면에 띄워줄 추천부분(비로그인 사용자)
@@ -140,17 +182,12 @@ const MainRecommend = () => {
     <>
       <SBackImg>
         <SContainer>
-          <motion.div
-            style={{ height: "100%" }}
-            variants={imageVariants}
-            initial="hidden"
-            animate="visible"
-          >
+          <SMotion variants={imageVariants} initial="hidden" animate="visible">
             <SWhiskyImg
               src={require(`../../assets/img/whisky_preset/${whisky.posterNumber}.png`)}
               onClick={goDetail}
             />
-          </motion.div>
+          </SMotion>
           <SRight>
             <STextCon>
               <SText ref={textRef}>
