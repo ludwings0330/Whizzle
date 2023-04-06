@@ -21,8 +21,8 @@ const STitle = styled.span`
 const DailyExplain = () => {
   return (
     <SDiv>
-      <STitle>상단에 태그를</STitle>
-      <STitle>각각 최소 하나씩 클릭하세요</STitle>
+      <STitle style={{ marginBottom: "6px" }}>상단 태그를 선택해주세요</STitle>
+      <STitle>가격은 필수 선택입니다</STitle>
     </SDiv>
   );
 };
