@@ -55,9 +55,9 @@ public class SavedModel {
 
     @NotNull
     @Column(name = "is_used")
-    @ColumnDefault("0")
+    @ColumnDefault("1")
     @Builder.Default
-    private Boolean isUsed = Boolean.FALSE;
+    private Boolean isUsed = Boolean.TRUE;
 
 
 }
