@@ -249,15 +249,6 @@ const AppRecommnedResult = () => {
           {recommend && recommend.length && <ResultWhiskyList whiskys={recommend.slice(3)} />}
           <SBtnDiv>
             <SQuestionBtn onClick={onClickHandler}>
-              <SColorSpan style={{ fontSize: "20px", fontWeight: "600" }}>
-                취향 정보 다시 입력하기
-              </SColorSpan>
-            </SQuestionBtn>
-            <SDailyBtn onClick={onClickHandler}>데일리 위스키 추천받기</SDailyBtn>
-          </SBtnDiv>
-          {recommend && recommend.length && <ResultWhiskyList whiskys={recommend.slice(3)} />}
-          <SBtnDiv>
-            <SQuestionBtn onClick={onClickHandler}>
               <SColorSpan style={{ fontSize: "18px" }}>취향 정보 다시 입력하기</SColorSpan>
             </SQuestionBtn>
             {isLogin ? (
