@@ -158,7 +158,7 @@ const SBoldColorP = styled.p`
 const SBtnDiv = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 3vh;
+  margin-top: 2vh;
   width: 100%;
 
   @media (min-width: 768px) {
@@ -176,11 +176,10 @@ const SBtnDiv = styled.div`
 `;
 
 const SQuestionBtn = styled.button`
-  width: 80vw;
-  max-width: 318px;
-  height: 74px;
+  width: 40vw;
+  height: 10vh;
   margin-right: 30px;
-  margin-bottom: 200px;
+  margin-bottom: 20vh;
   border: 3px solid transparent;
   border-radius: 999px;
   background-image: linear-gradient(#fff, #fff),
@@ -193,18 +192,18 @@ const SQuestionBtn = styled.button`
 `;
 
 const SDailyBtn = styled.button`
-  width: 318px;
-  height: 74px;
+  width: 40vw;
+  height: 10vh;
   border: 1px solid transparent;
   font-family: "Pretendard Variable";
   background: linear-gradient(106.95deg, #f84f5a 11.68%, #f2a660 86.99%);
   border-radius: 999px;
-  font-size: 1rem;
+  font-size: 0.6rem;
   color: #ffffff;
   cursor: pointer;
   font-weight: 600;
   margin-right: 30px;
-  margin-bottom: 200px;
+  margin-bottom: 20vh;
 `;
 
 //추천 결과 페이지
@@ -222,6 +221,10 @@ const AppMobileRecommnedResult = () => {
     } else if (e.target.innerText === "데일리 위스키 추천받기") {
       navigate("/daily");
     }
+  };
+
+  const goSignin = () => {
+    navigate("/signin");
   };
 
   // 비로그인 유저의 경우 회원가입 유도 모달을 띄움
@@ -245,7 +248,7 @@ const AppMobileRecommnedResult = () => {
             navigate("/signin");
           }
         });
-      }, 5000);
+      }, 10000000000);
     }
   }, []);
 
@@ -300,11 +303,13 @@ const AppMobileRecommnedResult = () => {
       {recommend && recommend.length && <MobileResultWhiskyList whiskys={recommend.slice(3)} />}
       <SBtnDiv>
         <SQuestionBtn onClick={onClickHandler}>
-          <SColorSpan style={{ fontSize: "0.9rem", fontWeight: "600" }}>
-            취향 정보 다시 입력하기
-          </SColorSpan>
+          <SColorSpan style={{ fontSize: "0.8rem" }}>취향 정보 다시 입력하기</SColorSpan>
         </SQuestionBtn>
-        <SDailyBtn onClick={onClickHandler}>데일리 위스키 추천받기</SDailyBtn>
+        {isLogin ? (
+          <SDailyBtn onClick={onClickHandler}>데일리 위스키 추천받기</SDailyBtn>
+        ) : (
+          <SDailyBtn onClick={goSignin}>회원가입하고 더 많은 추천받기</SDailyBtn>
+        )}
       </SBtnDiv>
     </>
   );

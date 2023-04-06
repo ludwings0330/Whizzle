@@ -19,12 +19,12 @@ const SCard = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  width: 43vw;
-  height: 45vh;
+  width: 261px;
+  height: 312px;
   border: 1px solid #d8d8d8;
   border-radius: 16px;
-  padding-top: 10vh;
-  padding-bottom: 2vh;
+  padding-top: 28px;
+  padding-bottom: 10px;
   transition: 0.5s;
 
   &:hover {
@@ -39,7 +39,7 @@ const STop = styled.div`
   align-items: center;
   padding-right: 18px;
   gap: 25px;
-  width: 50vw;
+  width: 220px;
 `;
 
 const SContainer = styled.div`
@@ -52,7 +52,7 @@ const SContainer = styled.div`
 
 const SImg = styled.img`
   max-width: 100%;
-  height: 20vh;
+  height: 100%;
   object-fit: cover;
   transition: 0.5s;
   transform-origin: bottom;

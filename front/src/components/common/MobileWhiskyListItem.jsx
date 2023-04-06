@@ -75,7 +75,8 @@ const SRight = styled.div`
 `;
 
 const SLikeImg = styled.img`
-  height: 4vh;
+  height: 3vh;
+  width: 6vw;
   transition: 0.5s;
   z-index: 2;
 

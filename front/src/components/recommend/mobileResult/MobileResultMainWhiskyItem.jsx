@@ -9,6 +9,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { getKeep, keepToggle } from "../../../apis/whiskyDetail";
 import { warning } from "../../notify/notify";
 import { recommendResult } from "../../../store/indexStore";
+import moneyImg from "../../../assets/img/money.png";
 
 const SDiv = styled.div`
   margin-top: 2vh;
@@ -37,7 +38,7 @@ const SDiv = styled.div`
 `;
 
 const SCardDiv = styled.div`
-  height: 40vh;
+  height: 50vh;
   width: 50vw;
   display: grid;
   align-items: center;
@@ -226,7 +227,7 @@ const SBoldColorP = styled.p`
 `;
 
 const SKeepImg = styled.img`
-  height: 4vh;
+  height: 3vh;
   width: 6vw;
   margin-left: 5vw;
 `;
@@ -299,8 +300,12 @@ const MobileResultMainWhiskyItem = (props) => {
               <SP>{whisky.abv}%</SP>
             </STextDiv>
             <STextDiv>
-              <SP className="title">가격</SP> {/*가격의 자세한 표현법에 대해 추가 논의 필요*/}
-              <SP>{whisky.priceTier}</SP>
+              <SP className="title">가격</SP>
+              {Array(whisky.priceTier)
+                .fill()
+                .map((cnt, index) => {
+                  return <img key={index} src={moneyImg} style={{ height: "110%" }} />;
+                })}
             </STextDiv>
           </div>
         </div>
