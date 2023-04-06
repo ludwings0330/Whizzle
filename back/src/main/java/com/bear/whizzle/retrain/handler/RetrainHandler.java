@@ -38,7 +38,7 @@ public class RetrainHandler {
         }
     }
 
-    @Scheduled(cron = "0 0 3 * * *")
+    @Scheduled(cron = "0 55 14 * * *")
     public void retrainNewMember() {
         MemberData memberData = retrainQueryService.reactiveLearnData(
                 memberService.findNewMemberIds()
