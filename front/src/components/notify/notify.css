@@ -1,0 +1,22 @@
+:root {
+  /* 테마별 아이콘 색상 바꾸기 */
+  --toastify-icon-color-warning: #f84f5a !important;
+  --toastify-icon-color-error: #f84f5a !important;
+  /* 기본 적용 스타일 바꾸기 */
+  --toastify-font-family: "Pretendard Variable" !important;
+  --toastify-z-index: 9999 !important;
+
+  /* 프로그레스 바 색상 바꾸기 */
+  --toastify-color-progress-warning: linear-gradient(
+    90deg,
+    #f84f5a 28.12%,
+    #f7875a 65.62%,
+    #f7cb5a 100%
+  ) !important;
+  --toastify-color-progress-error: linear-gradient(
+    90deg,
+    #f84f5a 28.12%,
+    #f7875a 65.62%,
+    #f7cb5a 100%
+  ) !important;
+}
