@@ -21,9 +21,7 @@ from util.modelutil import (
 
 def predict_personal_whisky(preferences: List[Preference], item_features):
     model = load_rec_model()
-    logging.info(model)
     dataset = load_dataset()
-    logging.info(dataset)
     preference_df = make_user_features_df(preferences)
     user_meta, item_meta = make_features(preference_df, item_features, dataset)
     item_ids = np.arange(item_features.shape[0])
