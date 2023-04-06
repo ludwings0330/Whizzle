@@ -44,6 +44,23 @@ node {
     }
   }
 
+  stage('Reload Nginx') {
+    def upstream
+
+    if (deployedBack > 0) {
+      upstream = "echo \"upstream springs { server localhost:8080; server localhost:8081; }\" > /etc/nginx/conf.d/upstream.conf"
+    } else {
+      upstream = "echo \"upstream springs { server localhost:8082; server localhost:8083; }\" > /etc/nginx/conf.d/upstream.conf"
+    }
+
+    print("Nginx 설정 변경")
+    sh """
+          docker exec nginx sh -c '${upstream}'
+          docker exec nginx \
+            nginx -s reload
+        """
+  }
+
   stage('Remove Existing Spring Server Container And Image') {
     def composeFilePath = (deployedBack > 0) ? 'back-02' : 'back-01'
     print(composeFilePath)
@@ -68,23 +85,6 @@ node {
           echo "사용하지 않는 이미지 삭제"
           docker image prune -a -f
         '''
-  }
-
-  stage('Reload Nginx') {
-    def upstream
-
-    if (deployedBack > 0) {
-      upstream = "echo \"upstream springs { server localhost:8080; server localhost:8081; }\" > /etc/nginx/conf.d/upstream.conf"
-    } else {
-      upstream = "echo \"upstream springs { server localhost:8082; server localhost:8083; }\" > /etc/nginx/conf.d/upstream.conf"
-    }
-
-    print("Nginx 설정 변경")
-    sh """
-          docker exec nginx sh -c '${upstream}'
-          docker exec nginx \
-            nginx -s reload
-        """
   }
 
   stage('Build Web Server Image') {
