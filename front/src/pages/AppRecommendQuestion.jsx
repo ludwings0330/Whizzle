@@ -327,7 +327,7 @@ const AppRecommendQuestion = (props) => {
   const goNextPage = () => {
     if (activePage === 1 && !(preferenceValue.age && preferenceValue.gender)) {
       error("나이, 성별을 선택해주세요!");
-    } else if (activePage === 2 && !preferenceValue.price) {
+    } else if (activePage === 2 && !preferenceValue.priceTier) {
       error("선호 가격대를 선택해주세요!");
     } else if (activePage === 3 && !preferenceValue.isExperience) {
       error("위스키 경험을 선택해주세요!");
@@ -485,17 +485,12 @@ const AppRecommendQuestion = (props) => {
       <motion.div style={isMobile ? mobileSlider : slider}>
         <AnimatePresence custom={direction}>{recommendQuestionPages()}</AnimatePresence>
       </motion.div>
-      {isMobile ? //   <SButtonText>이전</SButtonText> // <SMobilePrevBtn activePage={activePage} onClick={goPrevPage}>
-      // </SMobilePrevBtn>
-      null : (
+      {isMobile ? null : ( // </SMobilePrevBtn> //   <SButtonText>이전</SButtonText> // <SMobilePrevBtn activePage={activePage} onClick={goPrevPage}>
         <SPrevNavigate activePage={activePage} onClick={goPrevPage}>
           <img src={navigatePrev} alt="navigate" />
         </SPrevNavigate>
       )}
-      {isMobile ? // <SMobileNextBtn style={{ left: "55vw" }} activePage={activePage} onClick={goNextPage}>
-      //   <SButtonText>다음</SButtonText>
-      // </SMobileNextBtn>
-      null : (
+      {isMobile ? null : ( // </SMobileNextBtn> //   <SButtonText>다음</SButtonText> // <SMobileNextBtn style={{ left: "55vw" }} activePage={activePage} onClick={goNextPage}>
         <SNextNavigate activePage={activePage} onClick={goNextPage}>
           <img src={navigateNext} alt="navigate" />
         </SNextNavigate>
