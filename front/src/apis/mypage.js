@@ -42,7 +42,8 @@ export const nicknameChangeApi = async (nickname) => {
     });
     return true;
   } catch (error) {
-    return true;
+    console.log(error);
+    return false;
   }
 };
 
@@ -51,15 +52,15 @@ export const profileChangeApi = async (profileImageFile) => {
     const formData = new FormData();
     formData.append("profileImageFile", profileImageFile);
 
-    await api.put(`api/members`, formData, {
+    const res = await api.put(`api/members`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
     });
 
-    return true;
+    return res.data;
   } catch (error) {
     console.log(error);
-    throw error;
+    return false;
   }
 };
