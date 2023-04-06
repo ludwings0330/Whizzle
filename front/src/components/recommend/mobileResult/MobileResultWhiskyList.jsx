@@ -28,7 +28,7 @@ const SSimilarDiv = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 60vh;
+  height: 55vh;
 `;
 
 const SSimilarP = styled.p`
@@ -42,8 +42,8 @@ const SSimilarP = styled.p`
 `;
 
 const SBtn = styled.button`
-  width: 28vw;
-  height: 10vh;
+  width: 22vw;
+  height: 12vw;
   font-family: "Pretendard Variable";
   border: 1px solid #a2a2a2;
   border-radius: 10px;

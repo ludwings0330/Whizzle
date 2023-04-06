@@ -39,7 +39,7 @@ const SDiv = styled.div`
 
 const SCardDiv = styled.div`
   height: 50vh;
-  width: 50vw;
+  width: 50vh;
   display: grid;
   align-items: center;
   grid-template-columns: 1fr 1.5fr 1fr;
@@ -122,8 +122,8 @@ const SCardDiv = styled.div`
 `;
 
 const SImg = styled.img`
-  height: 25vh;
-  width: 30vw;
+  height: 22vh;
+  width: 12vh;
   margin-bottom: 2vh;
 `;
 
@@ -182,13 +182,12 @@ const STextDiv = styled.div`
 `;
 
 const SP = styled.p`
-  font-size: 0.8rem;
-  margin-right: 1vw;
+  font-size: 0.7rem;
   font-weight: 300;
 
   &.title {
     font-weight: 600;
-    width: 14vw;
+    width: 12vw;
   }
 `;
 
@@ -198,7 +197,6 @@ const SRatingDiv = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: 10vh;
-  margin-right: 5vw;
 `;
 
 const SBoldColorP = styled.p`
@@ -228,8 +226,19 @@ const SBoldColorP = styled.p`
 
 const SKeepImg = styled.img`
   height: 3vh;
-  width: 6vw;
-  margin-left: 5vw;
+  width: 3vh;
+  margin-left: 10vw;
+`;
+
+const SMoneyImg = styled.img`
+  height: 2vh;
+  width: 2vh;
+`;
+
+const SRatingP = styled.p`
+  font-size: 0.6rem;
+  margin-right: 1vw;
+  font-weight: 300;
 `;
 
 const MobileResultMainWhiskyItem = (props) => {
@@ -304,30 +313,22 @@ const MobileResultMainWhiskyItem = (props) => {
               {Array(whisky.priceTier)
                 .fill()
                 .map((cnt, index) => {
-                  return <img key={index} src={moneyImg} style={{ height: "110%" }} />;
+                  return <SMoneyImg key={index} src={moneyImg} />;
                 })}
             </STextDiv>
           </div>
         </div>
         <SRatingDiv>
-          <SP
-            style={{
-              fontWeight: "300",
-              fontSize: "1rem",
-              marginTop: "10px",
-            }}
-          >
-            {whisky.avgRating}
-          </SP>
+          <SP>{whisky.avgRating}</SP>
           <ReactStars
             count={5}
             value={Math.round(whisky.avgRating * 2) / 2}
             edit={false}
-            size={5}
+            size={10}
             color1={"rgba(128, 128, 128, 0.2)"}
             color2={"#F84F5A"}
           />
-          <SP>{whisky.reviewCount} rating(s)</SP>
+          <SRatingP>{whisky.reviewCount} rating(s)</SRatingP>
         </SRatingDiv>
       </SCardDiv>
     </SDiv>

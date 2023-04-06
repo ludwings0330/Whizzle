@@ -4,7 +4,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { userState } from "../store/userStore";
 import { useNavigate } from "react-router-dom";
 import { NON_LOGIN_NICKNAME } from "../constants/constants";
-import { preference, recommendResult } from "../store/indexStore";
+import { preference, recommendResult, isMobileState } from "../store/indexStore";
 
 //import components
 import Graph from "../components/common/Graph";
@@ -137,7 +137,8 @@ const AppRecommnedResult = () => {
   const [userPreference, setUserPreference] = useRecoilState(preference);
   const user = useRecoilValue(userState);
   const isLogin = Boolean(user.id);
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 360 || window.innerHeight <= 740);
+
+  const isMobile = useRecoilValue(isMobileState);
 
   const navigate = useNavigate();
   const onClickHandler = (e) => {
@@ -180,16 +181,6 @@ const AppRecommnedResult = () => {
         });
       }, 5000);
     }
-  }, []);
-
-  useEffect(() => {
-    function handleResize() {
-      setIsMobile(window.innerWidth <= 360 || window.innerHeight <= 740);
-    }
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
   }, []);
 
   // 가장 큰 2개의 값을 찾음
