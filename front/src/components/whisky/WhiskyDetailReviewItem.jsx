@@ -247,10 +247,10 @@ const WhiskyDetailReviewItem = ({ review }) => {
       ) : null}
 
       <STextDiv>
-        {review.reviewInfo.content.length > 255 ? (
+        {review.reviewInfo.content?.length > 255 ? (
           !seeMore ? (
             <p>
-              {review.reviewInfo.content.slice(0, 255)}
+              {review.reviewInfo.content?.slice(0, 255)}
               <span style={{ cursor: "pointer" }} onClick={fullContent}>
                 ...
               </span>
