@@ -33,6 +33,9 @@ const SInnerDiv = styled.div`
   height: 100vh;
   width: 100vw;
   background: url(${loginBackground}) center center / cover no-repeat;
+  @media screen and (max-width: 1000px) {
+    background: none;
+  }
 `;
 
 const SP = styled.p`
@@ -42,6 +45,10 @@ const SP = styled.p`
   color: white;
   font-family: GmarketSansLight;
   line-height: 50px;
+  @media screen and (max-width: 1000px) {
+    font-size: 30px;
+    line-height: 40px;
+  }
 `;
 
 const AppLogin = () => {

@@ -48,7 +48,7 @@ const MypageTab = (props) => {
 
   return (
     <>
-      <Tabs selectedIndex={activeTabIndex} onSelect={handleTabSelect} style={{ maxWidth: "830px" }}>
+      <Tabs selectedIndex={activeTabIndex} onSelect={handleTabSelect} style={{ minWidth: "830px", maxWidth: "830px" }}>
         <STabList>
           <STab>킵한 위스키</STab>
           <STab>작성한 리뷰</STab>

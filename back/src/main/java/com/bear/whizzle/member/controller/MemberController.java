@@ -51,10 +51,10 @@ public class MemberController {
 
     @PutMapping
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void updateMemberInfo(@AuthenticationPrincipal PrincipalDetails user,
+    public String updateMemberInfo(@AuthenticationPrincipal PrincipalDetails user,
                                  @RequestParam(required = false) String nickname,
                                  @RequestParam(required = false) MultipartFile profileImageFile) {
-        memberService.updateMemberBaseInfo(user, nickname, profileImageFile);
+        return memberService.updateMemberBaseInfo(user, nickname, profileImageFile);
     }
 
     @GetMapping("/{memberId}/badges/any")

@@ -49,7 +49,9 @@ export const fetchDiaries = async (setDiaryList, setData, selectDate) => {
     const month = selectDate.getMonth() + 1;
     const day = selectDate.getDate();
 
-    const clickedDate = `${year}-${month < 10 ? "0" : ""}${month}-${day < 10 ? "0" : ""}${day}`;
+    const clickedDate = `${year}-${month < 10 ? "0" : ""}${month}-${
+      day < 10 ? "0" : ""
+    }${day}`;
 
     let found = false;
     if (diaries) {
@@ -75,7 +77,7 @@ export const preference = atom({
   default: {
     gender: "",
     age: "",
-    priceTier: 1,
+    priceTier: 0,
     isExperience: "",
     whiskies: [],
     flavor: {

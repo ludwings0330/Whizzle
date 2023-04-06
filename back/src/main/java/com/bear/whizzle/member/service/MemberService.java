@@ -11,7 +11,7 @@ public interface MemberService {
 
     Member findMemberById(Long id);
 
-    void updateMemberBaseInfo(PrincipalDetails user, String nickname, MultipartFile profileFile);
+    String updateMemberBaseInfo(PrincipalDetails user, String nickname, MultipartFile profileFile);
 
     List<Long> findNewMemberIds();
 

@@ -36,11 +36,12 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional
-    public void updateMemberBaseInfo(PrincipalDetails user, String nickname, MultipartFile profileImageFile) {
+    public String updateMemberBaseInfo(PrincipalDetails user, String nickname, MultipartFile profileImageFile) {
         final Member member = this.findMemberById(user.getMemberId());
 
         if (nickname != null) {
             member.updateNickname(nickname);
+            return nickname;
         }
 
         if (profileImageFile != null) {
@@ -48,7 +49,10 @@ public class MemberServiceImpl implements MemberService {
             member.updateImage(image);
 
             log.debug("회원 image 업데이트 : {}", image);
+            return image.getUrl().toString();
         }
+
+        throw new RuntimeException("이 코드는 실행될 수 없습니다.");
     }
 
     @Override
