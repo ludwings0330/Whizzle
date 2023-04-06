@@ -10,7 +10,7 @@ from lightfm.evaluation import precision_at_k, auc_score, recall_at_k, reciproca
 
 from models.dto.data_class import Rating, Preference
 from util.modelutil import *
-from util.optimizer import optimize
+from util.optimizer import Optimizer
 
 
 def fit_partial_user(
@@ -70,7 +70,11 @@ def refitting(
     test_interactions, _ = make_interactions(rating_df=test_data, dataset=dataset)
 
     # Hyper Parameter Search
-    hyper_params = optimize()
+    optimizer = Optimizer(
+        interactions, weights, test_interactions, user_meta, item_meta
+    )
+    hyper_params = optimizer.train(15)
+
     logging.info("Hyper Params Optimization - {}".format(hyper_params))
 
     model = LightFM(
