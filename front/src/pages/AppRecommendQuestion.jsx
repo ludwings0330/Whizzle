@@ -327,7 +327,7 @@ const AppRecommendQuestion = (props) => {
   const goNextPage = () => {
     if (activePage === 1 && !(preferenceValue.age && preferenceValue.gender)) {
       error("나이, 성별을 선택해주세요!");
-    } else if (activePage === 2 && !preferenceValue.price) {
+    } else if (activePage === 2 && !preferenceValue.priceTier) {
       error("선호 가격대를 선택해주세요!");
     } else if (activePage === 3 && !preferenceValue.isExperience) {
       error("위스키 경험을 선택해주세요!");
