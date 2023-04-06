@@ -13,7 +13,7 @@ import { recommendResult } from "../../../store/indexStore";
 const SDiv = styled.div`
   margin-top: 2vh;
   margin-bottom: 3vh;
-  width: 60%;
+  width: 100%;
 
   &.no-1 {
     width: 90vw;
@@ -38,6 +38,7 @@ const SDiv = styled.div`
 
 const SCardDiv = styled.div`
   height: 40vh;
+  width: 50vw;
   display: grid;
   align-items: center;
   grid-template-columns: 1fr 1.5fr 1fr;
@@ -69,7 +70,7 @@ const SCardDiv = styled.div`
     &.no-3 {
       width: 100%;
       left: 0;
-      max-width: 300px;
+      max-width: 500px;
       margin: 0 auto;
     }
   }
@@ -120,10 +121,9 @@ const SCardDiv = styled.div`
 `;
 
 const SImg = styled.img`
-  height: 32vh;
-  width: 34vw;
+  height: 25vh;
+  width: 30vw;
   margin-bottom: 2vh;
-  margin-top: 2vh;
 `;
 
 const SImgDiv = styled.div`
@@ -189,15 +189,6 @@ const SP = styled.p`
     font-weight: 600;
     width: 14vw;
   }
-
-  @media (max-width: 360px) {
-    font-size: 16px;
-    margin-right: 5px;
-
-    &.title {
-      width: 50px;
-    }
-  }
 `;
 
 const SRatingDiv = styled.div`
@@ -237,7 +228,7 @@ const SBoldColorP = styled.p`
 const SKeepImg = styled.img`
   height: 4vh;
   width: 6vw;
-  margin-left: 2vw;
+  margin-left: 5vw;
 `;
 
 const MobileResultMainWhiskyItem = (props) => {
