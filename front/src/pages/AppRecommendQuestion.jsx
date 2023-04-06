@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { preference, recommendResult } from "../store/indexStore";
+import { preference, recommendResult, isMobileState } from "../store/indexStore";
 import { userState } from "../store/userStore";
 import { preferenceSave, recommend } from "../apis/recommend";
 import { getPreference } from "../apis/userinfo";
@@ -172,19 +172,8 @@ const AppRecommendQuestion = (props) => {
   const [direction, setDirection] = useState("next");
   const [barWidth, setBarWidth] = useState(0);
 
-  // 브라우저 사이즈를 추적하여, mobile 여부를 확인
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 800);
-
-  useEffect(() => {
-    function handleResize() {
-      setIsMobile(window.innerWidth <= 800);
-    }
-
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+  // mobile 여부를 확인
+  const isMobile = useRecoilValue(isMobileState);
 
   const goResult = async () => {
     setActivePage(6);
@@ -495,20 +484,13 @@ const AppRecommendQuestion = (props) => {
       <motion.div style={isMobile ? mobileSlider : slider}>
         <AnimatePresence custom={direction}>{recommendQuestionPages()}</AnimatePresence>
       </motion.div>
-      {isMobile ? (
-        <SMobilePrevBtn activePage={activePage} onClick={goPrevPage}>
-          <SButtonText>이전</SButtonText>
-        </SMobilePrevBtn>
-      ) : (
+      {isMobile ? null : ( // </SMobilePrevBtn> //   <SButtonText>이전</SButtonText> // <SMobilePrevBtn activePage={activePage} onClick={goPrevPage}>
         <SPrevNavigate activePage={activePage} onClick={goPrevPage}>
           <img src={navigatePrev} alt="navigate" />
         </SPrevNavigate>
       )}
-      {isMobile ? (
-        <SMobileNextBtn style={{ left: "55vw" }} activePage={activePage} onClick={goNextPage}>
-          <SButtonText>다음</SButtonText>
-        </SMobileNextBtn>
-      ) : (
+      {isMobile ? // </SMobileNextBtn> //   <SButtonText>다음</SButtonText> // <SMobileNextBtn style={{ left: "55vw" }} activePage={activePage} onClick={goNextPage}>
+      null : (
         <SNextNavigate activePage={activePage} onClick={goNextPage}>
           <img src={navigateNext} alt="navigate" />
         </SNextNavigate>

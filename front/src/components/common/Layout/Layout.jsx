@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
+import { isMobileState } from "../../../store/indexStore";
+import { useRecoilState } from "recoil";
 
 //header, footer import
 import Header from "./Header";
@@ -7,9 +9,10 @@ import MobileHeader from "./MobileHeader";
 
 //페이지 전체 레이아웃
 const Layout = (props) => {
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 800);
+  const [isMobile, setIsMobile] = useRecoilState(isMobileState);
 
   useEffect(() => {
+    setIsMobile(window.innerWidth <= 800);
     function handleResize() {
       setIsMobile(window.innerWidth <= 800);
     }

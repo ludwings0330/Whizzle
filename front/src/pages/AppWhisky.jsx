@@ -17,7 +17,6 @@ import WhiskyDetailInfo from "../components/whisky/WhiskyDetailInfo";
 import WhiskyDetailReview from "../components/whisky/WhiskyDetailReview";
 import WhiskySimilarList from "../components/whisky/WhiskySimilarList";
 import Graph from "../components/common/Graph";
-import { warning } from "../components/notify/notify";
 
 const SButton = styled.button`
   display: flex;
