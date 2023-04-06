@@ -177,7 +177,7 @@ const SBtnDiv = styled.div`
 
 const SQuestionBtn = styled.button`
   width: 40vw;
-  height: 10vh;
+  height: 13vw;
   margin-right: 30px;
   margin-bottom: 20vh;
   border: 3px solid transparent;
@@ -193,12 +193,27 @@ const SQuestionBtn = styled.button`
 
 const SDailyBtn = styled.button`
   width: 40vw;
-  height: 10vh;
+  height: 13vw;
   border: 1px solid transparent;
   font-family: "Pretendard Variable";
   background: linear-gradient(106.95deg, #f84f5a 11.68%, #f2a660 86.99%);
   border-radius: 999px;
-  font-size: 0.6rem;
+  font-size: 0.8rem;
+  color: #ffffff;
+  cursor: pointer;
+  font-weight: 600;
+  margin-right: 30px;
+  margin-bottom: 20vh;
+`;
+
+const SDailyPlusBtn = styled.button`
+  width: 40vw;
+  height: 13vw;
+  border: 1px solid transparent;
+  font-family: "Pretendard Variable";
+  background: linear-gradient(106.95deg, #f84f5a 11.68%, #f2a660 86.99%);
+  border-radius: 999px;
+  font-size: 0.65rem;
   color: #ffffff;
   cursor: pointer;
   font-weight: 600;
@@ -308,7 +323,7 @@ const AppMobileRecommnedResult = () => {
         {isLogin ? (
           <SDailyBtn onClick={onClickHandler}>데일리 위스키 추천받기</SDailyBtn>
         ) : (
-          <SDailyBtn onClick={goSignin}>회원가입하고 더 많은 추천받기</SDailyBtn>
+          <SDailyPlusBtn onClick={goSignin}>회원가입하고 더 많은 추천받기</SDailyPlusBtn>
         )}
       </SBtnDiv>
     </>

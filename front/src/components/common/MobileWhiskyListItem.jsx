@@ -20,11 +20,10 @@ const SCard = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 43vw;
-  height: 40vh;
+  height: 35vh;
   border: 1px solid #d8d8d8;
   border-radius: 16px;
-  padding-top: 10vh;
-  padding-bottom: 2vh;
+  padding-top: 8vh;
   transition: 0.5s;
 
   &:hover {
@@ -39,13 +38,13 @@ const STop = styled.div`
   align-items: center;
   padding-right: 5vw;
   gap: 10px;
-  width: 35vw;
+  width: 40vw;
 `;
 
 const SContainer = styled.div`
   left: 2vw;
-  width: 20vw;
-  height: 26vh;
+  width: 14vw;
+  height: 22vh;
   text-align: center;
   position: absolute;
 `;
@@ -101,7 +100,7 @@ const SAvg = styled.p`
 
 const SName = styled.div`
   min-height: 10vh;
-  font-size: 0.8em;
+  font-size: 0.8rem;
   font-weight: bold;
   line-height: 19px;
   display: flex;
