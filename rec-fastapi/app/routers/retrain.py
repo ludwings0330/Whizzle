@@ -4,7 +4,8 @@ from common.context.ItemFeatures import ItemFeatures
 from models.dto.data_class import MemberData, ModelResult
 from fastapi import APIRouter, Body, Depends, BackgroundTasks
 import logging
-import aiohttp
+
+import requests
 
 rec = APIRouter(
     tags=["rec"],
@@ -36,7 +37,7 @@ async def retrain_new_model(
     return
 
 
-async def refitting_model(memberData: MemberData, item_features: ItemFeatures):
+def refitting_model(memberData: MemberData, item_features: ItemFeatures):
     precision, recall, auc, mrr = refitting(
         memberData.time, memberData.ratings, memberData.preferences, item_features
     )
@@ -48,19 +49,14 @@ async def refitting_model(memberData: MemberData, item_features: ItemFeatures):
         mrr=mrr,
     )
     logging.info(data)
-    await insert_train_result(data)
+    insert_train_result(data)
 
 
-async def insert_train_result(data: ModelResult):
+def insert_train_result(data: ModelResult):
     headers = {"content-type": "application/json"}
-    async with aiohttp.ClientSession() as session:
-        async with session.post(
-            settings.SPRING_BASE_URL + "/api/rec/retrain-model/any",
-            json=data.__dict__,
-            headers=headers,
-        ) as resp:
-            logging.debug(resp)
-            if resp.status == 200:
-                logging.info("Success Save Retrained Model Information")
-            else:
-                logging.warn("Fail Save Retrained Model Information")
+    url = settings.SPRING_BASE_URL + "/api/rec/retrain-model/any"
+    response = requests.post(url, json=data.__dict__, headers=headers)
+    if response.status_code == 200:
+        logging.info("Success Save Retrained Model Information")
+    else:
+        logging.warn("Fail Save Retrained Model Information")
