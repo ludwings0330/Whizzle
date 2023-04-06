@@ -16,7 +16,8 @@ const SBackImg = styled.div`
   justify-content: start;
   align-items: center;
 
-  @media screen and (max-width: 1244px) {
+  @media screen and (max-width: 800px) {
+    height: 85vh;
     background: url(${mobileMainImg}) center center / cover no-repeat;
     justify-content: center;
   }
@@ -49,7 +50,7 @@ const SWhiskyImg = styled.img`
   @media screen and (max-width: 800px) {
     height: 100%;
     margin-right: 0;
-    margin-top: 50px;
+    margin-top: 70px;
     margin-bottom: 0;
   }
 `;
@@ -121,7 +122,7 @@ const SUserName = styled.span`
 const SMotion = styled(motion.div)`
   height: 100%;
   @media screen and (max-width: 800px) {
-    height: 60%;
+    height: 50%;
   }
 `;
 
