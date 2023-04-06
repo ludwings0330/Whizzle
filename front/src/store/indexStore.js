@@ -49,9 +49,7 @@ export const fetchDiaries = async (setDiaryList, setData, selectDate) => {
     const month = selectDate.getMonth() + 1;
     const day = selectDate.getDate();
 
-    const clickedDate = `${year}-${month < 10 ? "0" : ""}${month}-${
-      day < 10 ? "0" : ""
-    }${day}`;
+    const clickedDate = `${year}-${month < 10 ? "0" : ""}${month}-${day < 10 ? "0" : ""}${day}`;
 
     let found = false;
     if (diaries) {
@@ -142,4 +140,9 @@ export const reviewState = atom({
 export const showAllState = atom({
   key: "showAllState",
   default: false,
+});
+
+export const isMobileState = atom({
+  key: "isMobileState",
+  default: window.innerWidth <= 800,
 });

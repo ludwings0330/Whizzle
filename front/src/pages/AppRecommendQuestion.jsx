@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { preference, recommendResult } from "../store/indexStore";
+import { preference, recommendResult, isMobileState } from "../store/indexStore";
 import { userState } from "../store/userStore";
 import { preferenceSave, recommend } from "../apis/recommend";
 import { getPreference } from "../apis/userinfo";
@@ -28,12 +28,7 @@ const SDiv = styled.div`
   align-items: center;
   flex-direction: column;
   min-height: 100vh;
-  background-image: linear-gradient(
-    90deg,
-    #f84f5a 28.12%,
-    #f7875a 65.62%,
-    #f7cb5a 100%
-  );
+  background-image: linear-gradient(90deg, #f84f5a 28.12%, #f7875a 65.62%, #f7cb5a 100%);
 `;
 
 const slider = {
@@ -60,9 +55,7 @@ const SPrevNavigate = styled.div`
   top: 43.25%;
   left: 0%;
   display: ${(props) =>
-    props.activePage === 0 || props.activePage === 1 || props.activePage === 6
-      ? "none"
-      : ""};
+    props.activePage === 0 || props.activePage === 1 || props.activePage === 6 ? "none" : ""};
 `;
 
 const SNextNavigate = styled.div`
@@ -164,12 +157,7 @@ const SButtonText = styled.span`
   font-size: 18px;
   font-family: "Pretendard Variable";
   font-weight: bold;
-  background-image: linear-gradient(
-    125.02deg,
-    #f84f5a 28.12%,
-    #f7875a 65.62%,
-    #f7cb5a 100%
-  );
+  background-image: linear-gradient(125.02deg, #f84f5a 28.12%, #f7875a 65.62%, #f7cb5a 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 `;
@@ -184,19 +172,8 @@ const AppRecommendQuestion = (props) => {
   const [direction, setDirection] = useState("next");
   const [barWidth, setBarWidth] = useState(0);
 
-  // 브라우저 사이즈를 추적하여, mobile 여부를 확인
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 800);
-
-  useEffect(() => {
-    function handleResize() {
-      setIsMobile(window.innerWidth <= 800);
-    }
-
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+  // mobile 여부를 확인
+  const isMobile = useRecoilValue(isMobileState);
 
   const goResult = async () => {
     setActivePage(6);
@@ -287,9 +264,7 @@ const AppRecommendQuestion = (props) => {
       // 선택된 위스키로 flavor 가져와서 저장
       let selectedWhiskyFlavor;
       try {
-        const selectedWhisky = await whiskyDetail(
-          presetWisky[preferenceValue.whiskies[0]].id
-        );
+        const selectedWhisky = await whiskyDetail(presetWisky[preferenceValue.whiskies[0]].id);
         selectedWhiskyFlavor = selectedWhisky.flavor;
         setPreferenceValue((prev) => {
           return { ...prev, flavor: selectedWhiskyFlavor };
@@ -352,7 +327,7 @@ const AppRecommendQuestion = (props) => {
   const goNextPage = () => {
     if (activePage === 1 && !(preferenceValue.age && preferenceValue.gender)) {
       error("나이, 성별을 선택해주세요!");
-    } else if (activePage === 2 && !preferenceValue.price) {
+    } else if (activePage === 2 && !preferenceValue.priceTier) {
       error("선호 가격대를 선택해주세요!");
     } else if (activePage === 3 && !preferenceValue.isExperience) {
       error("위스키 경험을 선택해주세요!");
@@ -508,28 +483,14 @@ const AppRecommendQuestion = (props) => {
         transition={{ duration: 0.75, delay: 0.75 }}
       />
       <motion.div style={isMobile ? mobileSlider : slider}>
-        <AnimatePresence custom={direction}>
-          {recommendQuestionPages()}
-        </AnimatePresence>
+        <AnimatePresence custom={direction}>{recommendQuestionPages()}</AnimatePresence>
       </motion.div>
-      {isMobile ? (
-        <SMobilePrevBtn activePage={activePage} onClick={goPrevPage}>
-          <SButtonText>이전</SButtonText>
-        </SMobilePrevBtn>
-      ) : (
+      {isMobile ? null : ( // </SMobilePrevBtn> //   <SButtonText>이전</SButtonText> // <SMobilePrevBtn activePage={activePage} onClick={goPrevPage}>
         <SPrevNavigate activePage={activePage} onClick={goPrevPage}>
           <img src={navigatePrev} alt="navigate" />
         </SPrevNavigate>
       )}
-      {isMobile ? (
-        <SMobileNextBtn
-          style={{ left: "55vw" }}
-          activePage={activePage}
-          onClick={goNextPage}
-        >
-          <SButtonText>다음</SButtonText>
-        </SMobileNextBtn>
-      ) : (
+      {isMobile ? null : ( // </SMobileNextBtn> //   <SButtonText>다음</SButtonText> // <SMobileNextBtn style={{ left: "55vw" }} activePage={activePage} onClick={goNextPage}>
         <SNextNavigate activePage={activePage} onClick={goNextPage}>
           <img src={navigateNext} alt="navigate" />
         </SNextNavigate>
