@@ -64,12 +64,7 @@ const AppLogin = () => {
 
   const onClickHandler = (e) => {
     const clicked = e.target.alt;
-    // window.location.href = `${BASE_URL}/oauth2/authorization/${clicked}`;
-    const accessToken =
-      "eyJhbGciOiJIUzI1NiJ9.eyJtZW1iZXJJZCI6MywiZXhwIjoxNjgwNzY2MzAzfQ.u0WDjW6aIQZWsEzU20Ux_ZuQ_DjlZ39paMFKT_RMwsg";
-    const refreshToken =
-      "eyJhbGciOiJIUzI1NiJ9.eyJtZW1iZXJJZCI6MywiZXhwIjoxNjgyNTc4OTAzfQ.xGNQZX3jkDqcUlaEXx4KYbLDOHAP3mLEgqcQjh1-5_A";
-    window.location.href = `/callback?accessToken=${accessToken}&refreshToken=${refreshToken}&isNew=false`;
+    window.location.href = `${BASE_URL}/oauth2/authorization/${clicked}`;
   };
 
   return (
