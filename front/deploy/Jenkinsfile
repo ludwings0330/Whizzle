@@ -193,6 +193,8 @@ node {
             --net-alias rec-net-dns \
             -p 8000:8000 \
             -v /app/data/fast-api/config:/src/config \
+            -v /app/data/fast-api/original:/src/original \
+            -v /app/data/fast-api/backup:/src/backup \
             -d whizzle/rec
         '''
     }
