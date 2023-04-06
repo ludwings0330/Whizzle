@@ -34,6 +34,9 @@ const STitle = styled.p`
 const SContent = styled.p`
   font-size: 14px;
   color: #949494;
+  @media screen and (max-width: 1119px) {
+    font-size: 10px;
+  }
 `;
 
 //푸터
@@ -51,7 +54,7 @@ const Footer = () => {
     <SDiv id="footer">
       <Lottie
         animationData={animationData}
-        style={{ position: "absolute", height: "150px", zIndex: 1, top: -99, right: 50 }}
+        style={{ position: "absolute", height: "150px", zIndex: 1, top: -99, right: 0 }}
       />
       <SInnerDiv>
         <div>

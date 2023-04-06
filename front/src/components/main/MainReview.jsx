@@ -11,6 +11,9 @@ const SDiv = styled.div`
   flex-direction: column;
   height: 100vh;
   background-image: linear-gradient(90deg, #f84f5a 28.12%, #f7875a 65.62%, #f7cb5a 100%);
+  @media screen and (max-width: 800px) {
+    height: 60vh;
+  }
 `;
 
 const SText = styled.div`
@@ -19,6 +22,9 @@ const SText = styled.div`
   display: flex;
   align-items: end;
   flex-direction: column;
+  @media screen and (max-width: 1244px) {
+    width: 90%;
+  }
 `;
 
 const SLight = styled.span`
@@ -27,6 +33,9 @@ const SLight = styled.span`
   padding-left: 10px;
   letter-spacing: -2px;
   color: white;
+  @media screen and (max-width: 1000px) {
+    font-size: 4.5vw;
+  }
 `;
 
 const SReviewBox = styled.div`
@@ -40,6 +49,17 @@ const SImg = styled.img`
   // height: 100%;
   box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.25);
   border-radius: 16px;
+  @media screen and (max-width: 1000px) {
+    border-radius: 8px;
+    box-shadow: none;
+  }
+`;
+
+const SSecond = styled.div`
+  margin-left: 30px;
+  @media screen and (max-width: 1000px) {
+    margin-left: 10px;
+  }
 `;
 
 const reviewList = [1, 2, 3, 4, 5, 6];
@@ -93,7 +113,7 @@ const MainReview = (props) => {
             })}
             {/* </SReviewBox> */}
           </div>
-          <div className={styles.slideContainer} style={{ marginLeft: "30px" }}>
+          <SSecond className={styles.slideContainer}>
             {/* <SReviewBox className={styles.slideContainer}> */}
             {reviewList.map((review, index) => {
               return (
@@ -116,7 +136,7 @@ const MainReview = (props) => {
               );
             })}
             {/* </SReviewBox> */}
-          </div>
+          </SSecond>
         </div>
       </motion.div>
     </SDiv>

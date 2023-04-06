@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import mainImg from "../../assets/img/main.png";
+import mobileImg from "../../assets/img/mobile_main.png";
 import styles from "./MainDefault.module.css";
 
 const SImg = styled.div`
@@ -11,12 +12,22 @@ const SImg = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  @media screen and (max-width: 1000px) {
+    background: url(${mobileImg}) center center / cover no-repeat;
+    height: 85vh;
+  }
 `;
 
 const SContent = styled.div`
   display: flex;
   flex-direction: column;
   margin-left: 33vh;
+  @media screen and (max-width: 1000px) {
+    margin-left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 `;
 
 const SLight = styled.span`
@@ -24,6 +35,9 @@ const SLight = styled.span`
   font-size: 5vh;
   letter-spacing: -2px;
   color: white;
+  @media screen and (max-width: 1119px) {
+    font-size: 4.5vw;
+  }
 `;
 
 const SStrong = styled.span`
@@ -31,6 +45,9 @@ const SStrong = styled.span`
   font-size: 5vh;
   letter-spacing: -2px;
   color: white;
+  @media screen and (max-width: 1119px) {
+    font-size: 4.5vw;
+  }
 `;
 
 // const SButton = styled.button`
@@ -50,6 +67,9 @@ const SButtonText = styled.span`
   font-family: "Pretendard Variable";
   color: white;
   z-index: 2;
+  @media screen and (max-width: 1119px) {
+    font-size: 2.5vw;
+  }
 `;
 
 const MainDefault = (props) => {
@@ -82,10 +102,7 @@ const MainDefault = (props) => {
             {/* <SButton onClick={goRecommend}>
               <SButtonText>나만의 위스키 추천받기</SButtonText>
             </SButton> */}
-            <div
-              className={`${styles.container} ${styles.containerTwo}`}
-              onClick={goRecommend}
-            >
+            <div className={`${styles.container} ${styles.containerTwo}`} onClick={goRecommend}>
               <button className={styles.selectedButton}>
                 <SButtonText>나만의 위스키 추천받기</SButtonText>
                 <div className={styles.fillTwo}></div>

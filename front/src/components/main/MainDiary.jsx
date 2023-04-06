@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
-import diaryImg from "../../assets/img/main_diary.png";
+import diaryImg from "../../assets/img/main_diary.gif";
 
 const SDiv = styled.div`
   display: flex;
@@ -16,6 +16,12 @@ const SContent = styled.div`
   justify-content: center;
   flex-direction: column;
   align-items: start;
+  @media screen and (max-width: 1244px) {
+    width: 90%;
+  }
+  @media screen and (max-width: 800px) {
+    height: 50vh;
+  }
 `;
 
 const SLight = styled.span`
@@ -24,6 +30,9 @@ const SLight = styled.span`
   font-size: 4.5vh;
   letter-spacing: -2px;
   padding-left: 10px;
+  @media screen and (max-width: 1000px) {
+    font-size: 4.5vw;
+  }
 `;
 
 const SStrong = styled.span`
@@ -31,6 +40,9 @@ const SStrong = styled.span`
   font-size: 4.5vh;
   letter-spacing: -2px;
   padding-left: 10px;
+  @media screen and (max-width: 1000px) {
+    font-size: 4.5vw;
+  }
 `;
 
 //메인화면에 띄워줄 다이어리
@@ -56,7 +68,7 @@ const MainDiary = (props) => {
           whileInView="visible"
           viewport={{ once: true }}
         >
-          <img src={diaryImg} alt="diary.png" style={{ marginTop: "10px", width: "120vh" }} />
+          <img src={diaryImg} alt="diary.png" style={{ marginTop: "10px", width: "100%" }} />
         </motion.div>
       </SContent>
     </SDiv>
