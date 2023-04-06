@@ -28,7 +28,7 @@ function Logout() {
     setPref({
       gender: "",
       age: "",
-      priceTier: 1,
+      priceTier: 0,
       isExperience: "",
       whiskies: [],
       flavor: {
