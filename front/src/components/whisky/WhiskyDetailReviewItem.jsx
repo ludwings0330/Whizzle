@@ -97,7 +97,7 @@ const STextDiv = styled.div`
   margin-right: 50px;
   margin-top: 20px;
   margin-bottom: 35px;
-  width: 890px;
+  width: 680px;
   font-size: 16px;
 `;
 
