@@ -142,18 +142,18 @@ const MyProfile = (props) => {
 
   const handleProfileImageChange = async (e) => {
     const file = e.target.files[0];
-    const success = await profileChangeApi(file);
+    const newUrl = await profileChangeApi(file);
 
-    if (success) {
+    if (newUrl && newUrl.length) {
       // 프로필 이미지가 성공적으로 업데이트된 경우 로컬 상태 업데이트
       setUserStateData({
         ...userStateData,
         image: {
-          url: URL.createObjectURL(file), // File 객체에서 URL 생성
+          url: newUrl, // File 객체에서 URL 생성
           originName: file.name,
         },
       });
-      setProfileImage(URL.createObjectURL(file));
+      setProfileImage(newUrl);
     } else {
       console.error("Failed to update profile image.");
     }
