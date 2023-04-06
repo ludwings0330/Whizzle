@@ -142,6 +142,30 @@ const AppRecommnedResult = () => {
   const onClickHandler = (e) => {
     if (e.target.innerText === "취향 정보 다시 입력하기") {
       setRecommend((prev) => []);
+
+      setUserPreference({
+        gender: "",
+        age: "",
+        priceTier: 0,
+        isExperience: "",
+        whiskies: [],
+        flavor: {
+          smoky: 0,
+          peaty: 0,
+          spicy: 0,
+          herbal: 0,
+          oily: 0,
+          body: 0,
+          rich: 0,
+          sweet: 0,
+          salty: 0,
+          vanilla: 0,
+          tart: 0,
+          fruity: 0,
+          floral: 0,
+        },
+      });
+
       setUserPreference((prev) => {
         return { ...prev, saved: false, re: true };
       });
