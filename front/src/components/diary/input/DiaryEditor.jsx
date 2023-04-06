@@ -144,6 +144,7 @@ const SAutoDiv = styled.div`
   cursor: pointer;
   border: none;
   margin-left: 20px;
+  margin-right: 20px;
   margin-top: 10px;
   margin-bottom: 10px;
   width: 334px;
@@ -567,6 +568,10 @@ const DiaryEditor = ({ selectedDate }) => {
                 position: "absolute",
                 zIndex: "2",
                 backgroundColor: "white",
+                boxShadow:
+                  "rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px",
+                borderRadius: "8px",
+                // marginBottom: "20px",
               }}
             >
               {auto && auto.length
