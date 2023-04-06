@@ -129,7 +129,7 @@ const MyReviewItem = ({ review }) => {
             />
           </SRating>
         </SContainer>
-        <SContent>{truncatedContent}</SContent>
+        <SContent>{review?.content}</SContent>
       </SBox>
       <SExtra>
         <TimeSince date={review.createdDateTime} /> • 좋아요 {review.likeCount}

@@ -124,7 +124,7 @@ const ReviewDetailInfo = (props) => {
 
           <SRightDiv>
             <SP style={{ fontSize: "30px", marginBottom: "5px", marginTop: 0 }}>
-              {whisky.avgRating}
+              { (whisky.avgRating===0) ? "NR" : whisky.avgRating }
             </SP>
 
             <SRatingDiv>
