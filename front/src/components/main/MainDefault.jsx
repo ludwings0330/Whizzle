@@ -14,7 +14,7 @@ const SImg = styled.div`
   align-items: center;
   @media screen and (max-width: 1000px) {
     background: url(${mobileImg}) center center / cover no-repeat;
-    height: 85vh;
+    height: 65vh;
   }
 `;
 
@@ -23,6 +23,7 @@ const SContent = styled.div`
   flex-direction: column;
   margin-left: 33vh;
   @media screen and (max-width: 1000px) {
+    margin-top: 50px;
     margin-left: 0;
     display: flex;
     justify-content: center;

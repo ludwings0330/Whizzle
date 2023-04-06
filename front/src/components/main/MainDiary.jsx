@@ -20,7 +20,7 @@ const SContent = styled.div`
     width: 90%;
   }
   @media screen and (max-width: 800px) {
-    height: 50vh;
+    height: 55vh;
   }
 `;
 

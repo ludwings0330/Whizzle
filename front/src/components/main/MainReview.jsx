@@ -12,7 +12,7 @@ const SDiv = styled.div`
   height: 100vh;
   background-image: linear-gradient(90deg, #f84f5a 28.12%, #f7875a 65.62%, #f7cb5a 100%);
   @media screen and (max-width: 800px) {
-    height: 60vh;
+    height: 65vh;
   }
 `;
 
