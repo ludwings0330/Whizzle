@@ -10,7 +10,6 @@ import { preference, recommendResult } from "../store/indexStore";
 import Graph from "../components/common/Graph";
 import ResultMainWhisky from "../components/recommend/result/ResultMainWhisky";
 import ResultWhiskyList from "../components/recommend/result/ResultWhiskyList";
-import { info } from "../components/notify/notify";
 import AppMobileRecommendResult from "../pages/AppMobileRecommendResult";
 import Swal from "sweetalert2";
 
@@ -138,8 +137,7 @@ const AppRecommnedResult = () => {
   const [userPreference, setUserPreference] = useRecoilState(preference);
   const user = useRecoilValue(userState);
   const isLogin = Boolean(user.id);
-
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 800);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 360 || window.innerHeight <= 740);
 
   const navigate = useNavigate();
   const onClickHandler = (e) => {
@@ -186,7 +184,7 @@ const AppRecommnedResult = () => {
 
   useEffect(() => {
     function handleResize() {
-      setIsMobile(window.innerWidth <= 800);
+      setIsMobile(window.innerWidth <= 360 || window.innerHeight <= 740);
     }
     window.addEventListener("resize", handleResize);
     return () => {
@@ -208,7 +206,9 @@ const AppRecommnedResult = () => {
   return (
     <>
       {isMobile ? (
-        <AppMobileRecommendResult />
+        <>
+          <AppMobileRecommendResult />
+        </>
       ) : (
         <>
           <SHeader>
@@ -255,21 +255,21 @@ const AppRecommnedResult = () => {
             </SQuestionBtn>
             <SDailyBtn onClick={onClickHandler}>데일리 위스키 추천받기</SDailyBtn>
           </SBtnDiv>
+          {recommend && recommend.length && <ResultWhiskyList whiskys={recommend.slice(3)} />}
+          <SBtnDiv>
+            <SQuestionBtn onClick={onClickHandler}>
+              <SColorSpan style={{ fontSize: "18px" }}>취향 정보 다시 입력하기</SColorSpan>
+            </SQuestionBtn>
+            {isLogin ? (
+              <SDailyBtn onClick={onClickHandler}>데일리 위스키 추천받기</SDailyBtn>
+            ) : (
+              <SDailyBtn onClick={goSignin} style={{ width: "330px" }}>
+                회원가입하고 더 많은 추천받기
+              </SDailyBtn>
+            )}
+          </SBtnDiv>
         </>
       )}
-      {recommend && recommend.length && <ResultWhiskyList whiskys={recommend.slice(3)} />}
-      <SBtnDiv>
-        <SQuestionBtn onClick={onClickHandler}>
-          <SColorSpan style={{ fontSize: "18px" }}>취향 정보 다시 입력하기</SColorSpan>
-        </SQuestionBtn>
-        {isLogin ? (
-          <SDailyBtn onClick={onClickHandler}>데일리 위스키 추천받기</SDailyBtn>
-        ) : (
-          <SDailyBtn onClick={goSignin} style={{ width: "330px" }}>
-            회원가입하고 더 많은 추천받기
-          </SDailyBtn>
-        )}
-      </SBtnDiv>
     </>
   );
 };

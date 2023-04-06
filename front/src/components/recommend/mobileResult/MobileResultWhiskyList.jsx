@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import WhiskyListItem from "../../common/WhiskyListItem";
+import MobileWhiskyListItem from "../../common/MobileWhiskyListItem";
 import styled from "styled-components";
 
 const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 100px;
+  margin-top: 5vh;
 `;
 
 const SDiv = styled.div`
@@ -76,7 +76,7 @@ const MobileResultWhiskyList = (props) => {
             return (
               <SSimilarDiv key={index}>
                 <SSimilarP>no.{index + 4}</SSimilarP>
-                <WhiskyListItem whisky={whisky} />
+                <MobileWhiskyListItem whisky={whisky} />
               </SSimilarDiv>
             );
           })}

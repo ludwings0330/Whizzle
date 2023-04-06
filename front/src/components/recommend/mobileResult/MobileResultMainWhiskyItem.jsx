@@ -237,7 +237,7 @@ const SBoldColorP = styled.p`
 const SKeepImg = styled.img`
   height: 4vh;
   width: 6vw;
-  margin-left: 4vw;
+  margin-left: 2vw;
 `;
 
 const MobileResultMainWhiskyItem = (props) => {

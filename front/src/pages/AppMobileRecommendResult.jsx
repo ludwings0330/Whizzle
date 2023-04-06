@@ -10,6 +10,7 @@ import { preference, recommendResult } from "../store/indexStore";
 import MobileGraph from "../components/common/MobileGraph";
 import MobileResultMainWhisky from "../components/recommend/mobileResult/MobileResultMainWhisky";
 import MobileResultWhiskyList from "../components/recommend/mobileResult/MobileResultWhiskyList";
+import Swal from "sweetalert2";
 
 const SHeader = styled.div`
   width: 100%;
@@ -224,13 +225,29 @@ const AppMobileRecommnedResult = () => {
   };
 
   // 비로그인 유저의 경우 회원가입 유도 모달을 띄움
-  //   useEffect(() => {
-  //     if (!isLogin) {
-  //       setTimeout(() => {
-  //         info("회원 가입을 통해 취향을 저장해보세요!");
-  //       }, 5000);
-  //     }
-  //   }, []);
+  useEffect(() => {
+    if (!isLogin) {
+      setTimeout(() => {
+        Swal.fire({
+          title: "회원 가입을 통해 \n취향을 저장해보세요!",
+          icon: "info",
+          showCancelButton: true,
+          confirmButtonText: "로그인",
+          cancelButtonText: "취소",
+          customClass: {
+            container: "my-swal-container",
+            confirmButton: "my-swal-confirm-button",
+            cancelButton: "my-swal-cancel-button",
+            icon: "my-swal-icon",
+          },
+        }).then((result) => {
+          if (result.isConfirmed) {
+            navigate("/signin");
+          }
+        });
+      }, 5000);
+    }
+  }, []);
 
   // 가장 큰 2개의 값을 찾음
   const [maxValue, setMaxValue] = useState([]);
