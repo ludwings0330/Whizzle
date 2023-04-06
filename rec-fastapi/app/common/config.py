@@ -12,12 +12,15 @@ class Settings(BaseSettings):
     PROJECT_NAME: str
     BACKEND_CORS_ORIGINS: List[AnyHttpUrl] = []
     MODEL_PATH: str
+    MODEL_NAME: str
     DATASET_PATH: str
-    ITEM_FEATURES_PATH: str
-    USER_FEATURES_PATH: str
-    RATING_PATH: str
-    TEST_DATA_PATH: str
+    DATASET_NAME: str
+    ITEM_FEATURES_FILE: str
+    USER_FEATURES_FILE: str
+    RATING_FILE: str
+    TEST_DATA_FILE: str
     BACKUP_PATH: str
+    ORIGINAL_PATH: str
     ENCODING: str
     N_USERS: int
     LOG_LEVEL: str
