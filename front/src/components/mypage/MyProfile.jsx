@@ -143,7 +143,7 @@ const MyProfile = (props) => {
   const handleProfileImageChange = async (e) => {
     const file = e.target.files[0];
     const newUrl = await profileChangeApi(file);
-    console.logu(newUrl);
+    console.log(newUrl);
 
     if (newUrl && newUrl.length) {
       // 프로필 이미지가 성공적으로 업데이트된 경우 로컬 상태 업데이트
