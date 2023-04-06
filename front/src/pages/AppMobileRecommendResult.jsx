@@ -248,7 +248,7 @@ const AppMobileRecommnedResult = () => {
             navigate("/signin");
           }
         });
-      }, 10000000000);
+      }, 5000);
     }
   }, []);
 

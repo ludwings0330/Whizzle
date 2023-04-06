@@ -474,6 +474,7 @@ const AppRecommendQuestion = (props) => {
         );
     }
   };
+
   return (
     <SDiv>
       <ProgressBar
@@ -489,8 +490,7 @@ const AppRecommendQuestion = (props) => {
           <img src={navigatePrev} alt="navigate" />
         </SPrevNavigate>
       )}
-      {isMobile ? // </SMobileNextBtn> //   <SButtonText>다음</SButtonText> // <SMobileNextBtn style={{ left: "55vw" }} activePage={activePage} onClick={goNextPage}>
-      null : (
+      {isMobile ? null : ( // </SMobileNextBtn> //   <SButtonText>다음</SButtonText> // <SMobileNextBtn style={{ left: "55vw" }} activePage={activePage} onClick={goNextPage}>
         <SNextNavigate activePage={activePage} onClick={goNextPage}>
           <img src={navigateNext} alt="navigate" />
         </SNextNavigate>
