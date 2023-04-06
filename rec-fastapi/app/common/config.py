@@ -55,9 +55,10 @@ def get_settings() -> Union[DevSettings, ProdSettings]:
 
 settings = get_settings()
 
-
 logging.basicConfig(
     level=settings.LOG_LEVEL,  # 로그 수준
     format="%(asctime)s %(levelname)s %(message)s",
     handlers=[logging.StreamHandler()],
 )
+
+logging.info(settings)
