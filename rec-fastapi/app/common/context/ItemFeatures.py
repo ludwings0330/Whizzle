@@ -17,5 +17,5 @@ class ItemFeatures:
 
     def load_item_features(self):
         self.data = pd.read_csv(
-            settings.ITEM_FEATURES_PATH, index_col=0, encoding=settings.ENCODING
+            settings.ITEM_FEATURES_FILE, index_col=0, encoding=settings.ENCODING
         )

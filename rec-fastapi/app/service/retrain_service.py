@@ -33,13 +33,12 @@ def fit_partial_user(
             epochs=3,
             verbose=False,
         )
-        save_model(model)
         rating_df = concat_ratings(rating_df=rating_df)
         user_features_df = concat_user_features(user_features_df=preference_df)
+        rating_df.to_csv(settings.RATING_FILE, encoding=settings.ENCODING)
+        user_features_df.to_csv(settings.USER_FEATURES_FILE, encoding=settings.ENCODING)
         logging.info("train_rating.csv and user_features is updated")
-        rating_df.to_csv(settings.RATING_PATH, encoding=settings.ENCODING)
-        user_features_df.to_csv(
-            settings.USER_FEATURES_PATH, encoding=settings.ENCODING)
+        update_model(model, settings.MODEL_PATH + settings.MODEL_NAME)
     except Exception as e:
         logging.error("기존 사용자 모델 재학습 오류 : {}".format(e.args[0]))
 
@@ -61,10 +60,13 @@ def refitting(
         cols=cols,
     )
 
-    interactions, weights = make_interactions(
-        rating_df=rating_df, dataset=dataset)
-    user_meta, item_meta = make_features(
-        user_features, item_features, dataset=dataset)
+    interactions, weights = make_interactions(rating_df=rating_df, dataset=dataset)
+    user_meta, item_meta = make_features(user_features, item_features, dataset=dataset)
+
+    test_data = pd.read_csv(
+        settings.TEST_DATA_FILE, index_col=0, encoding=settings.ENCODING
+    )
+    test_interactions, _ = make_interactions(rating_df=test_data, dataset=dataset)
 
     origin_model = load_rec_model()
     hyper_params = origin_model.get_params()
@@ -73,45 +75,41 @@ def refitting(
         learning_rate=hyper_params["learning_rate"],
         item_alpha=hyper_params["item_alpha"],
         user_alpha=hyper_params["user_alpha"],
-        learning_schedule=hyper_params["learning_schedule"],
-        loss=hyper_params["loss"],
-        random_state=hyper_params["random_state"],
+        learning_schedule="adagrad",
+        loss="warp",
+        random_state=42,
     )
     model.fit(
         interactions=interactions,
         sample_weight=weights,
         item_features=item_meta,
         user_features=user_meta,
-        epochs=1,
+        epochs=5,
         verbose=True,
     )
 
     logging.info(
         "-------------------------------------[파일 저장 시도]-------------------------------------"
     )
-    logging.info("{} 까지의 신규 사용자 반영한 모델, 데이터셋, 파일 저장".format(time))
+    logging.info("{} - Model, Dataset, 데이터 업데이트 진행".format(time))
+    update_model(model, settings.MODEL_PATH + settings.MODEL_NAME)
+    update_dataset(dataset, settings.DATASET_PATH + settings.DATASET_NAME)
+    rating_df.to_csv(settings.RATING_FILE, encoding=settings.ENCODING)
+    user_features.to_csv(settings.USER_FEATURES_FILE, encoding=settings.ENCODING)
+    logging.info("모델, 데이터셋 백업")
     logging.info(
         "dataset path : {} model path : {}".format(
-            create_save_path("dataset", "pkl", time),
-            create_save_path("model", "pkl", time),
+            create_backup_path("dataset", "pkl", time),
+            create_backup_path("model", "pkl", time),
         )
     )
-    with open(create_save_path("dataset", "pkl", time), "wb") as f:
+    with open(create_backup_path("dataset", "pkl", time), "wb") as f:
         pickle.dump(dataset, f)
-    with open(create_save_path("model", "pkl", time), "wb") as f:
+    with open(create_backup_path("model", "pkl", time), "wb") as f:
         pickle.dump(model, f)
-    rating_df.to_csv(settings.RATING_PATH, encoding=settings.ENCODING)
-    user_features.to_csv(settings.USER_FEATURES_PATH,
-                         encoding=settings.ENCODING)
     logging.info(
         "---------------------------------------[저장 성공]---------------------------------------"
     )
-
-    test_data = pd.read_csv(
-        settings.TEST_DATA_PATH, index_col=0, encoding=settings.ENCODING
-    )
-    test_interactions, _ = make_interactions(
-        rating_df=test_data, dataset=dataset)
 
     precision, recall, auc, mrr = evaluate(
         model,
@@ -131,8 +129,7 @@ def refitting(
 
 def dataset_fit(users, items, cols):
     dataset = Dataset()
-    dataset.fit(users=users, items=items,
-                user_features=cols, item_features=cols)
+    dataset.fit(users=users, items=items, user_features=cols, item_features=cols)
     return dataset
 
 

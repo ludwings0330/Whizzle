@@ -10,11 +10,11 @@ from models.dto.data_class import Preference
 
 
 def load_rec_model():
-    return pickle.load(open(settings.MODEL_PATH, "rb"))
+    return pickle.load(open(settings.MODEL_PATH + settings.MODEL_NAME, "rb"))
 
 
 def load_dataset():
-    return pickle.load(open(settings.DATASET_PATH, "rb"))
+    return pickle.load(open(settings.DATASET_PATH + settings.DATASET_NAME, "rb"))
 
 
 def make_rating_df(ratings):
@@ -64,7 +64,7 @@ def make_features(preference_df, item_features, dataset):
 
 
 def concat_ratings(rating_df):
-    ratings = pd.read_csv(settings.RATING_PATH, index_col=0, encoding=settings.ENCODING)
+    ratings = pd.read_csv(settings.RATING_FILE, index_col=0, encoding=settings.ENCODING)
     ratings = pd.concat([ratings, rating_df], ignore_index=True)
     ratings.drop_duplicates(subset=["user_id", "whisky_id"], keep="last", inplace=True)
     return ratings
@@ -72,26 +72,26 @@ def concat_ratings(rating_df):
 
 def concat_user_features(user_features_df):
     user_features = pd.read_csv(
-        settings.USER_FEATURES_PATH, index_col=0, encoding=settings.ENCODING
+        settings.USER_FEATURES_FILE, index_col=0, encoding=settings.ENCODING
     )
     user_features = pd.concat([user_features, user_features_df], ignore_index=True)
     user_features.drop_duplicates(subset=["user_id"], keep="last", inplace=True)
     return user_features
 
 
-def save_model(model, path):
+async def update_model(model, path):
     logging.debug("whizzle_model.pkl is updated")
-    with open(path, "wb") as f:
+    async with open(path, "wb") as f:
         pickle.dump(model, f)
 
 
-def save_dataset(dataset, path):
+async def update_dataset(dataset, path):
     logging.debug("whizzle_dataset.pkl is updated")
-    with open(path, "wb") as f:
+    async with open(path, "wb") as f:
         pickle.dump(dataset, f)
 
 
-def create_save_path(file, extension, date):
+def create_backup_path(file, extension, date):
     time = date.split(".")[0]
     time = re.sub(":", "_", time)
     return settings.BACKUP_PATH + file + "_" + time + "." + extension
