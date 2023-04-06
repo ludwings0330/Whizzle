@@ -35,10 +35,15 @@ public class ReviewProjectionRepository {
                 .innerJoin(review.member, member).fetchJoin()
                 .where(review.whisky.id.eq(whiskyId),
                        pagingCondition(searchCondition),
+                       memberNe(searchCondition.getMemberId()),
                        review.isDeleted.isFalse())
                 .orderBy(getOrderBy(searchCondition), getSecondOrderBy(searchCondition))
                 .limit(5)
                 .fetch();
+    }
+
+    private BooleanExpression memberNe(Long memberId) {
+        return (memberId == null) ? null : review.member.id.ne(memberId);
     }
 
     private OrderSpecifier<?> getSecondOrderBy(ReviewSearchCondition searchCondition) {
@@ -130,7 +135,7 @@ public class ReviewProjectionRepository {
                 .fetch();
     }
 
-    public List<RatingDto> findAllRatingByMemberId(Long memberId) {
+    public List<RatingDto> findAllRatingByMemberInIds(List<Long> memberIds) {
         return queryFactory
                 .select(Projections.constructor(
                         RatingDto.class,
@@ -140,7 +145,7 @@ public class ReviewProjectionRepository {
                 ))
                 .from(review)
                 .where(
-                        review.member.id.eq(memberId)
+                        review.member.id.in(memberIds)
                 ).fetch();
     }
 

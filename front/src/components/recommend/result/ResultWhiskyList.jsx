@@ -6,7 +6,7 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 100px;
+  margin-top: 50px;
 `;
 
 const SDiv = styled.div`
@@ -31,30 +31,31 @@ const SSimilarDiv = styled.div`
 `;
 
 const SSimilarP = styled.p`
-  margin-top: 0px;
+  margin-top: 40px;
   margin-bottom: 20px;
   font-family: "Pacifico";
   display: inline-block;
   font-weight: 400;
-  font-size: 48px;
-  color: #636363;
+  font-size: 40px;
+  color: #363636;
 `;
 
 const SBtn = styled.button`
-  width: 257px;
-  height: 64px;
+  width: 240px;
+  height: 60px;
   font-family: "Pretendard Variable";
-  border: 1px solid #a2a2a2;
+  border: 1px solid #dbdbdb;
   border-radius: 10px;
-  color: #9b9b9b;
-  font-size: 20px;
+  color: #dedede;
+  font-size: 16px;
   background-color: transparent;
   cursor: pointer;
-  margin-top: 50px;
+  transition: 0.3s;
 
   :hover {
-    background-color: rgba(155, 155, 155, 0.2);
-    color: rgba(0, 0, 0, 0.8);
+    background-color: #dedede;
+    color: #ffffff;
+    transition: 0.3s;
   }
 `;
 

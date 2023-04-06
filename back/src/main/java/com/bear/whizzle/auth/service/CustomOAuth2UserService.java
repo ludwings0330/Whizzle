@@ -1,6 +1,8 @@
 package com.bear.whizzle.auth.service;
 
+import com.bear.whizzle.badge.service.BadgeService;
 import com.bear.whizzle.domain.model.entity.Member;
+import com.bear.whizzle.domain.model.type.BadgeType;
 import com.bear.whizzle.member.repository.MemberRepository;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 
     private final MemberRepository memberRepository;
+    private final BadgeService badgeService;
     private final DefaultOAuth2UserService oAuth2UserService = new DefaultOAuth2UserService();
 
     // OAuth 2.0 로그인 성공시 loadUser 를 통해 확인
@@ -69,6 +72,8 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         memberRepository.save(member);
 
         details.setMemberId(member.getId());
+
+        badgeService.memberAchieveBadge(member.getId(), BadgeType.FIRST_PREFERENCE);
 
         log.debug("신규 회원 가입 완료({})", member);
     }

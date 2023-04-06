@@ -11,6 +11,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import styled, { keyframes } from "styled-components";
 import navigateNext from "../assets/img/navigate_next.png";
 import navigatePrev from "../assets/img/navigate_prev.png";
+import { error, warning } from "../components/notify/notify";
 
 //components import
 import QuestionStart from "../components/recommend/question/QuestionStart";
@@ -20,8 +21,6 @@ import QuestionPrice from "../components/recommend/question/QuestionPrice";
 import QuestionChooseWhisky from "../components/recommend/question/QuestionChooseWhisky";
 import QuestionChooseFlavor from "../components/recommend/question/QuestionChooseFlavor";
 import QuestionLoading from "../components/recommend/question/QuestionLoading";
-import { error } from "../components/notify/notify";
-import { useLocation } from "react-router-dom";
 
 const SDiv = styled.div`
   display: flex;
@@ -36,6 +35,15 @@ const slider = {
   // position: "absolute",
   display: "flex",
   minHeight: "100vh",
+  justifyContent: "center",
+  alignItems: "center",
+  flexDirection: "column",
+};
+
+const mobileSlider = {
+  // position: "absolute",
+  display: "flex",
+  minHeight: "80vh",
   justifyContent: "center",
   alignItems: "center",
   flexDirection: "column",
@@ -95,13 +103,63 @@ const animatePath = keyframes`
 
 const Svg = styled.svg`
   z-index: 0;
+  height: ${(props) => (props.isMobile ? "5%" : "15%")};
   width: 100%;
-  height: 15%;
   transition: all 300ms ease-in-out 150ms;
 
   .path-0 {
     animation: ${animatePath} 4s linear infinite;
   }
+`;
+
+const SMobilePrevBtn = styled.button`
+  display: ${(props) =>
+    props.activePage === 0 ||
+    props.activePage === 1 ||
+    props.activePage === 4 ||
+    props.activePage === 5 ||
+    props.activePage === 6
+      ? "none"
+      : ""};
+  width: 40vw;
+  height: 12vw;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+  border-radius: 999px;
+  background: white;
+  position: absolute;
+  bottom: 6vh;
+  left: 6vw;
+`;
+
+const SMobileNextBtn = styled.button`
+  display: ${(props) =>
+    props.activePage === 0 ||
+    props.activePage === 4 ||
+    props.activePage === 5 ||
+    props.activePage === 6
+      ? "none"
+      : ""};
+  width: 40vw;
+  height: 12vw;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+  border-radius: 999px;
+  background: white;
+  position: absolute;
+  bottom: 6vh;
+  left: 6vw;
+`;
+
+const SButtonText = styled.span`
+  font-size: 18px;
+  font-family: "Pretendard Variable";
+  font-weight: bold;
+  background-image: linear-gradient(125.02deg, #f84f5a 28.12%, #f7875a 65.62%, #f7cb5a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 `;
 
 const AppRecommendQuestion = (props) => {
@@ -114,33 +172,42 @@ const AppRecommendQuestion = (props) => {
   const [direction, setDirection] = useState("next");
   const [barWidth, setBarWidth] = useState(0);
 
-  const goResult = async () => {
-    if (isLogin) {
-      try {
-        const userPreference = await getPreference(user.id);
-        if (userPreference.status === 200) {
-          setPreferenceValue((prev) => {
-            return { ...prev, flavor: userPreference.data.flavor };
-          });
-          const recommendData = {
-            priceTier: userPreference.data.priceTier,
-            flavor: userPreference.data.flavor,
-          };
-          try {
-            let recommendedResult;
-            recommendedResult = await recommend(recommendData);
-            if (recommendedResult !== undefined) {
-              setResultValue(recommendedResult);
-              navigate("/recommend/result");
-            }
-          } catch {
-            console.log("위스키 추천 실패");
-          }
-        }
-      } catch {
-        console.log("사용자 선호 정보 요청 실패");
-      }
+  // 브라우저 사이즈를 추적하여, mobile 여부를 확인
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 800);
+
+  useEffect(() => {
+    function handleResize() {
+      setIsMobile(window.innerWidth <= 800);
     }
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  const goResult = async () => {
+    setActivePage(6);
+
+    // 위스키 추천 요청
+    const recommendData = {
+      priceTier: preferenceValue.priceTier,
+      flavor: preferenceValue.flavor,
+    };
+
+    await recommend(recommendData)
+      .then((data) => {
+        setResultValue(data);
+      })
+      .catch((e) => console.log(e));
+
+    setPreferenceValue((prev) => {
+      return { ...prev, saved: true, re: false };
+    });
+
+    setTimeout(() => {
+      navigate(`/recommend/result`);
+    }, 2000);
   };
 
   const flavorSubmitHandler = async () => {
@@ -151,7 +218,7 @@ const AppRecommendQuestion = (props) => {
     const saveData = {
       gender: preferenceValue.gender,
       age: preferenceValue.age,
-      priceTier: Number(preferenceValue.price),
+      priceTier: preferenceValue.priceTier,
       flavor: preferenceValue.flavor,
     };
 
@@ -165,7 +232,7 @@ const AppRecommendQuestion = (props) => {
 
     // 위스키 추천 요청
     const recommendData = {
-      priceTier: Number(preferenceValue.price),
+      priceTier: preferenceValue.priceTier,
       flavor: preferenceValue.flavor,
     };
 
@@ -176,6 +243,10 @@ const AppRecommendQuestion = (props) => {
     } catch {
       console.log("위스키 추천 실패");
     }
+
+    setPreferenceValue((prev) => {
+      return { ...prev, saved: true, re: false };
+    });
 
     setTimeout(() => {
       navigate(`/recommend/result`);
@@ -183,58 +254,75 @@ const AppRecommendQuestion = (props) => {
   };
 
   const whiskySubmitHandler = async () => {
-    setDirection("next");
-    setActivePage(6);
+    if (preferenceValue.whiskies.length > 0) {
+      setDirection("next");
+      setActivePage(6);
 
-    // 위스키 추천 요청
-    const recommendData = {
-      priceTier: Number(preferenceValue.price),
-      whiskies: [preferenceValue.whiskies[0]],
-    };
+      // 위스키 추천 요청
+      const recommendData = {
+        priceTier: preferenceValue.priceTier,
+        whiskies: [preferenceValue.whiskies[0]],
+      };
 
-    try {
-      let recommendedResult;
-      recommendedResult = await recommend(recommendData);
-      setResultValue(recommendedResult);
-    } catch {
-      console.log("위스키 추천 실패");
-    }
-
-    // 선택된 위스키로 flavor 가져와서 저장
-    try {
-      const selectedWhisky = await whiskyDetail(presetWisky[preferenceValue.whiskies[0]].id);
-      const selectedWhiskyFlavor = selectedWhisky.flavor;
-      setPreferenceValue((prev) => {
-        return { ...prev, flavor: selectedWhiskyFlavor };
-      });
-    } catch {
-      console.log("위스키 취향 정보 불러오기 실패");
-    }
-
-    // 백에 취향정보 저장
-    const saveData = {
-      gender: preferenceValue.gender,
-      age: preferenceValue.age,
-      priceTier: Number(preferenceValue.price),
-      flavor: preferenceValue.selectedWhiskyFlavor,
-    };
-
-    if (isLogin) {
       try {
-        await preferenceSave(saveData);
+        let recommendedResult;
+        recommendedResult = await recommend(recommendData);
+        setResultValue(recommendedResult);
       } catch {
-        console.log("취향 정보 저장 실패");
+        console.log("위스키 추천 실패");
       }
-    }
 
-    setTimeout(() => {
-      navigate(`/recommend/result`);
-    }, 2000);
+      // 선택된 위스키로 flavor 가져와서 저장
+      let selectedWhiskyFlavor;
+      try {
+        const selectedWhisky = await whiskyDetail(presetWisky[preferenceValue.whiskies[0]].id);
+        selectedWhiskyFlavor = selectedWhisky.flavor;
+        setPreferenceValue((prev) => {
+          return { ...prev, flavor: selectedWhiskyFlavor };
+        });
+      } catch {
+        console.log("위스키 취향 정보 불러오기 실패");
+      }
+
+      // 백에 취향정보 저장
+      const saveData = {
+        gender: preferenceValue.gender,
+        age: preferenceValue.age,
+        priceTier: preferenceValue.priceTier,
+        flavor: selectedWhiskyFlavor,
+      };
+
+      if (isLogin) {
+        try {
+          await preferenceSave(saveData);
+        } catch {
+          console.log("취향 정보 저장 실패");
+        }
+      }
+
+      setPreferenceValue((prev) => {
+        return { ...prev, saved: true, re: false };
+      });
+
+      setTimeout(() => {
+        navigate(`/recommend/result`);
+      }, 2000);
+    } else {
+      warning("1개 이상의 위스키를 선택해주세요!");
+    }
   };
 
   useEffect(() => {
-    if (resultValue.length > 0) {
-      whiskySubmitHandler();
+    console.log(preferenceValue);
+    if (preferenceValue.saved === true) {
+      goResult();
+    } else if (user?.id && !preferenceValue.re) {
+      getPreference(user.id).then((response) => {
+        setPreferenceValue((prev) => {
+          return { ...prev, ...response.data, re: false };
+        });
+        goResult();
+      });
     }
   }, []);
 
@@ -280,7 +368,7 @@ const AppRecommendQuestion = (props) => {
       });
       setDirection("next");
       setActivePage(5);
-    } else if (activePage === 4 && !preferenceValue.whiskies) {
+    } else if (activePage === 4 && preferenceValue.whiskies == []) {
       error("1개 이상의 위스키를 선택해주세요!");
     } else {
       setDirection("next");
@@ -320,10 +408,11 @@ const AppRecommendQuestion = (props) => {
   const recommendQuestionPages = () => {
     switch (activePage) {
       case 0:
-        return <QuestionStart goNextPage={goNextPage} />;
+        return <QuestionStart isMobile={isMobile} goNextPage={goNextPage} />;
       case 1:
         return (
           <QuestionFilter
+            isMobile={isMobile}
             key={activePage}
             direction={direction}
             pageVariants={pageVariants}
@@ -335,6 +424,7 @@ const AppRecommendQuestion = (props) => {
       case 2:
         return (
           <QuestionPrice
+            isMobile={isMobile}
             key={activePage}
             direction={direction}
             pageVariants={pageVariants}
@@ -346,6 +436,7 @@ const AppRecommendQuestion = (props) => {
       case 3:
         return (
           <QuestionExperience
+            isMobile={isMobile}
             key={activePage}
             direction={direction}
             pageVariants={pageVariants}
@@ -357,6 +448,7 @@ const AppRecommendQuestion = (props) => {
       case 4:
         return (
           <QuestionChooseWhisky
+            isMobile={isMobile}
             key={activePage}
             direction={direction}
             pageVariants={pageVariants}
@@ -369,6 +461,7 @@ const AppRecommendQuestion = (props) => {
       case 5:
         return (
           <QuestionChooseFlavor
+            isMobile={isMobile}
             key={activePage}
             direction={direction}
             pageVariants={pageVariants}
@@ -399,15 +492,27 @@ const AppRecommendQuestion = (props) => {
         animate={{ width: barWidth }}
         transition={{ duration: 0.75, delay: 0.75 }}
       />
-      <motion.div style={slider}>
+      <motion.div style={isMobile ? mobileSlider : slider}>
         <AnimatePresence custom={direction}>{recommendQuestionPages()}</AnimatePresence>
       </motion.div>
-      <SPrevNavigate activePage={activePage} onClick={goPrevPage}>
-        <img src={navigatePrev} alt="navigate" />
-      </SPrevNavigate>
-      <SNextNavigate activePage={activePage} onClick={goNextPage}>
-        <img src={navigateNext} alt="navigate" />
-      </SNextNavigate>
+      {isMobile ? (
+        <SMobilePrevBtn activePage={activePage} onClick={goPrevPage}>
+          <SButtonText>이전</SButtonText>
+        </SMobilePrevBtn>
+      ) : (
+        <SPrevNavigate activePage={activePage} onClick={goPrevPage}>
+          <img src={navigatePrev} alt="navigate" />
+        </SPrevNavigate>
+      )}
+      {isMobile ? (
+        <SMobileNextBtn style={{ left: "55vw" }} activePage={activePage} onClick={goNextPage}>
+          <SButtonText>다음</SButtonText>
+        </SMobileNextBtn>
+      ) : (
+        <SNextNavigate activePage={activePage} onClick={goNextPage}>
+          <img src={navigateNext} alt="navigate" />
+        </SNextNavigate>
+      )}
       {activePage === 0 ? (
         <motion.div
           initial={{ opacity: 0 }}
@@ -443,6 +548,7 @@ const AppRecommendQuestion = (props) => {
           transition={{ duration: 0.6 }}
         >
           <Svg
+            isMobile={isMobile}
             id="svg"
             viewBox="0 0 1440 390"
             xmlns="http://www.w3.org/2000/svg"

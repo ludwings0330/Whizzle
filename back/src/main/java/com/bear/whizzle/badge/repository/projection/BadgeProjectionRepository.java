@@ -16,14 +16,14 @@ public class BadgeProjectionRepository {
     private final JPAQueryFactory query;
 
     public List<BadgeResponseDto> findAllBadgesByMemberId(Long memberId) {
-        return query.select(
-                            Projections.fields(BadgeResponseDto.class,
+        return query.select(Projections.fields(BadgeResponseDto.class,
                                                memberHasBadge.badge.description,
                                                memberHasBadge.badge.image.url,
                                                memberHasBadge.createdDateTime.as("achieveDate")
                             ))
                     .from(memberHasBadge)
                     .where(memberHasBadge.member.id.eq(memberId))
+                    .orderBy(memberHasBadge.createdDateTime.asc())
                     .fetch();
     }
 

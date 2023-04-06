@@ -1,10 +1,10 @@
+from common.config import settings
+from service.retrain_service import fit_partial_user, refitting
+from common.context.ItemFeatures import ItemFeatures
+from models.dto.data_class import MemberData, ModelResult
 from fastapi import APIRouter, Body, Depends, BackgroundTasks
 import logging
-
-from models.dto.data_class import MemberData
-from common.context.ItemFeatures import ItemFeatures
-from service.retrain_service import fit_partial_user
-
+import aiohttp
 
 rec = APIRouter(
     tags=["rec"],
@@ -24,9 +24,43 @@ async def retrain_exist_user(
     )
     return
 
-    # @rec.post("/retrain/new", status_code=200)
-    # async def retrain_new_model(
-    #     whisky_id: int = Path(..., ge=1),
-    #     item_features: ItemFeatures = Depends(ItemFeatures),
-    # ):
-    #     # return predict_similar_whisky(whisky_id, item_features.data)
+
+@rec.post("/retrain/new", status_code=202)
+async def retrain_new_model(
+    background_tasks: BackgroundTasks,
+    memberData: MemberData = Body(..., alias="memberData"),
+    item_features: ItemFeatures = Depends(ItemFeatures),
+):
+    logging.debug("신규 사용자 추가 학습 : {}".format(memberData))
+    background_tasks.add_task(refitting_model, memberData, item_features.data)
+    return
+
+
+async def refitting_model(memberData: MemberData, item_features: ItemFeatures):
+    precision, recall, auc, mrr = refitting(
+        memberData.time, memberData.ratings, memberData.preferences, item_features
+    )
+    data = ModelResult(
+        savedDateTime=memberData.time,
+        precision=precision,
+        recall=recall,
+        auc=auc,
+        mrr=mrr,
+    )
+    logging.info(data)
+    await insert_train_result(data)
+
+
+async def insert_train_result(data: ModelResult):
+    headers = {"content-type": "application/json"}
+    async with aiohttp.ClientSession() as session:
+        async with session.post(
+            settings.SPRING_BASE_URL + "/api/rec/retrain-model/any",
+            json=data.__dict__,
+            headers=headers,
+        ) as resp:
+            logging.debug(resp)
+            if resp.status == 200:
+                logging.info("Success Save Retrained Model Information")
+            else:
+                logging.warn("Fail Save Retrained Model Information")

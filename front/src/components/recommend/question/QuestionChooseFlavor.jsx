@@ -26,12 +26,16 @@ const SCentered = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-top: ${(props) => (props.isMobile ? "70px" : "0px")};
+  margin-left: ${(props) => (props.isMobile ? "5vw" : "0px")};
+  margin-right: ${(props) => (props.isMobile ? "5vw" : "0px")};
 `;
 
 const SContent = styled.p`
   margin-bottom: 10px;
   text-align: center;
-  font-size: 24px;
+  font-size: ${(props) => (props.isMobile ? "1rem" : "24px")};
+  // font-size: 24px;
   color: white;
 `;
 
@@ -42,7 +46,7 @@ const STitle = styled.div`
   align-items: center;
   margin-bottom: 20px;
   text-align: center;
-  font-size: 32px;
+  font-size: ${(props) => (props.isMobile ? "1.2rem" : "32px")};
   font-weight: bold;
   color: white;
 `;
@@ -53,16 +57,16 @@ const SInfo = styled.div`
   position: absolute;
   z-index: 1;
   text-align: left;
-  top: 5px;
-  left: 102%;
-  min-width: 420px;
+  top: ${(props) => (props.isMobile ? "40px" : "5px")};
+  left: ${(props) => (props.isMobile ? "40px" : "102%")};
+  min-width: ${(props) => (props.isMobile ? "60vw" : "420px")};
   padding: 18px 22px;
   gap: 10px;
   background: rgba(255, 255, 255, 0.75);
   box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
   font-weight: normal;
-  font-size: 18px;
+  font-size: ${(props) => (props.isMobile ? "1rem" : "18px")};
   line-height: 25px;
   color: #666666;
   display: ${(props) => (props.hover ? "block" : "none")};
@@ -74,19 +78,19 @@ const SBox = styled.div`
   justify-content: center;
   align-items: center;
   gap: 0px 20px;
-  max-width: 800px;
+  max-width: ${(props) => (props.isMobile ? "80vw" : "800px")};
   background: #ffffff;
   border: 1px solid #d8d8d8;
   border-radius: 16px;
-  margin-bottom: 70px;
+  margin-bottom: ${(props) => (props.isMobile ? "4vh" : "70px")};
   padding: 30px 20px 20px 20px;
 `;
 
 const SButton = styled.button`
   cursor: pointer;
   display: block;
-  width: 464px;
-  height: 80px;
+  width: ${(props) => (props.isMobile ? "90vw" : "464px")};
+  height: ${(props) => (props.isMobile ? "20vw" : "80px")};
   border: none;
   border-radius: 999px;
   background: white;
@@ -119,6 +123,7 @@ const flavorPresetData = [
 
 //추천 -> 초급자 용 맛 선호도 질문
 const QuestionChooseFlavor = (props) => {
+  const isMobile = props.isMobile;
   const preferenceValue = useRecoilValue(preference);
   const [isHover, setIsHover] = useState(false);
 
@@ -135,9 +140,9 @@ const QuestionChooseFlavor = (props) => {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.75, delay: 0.75 }}
     >
-      <SCentered>
-        <SContent>입맛에 맞는 위스키를 추천해드릴게요!</SContent>
-        <STitle>
+      <SCentered isMobile={isMobile}>
+        <SContent isMobile={isMobile}>입맛에 맞는 위스키를 추천해드릴게요!</SContent>
+        <STitle isMobile={isMobile}>
           선호하는 flavor 태그를 선택해주세요. &nbsp;
           <SImg
             src={infoImg}
@@ -145,18 +150,18 @@ const QuestionChooseFlavor = (props) => {
             onMouseEnter={() => setIsHover(true)}
             onMouseLeave={() => setIsHover(false)}
           />
-          <SInfo hover={isHover}>
+          <SInfo isMobile={isMobile} hover={isHover}>
             해당 맛을 선호하는만큼 클릭해주세요
             <br />
             최대 4번까지 클릭 가능하며 클릭 수만큼 테두리 색이 진해집니다
           </SInfo>
         </STitle>
-        <SBox>
+        <SBox isMobile={isMobile}>
           {flavorPresetData.map((flavor, index) => (
-            <QuestionChooseFlavorItem key={index} flavor={flavor} />
+            <QuestionChooseFlavorItem key={index} flavor={flavor} isMobile={isMobile} />
           ))}
         </SBox>
-        <SButton onClick={props.flavorSubmitHandler}>
+        <SButton isMobile={isMobile} onClick={props.flavorSubmitHandler}>
           <SButtonText>나만의 위스키 추천 결과 보러가기</SButtonText>
         </SButton>
       </SCentered>

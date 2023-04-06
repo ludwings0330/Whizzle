@@ -1,5 +1,5 @@
 import axios from "axios";
-import { BASE_URL, LOCAL_FRONT_URL } from "../constants/constants";
+import { BASE_URL } from "../constants/constants";
 import { parse, stringify } from "qs";
 import Swal from "sweetalert2";
 
@@ -30,8 +30,14 @@ export const reissueAccessToken = async () => {
         text: "다시 로그인해주세요",
         icon: "error",
         timer: 1500,
+        customClass: {
+          container: "my-swal-container",
+          confirmButton: "my-swal-confirm-button",
+          cancelButton: "my-swal-cancel-button",
+          icon: "my-swal-icon",
+        },
       }).then((result) => {
-        window.location.href = `${LOCAL_FRONT_URL}/signin`;
+        window.location.href = `${BASE_URL}/signin`;
       });
     });
 };

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import favoriteBorder from "../../assets/img/favorite_border.png";
@@ -26,6 +26,7 @@ const SCard = styled.div`
   padding-top: 10vh;
   padding-bottom: 2vh;
   transition: 0.5s;
+
   &:hover {
     box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.2);
     transition: 0.5s;
@@ -55,6 +56,7 @@ const SImg = styled.img`
   object-fit: cover;
   transition: 0.5s;
   transform-origin: bottom;
+
   ${SCard}:hover & {
     transform: scale(1.05);
     transition: 0.5s;
@@ -72,9 +74,14 @@ const SRight = styled.div`
 `;
 
 const SLikeImg = styled.img`
-  height: 3vh;
-  width: 3vh;
+  height: 32px;
+  transition: 0.5s;
   z-index: 2;
+
+  &:hover {
+    transform: scale(1.2);
+    transition: 0.5s;
+  }
 `;
 
 const SRating = styled.div`
@@ -85,8 +92,8 @@ const SRating = styled.div`
 `;
 
 const SAvg = styled.p`
-  font-size: 0.5rem;
-  font-weight: bold;
+  font-size: 24px;
+  font-weight: 300;
   margin: 0;
 `;
 
@@ -117,11 +124,11 @@ const WhiskyListItem = (props) => {
   const keepHandler = async (event) => {
     event.stopPropagation();
     if (isLogin) {
+      const currentKeep = isKeep;
+      setIsKeep((prev) => !prev);
+
       const result = await keepApi(props.whisky.id);
       if (result === true) {
-        const currentKeep = isKeep;
-        setIsKeep((prev) => !prev);
-
         const targetId = props.whisky.id;
 
         const updatedResult = resultValue.map((whisky) => {
@@ -141,6 +148,12 @@ const WhiskyListItem = (props) => {
         showCancelButton: true,
         confirmButtonText: "Yes",
         cancelButtonText: "No",
+        customClass: {
+          container: "my-swal-container",
+          confirmButton: "my-swal-confirm-button",
+          cancelButton: "my-swal-cancel-button",
+          icon: "my-swal-icon",
+        },
       }).then((result) => {
         if (result.isConfirmed) {
           navigate("/signin");

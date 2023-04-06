@@ -129,6 +129,12 @@ const WhiskySimilarListItem = (props) => {
         showCancelButton: true,
         confirmButtonText: "Yes",
         cancelButtonText: "No",
+        customClass: {
+          container: "my-swal-container",
+          confirmButton: "my-swal-confirm-button",
+          cancelButton: "my-swal-cancel-button",
+          icon: "my-swal-icon",
+        },
       }).then((result) => {
         if (result.isConfirmed) {
           navigate("/signin");
@@ -150,7 +156,7 @@ const WhiskySimilarListItem = (props) => {
             alt="like.png"
           />
           <SRating>
-            <SAvg>{whisky.avgRating}</SAvg>
+            <SAvg>{whisky.avgRating ? whisky.avgRating : "NR"}</SAvg>
             <ReactStars
               count={5}
               value={Math.round(whisky.avgRating * 2) / 2}

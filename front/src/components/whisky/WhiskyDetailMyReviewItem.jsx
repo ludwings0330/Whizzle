@@ -143,6 +143,12 @@ const WhiskyDetailMyReviewItem = ({ review, whiskyId, onDelete }) => {
       imageHeight: 480,
       imageAlt: "Custom image",
       showConfirmButton: false,
+      customClass: {
+        container: "my-swal-container",
+        confirmButton: "my-swal-confirm-button",
+        cancelButton: "my-swal-cancel-button",
+        icon: "my-swal-icon",
+      },
     });
   };
 
@@ -155,6 +161,12 @@ const WhiskyDetailMyReviewItem = ({ review, whiskyId, onDelete }) => {
           icon: "success",
           showCloseButton: true,
           timer: 2000,
+          customClass: {
+            container: "my-swal-container",
+            confirmButton: "my-swal-confirm-button",
+            cancelButton: "my-swal-cancel-button",
+            icon: "my-swal-icon",
+          },
         });
         console.log("리뷰 삭제 성공");
         onDelete();
@@ -171,6 +183,12 @@ const WhiskyDetailMyReviewItem = ({ review, whiskyId, onDelete }) => {
       showCancelButton: true,
       confirmButtonText: "Yes",
       cancelButtonText: "No",
+      customClass: {
+        container: "my-swal-container",
+        confirmButton: "my-swal-confirm-button",
+        cancelButton: "my-swal-cancel-button",
+        icon: "my-swal-icon",
+      },
     }).then((result) => {
       if (result.isConfirmed) {
         deletingReview();

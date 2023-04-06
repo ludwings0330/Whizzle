@@ -10,12 +10,7 @@ const SDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: linear-gradient(
-    125.02deg,
-    #f84f5a 28.12%,
-    #f7875a 65.62%,
-    #f7cb5a 100%
-  );
+  background-image: linear-gradient(125.02deg, #f84f5a 28.12%, #f7875a 65.62%, #f7cb5a 100%);
 `;
 
 const slide = {
@@ -30,39 +25,44 @@ const SCentered = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-top: ${(props) => (props.isMobile ? "70px" : "0px")};
+  margin-left: ${(props) => (props.isMobile ? "5vw" : "0px")};
+  margin-right: ${(props) => (props.isMobile ? "5vw" : "0px")};
 `;
 
 const SContent = styled.p`
-  margin-top: 200px;
+  margin-top: ${(props) => (props.isMobile ? "50px" : "200px")};
   margin-bottom: 10px;
   text-align: center;
-  font-size: 24px;
+  font-size: ${(props) => (props.isMobile ? "1.4rem" : "24px")};
   color: white;
 `;
 
 const STitle = styled.p`
   margin-top: 0;
   text-align: center;
-  font-size: 32px;
+  font-size: ${(props) => (props.isMobile ? "1.8rem" : "32px")};
   font-weight: bold;
+  max-width: ${(props) => (props.isMobile ? "85vw" : "")};
   color: white;
+  margin-bottom: 0px;
 `;
 
 const SBox = styled.div`
   display: flex;
-  gap: 117px 27px;
+  gap: ${(props) => (props.isMobile ? "10vh 4vw" : "117px 27px")};
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  width: 60vw;
-  margin-top: 12vh;
-  margin-bottom: 15vh;
+  width: ${(props) => (props.isMobile ? "90vw" : "60vw")};
+  margin-top: ${(props) => (props.isMobile ? "8vh" : "12vh")};
+  margin-bottom: ${(props) => (props.isMobile ? "10vh" : "15vh")};
 `;
 
 const SButton = styled.button`
   cursor: pointer;
   display: block;
-  width: 464px;
+  width: ${(props) => (props.isMobile ? "90vw" : "464px")};
   height: 80px;
   border: none;
   border-radius: 999px;
@@ -74,12 +74,7 @@ const SButtonText = styled.span`
   font-size: 18px;
   font-family: "Pretendard Variable";
   font-weight: bold;
-  background-image: linear-gradient(
-    125.02deg,
-    #f84f5a 28.12%,
-    #f7875a 65.62%,
-    #f7cb5a 100%
-  );
+  background-image: linear-gradient(125.02deg, #f84f5a 28.12%, #f7875a 65.62%, #f7cb5a 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 `;
@@ -126,6 +121,7 @@ const whiskyPresetData = [
 //추천 경험자용 선호 위스키 질문
 const QuestionChooseWhisky = (props) => {
   const preferenceValue = useRecoilValue(preference);
+  const isMobile = props.isMobile;
 
   const submitHandler = () => {
     if (preferenceValue.whiskies.length > 0) {
@@ -152,15 +148,23 @@ const QuestionChooseWhisky = (props) => {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.75, delay: 0.3 }}
     >
-      <SCentered>
-        <SContent>위스키를 즐겨 드시는군요!</SContent>
-        <STitle>가장 선호하는 위스키를 3개까지 선택해주세요</STitle>
-        <SBox>
+      <SCentered isMobile={isMobile}>
+        <SContent isMobile={isMobile}>위스키를 즐겨 드시는군요!</SContent>
+        {isMobile ? (
+          <div>
+            <STitle isMobile={isMobile}>가장 선호하는 위스키를</STitle>
+            <STitle isMobile={isMobile}>3개까지 선택해주세요</STitle>
+          </div>
+        ) : (
+          <STitle isMobile={isMobile}>가장 선호하는 위스키를 3개까지 선택해주세요</STitle>
+        )}
+
+        <SBox isMobile={isMobile}>
           {whiskyPresetData.map((whisky) => (
-            <QuestionChooseWhiskyItem key={whisky.id} whisky={whisky} />
+            <QuestionChooseWhiskyItem isMobile={isMobile} key={whisky.id} whisky={whisky} />
           ))}
         </SBox>
-        <SButton onClick={props.whiskySubmitHandler}>
+        <SButton isMobile={isMobile} onClick={props.whiskySubmitHandler}>
           <SButtonText>나만의 위스키 추천 결과 보러가기</SButtonText>
         </SButton>
       </SCentered>

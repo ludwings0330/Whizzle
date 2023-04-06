@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { diaryDataState, diaryState, fetchDiaries, searchTerm } from "../../../store/indexStore";
 import { motion } from "framer-motion";
@@ -19,6 +19,7 @@ import normaldrink from "../../../assets/img/normaldrink.png";
 import largedrink from "../../../assets/img/largedrink.png";
 import { error, success } from "../../notify/notify";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const SBorderDiv = styled.div`
   display: inline-block;
@@ -67,6 +68,7 @@ const SInput = styled.input`
   height: 35px;
   font-family: Pretendard Variable;
   font-size: 15px;
+
   &:focus {
     outline: 0;
     background: none;
@@ -95,6 +97,7 @@ const STextarea = styled.textarea`
   resize: none;
   font-family: Pretendard Variable;
   background: #fcfcfc;
+
   &:focus {
     outline: 0;
     background: none;
@@ -113,6 +116,7 @@ const SDiv = styled.div`
   width: fit-content;
   max-width: 300px;
   gap: 5px;
+  cursor: pointer;
 `;
 
 const SUpdateButton = styled.button`
@@ -128,6 +132,7 @@ const SUpdateButton = styled.button`
   height: 31px;
   margin-left: 5px;
   font-family: Pretendard Variable;
+
   :hover {
     transition: all 0.3s;
     background-color: #f84f5a;
@@ -168,6 +173,7 @@ const SRadioInput = styled.input.attrs({ type: "radio" })`
   position: absolute;
   opacity: 0;
   width: 0;
+
   &:checked + label {
     color: rgba(248, 79, 90, 0.9);
   }
@@ -213,6 +219,7 @@ const SLine = styled.div`
 const DiaryEditor = ({ selectedDate }) => {
   const [isEdit, setIsEdit] = useState(false);
   const [isSave, setIsSave] = useState(true);
+  const navigate = useNavigate();
 
   const [auto, setAuto] = useState([]);
 
@@ -249,8 +256,9 @@ const DiaryEditor = ({ selectedDate }) => {
     const name = e.target.textContent;
     setSearchWhisky("");
     setAuto([]);
-    if (searchTerms.length < 3) setSearchTerms([...searchTerms, { id, name }]);
-    else {
+    if (searchTerms.length < 3) {
+      setSearchTerms([...searchTerms, { id, name }]);
+    } else {
       error("위스키는 3개까지 저장할 수 있습니다!");
     }
   };
@@ -424,6 +432,10 @@ const DiaryEditor = ({ selectedDate }) => {
   };
 
   const handleSubmit = () => {
+    if (searchTerms.length === 0) {
+      error("위스키를 한 개 이상 입력해주세요");
+      return;
+    }
     onCreate();
     success("다이어리 저장 성공!");
     setIsSave(false);
@@ -435,6 +447,10 @@ const DiaryEditor = ({ selectedDate }) => {
   };
 
   const handleEdit = async () => {
+    if (searchTerms.length === 0) {
+      error("위스키를 한 개 이상 입력해주세요");
+      return;
+    }
     const changeEmotionApi = emotionValue < 33 ? "BAD" : emotionValue < 66 ? "NORMAL" : "GOOD";
     const changeDrinkLevelApi =
       drinkLevelValue < 33 ? "LIGHT" : drinkLevelValue < 66 ? "MODERATE" : "HEAVY";
@@ -480,6 +496,12 @@ const DiaryEditor = ({ selectedDate }) => {
       confirmButtonText: "삭제",
       cancelButtonText: "취소",
       reverseButtons: true,
+      customClass: {
+        container: "my-swal-container",
+        confirmButton: "my-swal-confirm-button",
+        cancelButton: "my-swal-cancel-button",
+        icon: "my-swal-icon",
+      },
     }).then(async (result) => {
       if (result.isConfirmed) {
         const deletedDiaryId = data.id;
@@ -540,7 +562,13 @@ const DiaryEditor = ({ selectedDate }) => {
                 autoComplete="off"
               />
             )}
-            <div style={{ position: "absolute", zIndex: "2", backgroundColor: "white" }}>
+            <div
+              style={{
+                position: "absolute",
+                zIndex: "2",
+                backgroundColor: "white",
+              }}
+            >
               {auto && auto.length
                 ? auto.map((item, index) => {
                     return (
@@ -554,7 +582,10 @@ const DiaryEditor = ({ selectedDate }) => {
             </div>
             <div>
               {searchTerms.map((whisky, index) => (
-                <SDiv key={index}>
+                <SDiv
+                  key={index}
+                  onClick={() => (!(isSave || isEdit) ? navigate(`/whisky/${whisky.id}`) : null)}
+                >
                   <SName>
                     {whisky.name?.length > 37 ? `${whisky.name?.slice(0, 37)}...` : whisky.name}
                   </SName>
@@ -594,7 +625,12 @@ const DiaryEditor = ({ selectedDate }) => {
                   <motion.img
                     src={littledrink}
                     layoutId="drinkSelectedBox"
-                    style={{ position: "absolute", width: "30px", top: "7px", zIndex: "1" }}
+                    style={{
+                      position: "absolute",
+                      width: "30px",
+                      top: "7px",
+                      zIndex: "1",
+                    }}
                   />
                 ) : (
                   ""
@@ -615,7 +651,12 @@ const DiaryEditor = ({ selectedDate }) => {
                   <motion.img
                     src={normaldrink}
                     layoutId="drinkSelectedBox"
-                    style={{ position: "absolute", width: "47px", top: "4px", zIndex: "1" }}
+                    style={{
+                      position: "absolute",
+                      width: "47px",
+                      top: "4px",
+                      zIndex: "1",
+                    }}
                   />
                 ) : (
                   ""
@@ -636,7 +677,11 @@ const DiaryEditor = ({ selectedDate }) => {
                   <motion.img
                     src={largedrink}
                     layoutId="drinkSelectedBox"
-                    style={{ position: "absolute", top: "0px", zIndex: "1" }}
+                    style={{
+                      position: "absolute",
+                      top: "0px",
+                      zIndex: "1",
+                    }}
                   />
                 ) : (
                   ""
@@ -663,7 +708,12 @@ const DiaryEditor = ({ selectedDate }) => {
                   <motion.img
                     src={sad}
                     layoutId="selectedBox"
-                    style={{ position: "absolute", width: "38px", top: "3px", zIndex: "1" }}
+                    style={{
+                      position: "absolute",
+                      width: "38px",
+                      top: "3px",
+                      zIndex: "1",
+                    }}
                   />
                 ) : (
                   ""
@@ -684,7 +734,12 @@ const DiaryEditor = ({ selectedDate }) => {
                   <motion.img
                     src={soso}
                     layoutId="selectedBox"
-                    style={{ position: "absolute", width: "38px", top: "3px", zIndex: "1" }}
+                    style={{
+                      position: "absolute",
+                      width: "38px",
+                      top: "3px",
+                      zIndex: "1",
+                    }}
                   />
                 ) : (
                   ""
@@ -705,7 +760,12 @@ const DiaryEditor = ({ selectedDate }) => {
                   <motion.img
                     src={good}
                     layoutId="selectedBox"
-                    style={{ position: "absolute", width: "38px", top: "3px", zIndex: "1" }}
+                    style={{
+                      position: "absolute",
+                      width: "38px",
+                      top: "3px",
+                      zIndex: "1",
+                    }}
                   />
                 ) : (
                   ""

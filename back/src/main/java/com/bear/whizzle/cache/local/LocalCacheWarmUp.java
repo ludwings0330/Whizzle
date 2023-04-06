@@ -29,11 +29,11 @@ public class LocalCacheWarmUp {
 
     @EventListener(ApplicationReadyEvent.class)
     public void warmUp() {
-        log.debug("===============Caching Whisky Flavor Min Max Data================");
+        log.info("===============Caching Whisky Flavor Min Max Data================");
         FlavorSummary flavorSummary = preferenceQueryService.findFlavorMinMax();
         cacheManager.getCache(CacheType.FLAVOR_MINMAX.getCacheName()).put(flavorKey, flavorSummary);
 
-        log.debug("===============Caching Whisky Price Tier Data================");
+        log.info("===============Caching Whisky Price Tier Data================");
         Map<Long, Integer> whiskyPriceTier = whiskyQueryService.findWhiskyPriceTier();
         cacheManager.getCache(CacheType.WHISKY_PRICE_TIER.getCacheName()).put(priceKey, whiskyPriceTier);
     }

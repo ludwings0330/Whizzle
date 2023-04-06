@@ -10,7 +10,12 @@ const SDiv = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-image: linear-gradient(125.02deg, #f84f5a 28.12%, #f7875a 65.62%, #f7cb5a 100%);
+  background-image: linear-gradient(
+    125.02deg,
+    #f84f5a 28.12%,
+    #f7875a 65.62%,
+    #f7cb5a 100%
+  );
 `;
 
 const slide = {
@@ -27,12 +32,14 @@ const SCentered = styled.div`
   gap: 16px;
   justify-content: center;
   align-items: center;
-  padding-top: 50px;
+  padding-top: ${(props) => (props.isMobile ? "20px" : "50px")};
+  margin-left: ${(props) => (props.isMobile ? "5vw" : "0px")};
+  margin-right: ${(props) => (props.isMobile ? "5vw" : "0px")};
 `;
 
 const STitle = styled.p`
   text-align: center;
-  font-size: 32px;
+  font-size: ${(props) => (props.isMobile ? "1.6rem" : "32px")};
   font-weight: bold;
   color: white;
 `;
@@ -61,6 +68,7 @@ const SRadioLabel = styled.label`
   color: white;
   font-size: 18px;
   transition: 0.2s;
+
   &:hover {
     background-color: rgba(255, 255, 255, 0.2);
   }
@@ -103,14 +111,20 @@ const selectedStyle = {
 
 //추천 두번째 질문 -> 가격을 물어봄
 const QuestionPrice = (props) => {
+  const isMobile = props.isMobile;
   const [preferenceValue, setPreferenceValue] = useRecoilState(preference);
 
   const priceSelectHandler = (event) => {
     const selectedPrice = event.target.value;
-    setPreferenceValue((prev) => ({ ...prev, price: selectedPrice }));
+    setPreferenceValue((prev) => ({
+      ...prev,
+      priceTier: Number(selectedPrice),
+    }));
 
     props.setDirection("next");
-    props.setActivePage((prev) => (props.activePage === 4 ? prev + 2 : prev + 1));
+    props.setActivePage((prev) =>
+      props.activePage === 4 ? prev + 2 : prev + 1
+    );
   };
 
   useEffect(() => {
@@ -126,20 +140,20 @@ const QuestionPrice = (props) => {
       exit="exit"
       custom={props.direction}
     >
-      <STitle>구매 가능한 가격대를 선택해주세요</STitle>
-      <SCentered>
+      <STitle isMobile={isMobile}>구매 가능한 가격대를 선택해주세요</STitle>
+      <SCentered isMobile={isMobile}>
         <SRadioInput
           id="one"
           type="radio"
           value="1"
-          checked={preferenceValue.price === "1"}
+          checked={preferenceValue.priceTier === 1}
           onChange={priceSelectHandler}
         />
         <SRadioLabel htmlFor="one">
           <SCircle />
           <span>5만원 이하</span>
           <span>&nbsp;</span>
-          {preferenceValue.price === "1" ? (
+          {preferenceValue.priceTier === 1 ? (
             <motion.div style={selectedStyle} layoutId="selectedBox" />
           ) : (
             ""
@@ -149,14 +163,14 @@ const QuestionPrice = (props) => {
           id="two"
           type="radio"
           value="2"
-          checked={preferenceValue.price === "2"}
+          checked={preferenceValue.priceTier === 2}
           onChange={priceSelectHandler}
         />
         <SRadioLabel htmlFor="two">
           <SCircle />
           <span>5만원 이상</span>
           <span>10만원 이하</span>
-          {preferenceValue.price === "2" ? (
+          {preferenceValue.priceTier === 2 ? (
             <motion.div style={selectedStyle} layoutId="selectedBox" />
           ) : (
             ""
@@ -166,14 +180,14 @@ const QuestionPrice = (props) => {
           id="three"
           type="radio"
           value="3"
-          checked={preferenceValue.price === "3"}
+          checked={preferenceValue.priceTier === 3}
           onChange={priceSelectHandler}
         />
         <SRadioLabel htmlFor="three">
           <SCircle />
           <span>10만원 이상</span>
           <span>20만원 이하</span>
-          {preferenceValue.price === "3" ? (
+          {preferenceValue.priceTier === 3 ? (
             <motion.div style={selectedStyle} layoutId="selectedBox" />
           ) : (
             ""
@@ -183,14 +197,14 @@ const QuestionPrice = (props) => {
           id="four"
           type="radio"
           value="4"
-          checked={preferenceValue.price === "4"}
+          checked={preferenceValue.priceTier === 4}
           onChange={priceSelectHandler}
         />
         <SRadioLabel htmlFor="four">
           <SCircle />
           <span>20만원 이상</span>
           <span>35만원 이하</span>
-          {preferenceValue.price === "4" ? (
+          {preferenceValue.priceTier === 4 ? (
             <motion.div style={selectedStyle} layoutId="selectedBox" />
           ) : (
             ""
@@ -200,14 +214,14 @@ const QuestionPrice = (props) => {
           id="five"
           type="radio"
           value="5"
-          checked={preferenceValue.price === "5"}
+          checked={preferenceValue.priceTier === 5}
           onChange={priceSelectHandler}
         />
         <SRadioLabel htmlFor="five">
           <SCircle />
           <span>35만원 이상</span>
           <span>&nbsp;</span>
-          {preferenceValue.price === "5" ? (
+          {preferenceValue.priceTier === 5 ? (
             <motion.div style={selectedStyle} layoutId="selectedBox" />
           ) : (
             ""

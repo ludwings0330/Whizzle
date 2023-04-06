@@ -1,4 +1,4 @@
-import { atom, useRecoilState } from "recoil";
+import { atom } from "recoil";
 import { diaryRead } from "../apis/diary";
 import { recoilPersist } from "recoil-persist";
 
@@ -49,7 +49,9 @@ export const fetchDiaries = async (setDiaryList, setData, selectDate) => {
     const month = selectDate.getMonth() + 1;
     const day = selectDate.getDate();
 
-    const clickedDate = `${year}-${month < 10 ? "0" : ""}${month}-${day < 10 ? "0" : ""}${day}`;
+    const clickedDate = `${year}-${month < 10 ? "0" : ""}${month}-${
+      day < 10 ? "0" : ""
+    }${day}`;
 
     let found = false;
     if (diaries) {
@@ -75,7 +77,7 @@ export const preference = atom({
   default: {
     gender: "",
     age: "",
-    price: "",
+    priceTier: 1,
     isExperience: "",
     whiskies: [],
     flavor: {
@@ -93,6 +95,8 @@ export const preference = atom({
       fruity: 0,
       floral: 0,
     },
+    saved: false,
+    re: true,
   },
   effects_UNSTABLE: [persistAtom],
 });

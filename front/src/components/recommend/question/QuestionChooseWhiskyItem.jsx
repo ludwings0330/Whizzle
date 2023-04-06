@@ -14,17 +14,15 @@ const SCard = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 226px;
-  height: 291px;
+  width: ${(props) => (props.isMobile ? "30vw" : "226px")};
+  height: ${(props) => (props.isMobile ? "35vw" : "291px")};
   left: 722px;
   top: 427px;
   border: 1px solid rgba(255, 255, 255, 0.6);
   border-radius: 16px;
   transition: 0.5s;
-  background: ${(props) =>
-    props.isClicked ? "white" : "rgba(255, 255, 255, 0.2)"};
-  box-shadow: ${(props) =>
-    props.isClicked ? "0px 4px 50px rgba(255, 255, 255, 0.5)" : ""};
+  background: ${(props) => (props.isClicked ? "white" : "rgba(255, 255, 255, 0.2)")};
+  box-shadow: ${(props) => (props.isClicked ? "0px 4px 50px rgba(255, 255, 255, 0.5)" : "")};
 
   ${SWrap}:hover & {
     background: white;
@@ -34,7 +32,7 @@ const SCard = styled.div`
 `;
 
 const SImg = styled.img`
-  height: 245px;
+  height: ${(props) => (props.isMobile ? "32vw" : "245px")};
   transition: 0.5s;
   transform-origin: bottom;
   transform: ${(props) => (props.isClicked ? "scale(1.1)" : "")};
@@ -46,9 +44,9 @@ const SImg = styled.img`
 `;
 
 const SName = styled.p`
-  font-size: 16px;
-  padding-top: 15px;
-  padding-bottom: 50px;
+  font-size: ${(props) => (props.isMobile ? "0.7rem" : "16px")};
+  padding-top: ${(props) => (props.isMobile ? "0px" : "15px")};
+  padding-bottom: ${(props) => (props.isMobile ? "4vh" : "50px")};
   color: ${(props) => (props.isClicked ? "#181818" : "white")};
   font-weight: ${(props) => (props.isClicked ? "bold" : "")};
 
@@ -59,6 +57,7 @@ const SName = styled.p`
 `;
 
 const QuestionChooseWhiskyItem = (props) => {
+  const isMobile = props.isMobile;
   const [preferenceValue, setPreferenceValue] = useRecoilState(preference);
   const [isClicked, setIsClicked] = useState(false);
 
@@ -93,13 +92,16 @@ const QuestionChooseWhiskyItem = (props) => {
 
   return (
     <SWrap onClick={whiskySelectHandler}>
-      <SCard isClicked={isClicked}>
+      <SCard isMobile={isMobile} isClicked={isClicked}>
         <SImg
+          isMobile={isMobile}
           src={require(`../../../assets/img/whisky_preset/${props.whisky.id}.png`)}
           alt={props.whisky.img}
           isClicked={isClicked}
         />
-        <SName isClicked={isClicked}>{props.whisky.name}</SName>
+        <SName isMobile={isMobile} isClicked={isClicked}>
+          {props.whisky.name}
+        </SName>
       </SCard>
     </SWrap>
   );

@@ -1,3 +1,6 @@
+server:
+  port: 8080
+
 spring:
   servlet:
     multipart:
@@ -28,9 +31,6 @@ management:
       enabled: false
 
 --- #dev
-server:
-  port: 8080
-
 logging:
   level:
     com: debug
@@ -38,8 +38,7 @@ logging:
 
 webclient:
 #  baseurl: http://localhost
-  baseurl: http://j8a805.p.ssafy.io
-  port: 8000
+  baseurl: http://whizzle.o-r.kr
 
 spring:
   config:
@@ -59,16 +58,12 @@ spring:
         default_batch_fetch_size: 500
 
 --- #prod
-server:
-  port: 8085
-
 logging:
   level:
     com: info
 
 webclient:
-  baseurl: http://j8a805.p.ssafy.io
-  port: 8000
+  baseurl: http://whizzle.o-r.kr
 
 spring:
   config:

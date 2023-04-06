@@ -135,17 +135,21 @@ const SearchResult = () => {
       <SearchBarDiv>
         <SearchBar />
         {result.length ? (
-          <div>
-            <div>
-              <SP>
-                <SSpan>'{word}'</SSpan> 에 대한 검색 결과입니다.
-              </SP>
-            </div>
-            <div style={{ display: "flex", justifyContent: "center" }}>
-              <SP style={{ marginTop: "10px" }}>
-                <SSpan>'{count}'</SSpan>건의 결과
-              </SP>
-            </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <SP style={{ marginBottom: 0 }}>
+              <SSpan>'{word}'</SSpan> 에 대해
+            </SP>
+            <SP style={{ marginTop: "10px" }}>
+              <span style={{ fontWeight: "bold" }}>{count}</span>
+              건의 검색 결과가 있습니다.
+            </SP>
           </div>
         ) : (
           <SP>
@@ -154,7 +158,14 @@ const SearchResult = () => {
         )}
       </SearchBarDiv>
       {result.length ? (
-        <WhiskyList whiskys={result} />
+        <>
+          {/* <div style={{ display: "flex", width: "830px", justifyContent: "start" }}>
+            <SP>
+              <span style={{ fontWeight: "bold" }}>{count}</span>건의 검색 결과
+            </SP>
+          </div> */}
+          <WhiskyList whiskys={result} />
+        </>
       ) : (
         <>
           <Lottie animationData={animationData} style={{ height: "450px", paddingTop: "10px" }} />

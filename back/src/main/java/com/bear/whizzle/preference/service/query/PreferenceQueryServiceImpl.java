@@ -58,9 +58,9 @@ public class PreferenceQueryServiceImpl implements PreferenceQueryService {
         FlavorSummary summary = flavorCache.get(flavorKey, FlavorSummary.class);
         if (summary == null) {
             FlavorSummary flavorSummary1 = whiskyProjectionRepository.findFlavorMinMaxByWhisky();
-            FlavorSummary flavorSummary2 = preferenceProjectionRepository.findFlavorMinMaxByPreference();
-            summary = FlavorSummary.selectMinMax(flavorSummary1, flavorSummary2);
-            flavorCache.put(flavorKey, summary);
+//            FlavorSummary flavorSummary2 = preferenceProjectionRepository.findFlavorMinMaxByPreference();
+//            summary = FlavorSummary.selectMinMax(flavorSummary1, flavorSummary2);
+            flavorCache.put(flavorKey, flavorSummary1);
         }
         return summary;
     }
