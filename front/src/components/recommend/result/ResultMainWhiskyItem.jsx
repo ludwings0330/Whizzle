@@ -271,7 +271,7 @@ const ResultMainWhiskyItem = (props) => {
               marginTop: "5px",
             }}
           >
-            {whisky.avgRating}
+            {whisky.avgRating === 0 ? "NR" : whisky.avgRating}
           </p>
           <ReactStars
             count={5}

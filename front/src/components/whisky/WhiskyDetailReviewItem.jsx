@@ -17,7 +17,7 @@ const Wrapper = styled.div`
   background: #ffffff;
   border: 1px solid #d8d8d8;
   border-radius: 16px;
-  margin-top: 50px;
+  margin-top: 20px;
 `;
 
 const SReviewInfoDiv = styled.div`
@@ -52,6 +52,7 @@ const SProfileImg = styled.img`
   margin-left: 45px;
   border-radius: 50%;
   cursor: pointer;
+  object-fit: cover;
 `;
 
 const SLevelDiv = styled.div`
