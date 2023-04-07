@@ -50,7 +50,7 @@ const SInfo = styled.div`
   text-align: left;
   top: ${(props) => (props.isMobile ? "40px" : "5px")};
   left: ${(props) => (props.isMobile ? "40px" : "102%")};
-  min-width: ${(props) => (props.isMobile ? "60vw" : "420px")};
+  min-width: ${(props) => (props.isMobile ? "60vw" : "455px")};
   padding: 18px 22px;
   gap: 10px;
   background: rgba(255, 255, 255, 0.75);
