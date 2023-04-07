@@ -8,11 +8,11 @@
 
 > 삼성 청년 SW 아카데미 8기 2학기 특화 프로젝트
 
-- 이다운 (팀장)
-- 배창민 (B.E)
-- 황준현 (B.E)
+- 이다운 (팀장, 배포)
+- 배창민 (B.E, F.E)
+- 황준현 (B.E, Data)
 - 최은성 (F.E 팀장)
-- 이예진 (F.E)
+- 이예진 (F.E, Design)
 - 정지은 (F.E)
 
 # Whizzle - 위스키를 즐기는 사람들
@@ -49,6 +49,7 @@
 * 2023.03.20(월) ~ 2023.03.24(금) - 5주차
   * 백엔드 구현
   * 프론트엔드 구현
+  * Jenkins 배포 자동화
 * 2023.03.27(월) ~ 2023.03.31(금) - 6주차
   * E2E 테스트 작성
   * Elastic Search 적용
@@ -56,9 +57,11 @@
   * 프론트엔드 구현
 * 2023.04.03(월) ~ 2023.04.06(목) - 7주차
   * UCC 제작
+  * E2E 테스트 진행
   * 기능 고도화
   * 백엔드 에러 수정
   * 무중단 배포 적용
+  * 모바일 환경 적용
 
 ## Whizzle - 배경
 
@@ -103,7 +106,7 @@
 * QueryDSL 5.0.0 (JPA 쿼리를 코드로 작성하기 위한 프레임워크)
 * Redis 2.7.9 (인메모리 데이터 구조 저장소)
 * MySQL 8.0 (RDBMS)
-* elasticsearch 7.17.9 (검색어 자동 완성)
+* Elastic Search 7.17.9 (검색어 자동 완성)
 
 ### Data
 * Python 3.9
@@ -175,39 +178,118 @@
 
 ### Back-End
 ```
-├── member
-│   ├── controller
-│   │   ├── MemberController
-│   │	└── dto
-│   │	    ├── MemberRequestDto
-│   │	    ├──MemberRequestSaveDto
-│   │	    └── MemberResponseDto										
-│   ├──	service 
-│   │	├── MemberService
-│   │	├── MemberServiceImpl
-│   │	└── query
-│   │	    ├── MemberQueryService
-│   │	    ├── MemberQueryServiceImpl
-│   │	    └── dto
-│   │		└── Member[용도]Dto
-│   └──	repository
-│        ├── MemberRepository
-│        └── projection
-│   	      ├── MemberProjectionRepository
-│   	      └── dto
-│                 └── Member[용도]Dto
-├── domain
-│	├── converter
-│	├── exception
-│	└── model
-│	    ├── entity
-│	    └── type
-└── common
-    ├── config
-    ├── filter
-    ├── interceptor
-    ├── aop
-    └──	util
+whizzle
+  ├─auth
+  │  ├─controller
+  │  ├─repository
+  │  └─service
+  ├─badge
+  │  ├─controller
+  │  │  └─dto
+  │  ├─repository
+  │  │  └─projection
+  │  └─service
+  │      └─query
+  ├─cache
+  │  └─local
+  ├─cloud
+  │  └─aws
+  │      └─s3
+  │          └─service
+  ├─common
+  │  ├─annotation
+  │  ├─aop
+  │  ├─config
+  │  ├─filter
+  │  ├─handler
+  │  ├─interceptor
+  │  └─util
+  ├─diary
+  │  ├─controller
+  │  │  └─dto
+  │  ├─mapper
+  │  ├─repository
+  │  └─service
+  ├─domain
+  │  ├─converter
+  │  ├─exception
+  │  └─model
+  │      ├─document
+  │      ├─entity
+  │      └─type
+  │          └─id
+  ├─drink
+  │  ├─repository
+  │  └─service
+  ├─keep
+  │  ├─controller
+  │  │  └─dto
+  │  ├─repository
+  │  │  └─projection
+  │  └─service
+  │      └─query
+  ├─like
+  │  ├─repository
+  │  └─service
+  ├─member
+  │  ├─controller
+  │  │  └─dto
+  │  ├─mapper
+  │  ├─repository
+  │  │  └─projection
+  │  │      └─dto
+  │  └─service
+  │      └─query
+  │          └─dto
+  ├─memberlevellog
+  │  ├─repository
+  │  │  └─dto
+  │  └─service
+  ├─preference
+  │  ├─controller
+  │  │  └─dto
+  │  ├─mapper
+  │  ├─repository
+  │  │  └─projection
+  │  │      └─dto
+  │  └─service
+  │      └─query
+  ├─recommend
+  │  ├─controller
+  │  │  └─dto
+  │  └─service
+  ├─retrain
+  │  ├─controller
+  │  │  └─dto
+  │  ├─handler
+  │  │  └─dto
+  │  ├─mapper
+  │  └─service
+  │      └─query
+  ├─review
+  │  ├─controller
+  │  │  └─dto
+  │  ├─mapper
+  │  ├─repository
+  │  │  └─projection
+  │  │      └─dto
+  │  └─service
+  │      └─query
+  ├─reviewimage
+  │  ├─repository
+  │  └─service
+  ├─savedmodel
+  │  └─repository
+  └─whisky
+      ├─controller
+      │  └─dto
+      ├─mapper
+      ├─repository
+      │  └─projection
+      │      └─dto
+      └─service
+          └─query
+              └─dto
 ```
 
 ## 프로젝트 산출물
@@ -219,7 +301,7 @@
 * 기획서 [링크](./output/1_기획서/Whizzle_기획서.pdf)
 * 요구사항 정의서 [링크](./output/2_요구사항_정의서/Whizzle_요구사항_정의서.xlsx)
 * 화면흐름도 [링크](./output/3_화면흐름도/Whizzle_화면흐름도.pdf)
-* 와이어 프레임 [링크](./output/4_와이어프레임/Whizzle_wireframe.png)
+* 와이어 프레임 [링크](./output/4_와이어프레임/Whizzle_wireframe.pdf)
 * 프로토타입 [링크](./output/5_프로토타입/Whizzle_prototype.pdf)
 * 기능명세서 & WBS [링크](./output/6_기능명세서_WBS/Whizzle_기능명세서&WBS.xlsx)
 * ERD [링크](./output/7_ERD/Whizzle_ERD.png)
@@ -230,6 +312,8 @@
 * 발표 자료
   * [230317 Whizzle 중간발표.pdf ](./output/presentation/23.03.17_위즐_중간발표.pdf)
   * 최종 발표 자료
+
+
 ## 트러블 슈팅
 
 ---
