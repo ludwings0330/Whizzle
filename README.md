@@ -301,7 +301,7 @@ whizzle
 * 기획서 [링크](./output/1_기획서/Whizzle_기획서.pdf)
 * 요구사항 정의서 [링크](./output/2_요구사항_정의서/Whizzle_요구사항_정의서.xlsx)
 * 화면흐름도 [링크](./output/3_화면흐름도/Whizzle_화면흐름도.pdf)
-* 와이어 프레임 [링크](./output/4_와이어프레임/Whizzle_wireframe.png)
+* 와이어 프레임 [링크](./output/4_와이어프레임/Whizzle_wireframe.pdf)
 * 프로토타입 [링크](./output/5_프로토타입/Whizzle_prototype.pdf)
 * 기능명세서 & WBS [링크](./output/6_기능명세서_WBS/Whizzle_기능명세서&WBS.xlsx)
 * ERD [링크](./output/7_ERD/Whizzle_ERD.png)
