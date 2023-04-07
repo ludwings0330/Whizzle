@@ -52,6 +52,7 @@ const SProfileImg = styled.img`
   margin-left: 45px;
   border-radius: 50%;
   cursor: pointer;
+  object-fit: cover;
 `;
 
 const SLevelDiv = styled.div`
