@@ -38,7 +38,7 @@ const SImg = styled.img`
   width: 220px;
   background-color: white;
   box-shadow: 0px 8px 24px rgba(149, 157, 165, 0.2); // 그림자 추가
-
+  object-fit: cover;
   border-radius: 999px;
 `;
 
