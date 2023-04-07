@@ -178,39 +178,118 @@
 
 ### Back-End
 ```
-├── member
-│   ├── controller
-│   │   ├── MemberController
-│   │	└── dto
-│   │	    ├── MemberRequestDto
-│   │	    ├──MemberRequestSaveDto
-│   │	    └── MemberResponseDto										
-│   ├──	service 
-│   │	├── MemberService
-│   │	├── MemberServiceImpl
-│   │	└── query
-│   │	    ├── MemberQueryService
-│   │	    ├── MemberQueryServiceImpl
-│   │	    └── dto
-│   │		└── Member[용도]Dto
-│   └──	repository
-│        ├── MemberRepository
-│        └── projection
-│   	      ├── MemberProjectionRepository
-│   	      └── dto
-│                 └── Member[용도]Dto
-├── domain
-│	├── converter
-│	├── exception
-│	└── model
-│	    ├── entity
-│	    └── type
-└── common
-    ├── config
-    ├── filter
-    ├── interceptor
-    ├── aop
-    └──	util
+whizzle
+  ├─auth
+  │  ├─controller
+  │  ├─repository
+  │  └─service
+  ├─badge
+  │  ├─controller
+  │  │  └─dto
+  │  ├─repository
+  │  │  └─projection
+  │  └─service
+  │      └─query
+  ├─cache
+  │  └─local
+  ├─cloud
+  │  └─aws
+  │      └─s3
+  │          └─service
+  ├─common
+  │  ├─annotation
+  │  ├─aop
+  │  ├─config
+  │  ├─filter
+  │  ├─handler
+  │  ├─interceptor
+  │  └─util
+  ├─diary
+  │  ├─controller
+  │  │  └─dto
+  │  ├─mapper
+  │  ├─repository
+  │  └─service
+  ├─domain
+  │  ├─converter
+  │  ├─exception
+  │  └─model
+  │      ├─document
+  │      ├─entity
+  │      └─type
+  │          └─id
+  ├─drink
+  │  ├─repository
+  │  └─service
+  ├─keep
+  │  ├─controller
+  │  │  └─dto
+  │  ├─repository
+  │  │  └─projection
+  │  └─service
+  │      └─query
+  ├─like
+  │  ├─repository
+  │  └─service
+  ├─member
+  │  ├─controller
+  │  │  └─dto
+  │  ├─mapper
+  │  ├─repository
+  │  │  └─projection
+  │  │      └─dto
+  │  └─service
+  │      └─query
+  │          └─dto
+  ├─memberlevellog
+  │  ├─repository
+  │  │  └─dto
+  │  └─service
+  ├─preference
+  │  ├─controller
+  │  │  └─dto
+  │  ├─mapper
+  │  ├─repository
+  │  │  └─projection
+  │  │      └─dto
+  │  └─service
+  │      └─query
+  ├─recommend
+  │  ├─controller
+  │  │  └─dto
+  │  └─service
+  ├─retrain
+  │  ├─controller
+  │  │  └─dto
+  │  ├─handler
+  │  │  └─dto
+  │  ├─mapper
+  │  └─service
+  │      └─query
+  ├─review
+  │  ├─controller
+  │  │  └─dto
+  │  ├─mapper
+  │  ├─repository
+  │  │  └─projection
+  │  │      └─dto
+  │  └─service
+  │      └─query
+  ├─reviewimage
+  │  ├─repository
+  │  └─service
+  ├─savedmodel
+  │  └─repository
+  └─whisky
+      ├─controller
+      │  └─dto
+      ├─mapper
+      ├─repository
+      │  └─projection
+      │      └─dto
+      └─service
+          └─query
+              └─dto
 ```
 
 ## 프로젝트 산출물
@@ -233,6 +312,8 @@
 * 발표 자료
   * [230317 Whizzle 중간발표.pdf ](./output/presentation/23.03.17_위즐_중간발표.pdf)
   * 최종 발표 자료
+
+
 ## 트러블 슈팅
 
 ---
