@@ -23,7 +23,6 @@ export const reissueAccessToken = async () => {
       localStorage.setItem("accessToken", response.data);
     })
     .catch((error) => {
-      console.log(error);
       localStorage.clear();
       Swal.fire({
         title: "세션이 만료되었습니다.",

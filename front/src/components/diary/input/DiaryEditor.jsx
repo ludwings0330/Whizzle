@@ -53,7 +53,6 @@ const SButton = styled.button`
   background: #f84f5a;
   color: white;
   font-size: 15px;
-  // font-weight: bold;
   cursor: pointer;
   width: 60px;
   height: 31px;
@@ -148,7 +147,6 @@ const SAutoDiv = styled.div`
   margin-top: 10px;
   margin-bottom: 10px;
   width: 334px;
-  // height: 40px;
 `;
 
 const SCentered = styled.div`
@@ -157,17 +155,6 @@ const SCentered = styled.div`
   gap: 80px;
   justify-content: center;
   align-items: center;
-  // padding-top: 5px;
-`;
-
-const STitle = styled.p`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-top: 60px;
-  font-size: 24px;
-  font-weight: bold;
-  color: #666666;
 `;
 
 const SRadioInput = styled.input.attrs({ type: "radio" })`
@@ -183,7 +170,6 @@ const SRadioInput = styled.input.attrs({ type: "radio" })`
 const SRadioLabel = styled.label`
   display: flex;
   position: relative;
-  // z-index: 100;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -193,7 +179,6 @@ const SRadioLabel = styled.label`
   border-radius: 10px;
   color: #888888;
   font-size: 16px;
-  // font-weight: bold;
   transition: 0.2s;
 `;
 
@@ -571,7 +556,6 @@ const DiaryEditor = ({ selectedDate }) => {
                 boxShadow:
                   "rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px",
                 borderRadius: "8px",
-                // marginBottom: "20px",
               }}
             >
               {auto && auto.length

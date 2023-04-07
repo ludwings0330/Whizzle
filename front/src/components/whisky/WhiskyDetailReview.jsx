@@ -67,11 +67,8 @@ const WhiskyDetailReview = forwardRef(({ whisky }, ref) => {
       } else {
         setLastId(reviewInfo[reviewInfo.length - 1].reviewInfo.reviewId); // 마지막 아닐 경우 baseId 갱신
       }
-      console.log(reviewInfo);
       setReviews((prev) => [...prev, ...reviewInfo]);
-    } catch (error) {
-      console.log("리뷰 정보 조회 실패");
-    }
+    } catch (error) {}
   }
 
   // 나의 리뷰 조회
@@ -80,9 +77,7 @@ const WhiskyDetailReview = forwardRef(({ whisky }, ref) => {
     try {
       const myReviewInfo = await getMyReview(param);
       setMyReview(myReviewInfo);
-    } catch (error) {
-      console.log("나의 리뷰 조회 실패");
-    }
+    } catch (error) {}
   }
 
   const [sortOrder, setSortOrder] = useState("LIKE");
@@ -121,7 +116,6 @@ const WhiskyDetailReview = forwardRef(({ whisky }, ref) => {
       ([entry]) => {
         if (entry.isIntersecting) {
           if (lastId) {
-            console.log(id, lastId, sortOrder);
             getReviewInfo(id, lastId, sortOrder);
           }
         }

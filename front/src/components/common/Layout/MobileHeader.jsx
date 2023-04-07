@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import Logout from "../../../hooks/Logout";
@@ -23,7 +23,6 @@ const Navbar = styled.nav`
 
 const NavDiv = styled.div`
   display: flex;
-  //   justify-content: center;
   align-items: center;
   margin-left: 7vw;
   height: 45px;

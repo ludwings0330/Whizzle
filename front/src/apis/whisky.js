@@ -5,7 +5,6 @@ export const keepApi = async (id) => {
     const res = await api.post(`/api/keeps/${id}`);
     return true;
   } catch (error) {
-    console.log(error);
     return false;
   }
 };

@@ -51,18 +51,6 @@ const SStrong = styled.span`
   }
 `;
 
-// const SButton = styled.button`
-//   cursor: pointer;
-//   display: block;
-//   margin-top: 20px;
-//   margin-bottom: 20px;
-//   width: 275px;
-//   height: 74px;
-//   border: none;
-//   border-radius: 999px;
-//   background: linear-gradient(125.02deg, #f84f5a 28.12%, #f7875a 65.62%, #f7cb5a 100%);
-// `;
-
 const SButtonText = styled.span`
   font-size: 18px;
   font-family: "Pretendard Variable";

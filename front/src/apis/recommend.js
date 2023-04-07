@@ -13,7 +13,5 @@ export const recommend = async (data) => {
   try {
     const res = await api.post(`/api/rec/whisky/any`, data);
     return res.data;
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };

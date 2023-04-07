@@ -6,14 +6,6 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 import infoImg from "../../../assets/img/info.png";
 
-const SDiv = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-image: linear-gradient(125.02deg, #f84f5a 28.12%, #f7875a 65.62%, #f7cb5a 100%);
-`;
-
 const slide = {
   position: "absolute",
   display: "flex",
@@ -35,7 +27,6 @@ const SContent = styled.p`
   margin-bottom: 10px;
   text-align: center;
   font-size: ${(props) => (props.isMobile ? "1rem" : "24px")};
-  // font-size: 24px;
   color: white;
 `;
 
@@ -128,7 +119,6 @@ const QuestionChooseFlavor = (props) => {
   const [isHover, setIsHover] = useState(false);
 
   useEffect(() => {
-    // console.log(preferenceValue);
     props.setBarWidth(window.innerWidth * 0.99);
   });
 

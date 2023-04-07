@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { currentComponentState } from "../store/indexStore";
+import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 
 //import component
@@ -11,7 +10,6 @@ import DiaryEditor from "../components/diary/input/DiaryEditor";
 import diary_header from "../assets/img/diary_header.png";
 
 //import recoil
-import { diaryState, diaryDataState, fetchDiaries } from "../store/indexStore";
 import { userState } from "../store/userStore";
 import { useNavigate } from "react-router-dom";
 import { warning } from "../components/notify/notify";
@@ -31,14 +29,7 @@ const SMainDiv = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: start;
-  // min-height: calc(100vh - 300px);
   margin-bottom: 120px;
-
-  // @media only screen and (max-height: 768px) and (-webkit-min-device-pixel-ratio: 1.25),
-  //   only screen and (max-height: 768px) and (min-resolution: 120dpi),
-  //   only screen and (max-height: 768px) and (min-resolution: 1.25dppx) {
-  //   margin-top: 30px;
-  // }
 `;
 
 const SHeaderDivider = styled.div`
@@ -48,16 +39,6 @@ const SHeaderDivider = styled.div`
     only screen and (max-height: 768px) and (min-resolution: 120dpi),
     only screen and (max-height: 768px) and (min-resolution: 1.25dppx) {
     height: 15px;
-  }
-`;
-
-const SMainDivider = styled.div`
-  width: 30px;
-
-  @media only screen and (max-height: 768px) and (-webkit-min-device-pixel-ratio: 1.25),
-    only screen and (max-height: 768px) and (min-resolution: 120dpi),
-    only screen and (max-height: 768px) and (min-resolution: 1.25dppx) {
-    width: 15px;
   }
 `;
 

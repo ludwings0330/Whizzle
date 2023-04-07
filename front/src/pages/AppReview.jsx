@@ -109,9 +109,7 @@ const AppReview = () => {
       try {
         await reviewCreate(formData);
         navigate(`/whisky/${whiskyId}?review=true`);
-      } catch {
-        console.log("리뷰 저장 실패");
-      }
+      } catch {}
     } else {
       const formData = new FormData();
       formData.append("rating", rating);
@@ -123,15 +121,12 @@ const AppReview = () => {
           formData.append("addedReviewImageFiles", file);
         });
       }
-      console.log(deleteImages);
       formData.append("deletedReviewImageIds", deleteImages);
       try {
         const reviewId = reviewData.reviewInfo.reviewId;
         await reviewUpdate(reviewId, formData);
         navigate(`/whisky/${whiskyId}?review=true`);
-      } catch {
-        console.log("리뷰 수정 실패");
-      }
+      } catch {}
     }
   };
 
@@ -139,7 +134,6 @@ const AppReview = () => {
     window.scrollTo(0, 0);
 
     if (!reviewData.reviewInfo) {
-      console.log(reviewData.reviewId);
       setIsCreate(true);
     } else {
       setIsCreate(false);
@@ -149,11 +143,8 @@ const AppReview = () => {
   const getWhiskyInfo = async (id) => {
     try {
       const whiskyData = await whiskyDetail(whiskyId);
-      // console.log(whiskyData);
       setWhisky(whiskyData);
-    } catch {
-      console.log("위스키 정보 조회 실패");
-    }
+    } catch {}
   };
 
   const getReviewInfo = () => {

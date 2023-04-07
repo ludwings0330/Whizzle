@@ -84,7 +84,6 @@ const MyKeep = ({ memberId }) => {
       try {
         const keepedData = await keepApi(params);
         const keepedWhiskys = keepedData.content;
-        // console.log(keepedWhiskys);
         setWhiskys((prev) => {
           return [...prev, ...keepedWhiskys];
         });
@@ -92,9 +91,7 @@ const MyKeep = ({ memberId }) => {
           setIsLast(true);
         }
         setLastId(keepedWhiskys[keepedWhiskys.length - 1].id);
-      } catch {
-        console.log("나의 킵 목록 불러오기 실패");
-      }
+      } catch {}
       setIsLoading(false);
     }
   };

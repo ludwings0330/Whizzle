@@ -7,19 +7,6 @@ import checkImg from "../../../assets/img/check.png";
 import femaleImg from "../../../assets/img/female.png";
 import maleImg from "../../../assets/img/male.png";
 
-const SDiv = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  // background-image: linear-gradient(
-  //   125.02deg,
-  //   #f84f5a 28.12%,
-  //   #f7875a 65.62%,
-  //   #f7cb5a 100%
-  // );
-`;
-
 const slide = {
   position: "absolute",
   display: "flex",
@@ -60,7 +47,6 @@ const SRadioInput = styled.input.attrs({ type: "radio" })`
     background-color: #00a3ff;
     border: 1px solid #00a3ff;
     transition: 0.5s;
-    // box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   }
 `;
 
@@ -72,8 +58,6 @@ const SGenderSelector = styled.label`
   cursor: pointer;
   width: ${(props) => (props.isMobile ? "40vw" : "247px")};
   height: ${(props) => (props.isMobile ? "40vw" : "241px")};
-  // width: 247px;
-  // height: 241px;
   background-color: rgba(255, 255, 255, 0.2);
   border: 1px solid rgba(255, 255, 255, 0.6);
   border-radius: 4px;
@@ -92,8 +76,6 @@ const SAgeSelector = styled.label`
   cursor: pointer;
   width: ${(props) => (props.isMobile ? "40vw" : "166px")};
   height: ${(props) => (props.isMobile ? "13.5vw" : "53px")};
-  // width: 166px;
-  // height: 53px;
   background: rgba(255, 255, 255, 0.2);
   border: 1px solid rgba(255, 255, 255, 0.6);
   border-radius: 4px;

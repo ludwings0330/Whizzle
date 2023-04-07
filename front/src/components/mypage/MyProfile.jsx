@@ -36,7 +36,6 @@ const SImg = styled.img`
   margin-top: 17px;
   height: 220px;
   width: 220px;
-  // filter: drop-shadow(0px 8px 24px rgba(149, 157, 165, 0.2));
   background-color: white;
   box-shadow: 0px 8px 24px rgba(149, 157, 165, 0.2); // 그림자 추가
 
@@ -95,7 +94,6 @@ const SButton = styled.button`
 const SInput = styled.input`
   font-size: 32px;
   font-weight: bold;
-  // color: #363636;
   font-family: Pretendard Variable;
   border-left-width: 0;
   border-right-width: 0;
@@ -143,7 +141,6 @@ const MyProfile = (props) => {
   const handleProfileImageChange = async (e) => {
     const file = e.target.files[0];
     const newUrl = await profileChangeApi(file);
-    console.log(newUrl);
 
     if (newUrl && newUrl.length) {
       // 프로필 이미지가 성공적으로 업데이트된 경우 로컬 상태 업데이트
@@ -171,7 +168,6 @@ const MyProfile = (props) => {
     }
 
     const response = await nicknameChangeApi(editedNickname);
-    console.log(response);
 
     if (response) {
       setIsEditing(false);

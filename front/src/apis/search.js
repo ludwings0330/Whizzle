@@ -4,9 +4,7 @@ export const getAutocomplete = async (word) => {
   try {
     const res = await api.get(`/api/whiskies/suggest/${word}/any`);
     return res.data;
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 
 export const getsearchWhisky = async (data) => {
@@ -16,16 +14,12 @@ export const getsearchWhisky = async (data) => {
       `/api/whiskies/search/any?word=${word}&lastOffset=${offset}&size=${size}`
     );
     return res.data;
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 
 export const getsearchWhiskyCount = async (word) => {
   try {
     const res = await api.get(`/api/whiskies/count/any?word=${word}`);
     return res.data;
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };

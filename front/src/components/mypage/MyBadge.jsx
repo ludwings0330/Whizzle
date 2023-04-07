@@ -48,9 +48,7 @@ const MyBadge = ({ memberId }) => {
           setBadges((prev) => [...prev, defaultBadge]);
         });
       }
-    } catch {
-      console.log("뱃지 불러오기 실패");
-    }
+    } catch {}
   };
 
   useEffect(() => {

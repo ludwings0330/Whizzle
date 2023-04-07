@@ -6,25 +6,6 @@ import { userState } from "../../store/userStore";
 
 import MyReviewItem from "./MyReviewItem";
 
-const SBox = styled.div`
-  border: 1px solid black;
-`;
-
-const SContainer = styled.div`
-  width: 304px;
-  height: 387px;
-
-  background: #ffffff;
-  border: 1px solid #d8d8d8;
-  border-radius: 16px;
-  margin-bottom: 30px;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-`;
-
 const SListDiv = styled.div`
   display: flex;
   justify-content: center;
@@ -96,9 +77,7 @@ const MyReivew = ({ memberId }) => {
         } else {
           setIsLast(true);
         }
-      } catch {
-        console.log("내 리뷰 목록 불러오기 실패");
-      }
+      } catch {}
       setIsLoading(false);
     }
   };

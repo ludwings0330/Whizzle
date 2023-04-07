@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import styles from "./QuestionLoading.module.css";
 
 const slide = {
-  // position: "absolute",
   display: "flex",
   flexDirection: "column",
   justifyContent: "center",
@@ -16,7 +15,6 @@ const STitle = styled.span`
   text-align: center;
   color: white;
   font-size: 20px;
-  // font-weight: bold;
 `;
 
 //추천 후 로딩

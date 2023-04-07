@@ -44,7 +44,6 @@ const SFront = styled.div`
   border-radius: 30px;
   transition: 0.5s;
   font-size: 18px;
-  // font-weight: bold;
   color: #666666;
   background: rgba(238, 238, 238, 0.8);
   -ms-user-select: none;

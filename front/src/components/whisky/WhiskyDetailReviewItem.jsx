@@ -109,11 +109,8 @@ const WhiskyDetailReviewItem = ({ review }) => {
     try {
       const res = await likeReview(id);
       if (res) {
-        console.log("리뷰 좋아요(or 취소) 성공");
       }
-    } catch {
-      console.log("리뷰 좋아요(or 취소) 실패");
-    }
+    } catch {}
   }
 
   const user = useRecoilValue(userState);
@@ -174,7 +171,6 @@ const WhiskyDetailReviewItem = ({ review }) => {
   const navigate = useNavigate();
   const goToUserPage = () => {
     navigate("/mypage", { state: { memberInfo: review.memberInfo } });
-    console.log(review.memberInfo);
   };
 
   return (
