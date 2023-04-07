@@ -86,7 +86,7 @@ const SRating = styled.div`
 
 const SAvg = styled.p`
   font-size: 24px;
-  font-weight: bold;
+  font-weight: 300;
   margin: 0;
 `;
 

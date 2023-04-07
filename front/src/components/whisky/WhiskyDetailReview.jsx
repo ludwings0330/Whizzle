@@ -37,6 +37,15 @@ const SOrderSpan = styled.span`
   cursor: pointer;
 `;
 
+const SLine = styled.hr`
+  border: 0;
+  height: 1px;
+  background: #ccc;
+  width: 100%;
+  // margin-top: 40px;
+  margin-bottom: 40px;
+`;
+
 //위스키 상세페이지에 띄워줄 해당 위스키의 리뷰목록
 const WhiskyDetailReview = forwardRef(({ whisky }, ref) => {
   const { id } = useParams();
@@ -167,6 +176,7 @@ const WhiskyDetailReview = forwardRef(({ whisky }, ref) => {
           </SOrderSpan>
         </SP>
       </SHeadDiv>
+      <SLine />
       {myReview && myReview.length
         ? myReview.map((review) => {
             return (
@@ -179,11 +189,13 @@ const WhiskyDetailReview = forwardRef(({ whisky }, ref) => {
             );
           })
         : null}
-      {reviews && reviews.length
-        ? reviews.map((review) => {
-            return <WhiskyDetailReviewItem key={review.reviewInfo.reviewId} review={review} />;
-          })
-        : null}
+      {reviews && reviews.length ? (
+        reviews.map((review) => {
+          return <WhiskyDetailReviewItem key={review.reviewInfo.reviewId} review={review} />;
+        })
+      ) : (
+        <p style={{ fontSize: "18px" }}>작성된 리뷰가 없습니다.</p>
+      )}
       <div ref={observerRef}></div>
     </Wrapper>
   );
