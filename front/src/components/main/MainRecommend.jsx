@@ -97,7 +97,6 @@ const SText = styled.div`
   line-height: 1.5;
   letter-spacing: -2px;
   color: white;
-  // padding-bottom: 50px;
   white-space: pre-line;
   &::after {
     content: "";

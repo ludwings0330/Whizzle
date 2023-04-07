@@ -18,8 +18,6 @@ const SCard = styled.div`
   align-items: center;
   width: ${(props) => (props.isMobile ? "15vw" : "91px")};
   height: ${(props) => (props.isMobile ? "15vw" : "91px")};
-  // width: 91px;
-  // height: 91px;
   background: #EEEEEE;
   border-radius: ${(props) => (props.isMobile ? "20px" : "30px")};
   transition: 0.5s;
@@ -48,7 +46,6 @@ const SFront = styled.div`
   border-radius: ${(props) => (props.isMobile ? "20px" : "30px")};
   transition: 0.5s;
   font-size: ${(props) => (props.isMobile ? "1rem" : "18px")};
-  // font-weight: bold;
   color: #666666;
   background: rgba(238, 238, 238, 0.8);
   -ms-user-select: none;

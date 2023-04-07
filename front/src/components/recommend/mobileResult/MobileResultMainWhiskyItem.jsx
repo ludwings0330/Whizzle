@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import favoriteBorder from "../../../assets/img/favorite_border.png";
@@ -6,7 +6,7 @@ import favoriteFilled from "../../../assets/img/favorite_filled.png";
 import ReactStars from "react-stars";
 import { userState } from "../../../store/userStore";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { getKeep, keepToggle } from "../../../apis/whiskyDetail";
+import { keepToggle } from "../../../apis/whiskyDetail";
 import { warning } from "../../notify/notify";
 import { recommendResult } from "../../../store/indexStore";
 import moneyImg from "../../../assets/img/money.png";

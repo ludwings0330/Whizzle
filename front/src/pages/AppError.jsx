@@ -24,7 +24,6 @@ const STitle = styled.div`
 
 const SText = styled.div`
   color: #181818;
-  // font-weight: bold;
   font-size: 20px;
 `;
 

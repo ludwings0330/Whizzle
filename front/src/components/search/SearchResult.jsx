@@ -64,9 +64,7 @@ const SearchResult = () => {
       if (whiskys.length) {
         setResult((prev) => [...prev, ...whiskys]);
       }
-    } catch {
-      console.log("검색 결과 저장 실패");
-    }
+    } catch {}
   }
   // 검색 결과 위스키의 개수
   const [count, setCount] = useState(0);
@@ -74,9 +72,7 @@ const SearchResult = () => {
     try {
       const res = await getsearchWhiskyCount(word);
       setCount(res);
-    } catch {
-      console.log("위스키 개수 받아오기 실패");
-    }
+    } catch {}
   }
 
   // 결과 호출 과정

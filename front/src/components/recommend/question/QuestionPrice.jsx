@@ -4,20 +4,6 @@ import { preference } from "../../../store/indexStore";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
-const SDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-image: linear-gradient(
-    125.02deg,
-    #f84f5a 28.12%,
-    #f7875a 65.62%,
-    #f7cb5a 100%
-  );
-`;
-
 const slide = {
   position: "absolute",
   display: "flex",
@@ -48,10 +34,6 @@ const SRadioInput = styled.input.attrs({ type: "radio" })`
   position: absolute;
   opacity: 0;
   width: 0;
-  // &:checked + label {
-  //   background-color: #00a3ff;
-  //   transition: 0.5s;
-  // }
 `;
 
 const SRadioLabel = styled.label`
@@ -122,9 +104,7 @@ const QuestionPrice = (props) => {
     }));
 
     props.setDirection("next");
-    props.setActivePage((prev) =>
-      props.activePage === 4 ? prev + 2 : prev + 1
-    );
+    props.setActivePage((prev) => (props.activePage === 4 ? prev + 2 : prev + 1));
   };
 
   useEffect(() => {

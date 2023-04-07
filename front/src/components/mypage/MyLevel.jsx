@@ -23,7 +23,6 @@ const SProgress = styled.div`
 const SRemaining = styled.div`
   background-color: #dfdfdf;
   height: 100%;
-  // border-radius: 0px 10px 10px 0px;
 `;
 
 const STitleDiv = styled.div`

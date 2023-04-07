@@ -32,7 +32,6 @@ const SDiv = styled.div`
 `;
 
 const slider = {
-  // position: "absolute",
   display: "flex",
   minHeight: "100vh",
   justifyContent: "center",
@@ -41,7 +40,6 @@ const slider = {
 };
 
 const mobileSlider = {
-  // position: "absolute",
   display: "flex",
   minHeight: "80vh",
   justifyContent: "center",
@@ -80,7 +78,6 @@ const ProgressBar = styled(motion.div)`
   top: 70px;
   left: 0;
   z-index: 9999;
-  // box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
   border-radius: 999px;
 `;
 
@@ -188,7 +185,7 @@ const AppRecommendQuestion = (props) => {
       .then((data) => {
         setResultValue(data);
       })
-      .catch((e) => console.log(e));
+      .catch((e) => e);
 
     setPreferenceValue((prev) => {
       return { ...prev, saved: true, re: false };
@@ -214,9 +211,7 @@ const AppRecommendQuestion = (props) => {
     if (isLogin) {
       try {
         await preferenceSave(saveData);
-      } catch {
-        console.log("취향 정보 저장 실패");
-      }
+      } catch {}
     }
 
     // 위스키 추천 요청
@@ -229,9 +224,7 @@ const AppRecommendQuestion = (props) => {
       let recommendedResult;
       recommendedResult = await recommend(recommendData);
       setResultValue(recommendedResult);
-    } catch {
-      console.log("위스키 추천 실패");
-    }
+    } catch {}
 
     setPreferenceValue((prev) => {
       return { ...prev, saved: true, re: false };
@@ -257,9 +250,7 @@ const AppRecommendQuestion = (props) => {
         let recommendedResult;
         recommendedResult = await recommend(recommendData);
         setResultValue(recommendedResult);
-      } catch {
-        console.log("위스키 추천 실패");
-      }
+      } catch {}
 
       // 선택된 위스키로 flavor 가져와서 저장
       let selectedWhiskyFlavor;
@@ -269,9 +260,7 @@ const AppRecommendQuestion = (props) => {
         setPreferenceValue((prev) => {
           return { ...prev, flavor: selectedWhiskyFlavor };
         });
-      } catch {
-        console.log("위스키 취향 정보 불러오기 실패");
-      }
+      } catch {}
 
       // 백에 취향정보 저장
       const saveData = {
@@ -284,9 +273,7 @@ const AppRecommendQuestion = (props) => {
       if (isLogin) {
         try {
           await preferenceSave(saveData);
-        } catch {
-          console.log("취향 정보 저장 실패");
-        }
+        } catch {}
       }
 
       setPreferenceValue((prev) => {
@@ -302,7 +289,6 @@ const AppRecommendQuestion = (props) => {
   };
 
   useEffect(() => {
-    console.log(preferenceValue);
     if (preferenceValue.saved === true) {
       goResult();
     } else if (user?.id && !preferenceValue.re) {
@@ -485,12 +471,12 @@ const AppRecommendQuestion = (props) => {
       <motion.div style={isMobile ? mobileSlider : slider}>
         <AnimatePresence custom={direction}>{recommendQuestionPages()}</AnimatePresence>
       </motion.div>
-      {isMobile ? null : ( // </SMobilePrevBtn> //   <SButtonText>이전</SButtonText> // <SMobilePrevBtn activePage={activePage} onClick={goPrevPage}>
+      {isMobile ? null : (
         <SPrevNavigate activePage={activePage} onClick={goPrevPage}>
           <img src={navigatePrev} alt="navigate" />
         </SPrevNavigate>
       )}
-      {isMobile ? null : ( // </SMobileNextBtn> //   <SButtonText>다음</SButtonText> // <SMobileNextBtn style={{ left: "55vw" }} activePage={activePage} onClick={goNextPage}>
+      {isMobile ? null : (
         <SNextNavigate activePage={activePage} onClick={goNextPage}>
           <img src={navigateNext} alt="navigate" />
         </SNextNavigate>

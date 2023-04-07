@@ -45,8 +45,6 @@ const SReviewBox = styled.div`
 `;
 
 const SImg = styled.img`
-  // width: 100%;
-  // height: 100%;
   box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.25);
   border-radius: 16px;
   @media screen and (max-width: 1000px) {

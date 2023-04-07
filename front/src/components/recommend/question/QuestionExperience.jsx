@@ -7,15 +7,6 @@ import checkImg from "../../../assets/img/check.png";
 import wonderImg from "../../../assets/img/wonder.png";
 import cheersImg from "../../../assets/img/cheers.png";
 
-const SDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background-image: linear-gradient(125.02deg, #f84f5a 28.12%, #f7875a 65.62%, #f7cb5a 100%);
-`;
-
 const slide = {
   position: "absolute",
   display: "flex",
@@ -58,7 +49,6 @@ const SRadioInput = styled.input.attrs({ type: "radio" })`
     background-color: #00a3ff;
     border: 1px solid #00a3ff;
     transition: 0.5s;
-    // box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   }
 `;
 
@@ -70,8 +60,6 @@ const SRadioLabel = styled.label`
   cursor: pointer;
   width: ${(props) => (props.isMobile ? "60vw" : "437px")};
   height: ${(props) => (props.isMobile ? "60vw" : "398px")};
-  // width: 437px;
-  // height: 398px;
   background-color: rgba(255, 255, 255, 0.2);
   border: 1px solid rgba(255, 255, 255, 0.6);
   border-radius: 4px;

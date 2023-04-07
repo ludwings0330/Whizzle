@@ -31,7 +31,6 @@ const MobileGraph = (props) => {
           curve="natural"
           colors={"#F84F5A"}
           theme={{
-            // background: "#000000",
             textColor: "#777777",
             fontFamily: "Pretendard Variable",
             fontSize: "0.55em",

@@ -61,10 +61,7 @@ const AppDailyWhisky = () => {
       const result = await recommend(body);
       setDailyResult(result);
       setIsLoading(false);
-      // console.log(dailyResult);
-    } catch {
-      console.log("데일리 위스키 추천 실패");
-    }
+    } catch {}
   };
 
   useEffect(() => {

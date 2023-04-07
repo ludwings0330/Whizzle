@@ -24,9 +24,7 @@ const Callback = () => {
     try {
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("refreshToken", refreshToken);
-    } catch (error) {
-      console.log("토큰 저장 실패");
-    }
+    } catch (error) {}
   }
 
   // user Id값을 통해 user 정보를 가져오는 axios 요청
@@ -51,7 +49,7 @@ const Callback = () => {
               });
             }
           })
-          .catch((e) => console.log(e));
+          .catch((e) => e);
       }
       const newUserData = {
         id: jwt.memberId, // JWT 파싱하여 유저 id와 exp를 저장
@@ -63,9 +61,7 @@ const Callback = () => {
         level: newUser.level,
       };
       setUser(newUserData);
-    } catch (error) {
-      console.log("유저 정보 저장 실패");
-    }
+    } catch (error) {}
   }
 
   async function savePrefInfo() {
@@ -80,10 +76,7 @@ const Callback = () => {
       setPreferenceValue((prev) => {
         return { ...prev, re: false };
       });
-      console.log("신규유저 취향저장 성공");
-    } catch {
-      console.log("신규유저 취향저장 실패");
-    }
+    } catch {}
   }
 
   useEffect(() => {

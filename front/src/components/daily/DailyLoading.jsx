@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import "./DailyLoading.css";
 
 const slide = {
-  // position: "absolute",
   height: "60vh",
   paddingBottom: "70px",
   display: "flex",
@@ -18,7 +17,6 @@ const STitle = styled.span`
   text-align: center;
   color: #666666;
   font-size: 18px;
-  // font-weight: bold;
 `;
 
 //추천 후 로딩

@@ -12,7 +12,6 @@ const SDiv = styled.div`
 
 const SInfoDiv = styled.div`
   position: relative;
-  // border: 1px solid #d8d8d8;
   border-radius: 16px;
   width: 830px;
   height: 280px;
@@ -24,7 +23,6 @@ const SInfoDiv = styled.div`
 
 const SContainer = styled.div`
   left: 48px;
-  // border: 1px solid;
   width: 150px;
   height: 280px;
   margin-bottom: 60px;
@@ -42,7 +40,6 @@ const STextDiv = styled.div`
   display: flex;
   height: 18px;
   margin-top: 15px;
-  // margin-bottom: 25px;
   align-items: center;
   line-height: 25px;
 `;
@@ -56,7 +53,6 @@ const STitleP = styled.p`
 
 const SP = styled.p`
   font-size: 18px;
-  // margin-right: 10px;
 
   &.title {
     font-weight: bold;
@@ -124,7 +120,7 @@ const ReviewDetailInfo = (props) => {
 
           <SRightDiv>
             <SP style={{ fontSize: "30px", marginBottom: "5px", marginTop: 0 }}>
-              { (whisky.avgRating===0) ? "NR" : whisky.avgRating }
+              {whisky.avgRating === 0 ? "NR" : whisky.avgRating}
             </SP>
 
             <SRatingDiv>

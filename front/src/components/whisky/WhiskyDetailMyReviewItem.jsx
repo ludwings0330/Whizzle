@@ -168,12 +168,9 @@ const WhiskyDetailMyReviewItem = ({ review, whiskyId, onDelete }) => {
             icon: "my-swal-icon",
           },
         });
-        console.log("리뷰 삭제 성공");
         onDelete();
       }
-    } catch {
-      console.log("리뷰 삭제 실패");
-    }
+    } catch {}
   };
 
   const reviewDeleteFunc = () => {

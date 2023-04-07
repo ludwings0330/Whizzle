@@ -14,7 +14,6 @@ const SInputDiv = styled.div`
   background-repeat: no-repeat;
   width: 560px;
   height: 45px;
-  // border: 1px solid #c1c1c1;
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
   border-radius: 999px;
   padding: 0 0 0 50px;
@@ -25,11 +24,6 @@ const SInputDiv = styled.div`
   ${(props) =>
     props.autocompleteVisible &&
     css`
-      // border: 2px solid transparent;
-      // border-radius: 8px;
-      // border-bottom: 2px solid transparent;
-      // border-bottom-left-radius: 0px;
-      // border-bottom-right-radius: 0px;
       box-shadow: none;
     `}
 `;
@@ -95,7 +89,6 @@ const SAutocompleteDiv = styled.div`
   top: 0;
   left: 0;
   width: 560px;
-  // border: 2px solid transparent;
   border-color: rgba(248, 79, 90, 0.4);
   border-radius: 16px;
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
@@ -116,11 +109,8 @@ const SearchBar = () => {
     try {
       const autoWord = await getAutocomplete(word);
       const onlyWord = autoWord.map((item) => item.name);
-      console.log(onlyWord);
       setAutocompleteWords(onlyWord);
-    } catch (error) {
-      console.log("검색어 자동 완성 실패");
-    }
+    } catch (error) {}
   }
 
   useEffect(() => {

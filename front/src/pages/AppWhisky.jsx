@@ -100,9 +100,7 @@ const AppWhisky = () => {
     try {
       const whiskyInfo = await whiskyDetail(param);
       setWhisky(whiskyInfo);
-    } catch (error) {
-      console.log("위스키 데이터 조회 실패");
-    }
+    } catch (error) {}
   }
 
   // 킵 여부 조회
@@ -110,9 +108,7 @@ const AppWhisky = () => {
     try {
       const keepInfo = await getKeep(param);
       setIsKeep(keepInfo);
-    } catch (error) {
-      console.log("킵 정보 조회 실패");
-    }
+    } catch (error) {}
   }
 
   // 선호 통계 조회
@@ -135,9 +131,7 @@ const AppWhisky = () => {
         statInfo.gender = statInfo.gender === "MALE" ? "남성" : "여성";
       }
       setStat(statInfo);
-    } catch (error) {
-      console.log("선호 통계 조회 실패");
-    }
+    } catch (error) {}
   }
 
   // 유사 위스키 조회
@@ -147,9 +141,7 @@ const AppWhisky = () => {
     try {
       const similarInfo = await getSimilar(param);
       setSimilarWhiskys(similarInfo);
-    } catch (error) {
-      console.log("유사 위스키 정보 조회 실패");
-    }
+    } catch (error) {}
   }
 
   const user = useRecoilValue(userState);

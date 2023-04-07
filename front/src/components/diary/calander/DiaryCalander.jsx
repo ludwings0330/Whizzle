@@ -11,8 +11,6 @@ const SDiv = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  // width: 720px;
-  // height: 550px;
   padding: 32px 35px;
   border: 1px solid #e1e1e1;
   box-shadow: 15px 15px 25px rgba(162, 162, 162, 0.1);
@@ -46,7 +44,6 @@ const SCalanderDiv = styled.div`
     border-collapse: collapse;
     width: 100%;
     max-width: 100%;
-    // margin-bottom: 30px;
     background-color: transparent;
     color: #212529;
     font-size: 20px;
