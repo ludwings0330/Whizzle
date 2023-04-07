@@ -189,13 +189,19 @@ const WhiskyDetailReview = forwardRef(({ whisky }, ref) => {
             );
           })
         : null}
-      {reviews && reviews.length ? (
-        reviews.map((review) => {
-          return <WhiskyDetailReviewItem key={review.reviewInfo.reviewId} review={review} />;
-        })
-      ) : (
-        <p style={{ fontSize: "18px" }}>작성된 리뷰가 없습니다.</p>
-      )}
+      {reviews && reviews.length
+        ? reviews.map((review) => {
+            return <WhiskyDetailReviewItem key={review.reviewInfo.reviewId} review={review} />;
+          })
+        : null}
+      {!myReview.length && !reviews.length ? (
+        <>
+          <p style={{ fontSize: "18px", marginTop: 100, marginBottom: 0 }}>
+            작성된 리뷰가 없습니다.
+          </p>
+          <p style={{ fontSize: "18px", marginTop: 0 }}>첫번째 리뷰어가 되어주세요!</p>
+        </>
+      ) : null}
       <div ref={observerRef}></div>
     </Wrapper>
   );

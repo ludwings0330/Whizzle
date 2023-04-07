@@ -18,6 +18,7 @@ const Wrapper = styled.div`
   border: 1px solid #d8d8d8;
   border-radius: 16px;
   margin-top: 20px;
+  margin-bottom: 10px;
 `;
 
 const SReviewInfoDiv = styled.div`
