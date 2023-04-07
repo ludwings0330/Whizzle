@@ -311,11 +311,4 @@ whizzle
 * E2E 테스트 케이스 - [링크](./output/9_E2E_테스트케이스/Whizzle_E2E_Test.xlsx)
 * 발표 자료
   * [230317 Whizzle 중간발표.pdf ](./output/presentation/23.03.17_위즐_중간발표.pdf)
-  * 최종 발표 자료
-
-
-## 트러블 슈팅
-
----
-
-* 트러블 슈팅 내용 추가
+  * [230407 Whizzle 최종발표.pdf](./output/presentation/23.04.07_위즐_최종발표.pdf)
