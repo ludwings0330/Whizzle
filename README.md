@@ -302,7 +302,7 @@ whizzle
 * 요구사항 정의서 [링크](./output/2_요구사항_정의서/Whizzle_요구사항_정의서.xlsx)
 * 화면흐름도 [링크](./output/3_화면흐름도/Whizzle_화면흐름도.pdf)
 * 와이어 프레임 [링크](./output/4_와이어프레임/Whizzle_wireframe.pdf)
-* 프로토타입 [링크](./output/5_프로토타입/Whizzle_prototype.pdf)
+* 프로토타입 [링크](./output/5_프로토타입/Whizzle_prototype.pdf.zip)
 * 기능명세서 & WBS [링크](./output/6_기능명세서_WBS/Whizzle_기능명세서&WBS.xlsx)
 * ERD [링크](./output/7_ERD/Whizzle_ERD.png)
 * API 명세서 [링크](https://www.notion.so/7-API-b39044513414450d834d1d26f8f6f54b?pvs=4)
